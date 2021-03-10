@@ -1,0 +1,36 @@
+type UserSchema {
+  id: ID!
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  name: String!
+}
+
+type Error {
+  path: String!
+  message: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+type Query {
+  me: UserSchema
+  hello: String!
+}
+
+type Mutation {
+  login(data: LoginInput!): Error
+  logout: Boolean
+  register(data: RegisterInput!): Error
+}
