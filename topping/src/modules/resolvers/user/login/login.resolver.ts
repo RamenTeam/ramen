@@ -1,12 +1,7 @@
 import { Arg, Resolver, Mutation, Ctx, UseMiddleware } from "type-graphql";
 import { User } from "../../../../entity/User";
-<<<<<<< HEAD
 import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { LoginDto, YUP_LOGIN } from "./login.dto";
-=======
-import { Error as ErrorSchema } from "../../../common/error.schema";
-import { LoginInput } from "./login.dto";
->>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import * as bcrypt from "bcrypt";

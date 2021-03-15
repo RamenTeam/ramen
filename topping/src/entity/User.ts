@@ -39,6 +39,7 @@ export class User extends BaseEntity {
 	@Field(() => UserStatus!)
 	@Column("text", { nullable: true, default: UserStatus.none })
 	status: UserStatus;
+
 	// External
 	@Field(() => String!)
 	name(@Root() parent: User): string {

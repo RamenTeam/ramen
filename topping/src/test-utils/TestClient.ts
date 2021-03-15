@@ -1,5 +1,4 @@
 import { GraphQLClient, request } from "graphql-request";
-import * as rp from "request-promise";
 import crossFetch from "cross-fetch";
 import * as GQLModules from "../modules/graphql";
 import { LoginDto } from "../modules/resolvers/user/login/login.dto";
