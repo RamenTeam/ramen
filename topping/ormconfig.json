@@ -1,7 +1,6 @@
 {
 	"type": "postgres",
 	"port": 5432,
-	"name": "default",
 	"database": "gitgab-db",
 	"synchronize": true,
 	"logging": true,

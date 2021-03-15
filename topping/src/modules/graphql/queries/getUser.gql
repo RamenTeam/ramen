@@ -1,0 +1,11 @@
+query getUser($data: GetUserDto!){
+    getUser(data: $data){
+        id
+        email
+        password
+        firstName
+        lastName
+        status
+        name
+    }
+}

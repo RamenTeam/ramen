@@ -4,20 +4,34 @@ type UserSchema {
   password: String!
   firstName: String!
   lastName: String!
+  status: UserStatus!
   name: String!
 }
 
-type Error {
+"""The activity status of user"""
+enum UserStatus {
+  online
+  offline
+  busy
+  none
+  silence
+}
+
+type ErrorMessage {
   path: String!
   message: String!
 }
 
-input LoginInput {
+input LoginDto {
   email: String!
   password: String!
 }
 
-input RegisterInput {
+input GetUserDto {
+  userId: String!
+}
+
+input RegisterDto {
   firstName: String!
   lastName: String!
   email: String!
@@ -26,11 +40,14 @@ input RegisterInput {
 
 type Query {
   me: UserSchema
-  hello: String!
+  getUser(data: GetUserDto!): UserSchema
+  getUsers: [UserSchema!]
 }
 
+
 type Mutation {
-  login(data: LoginInput!): Error
+  login(data: LoginDto!): ErrorMessage
   logout: Boolean
-  register(data: RegisterInput!): Error
+  register(data: RegisterDto!): ErrorMessage
 }
+

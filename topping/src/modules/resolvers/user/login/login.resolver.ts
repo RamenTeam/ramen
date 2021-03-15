@@ -1,15 +1,19 @@
 import { Arg, Resolver, Mutation, Ctx, UseMiddleware } from "type-graphql";
 import { User } from "../../../../entity/User";
+<<<<<<< HEAD
+import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
+import { LoginDto, YUP_LOGIN } from "./login.dto";
+=======
 import { Error as ErrorSchema } from "../../../common/error.schema";
 import { LoginInput } from "./login.dto";
+>>>>>>> 7fe3bd454c20bc492bb571134790a68fceba718e
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import * as bcrypt from "bcrypt";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { USER_SESSION_ID_PREFIX } from "../../../../constants/global-variables";
-import { ErrorMessage } from "../../../common/ErrorMessage";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
-import { YUP_LOGIN } from "../../../common/yupSchema";
+import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 
 @Resolver((of) => User)
 class LoginResolver {
@@ -17,23 +21,23 @@ class LoginResolver {
 	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(yupValidateMiddleware(YUP_LOGIN))
-	@Mutation(() => ErrorSchema!, { nullable: true })
+	@Mutation(() => ErrorMessage!, { nullable: true })
 	async login(
-		@Arg("data") { email, password }: LoginInput,
+		@Arg("data") { email, password }: LoginDto,
 		@Ctx() { request, session, redis }: GQLContext
 	) {
 		const user = await this.userRepository.findByEmail(email);
 		if (!user) {
 			return {
 				path: "email",
-				message: ErrorMessage.accountIsNotRegister,
+				message: CustomMessage.accountIsNotRegister,
 			};
 		}
 		const passwordMatch = await bcrypt.compare(password, user.password);
 		if (!passwordMatch) {
 			return {
 				path: "password",
-				message: ErrorMessage.passwordIsNotMatch,
+				message: CustomMessage.passwordIsNotMatch,
 			};
 		}
 		session.userId = user.id;

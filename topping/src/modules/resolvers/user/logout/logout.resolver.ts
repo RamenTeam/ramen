@@ -25,7 +25,9 @@ class LogoutResolver {
 
 		if (session) {
 			session.destroy((err: any) => {
-				if (err) return false;
+				if (err) {
+					return false;
+				}
 				return true;
 			});
 		}

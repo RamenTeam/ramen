@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "../../../entity/User";
-import { ErrorMessage } from "../../common/ErrorMessage";
+import { CustomMessage } from "../../../shared/CustomMessage.enum";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -17,7 +17,7 @@ export class UserRepository extends Repository<User> {
 		if (!!user) {
 			return {
 				path: "email",
-				message: ErrorMessage.emailIsRegister,
+				message: CustomMessage.emailIsRegister,
 			};
 		}
 		await this.create({

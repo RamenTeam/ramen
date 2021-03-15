@@ -1,7 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
-export class Error {
+export class ErrorMessage {
 	@Field()
 	path: string;
 

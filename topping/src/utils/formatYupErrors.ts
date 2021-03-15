@@ -8,6 +8,5 @@ export const formatYupErrors = (err: ValidationError) => {
 			message: e.message,
 		});
 	});
-
 	return errors;
 };

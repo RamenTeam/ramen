@@ -6,7 +6,6 @@ import { GQLContext } from "../../utils/graphql-utils";
 export const yupValidateMiddleware = (
 	validationSchema: ObjectSchema<any>
 ): MiddlewareFn<GQLContext> => async ({ args }, next) => {
-	console.log(JSON.stringify(args, null, 2));
 	await validationSchema
 		.validate(
 			{
