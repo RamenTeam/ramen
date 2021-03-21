@@ -10,9 +10,14 @@ class Profile extends StatefulWidget {
 class _HomeState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('Profile'),
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Profile"),
+        ),
+        body: Center(
+          child: Text('Profile'),
+        ),
       ),
     );
   }
