@@ -31,11 +31,12 @@ dependencies:
 
 dev_dependencies:
   flutter_launcher_icons: "^0.9.0"
+  change_app_package_name: ^0.1.2
 
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo_white.png"
+  image_path: "assets/images/logo.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

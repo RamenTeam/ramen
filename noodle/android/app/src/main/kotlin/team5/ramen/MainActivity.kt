@@ -1,4 +1,4 @@
-package com.example.noodle
+package team5.ramen
 
 import io.flutter.embedding.android.FlutterActivity
 
