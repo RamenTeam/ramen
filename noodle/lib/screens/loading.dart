@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:noodle/constants/routes.dart';
+import 'package:noodle/screens/home.dart';
+import 'package:noodle/utils/route_builder.dart';
 
 class Loading extends StatefulWidget {
   Loading({Key key}) : super(key: key);
@@ -17,9 +18,11 @@ class _LoadingState extends State<Loading> {
       return "khaitruong922";
     });
     print(username);
-    Navigator.pushReplacementNamed(context, Routes.home, arguments: {
-      "username": username,
-    });
+    Navigator.pushReplacement(
+        context,
+        getAnimatedRoute(Home(
+          username: username,
+        )));
   }
 
   @override
