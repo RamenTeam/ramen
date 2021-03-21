@@ -8,15 +8,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Map data = {};
+
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+    String username = data['username'];
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Home"),
+          title: Text('Home'),
         ),
         body: Center(
-          child: Text('Home'),
+          child: Text('Hi $username!'),
         ),
       ),
     );
