@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:noodle/screens/home.dart';
 import 'package:noodle/screens/loading.dart';
-import 'package:noodle/screens/profile.dart';
 
 void main() {
   runApp(MyApp());
