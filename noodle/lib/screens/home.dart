@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:noodle/screens/profile.dart';
+import 'package:noodle/screens/loading.dart';
+import 'package:noodle/utils/route_builder.dart';
 
 class Home extends StatefulWidget {
   Home({Key key, this.username}) : super(key: key);
@@ -19,6 +22,11 @@ class _HomeState extends State<Home> {
         ),
         body: Center(
           child: Text('Hi $username!'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushReplacement(context, getRoute(Loading()));
+          },
         ),
       ),
     );

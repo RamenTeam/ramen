@@ -1,6 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
-Route getAnimatedRoute(Widget widget) {
+Route getRoute(Widget widget) {
+  return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => widget);
+}
+
+Route getSlideTransitionRoute(Widget widget) {
   return PageRouteBuilder(
     transitionDuration: Duration(milliseconds: 500),
     pageBuilder: (context, animation, secondaryAnimation) => widget,

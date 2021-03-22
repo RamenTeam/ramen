@@ -14,13 +14,13 @@ class _LoadingState extends State<Loading> {
   void fetchUserData() async {
     // Do some API calls during loading state
     print("Fetching user data");
-    String username = await Future.delayed(Duration(seconds: 2), () {
+    String username = await Future.delayed(Duration(seconds: 3), () {
       return "khaitruong922";
     });
     print(username);
     Navigator.pushReplacement(
         context,
-        getAnimatedRoute(Home(
+        getSlideTransitionRoute(Home(
           username: username,
         )));
   }
