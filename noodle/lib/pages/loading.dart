@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:noodle/screens/home.dart';
+import 'package:noodle/pages/home.dart';
 import 'package:noodle/utils/route_builder.dart';
 
 class Loading extends StatefulWidget {
@@ -20,7 +20,8 @@ class _LoadingState extends State<Loading> {
     print(username);
     Navigator.pushReplacement(
         context,
-        getSlideTransitionRoute(Home(
+        FadeRoute(
+            page: Home(
           username: username,
         )));
   }

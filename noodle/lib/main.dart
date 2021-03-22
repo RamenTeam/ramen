@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noodle/screens/loading.dart';
+import 'package:noodle/pages/loading.dart';
 
 void main() {
   runApp(MyApp());
