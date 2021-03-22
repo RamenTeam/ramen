@@ -14,7 +14,6 @@ class GetUserResolver {
 	@Query(() => User, { nullable: true })
 	async getUser(@Arg("data") { userId }: GetUserDto) {
 		const user = await this.userRepository.findOne({
-			relations: ["conversations"],
 			where: {
 				id: userId,
 			},

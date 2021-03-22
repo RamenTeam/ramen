@@ -4,7 +4,9 @@ import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
 
-let client: TestClient | null = null;
+let client1: TestClient | null = null;
+
+let client2: TestClient | null = null;
 
 const mockData = {
 	email: faker.internet.email(),
@@ -15,14 +17,17 @@ const mockData = {
 
 testFrame(() => {
 	beforeAll(async () => {
-		client = new TestClient("http://localhost:5000/graphql");
-		await client.register(mockData);
+		client1 = new TestClient();
+
+		client2 = new TestClient();
+
+		await client1.user.register(mockData);
 	});
 
 	describe("Login test suite", () => {
 		test("account is not register", async () => {
 			expect(
-				await client?.login({
+				await client1?.user.login({
 					email: "tin@email.com",
 					password: "123",
 				})
@@ -35,7 +40,7 @@ testFrame(() => {
 		});
 
 		test("[Yup] invalid email address", async () => {
-			const data = await client?.login({
+			const data = await client1?.user.login({
 				email: "tin",
 				password: "123",
 			});
@@ -48,7 +53,7 @@ testFrame(() => {
 		});
 
 		test("[Yup]password length matched", async () => {
-			const data = await client?.login({
+			const data = await client1?.user.login({
 				email: "tin@email.com",
 				password: "1",
 			});
@@ -61,7 +66,7 @@ testFrame(() => {
 		});
 
 		test("[Yup] invalid email address & password length matched", async () => {
-			const data = await client?.login({
+			const data = await client1?.user.login({
 				email: "tin",
 				password: "1",
 			});
@@ -78,7 +83,7 @@ testFrame(() => {
 		});
 
 		test("password does not matched", async () => {
-			const data = await client?.login({
+			const data = await client1?.user.login({
 				email: mockData.email,
 				password: mockData.password + "123",
 			});
@@ -89,7 +94,7 @@ testFrame(() => {
 		});
 
 		test("account is not registered", async () => {
-			const data = await client?.login({
+			const data = await client1?.user.login({
 				email: faker.internet.email(),
 				password: mockData.password,
 			});
@@ -100,18 +105,41 @@ testFrame(() => {
 		});
 
 		test("get user before login", async () => {
-			const me = await client?.me();
+			const me = await client1?.user.me();
 			expect(yupErrorResponse(me)).toEqual([
 				{ message: "not authenticated", path: "me" },
 			]);
 		});
 
 		test("login works", async () => {
-			const data = await client?.login({
+			const data = await client1?.user.login({
 				email: mockData.email,
 				password: mockData.password,
 			});
 			expect(data.login).toBeNull();
+		});
+
+		test(CustomMessage.userHasLoggedIn, async () => {
+			await client1?.user
+				.login({
+					email: mockData.email,
+					password: mockData.password,
+				})
+				.then((res) =>
+					expect(res.login).toMatchObject({
+						message: CustomMessage.userHasLoggedIn,
+						path: "login",
+					})
+				);
+		});
+
+		test("Multi session login works", async () => {
+			await client2?.user
+				.login({
+					email: mockData.email,
+					password: mockData.password,
+				})
+				.then((res) => expect(res.login).toBeNull());
 		});
 	});
 });

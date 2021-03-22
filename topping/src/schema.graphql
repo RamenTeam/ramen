@@ -22,13 +22,13 @@ type ErrorMessage {
   message: String!
 }
 
+input GetUserDto {
+  userId: String!
+}
+
 input LoginDto {
   email: String!
   password: String!
-}
-
-input GetUserDto {
-  userId: String!
 }
 
 input RegisterDto {
@@ -39,9 +39,9 @@ input RegisterDto {
 }
 
 type Query {
-  me: UserSchema
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
+  me: UserSchema
 }
 
 type Mutation {

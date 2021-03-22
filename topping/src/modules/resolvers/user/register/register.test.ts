@@ -18,12 +18,12 @@ const mockData = {
 
 testFrame(() => {
 	beforeAll(async () => {
-		client = new TestClient("http://localhost:5000/graphql");
+		client = new TestClient();
 	});
 
 	describe("Register test suite", () => {
 		test("register works", async () => {
-			const data = await client?.register(mockData);
+			const data = await client?.user.register(mockData);
 			expect(data.register).toBeNull();
 			const user = await getRepository(User).findOne({
 				where: {
@@ -49,14 +49,14 @@ testFrame(() => {
 		});
 
 		test("login to registered account", async () => {
-			const data = await client?.login({
+			const data = await client?.user.login({
 				email: mockData.email,
 				password: mockData.password,
 			});
 			expect(data.login).toBeNull();
 		});
 		test("account is registered", async () => {
-			const data = await client?.register(mockData);
+			const data = await client?.user.register(mockData);
 			expect(data.register).toMatchObject({
 				message: CustomMessage.emailIsRegister,
 				path: "email",
@@ -64,7 +64,7 @@ testFrame(() => {
 		});
 
 		test("[Yup] email is not valid", async () => {
-			const data = await client?.register({
+			const data = await client?.user.register({
 				...mockData,
 				email: "tin",
 			});
@@ -77,7 +77,7 @@ testFrame(() => {
 		});
 
 		test("[Yup] password length matched", async () => {
-			const data = await client?.register({
+			const data = await client?.user.register({
 				...mockData,
 				email: faker.internet.email(),
 				password: "1",
@@ -91,7 +91,7 @@ testFrame(() => {
 		});
 
 		test("[Yup] firstName & lastName length match", async () => {
-			const data = await client?.register({
+			const data = await client?.user.register({
 				email: faker.internet.email(),
 				password: faker.internet.password(),
 				firstName: "",

@@ -1,8 +1,9 @@
-import { GraphQLClient, request } from "graphql-request";
+import { GraphQLClient } from "graphql-request";
 import crossFetch from "cross-fetch";
 import * as GQLModules from "../modules/graphql";
 import { LoginDto } from "../modules/resolvers/user/login/login.dto";
 import { RegisterDto } from "../modules/resolvers/user/register/register.dto";
+import { GetUserDto } from "../modules/resolvers/user/get_user/get_user.dto";
 interface GQL {
 	mutations: any;
 	queries: any;
@@ -11,38 +12,45 @@ interface GQL {
 
 const GQL: GQL = GQLModules;
 export class TestClient {
-	client: GraphQLClient;
+	private client: GraphQLClient;
 
-	constructor(url: string) {
+	constructor() {
 		const fetch = require("fetch-cookie")(crossFetch);
-		this.client = new GraphQLClient(url, {
+		this.client = new GraphQLClient("http://localhost:5000/graphql", {
 			credentials: "include",
 			mode: "cors",
 			fetch,
 		});
 	}
 
-	async mutation<T>(resolver: string, args: T) {
+	private async mutation<T>(resolver: string, args: T) {
 		return await this.client
 			.request(GQL.mutations[resolver], { data: args })
 			.then((data) => data)
 			.catch((err) => err);
 	}
 
-	async query(resolver: string) {
+	private async query<T>(resolver: string, args?: T) {
 		return await this.client
-			.request(GQL.queries[resolver])
+			.request(GQL.queries[resolver], args && { data: args })
 			.then((data) => data)
 			.catch((err) => err);
 	}
 
-	login = async (args: LoginDto) =>
-		await this.mutation<LoginDto>("login", args);
+	user = {
+		login: async (args: LoginDto) =>
+			await this.mutation<LoginDto>("login", args),
 
-	register = async (args: RegisterDto) =>
-		await this.mutation<RegisterDto>("register", args);
+		register: async (args: RegisterDto) =>
+			await this.mutation<RegisterDto>("register", args),
 
-	me = async () => await this.query("me");
+		me: async () => await this.query("me"),
 
-	logout = async () => await this.mutation("logout", null);
+		logout: async () => await this.mutation("logout", null),
+
+		getUser: async (args: GetUserDto) =>
+			await this.query<GetUserDto>("getUser", args),
+
+		getUsers: async () => await this.query("getUsers"),
+	};
 }

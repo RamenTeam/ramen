@@ -14,13 +14,13 @@ const mockData = {
 
 testFrame(() => {
 	beforeAll(async () => {
-		client = new TestClient("http://localhost:5000/graphql");
-		await client.register(mockData);
+		client = new TestClient();
+		await client.user.register(mockData);
 	});
 
 	describe("Logout test suite", () => {
 		test("logout before login", async () => {
-			await client?.logout().then((res) =>
+			await client?.user.logout().then((res) =>
 				expect(yupErrorResponse(res)).toMatchObject([
 					{
 						message: "not authenticated",
@@ -31,15 +31,15 @@ testFrame(() => {
 		});
 
 		test("login to account", async () => {
-			await client
-				?.login({ email: mockData.email, password: mockData.password })
+			await client?.user
+				.login({ email: mockData.email, password: mockData.password })
 				.then((res) => expect(res.login).toBeNull());
 		});
 
 		test("logout works", async () => {
-			await client?.logout().then((res) => expect(res.logout).toBeNull);
+			await client?.user.logout().then((res) => expect(res.logout).toBeNull);
 
-			await client?.me().then((res) =>
+			await client?.user.me().then((res) =>
 				expect(yupErrorResponse(res)).toMatchObject([
 					{
 						message: "not authenticated",
