@@ -48,7 +48,9 @@
 		"pg": "^8.5.1",
 		"reflect-metadata": "^0.1.13",
 		"request-promise": "^4.2.6",
+		"sofa-api": "^0.2.3",
 		"subscriptions-transport-ws": "^0.9.18",
+		"swagger-ui-express": "^4.1.6",
 		"ts-jest": "^26.5.3",
 		"type-graphql": "^1.1.1",
 		"typedi": "^0.8.0",
@@ -65,7 +67,8 @@
 		"prod": "SET NODE_ENV=production  & ts-node src/index.ts",
 		"test": "jest --watch --runInBand",
 		"gen-gql": "gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
-		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e ."
+		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e .",
+		"gen-rest-api-docs": "ts-node ./src/scripts/genOpenAPI.ts"
 	},
 	"resolutions": {
 		"graphql": "^15.0.0"

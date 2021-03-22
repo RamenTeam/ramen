@@ -12,6 +12,7 @@ import { ContextParameters } from "graphql-yoga/dist/types";
 import { genORMConnection } from "./config/orm.config";
 import { printSchema } from "graphql";
 import * as fs from "fs";
+import { genREST_API } from "./utils/genREST";
 
 export const startServer = async () => {
 	if (!env(EnvironmentType.PROD)) {
@@ -21,10 +22,11 @@ export const startServer = async () => {
 	const conn = await genORMConnection();
 
 	const schema = await genSchema();
+
 	const sdl = printSchema(schema);
 	await fs.writeFileSync(__dirname + "/schema.graphql", sdl);
 
-	const server = new GraphQLServer({
+	const gql_server = new GraphQLServer({
 		schema,
 		context: ({ request }: ContextParameters): Partial<GQLContext> => ({
 			request,
@@ -36,26 +38,30 @@ export const startServer = async () => {
 
 	const corsOptions = { credentials: true, origin: DEV_BASE_URL };
 
-	server.express.use(sessionConfiguration);
+	gql_server.express.use(sessionConfiguration);
 
 	const PORT = process.env.PORT || 5000;
-	const app = await server.start({
-		cors: corsOptions,
-		port: PORT,
-		formatError: formatValidationError,
-		endpoint: process.env.SERVER_ENDPOINT,
-		subscriptions: {
-			onConnect: () => console.log("Subscription server connected!"),
-			onDisconnect: () => console.log("Subscription server disconnected!"),
-		},
-	});
 
-	console.table({
-		ENDPOINT: `${process.env.SERVER_URI}:${app.address().port}${
-			process.env.SERVER_ENDPOINT
-		}`,
-		ENVIRONMENT: process.env.NODE_ENV?.trim(),
-		PORT: app.address().port,
-		DATABASE: conn.options.database,
-	});
+	genREST_API(schema, gql_server.express);
+
+	await gql_server.start(
+		{
+			cors: corsOptions,
+			port: PORT,
+			formatError: formatValidationError,
+			endpoint: process.env.SERVER_ENDPOINT,
+			subscriptions: {
+				onConnect: () => console.log("Subscription server connected!"),
+				onDisconnect: () => console.log("Subscription server disconnected!"),
+			},
+		},
+		(options) => {
+			console.table({
+				ENDPOINT: `${process.env.SERVER_URI}:${options.port}${process.env.SERVER_ENDPOINT}`,
+				ENVIRONMENT: process.env.NODE_ENV?.trim(),
+				PORT: options.port,
+				DATABASE: conn.options.database,
+			});
+		}
+	);
 };

@@ -16,8 +16,8 @@
 		"allowSyntheticDefaultImports": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"resolveJsonModule": false
+		"resolveJsonModule": true
 	},
-	"exclude": ["node_modules"],
-	"include": ["./src/**/*.tsx", "./src/**/*.ts", "src/config/globalSetup.js"]
+	"exclude": ["node_modules", "./swagger.json"],
+	"include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }
