@@ -23,10 +23,17 @@ class _HomeState extends State<Home> {
         body: Center(
           child: Text('Hi $username!'),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushReplacement(context, getRoute(Loading()));
-          },
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.pushReplacement(context, getRoute(Profile()));
+        //   },
+        // ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle), label: 'profile')
+          ],
         ),
       ),
     );
