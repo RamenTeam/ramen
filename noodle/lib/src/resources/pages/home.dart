@@ -3,16 +3,16 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
-  bool isFinding = false;
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  bool isFinding = false;
   void findPartner() {
     setState(() {
-      widget.isFinding = !widget.isFinding;
+      isFinding = !isFinding;
     });
   }
 
@@ -32,7 +32,7 @@ class _HomeState extends State<Home> {
         maintainState: true,
         maintainAnimation: true,
         maintainSize: true,
-        visible: widget.isFinding,
+        visible: isFinding,
         child: Text(
           "Finding a partner for you",
           style: TextStyle(fontSize: 20),
