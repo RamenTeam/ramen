@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:noodle/pages/home.dart';
-import 'package:noodle/pages/profile.dart';
+import 'package:noodle/src/pages/home.dart';
+import 'package:noodle/src/pages/profile.dart';
 
 class HomeNavigation extends StatefulWidget {
   HomeNavigation({Key key, this.username}) : super(key: key);

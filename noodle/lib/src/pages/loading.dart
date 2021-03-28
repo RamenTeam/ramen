@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:noodle/pages/home_navigation.dart';
-import 'package:noodle/utils/route_builder.dart';
+import 'package:noodle/src/pages/home_navigation.dart';
+import 'package:noodle/src/utils/route_builder.dart';
 
 class Loading extends StatefulWidget {
   Loading({Key key}) : super(key: key);
