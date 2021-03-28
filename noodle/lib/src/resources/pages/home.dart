@@ -47,7 +47,7 @@ class _HomeState extends State<Home> {
         maintainState: true,
         maintainAnimation: true,
         maintainSize: true,
-        visible: widget.isFinding,
+        visible: isFinding,
         child: SpinKitThreeBounce(
           color: Colors.black,
           size: 20,
@@ -62,9 +62,9 @@ class _HomeState extends State<Home> {
       child: ElevatedButton(
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(
-                widget.isFinding ? Colors.red : Colors.yellow)),
+                isFinding ? Colors.red : Colors.yellow)),
         child: Text(
-          widget.isFinding ? "Cancel" : "Find a partner",
+          isFinding ? "Cancel" : "Find a partner",
           style: TextStyle(
             color: Colors.black,
           ),
