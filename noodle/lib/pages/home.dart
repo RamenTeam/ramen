@@ -11,7 +11,27 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text('Home'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/images/logo.png",
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.yellow)),
+            child: Text(
+              "Find a partner",
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+            onPressed: () {
+              print("Finding partner... ");
+            },
+          )
+        ],
+      ),
     );
   }
 }
