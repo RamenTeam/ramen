@@ -12,8 +12,8 @@
 		"@types/graphql": "^14.5.0",
 		"@types/ioredis": "^4.19.1",
 		"@types/node": "^8.10.66",
-		"ts-node": "3.3.0",
 		"ts-node-dev": "^1.1.1",
+		"ts-node": "^3.3.0",
 		"typescript": "^4.1.3"
 	},
 	"dependencies": {
@@ -61,11 +61,12 @@
 		"yup": "^0.32.8"
 	},
 	"scripts": {
-		"start": "SET NODE_ENV=development& ts-node-dev --respawn src/index.ts",
-		"start:dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
-		"start:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
-		"prod": "SET NODE_ENV=production  & ts-node src/index.ts",
+		"start": "node dist/src/index.js",
+		"dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
+		"dev:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
 		"test": "jest --watch --runInBand",
+		"build": "tsc",
+		"postinstall": "npm run build",
 		"gen-gql": "gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
 		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e .",
 		"gen-rest-api-docs": "ts-node ./src/scripts/genOpenAPI.ts"

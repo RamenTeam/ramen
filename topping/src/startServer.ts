@@ -50,18 +50,29 @@ export const startServer = async () => {
 			port: PORT,
 			formatError: formatValidationError,
 			endpoint: process.env.SERVER_ENDPOINT,
+			playground: env(EnvironmentType.PROD) && false,
 			subscriptions: {
 				onConnect: () => console.log("Subscription server connected!"),
 				onDisconnect: () => console.log("Subscription server disconnected!"),
 			},
 		},
 		(options) => {
-			console.table({
-				ENDPOINT: `${process.env.SERVER_URI}:${options.port}${process.env.SERVER_ENDPOINT}`,
-				ENVIRONMENT: process.env.NODE_ENV?.trim(),
-				PORT: options.port,
-				DATABASE: conn.options.database,
-			});
+			console.table(
+				env(EnvironmentType.PROD)
+					? {
+							ENDPOINT: `${process.env.SERVER_URI}:${options.port}${process.env.SERVER_ENDPOINT}`,
+							ENVIRONMENT: process.env.NODE_ENV?.trim(),
+							DATABASE_URL: process.env.DATABASE_URL,
+							REDIS_HOST: process.env.REDIS_HOST,
+							REDIS_PORT: process.env.REDIS_PORT,
+					  }
+					: {
+							ENDPOINT: `${process.env.SERVER_URI}:${options.port}${process.env.SERVER_ENDPOINT}`,
+							ENVIRONMENT: process.env.NODE_ENV?.trim(),
+							PORT: options.port,
+							DATABASE: conn.options.database,
+					  }
+			);
 		}
 	);
 };

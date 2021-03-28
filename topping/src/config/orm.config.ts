@@ -18,7 +18,7 @@ export const genORMConnection = async (
 	if (process.env.DATABASE_URL && env(EnvironmentType.PROD)) {
 		Object.assign(extendedOptions, {
 			url: process.env.DATABASE_URL,
-			ssl: env(EnvironmentType.PROD) ? { rejectUnauthorized: false } : false,
+			ssl: { rejectUnauthorized: false },
 		});
 	} else {
 		Object.assign(extendedOptions, {
