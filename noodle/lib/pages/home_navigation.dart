@@ -16,6 +16,13 @@ class _HomeNavigationState extends State<HomeNavigation> {
     Home(),
     Profile(),
   ];
+
+  void onTabSelected(index) {
+    setState(() {
+      tabIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String username = widget.username;
@@ -37,11 +44,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
               label: 'Profile',
             ),
           ],
-          onTap: (index) {
-            setState(() {
-              tabIndex = index;
-            });
-          },
+          onTap: onTabSelected,
         ),
       ),
     );

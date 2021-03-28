@@ -8,6 +8,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  void findPartner() {
+    print("Finding partner");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -26,9 +30,7 @@ class _HomeState extends State<Home> {
                 color: Colors.black,
               ),
             ),
-            onPressed: () {
-              print("Finding partner... ");
-            },
+            onPressed: findPartner,
           )
         ],
       ),
