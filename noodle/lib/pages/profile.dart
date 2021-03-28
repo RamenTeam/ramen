@@ -4,17 +4,14 @@ class Profile extends StatefulWidget {
   Profile({Key key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _HomeState extends State<Profile> {
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Profile"),
-        ),
         body: Center(
           child: Text('Profile'),
         ),
