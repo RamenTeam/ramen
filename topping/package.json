@@ -3,6 +3,7 @@
 	"version": "0.0.1",
 	"main": "dist/index",
 	"typings": "dist/index",
+	"type": "module",
 	"description": "Awesome project developed with TypeORM.",
 	"devDependencies": {
 		"@types/bcrypt": "^3.0.0",
