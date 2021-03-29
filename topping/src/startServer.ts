@@ -45,17 +45,23 @@ export const startServer = async () => {
 	genREST_API(schema, gql_server.express);
 
 	await gql_server.start(
-		{
-			cors: corsOptions,
-			port: PORT,
-			formatError: formatValidationError,
-			endpoint: process.env.SERVER_ENDPOINT,
-			playground: env(EnvironmentType.PROD) && false,
-			subscriptions: {
-				onConnect: () => console.log("Subscription server connected!"),
-				onDisconnect: () => console.log("Subscription server disconnected!"),
+		Object.assign(
+			{
+				cors: corsOptions,
+				port: PORT,
+				formatError: formatValidationError,
+				endpoint: process.env.SERVER_ENDPOINT,
+				subscriptions: {
+					onConnect: () => console.log("Subscription server connected!"),
+					onDisconnect: () => console.log("Subscription server disconnected!"),
+				},
 			},
-		},
+			env(EnvironmentType.PROD)
+				? {
+						playground: false as false,
+				  }
+				: null
+		),
 		(options) => {
 			console.table(
 				env(EnvironmentType.PROD)
