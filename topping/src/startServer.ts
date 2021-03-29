@@ -48,7 +48,7 @@ export const startServer = async () => {
 		Object.assign(
 			{
 				cors: corsOptions,
-				port: PORT,
+				port: env(EnvironmentType.TEST) ? 0 : PORT,
 				formatError: formatValidationError,
 				endpoint: process.env.SERVER_ENDPOINT,
 				subscriptions: {

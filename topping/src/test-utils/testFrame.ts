@@ -1,4 +1,4 @@
-import { Connection, getConnection } from "typeorm";
+import { Connection } from "typeorm";
 import { genORMConnection } from "../config/orm.config";
 
 let conn: Connection | null = null;
