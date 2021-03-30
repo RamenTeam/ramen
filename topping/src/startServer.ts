@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import "dotenv/config";
-import { GraphQLServer } from "graphql-yoga";
+import { GraphQLServer, Options } from "graphql-yoga";
 import { genSchema } from "./utils/genSchema";
 import { sessionConfiguration } from "./helper/session";
 import { REDIS } from "./helper/redis";
@@ -11,8 +11,10 @@ import { GQLContext } from "./utils/graphql-utils";
 import { ContextParameters } from "graphql-yoga/dist/types";
 import { genORMConnection } from "./config/orm.config";
 import { printSchema } from "graphql";
-import * as fs from "fs";
+import * as morgan from "morgan";
 import { genREST_API } from "./utils/genREST";
+import { logger } from "./config/winston.config";
+import * as fs from "fs";
 
 export const startServer = async () => {
 	if (!env(EnvironmentType.PROD)) {
@@ -20,13 +22,12 @@ export const startServer = async () => {
 	}
 
 	const conn = await genORMConnection();
-
 	const schema = await genSchema();
 
 	const sdl = printSchema(schema);
 	await fs.writeFileSync(__dirname + "/schema.graphql", sdl);
 
-	const gql_server = new GraphQLServer({
+	const server = new GraphQLServer({
 		schema,
 		context: ({ request }: ContextParameters): Partial<GQLContext> => ({
 			request,
@@ -37,27 +38,35 @@ export const startServer = async () => {
 	} as any);
 
 	const corsOptions = { credentials: true, origin: DEV_BASE_URL };
+	server.express.use(sessionConfiguration);
 
-	gql_server.express.use(sessionConfiguration);
+	genREST_API(schema, server.express);
 
 	const PORT = process.env.PORT || 5000;
 
-	genREST_API(schema, gql_server.express);
-
-	await gql_server
+	await server
 		.start(
-			{
-				cors: corsOptions,
-				port: env(EnvironmentType.TEST) ? 0 : PORT,
-				formatError: formatValidationError,
-				subscriptions: {
-					onConnect: () => console.log("Subscription server connected!"),
-					onDisconnect: () => console.log("Subscription server disconnected!"),
-				},
-				playground: (env(EnvironmentType.PROD) ? false : null) as any,
-			},
+			Object.assign(
+				{
+					cors: corsOptions,
+					port: env(EnvironmentType.TEST) ? 8080 : PORT,
+					formatError: formatValidationError,
+					subscriptions: {
+						onConnect: () => console.log("Subscription server connected!"),
+						onDisconnect: () =>
+							console.log("Subscription server disconnected!"),
+					},
+				} as Options,
+				env(EnvironmentType.PROD)
+					? {
+							playground: false as any,
+					  }
+					: {
+							endpoint: "/graphql",
+					  }
+			),
 			(options) => {
-				console.table(
+				logger.info(
 					env(EnvironmentType.PROD)
 						? {
 								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,

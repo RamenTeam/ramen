@@ -15,6 +15,7 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			User.GetUserResolver,
 			User.GetUsersResolver,
 			User.LoginResolver,
+			User.LogoutResolver,
 			User.MeResolver,
 			User.RegisterResolver,
 		],

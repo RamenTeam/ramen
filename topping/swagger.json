@@ -5,6 +5,23 @@
     "version": "3.0.0"
   },
   "paths": {
+    "/api/me": {
+      "get": {
+        "operationId": "meQuery",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSchema"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/get-user": {
       "get": {
         "operationId": "getUserQuery",
@@ -44,23 +61,6 @@
                   "items": {
                     "$ref": "#/components/schemas/UserSchema"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/me": {
-      "get": {
-        "operationId": "meQuery",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserSchema"
                 }
               }
             }
@@ -167,6 +167,24 @@
   },
   "components": {
     "schemas": {
+      "Query": {
+        "type": "object",
+        "required": [],
+        "properties": {
+          "me": {
+            "$ref": "#/components/schemas/UserSchema"
+          },
+          "getUser": {
+            "$ref": "#/components/schemas/UserSchema"
+          },
+          "getUsers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UserSchema"
+            }
+          }
+        }
+      },
       "UserSchema": {
         "type": "object",
         "required": [
@@ -202,39 +220,6 @@
           }
         }
       },
-      "ErrorMessage": {
-        "type": "object",
-        "required": [
-          "path",
-          "message"
-        ],
-        "properties": {
-          "path": {
-            "type": "string"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      },
-      "Query": {
-        "type": "object",
-        "required": [],
-        "properties": {
-          "getUser": {
-            "$ref": "#/components/schemas/UserSchema"
-          },
-          "getUsers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/UserSchema"
-            }
-          },
-          "me": {
-            "$ref": "#/components/schemas/UserSchema"
-          }
-        }
-      },
       "Mutation": {
         "type": "object",
         "required": [],
@@ -247,6 +232,21 @@
           },
           "register": {
             "$ref": "#/components/schemas/ErrorMessage"
+          }
+        }
+      },
+      "ErrorMessage": {
+        "type": "object",
+        "required": [
+          "path",
+          "message"
+        ],
+        "properties": {
+          "path": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
           }
         }
       }

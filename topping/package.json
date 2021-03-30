@@ -15,8 +15,11 @@
 		"ts-node-dev": "^1.1.1"
 	},
 	"dependencies": {
+		"@types/express-winston": "^4.0.0",
 		"@types/jest": "^26.0.20",
+		"@types/morgan": "^1.9.2",
 		"@types/uuid": "^8.3.0",
+		"@types/winston": "^2.4.4",
 		"bcrypt": "^5.0.0",
 		"body-parser": "^1.19.0",
 		"class-validator": "^0.13.1",
@@ -25,6 +28,7 @@
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-session": "^1.17.1",
+		"express-winston": "^4.1.0",
 		"faker": "^5.4.0",
 		"fetch-cookie": "^0.11.0",
 		"graphql": "^15.3.0",
@@ -41,6 +45,7 @@
 		"jest": "^26.6.3",
 		"merge-graphql-schemas": "^1.7.8",
 		"mock-session": "0.0.5",
+		"morgan": "^1.10.0",
 		"nodemon": "^2.0.7",
 		"pg": "^8.5.1",
 		"reflect-metadata": "^0.1.13",
@@ -58,6 +63,7 @@
 		"typeorm-typedi-extensions": "^0.4.0",
 		"typescript": "^4.2.3",
 		"uuid": "^7.0.0",
+		"winston": "^3.3.3",
 		"yup": "^0.32.8"
 	},
 	"scripts": {
