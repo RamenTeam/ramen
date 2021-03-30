@@ -8,11 +8,15 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final userNameField = TextField(
     decoration: InputDecoration(
-        border: OutlineInputBorder(), hintText: 'Enter username'),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        hintText: 'Enter username'),
   );
   final passwordField = TextField(
     decoration: InputDecoration(
-        border: OutlineInputBorder(), hintText: 'Enter password'),
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        hintText: 'Enter password'),
   );
   @override
   Widget build(BuildContext context) {
