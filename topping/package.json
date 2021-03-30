@@ -1,5 +1,5 @@
 {
-	"name": "graphql-apollo-ts",
+	"name": "ramen",
 	"version": "0.0.1",
 	"main": "dist/index",
 	"typings": "dist/index",
@@ -61,13 +61,12 @@
 		"yup": "^0.32.8"
 	},
 	"scripts": {
-		"start": "SET NODE_ENV=production& npm run build & node dist/src/index.js",
+		"start": "SET NODE_ENV=production& node dist/src/index.js",
 		"dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
 		"dev:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
 		"test": "jest --watch --runInBand",
 		"build": "rimraf ./dist & tsc",
 		"watch": "tsc -w",
-		"serve": "SET NODE_ENV=production& ts-node src/index.ts",
 		"gen-gql": "gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
 		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e .",
 		"gen-rest-api-docs": "ts-node ./src/scripts/genOpenAPI.ts"

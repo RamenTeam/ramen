@@ -1,15 +1,1 @@
-{
-	"type": "postgres",
-	"port": 5432,
-	"database": "gitgab-db",
-	"synchronize": true,
-	"logging": true,
-	"entities": ["dist/src/entity/**/*.js"],
-	"migrations": ["dist/src/migration/**/*.js"],
-	"subscribers": ["dist/src/subscribers/**/*.js"],
-	"cli": {
-		"entitiesDir": "src/entity",
-		"migrationsDir": "src/migration",
-		"subscribersDir": "src/subscriber"
-	}
-}
+

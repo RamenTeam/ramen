@@ -5,15 +5,17 @@ import { env, EnvironmentType } from "../utils/environmentType";
 export const genORMConnection = async (
 	logging: boolean = true
 ): Promise<Connection> => {
-	const connectionOptions = await getConnectionOptions();
+	const connectionOptions = await getConnectionOptions(
+		env(EnvironmentType.PROD) ? "production-database" : "default"
+	);
 	const extendedOptions = {
 		...connectionOptions,
 		database: (connectionOptions.database +
 			(env(EnvironmentType.TEST) ? "-testing" : "")) as any,
 		dropSchema: env(EnvironmentType.TEST),
 		namingStrategy: new SnakeNamingStrategy(),
-		name: "default",
 		logging,
+		name: "default",
 	};
 	if (process.env.DATABASE_URL && env(EnvironmentType.PROD)) {
 		Object.assign(extendedOptions, {

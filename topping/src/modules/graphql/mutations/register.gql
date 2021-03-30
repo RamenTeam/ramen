@@ -1,6 +1,0 @@
-mutation register($data: RegisterDto!){
-    register(data: $data){
-        path
-        message
-    }
-}
