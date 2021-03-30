@@ -11,7 +11,6 @@ import { GQLContext } from "./utils/graphql-utils";
 import { ContextParameters } from "graphql-yoga/dist/types";
 import { genORMConnection } from "./config/orm.config";
 import { printSchema } from "graphql";
-import * as morgan from "morgan";
 import { genREST_API } from "./utils/genREST";
 import { logger } from "./config/winston.config";
 import * as fs from "fs";
