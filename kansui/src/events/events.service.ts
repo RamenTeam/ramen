@@ -1,26 +1,68 @@
 import { Injectable } from '@nestjs/common';
-import { CreateEventDto } from './dto/create-event.dto';
-import { UpdateEventDto } from './dto/update-event.dto';
-
+import { Socket } from 'socket.io';
 @Injectable()
 export class EventsService {
-  create(createEventDto: CreateEventDto) {
-    return 'This action adds a new event';
+  public clientList: any = {};
+  public roomList: any = [];
+
+  findClient(clientId: string) {
+    return this.clientList[clientId];
   }
 
-  findAll() {
-    return `This action returns all events`;
+  findPeerId(hostId: string) {
+    for (let i = 0; i < this.roomList.length; i++) {
+      if (this.roomList[i].host == hostId) {
+        return this.roomList[i].peer;
+      }
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} event`;
+  findHostId(peerId: string) {
+    for (let i = 0; i < this.roomList.length; i++) {
+      if (this.roomList[i].peer == peerId) {
+        return this.roomList[i].host;
+      }
+    }
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
-    return `This action updates a #${id} event`;
+  /**
+   * TODO Add connected client into clientList
+   * @chungquantin
+   */
+
+  addClient(client: Socket) {
+    this.clientList[client.id] = client;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} event`;
+  /**
+   * TODO Add room to a roomList with
+   * -> The host is a client --offer-->
+   * -> The host is also a first peer
+   */
+  addRoom(client: Socket, peerId: string) {
+    this.roomList.push({ host: client.id, peer: peerId });
+  }
+
+  /**
+   * TODO Remove the client from clientList
+   * @chungquantin
+   */
+  removeClient(client: Socket) {
+    delete this.clientList[client.id];
+  }
+
+  removeRoom(client: Socket) {
+    /**
+     * TODO Remove the room which the client is a host or peer
+     * @chungquantin
+     */
+    for (let i = 0; i < this.roomList.length; i++) {
+      if (
+        this.roomList[i].host == client.id ||
+        this.roomList[i].peer == client.id
+      ) {
+        this.roomList.splice(i, 1);
+      }
+    }
   }
 }
