@@ -14,7 +14,7 @@ class AppTheme extends ChangeNotifier {
   static AppTheme of(BuildContext context, {bool listen = false}) =>
       Provider.of<AppTheme>(context, listen: listen);
 
-  AppThemeKeys _themeKey = AppThemeKeys.dark;
+  AppThemeKeys _themeKey = AppThemeKeys.light;
 
   ThemeData get currentTheme => _themes[_themeKey];
   AppThemeKeys get currentThemeKey => _themeKey;

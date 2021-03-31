@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/constants/mock/User.entity.dart';
+import 'package:noodle/src/resources/pages/home_navigation.dart';
+import 'package:noodle/src/resources/pages/login.dart';
 import 'package:noodle/src/utils/route_builder.dart';
 
 class AuthLanding extends StatefulWidget {
@@ -19,9 +21,10 @@ class _AuthLandingState extends State<AuthLanding> {
       return null;
     });
     if (currentUser != null) {
-      Navigator.pushNamed(context, "/");
+      Navigator.pushReplacement(context, FadeRoute(page: HomeNavigation()));
     } else {
-      Navigator.pushNamed(context, "/login");
+      Navigator.pushReplacement(
+          context, FadeRoute(page: LoginScreen()));
     }
   }
 
