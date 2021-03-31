@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Login extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginScreenState extends State<LoginScreen> {
   final userNameField = TextField(
     decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
