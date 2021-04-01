@@ -5,7 +5,6 @@ class LoginScreen extends StatefulWidget {
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-
 ///FIXME Layout overflow while click on the input field to enter info
 ///
 ///#1 - Known issues: 
