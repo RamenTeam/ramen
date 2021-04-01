@@ -25,12 +25,22 @@ class _RegisterState extends State<Register> {
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
         hintText: 'Enter password'),
+    obscureText: true,
+  );
+  final reTypePasswordfField = TextField(
+    decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+        hintText: 're type password'),
+    obscureText: true,
   );
   final phoneField = TextField(
     decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
         hintText: 'Enter phone number'),
+    keyboardType: TextInputType.phone,
+    textAlign: TextAlign.center,
   );
   @override
   Widget build(BuildContext context) {
