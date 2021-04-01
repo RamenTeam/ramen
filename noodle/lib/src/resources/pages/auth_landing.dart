@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/constants/mock/User.entity.dart';
+import 'package:noodle/src/resources/pages/home_navigation.dart';
+import 'package:noodle/src/resources/pages/login.dart';
 import 'package:noodle/src/utils/route_builder.dart';
 
 class AuthLanding extends StatefulWidget {
-  final Widget redirectedPage;
-  AuthLanding({Key key, this.redirectedPage}) : super(key: key);
+  AuthLanding({Key key})
+      : super(key: key);
 
   @override
   _AuthLandingState createState() => _AuthLandingState();
@@ -15,12 +17,14 @@ class _AuthLandingState extends State<AuthLanding> {
   void fetchUserData() async {
     // Do some API calls during loading state
     print("Fetching user data");
-    MockUser currentUser = await Future.delayed(Duration(seconds: 3), () {
-      return MockUser(username: "khaitruong922");
+    MockUser currentUser = await Future.delayed(Duration(seconds: 1), () {
+      return null;
     });
     if (currentUser != null) {
+      Navigator.pushReplacement(context, FadeRoute(page: HomeNavigation()));
+    } else {
       Navigator.pushReplacement(
-          context, FadeRoute(page: widget.redirectedPage));
+          context, FadeRoute(page: LoginScreen()));
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noodle/src/resources/pages/home.dart';
 import 'package:noodle/src/resources/pages/profile.dart';
+import 'package:noodle/src/resources/theme/theme.dart';
 
 class HomeNavigation extends StatefulWidget {
   HomeNavigation({Key key}) : super(key: key);
@@ -12,9 +13,20 @@ class HomeNavigation extends StatefulWidget {
 class _HomeNavigationState extends State<HomeNavigation> {
   int tabIndex = 0;
   final List<Widget> tabs = [
-    Home(),
-    Profile(),
+    HomeScreen(),
+    ProfileScreen(),
   ];
+
+  AppTheme _theme;
+
+  @override
+  void didChangeDependencies() {
+    if (_theme == null) {
+      _theme = AppTheme.of(context);
+    }
+
+    super.didChangeDependencies();
+  }
 
   void onTabSelected(index) {
     setState(() {

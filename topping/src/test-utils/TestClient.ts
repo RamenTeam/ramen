@@ -16,7 +16,7 @@ export class TestClient {
 
 	constructor() {
 		const fetch = require("fetch-cookie")(crossFetch);
-		this.client = new GraphQLClient("http://localhost:5000/graphql", {
+		this.client = new GraphQLClient("http://localhost:8080/graphql", {
 			credentials: "include",
 			mode: "cors",
 			fetch,

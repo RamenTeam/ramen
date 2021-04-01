@@ -1,15 +1,34 @@
-{
-	"type": "postgres",
-	"port": 5432,
-	"database": "gitgab-db",
-	"synchronize": true,
-	"logging": true,
-	"entities": ["src/entity/**/*.ts"],
-	"migrations": ["src/migration/**/*.ts"],
-	"subscribers": ["src/subscriber/**/*.ts"],
-	"cli": {
-		"entitiesDir": "src/entity",
-		"migrationsDir": "src/migration",
-		"subscribersDir": "src/subscriber"
+[
+	{
+		"type": "postgres",
+		"port": 5432,
+		"name": "default",
+		"database": "gitgab-db",
+		"synchronize": true,
+		"logging": true,
+		"entities": ["src/entity/**/*.ts"],
+		"migrations": ["src/migration/**/*.ts"],
+		"subscribers": ["src/subscriber/**/*.ts"],
+		"cli": {
+			"entitiesDir": "src/entity",
+			"migrationsDir": "src/migration",
+			"subscribersDir": "src/subscriber"
+		}
+	},
+	{
+		"type": "postgres",
+		"name": "production-database",
+		"port": 5432,
+		"database": "gitgab-db",
+		"synchronize": true,
+		"logging": true,
+		"entities": ["dist/src/entity/**/*.js"],
+		"migrations": ["dist/src/migration/**/*.js"],
+		"subscribers": ["dist/src/subscribers/**/*.js"],
+		"cli": {
+			"entitiesDir": "src/entity",
+			"migrationsDir": "src/migration",
+			"subscribersDir": "src/subscriber"
+		}
 	}
-}
+]

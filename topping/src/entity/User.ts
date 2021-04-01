@@ -1,16 +1,14 @@
-import { Authorized, Field, ID, ObjectType, Root } from "type-graphql";
+import { Field, ID, ObjectType, Root } from "type-graphql";
 import {
 	Entity,
 	Column,
 	PrimaryColumn,
 	BeforeInsert,
 	BaseEntity,
-	ManyToMany,
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { UserStatus } from "../shared/UserStatus.enum";
-import { UserRole } from "../shared/UserRole.enum";
 
 @ObjectType("UserSchema")
 @Entity("User")

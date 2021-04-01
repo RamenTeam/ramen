@@ -1,3 +1,9 @@
+type Query {
+  me: UserSchema
+  getUser(data: GetUserDto!): UserSchema
+  getUsers: [UserSchema!]
+}
+
 type UserSchema {
   id: ID!
   email: String!
@@ -17,13 +23,19 @@ enum UserStatus {
   silence
 }
 
+input GetUserDto {
+  userId: String!
+}
+
+type Mutation {
+  login(data: LoginDto!): ErrorMessage
+  logout: Boolean
+  register(data: RegisterDto!): ErrorMessage
+}
+
 type ErrorMessage {
   path: String!
   message: String!
-}
-
-input GetUserDto {
-  userId: String!
 }
 
 input LoginDto {
@@ -36,16 +48,4 @@ input RegisterDto {
   lastName: String!
   email: String!
   password: String!
-}
-
-type Query {
-  getUser(data: GetUserDto!): UserSchema
-  getUsers: [UserSchema!]
-  me: UserSchema
-}
-
-type Mutation {
-  login(data: LoginDto!): ErrorMessage
-  logout: Boolean
-  register(data: RegisterDto!): ErrorMessage
 }
