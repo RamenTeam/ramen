@@ -8,39 +8,54 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final userNameField = TextField(
-    decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        hintText: 'Enter username'),
+  final userNameField = Padding(
+    padding: EdgeInsets.all(16.0),
+    child: TextField(
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+          hintText: 'Enter username'),
+    ),
   );
-  final emailField = TextField(
-    decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        hintText: 'Enter email'),
+  final emailField = Padding(
+    padding: EdgeInsets.all(16.0),
+    child: TextField(
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+          hintText: 'Enter email'),
+    ),
   );
-  final passwordField = TextField(
-    decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        hintText: 'Enter password'),
-    obscureText: true,
+  final passwordField = Padding(
+    padding: EdgeInsets.all(16.0),
+    child: TextField(
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+          hintText: 'Enter password'),
+      obscureText: true,
+    ),
   );
-  final reTypePasswordfField = TextField(
-    decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        hintText: 're type password'),
-    obscureText: true,
+  final confirmPasswordfField = Padding(
+    padding: EdgeInsets.all(16.0),
+    child: TextField(
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+          hintText: 'confirm password'),
+      obscureText: true,
+    ),
   );
-  final phoneField = TextField(
-    decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-        hintText: 'Enter phone number'),
-    keyboardType: TextInputType.phone,
-    textAlign: TextAlign.center,
+  final phoneField = Padding(
+    padding: EdgeInsets.all(16.0),
+    child: TextField(
+      decoration: InputDecoration(
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
+          hintText: 'Enter phone number'),
+      keyboardType: TextInputType.phone,
+      textAlign: TextAlign.center,
+    ),
   );
   @override
   Widget build(BuildContext context) {
@@ -53,6 +68,7 @@ class _RegisterState extends State<Register> {
           userNameField,
           emailField,
           passwordField,
+          confirmPasswordfField,
           phoneField
         ],
       ),
