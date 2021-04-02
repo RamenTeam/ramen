@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Register extends StatefulWidget {
-  static const String routeName = '/register';
+class RegisterScreen extends StatefulWidget {
 
   @override
-  _RegisterState createState() => _RegisterState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final userNameField = Padding(
     padding: EdgeInsets.all(16.0),
     child: TextField(

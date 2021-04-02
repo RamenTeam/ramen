@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:noodle/src/resources/pages/home.dart';
+import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/profile.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 
