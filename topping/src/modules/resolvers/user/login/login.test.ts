@@ -3,16 +3,18 @@ import { TestClient } from "../../../../test-utils/TestClient";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
+import { RegisterDto } from "../register/register.dto";
 
 let client1: TestClient | null = null;
 
 let client2: TestClient | null = null;
 
-const mockData = {
+const mockData: RegisterDto = {
 	email: faker.internet.email(),
 	password: faker.internet.password(),
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
+	username: faker.internet.userName(),
 };
 
 testFrame(() => {

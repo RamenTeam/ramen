@@ -2,6 +2,8 @@ query getUser($data: GetUserDto!){
     getUser(data: $data){
         id
         email
+        username
+        isVerified
         password
         firstName
         lastName

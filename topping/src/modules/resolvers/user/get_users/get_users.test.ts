@@ -2,14 +2,16 @@ import { testFrame } from "../../../../test-utils/testFrame";
 import { TestClient } from "../../../../test-utils/TestClient";
 import * as faker from "faker";
 import { User } from "../../../../entity/User";
+import { RegisterDto } from "../register/register.dto";
 
 let client: TestClient | null = null;
 
-const mockData = {
+const mockData: RegisterDto = {
 	email: faker.internet.email(),
 	password: faker.internet.password(),
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
+	username: faker.internet.userName(),
 };
 
 testFrame(() => {
@@ -28,7 +30,7 @@ testFrame(() => {
 
 			await client?.user.getUsers().then((res) => {
 				expect(res.getUsers).toHaveLength(1);
-				expect(res.getUsers).toMatchObject([
+				expect(res.getUsers).toStrictEqual([
 					{
 						email: mockData.email,
 						firstName: mockData.firstName,
@@ -37,6 +39,8 @@ testFrame(() => {
 						name: `${mockData.firstName} ${mockData.lastName}`,
 						password: user.password,
 						status: user.status,
+						isVerified: false,
+						username: mockData.username,
 					},
 				]);
 			});

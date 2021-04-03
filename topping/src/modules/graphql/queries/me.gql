@@ -2,6 +2,8 @@ query me{
     me{
         id
         email
+        username
+        isVerified
         password
         firstName
         lastName

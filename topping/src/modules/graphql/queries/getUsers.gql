@@ -2,6 +2,8 @@ query getUsers{
     getUsers{
         id
         email
+        username
+        isVerified
         password
         firstName
         lastName

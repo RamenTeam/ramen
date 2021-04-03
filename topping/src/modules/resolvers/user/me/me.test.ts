@@ -4,14 +4,16 @@ import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
 import { User } from "../../../../entity/User";
 import { getRepository } from "typeorm";
+import { RegisterDto } from "../register/register.dto";
 
 let client: TestClient | null = null;
 
-const mockData = {
+const mockData: RegisterDto = {
 	email: faker.internet.email(),
 	password: faker.internet.password(),
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
+	username: faker.internet.userName(),
 };
 
 testFrame(() => {
@@ -46,14 +48,16 @@ testFrame(() => {
 				},
 			});
 			await client?.user.me().then((res) =>
-				expect(res.me).toMatchObject({
+				expect(res.me).toStrictEqual({
 					email: mockData.email,
 					firstName: mockData.firstName,
 					id: user?.id,
+					isVerified: false,
 					lastName: mockData.lastName,
 					name: `${mockData.firstName} ${mockData.lastName}`,
 					password: user?.password,
 					status: user?.status,
+					username: mockData.username,
 				})
 			);
 		});

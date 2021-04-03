@@ -12,6 +12,7 @@ export class UserRepository extends Repository<User> {
 		firstName,
 		lastName,
 		password,
+		username,
 	}: Partial<User>) {
 		const user = await this.findByEmail(email);
 		if (!!user) {
@@ -25,6 +26,7 @@ export class UserRepository extends Repository<User> {
 			password,
 			firstName,
 			lastName,
+			username,
 		})
 			.save()
 			.then((err) => console.log(err));

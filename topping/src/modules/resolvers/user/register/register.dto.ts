@@ -11,6 +11,9 @@ export class RegisterDto {
 	lastName: string;
 
 	@Field()
+	username: string;
+
+	@Field()
 	email: string;
 
 	@Field()
@@ -22,4 +25,5 @@ export const YUP_REGISTER = yup.object().shape({
 	lastName: yup.string().min(3).max(255),
 	email: sharedSchema.email,
 	password: sharedSchema.password,
+	username: yup.string().min(4).max(20),
 });

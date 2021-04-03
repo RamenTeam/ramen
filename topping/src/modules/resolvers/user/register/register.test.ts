@@ -6,16 +6,19 @@ import * as faker from "faker";
 import { getRepository } from "typeorm";
 import { User } from "../../../../entity/User";
 import * as bcrypt from "bcrypt";
+import { RegisterDto } from "./register.dto";
+import { logger } from "../../../../config/winston.config";
 
 let client: TestClient | null = null;
 
-const mockData = {
+const mockData: RegisterDto = {
 	email: faker.internet.email(),
 	password: faker.internet.password(),
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
+	username: faker.internet.userName(),
 };
-
+// TODO username test
 testFrame(() => {
 	beforeAll(async () => {
 		client = new TestClient();
@@ -24,6 +27,7 @@ testFrame(() => {
 	describe("Register test suite", () => {
 		test("register works", async () => {
 			const data = await client?.user.register(mockData);
+			logger.info(data);
 			expect(data.register).toBeNull();
 			const user = await getRepository(User).findOne({
 				where: {
@@ -32,6 +36,7 @@ testFrame(() => {
 			});
 
 			expect(user).toBeDefined();
+
 			expect({
 				email: user?.email,
 				firstName: user?.firstName,
@@ -90,12 +95,45 @@ testFrame(() => {
 			]);
 		});
 
+		test("[Yup] username length matched", async () => {
+			await client?.user
+				.register({
+					...mockData,
+					email: faker.internet.email(),
+					username: "123",
+				})
+				.then((res) =>
+					expect(yupErrorResponse(res)).toEqual([
+						{
+							message: "username must be at least 4 characters",
+							path: "username",
+						},
+					])
+				);
+
+			await client?.user
+				.register({
+					...mockData,
+					email: faker.internet.email(),
+					username: "1".repeat(50),
+				})
+				.then((res) =>
+					expect(yupErrorResponse(res)).toEqual([
+						{
+							message: "username must be at most 20 characters",
+							path: "username",
+						},
+					])
+				);
+		});
+
 		test("[Yup] firstName & lastName length match", async () => {
 			const data = await client?.user.register({
 				email: faker.internet.email(),
 				password: faker.internet.password(),
 				firstName: "",
 				lastName: "",
+				username: "tin123",
 			});
 			expect(yupErrorResponse(data)).toEqual([
 				{

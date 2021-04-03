@@ -21,6 +21,14 @@ export class User extends BaseEntity {
 	@Column("text", { unique: true })
 	email: string;
 
+	@Field(() => String!)
+	@Column("text", { unique: true })
+	username: string;
+
+	@Field(() => Boolean!)
+	@Column("bool", { default: false })
+	isVerified: boolean;
+
 	// @Authorized(UserRole.super_admin)
 	@Field(() => String!)
 	@Column()
