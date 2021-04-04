@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 // import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:noodle/src/resources/pages/register/register.dart';
-import 'package:noodle/src/constants/app_route.dart';
 
 class MyApp extends StatelessWidget {
   @override
