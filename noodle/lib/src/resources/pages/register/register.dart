@@ -18,17 +18,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   ///@khaitruong922
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  final retypePasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
   Future<void> register() async {
     String username = usernameController.text;
     String password = passwordController.text;
-    String retypePassword = retypePasswordController.text;
+    String confirmPassword = confirmPasswordController.text;
     String email = emailController.text;
     String phone = phoneController.text;
-    if (password != retypePassword) {
+    if (password != confirmPassword) {
       // Display error message
       return;
     }
@@ -61,7 +61,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void dispose() {
     usernameController.dispose();
     passwordController.dispose();
-    retypePasswordController.dispose();
+    confirmPasswordController.dispose();
     emailController.dispose();
     phoneController.dispose();
     super.dispose();
@@ -107,8 +107,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       "Password",
                       controller: passwordController,
                     ),
-                    buildTextField("Retype password",
-                        controller: retypePasswordController),
+                    buildTextField("Confirm password",
+                        controller: confirmPasswordController),
                     SizedBox(
                       height: 15,
                     ),

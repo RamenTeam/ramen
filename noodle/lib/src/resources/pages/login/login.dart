@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(color: Colors.black),
                             ),
                             TextSpan(
-                              text: 'Register here!',
+                              text: 'Register now!',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
