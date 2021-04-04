@@ -14,14 +14,18 @@ const mockData: RegisterDto = {
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
+	phoneNumber: "091723127312",
 };
 
 testFrame(() => {
 	beforeAll(async () => {
 		client = new TestClient();
-		await client?.user
-			.register(mockData)
-			.then((res) => expect(res.register).toBeNull());
+		await getRepository(User)
+			.create({
+				...mockData,
+				isVerified: true,
+			})
+			.save();
 	});
 
 	describe("Me test suite", () => {
@@ -52,12 +56,14 @@ testFrame(() => {
 					email: mockData.email,
 					firstName: mockData.firstName,
 					id: user?.id,
-					isVerified: false,
+					isVerified: true,
 					lastName: mockData.lastName,
 					name: `${mockData.firstName} ${mockData.lastName}`,
 					password: user?.password,
 					status: user?.status,
 					username: mockData.username,
+					isBanned: false,
+					phoneNumber: mockData.phoneNumber,
 				})
 			);
 		});

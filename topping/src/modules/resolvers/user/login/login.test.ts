@@ -4,6 +4,9 @@ import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
 import { RegisterDto } from "../register/register.dto";
+import { getRepository } from "typeorm";
+import { User } from "../../../../entity/User";
+import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 
 let client1: TestClient | null = null;
 
@@ -15,6 +18,7 @@ const mockData: RegisterDto = {
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
+	phoneNumber: faker.phone.phoneNumber(),
 };
 
 testFrame(() => {
@@ -27,18 +31,74 @@ testFrame(() => {
 	});
 
 	describe("Login test suite", () => {
-		test("account is not register", async () => {
-			expect(
-				await client1?.user.login({
-					email: "tin@email.com",
-					password: "123",
-				})
-			).toEqual({
-				login: {
-					message: CustomMessage.accountIsNotRegister,
-					path: "email",
+		test("account is not verified", async () => {
+			await client1?.user
+				.login({ email: mockData.email, password: mockData.password })
+				.then((res) =>
+					expect(res.login).toEqual({
+						message: CustomMessage.userIsNotVerified,
+						path: "isVerified",
+					})
+				);
+		});
+		test("verify account", async () => {
+			await getRepository(User).update(
+				{ email: mockData.email },
+				{ isVerified: true }
+			);
+
+			await getRepository(User)
+				.findOne({ where: { email: mockData.email } })
+				.then((res) =>
+					expect(res).toMatchObject({
+						isVerified: true,
+					})
+				);
+		});
+
+		test("account is banned", async () => {
+			const tempData = {
+				email: faker.internet.email(),
+				password: faker.internet.password(),
+				firstName: faker.internet.userName(),
+				lastName: faker.internet.userName(),
+				username: faker.internet.userName(),
+				phoneNumber: faker.phone.phoneNumber(),
+			};
+			await client1?.user.register(tempData);
+			await getRepository(User).update(
+				{
+					email: tempData.email,
 				},
-			});
+				{
+					isVerified: true,
+					isBanned: true,
+				}
+			);
+			await client1?.user
+				.login({ email: tempData.email, password: tempData.password })
+				.then((res) =>
+					expect(res.login).toStrictEqual({
+						message: CustomMessage.userIsBanned,
+						path: "isBanned",
+					})
+				);
+		});
+
+		test("account is not register", async () => {
+			await client1?.user
+				.login({
+					email: "tin@email.com",
+					password: "123456",
+				})
+				.then((res) =>
+					expect(res).toStrictEqual({
+						login: {
+							message: CustomMessage.accountIsNotRegister,
+							path: "email",
+						},
+					})
+				);
 		});
 
 		test("[Yup] invalid email address", async () => {

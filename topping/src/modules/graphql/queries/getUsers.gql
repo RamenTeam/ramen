@@ -4,6 +4,8 @@ query getUsers{
         email
         username
         isVerified
+        isBanned
+        phoneNumber
         password
         firstName
         lastName

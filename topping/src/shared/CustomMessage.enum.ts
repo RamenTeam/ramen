@@ -10,4 +10,7 @@ export enum CustomMessage {
 	userIsNotFound = "User is not Found",
 	userHasLoggedIn = "You have already logged in",
 	usernameIsTaken = "Username has been taken already",
+	userIsBanned = "Your account is banned",
+	userIsNotVerified = "Your account is not verified yet",
+	phoneNumberIsTaken = "Phone Number is taken",
 }
