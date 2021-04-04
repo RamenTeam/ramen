@@ -19,15 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primaryColor: HexColor("FCBF30"), accentColor: Colors.white),
-
-      // AppTheme.of(context, listen: true).currentTheme,
-      initialRoute: AppRoute.register,
-      routes: {
-        AppRoute.homeNavigation: (_) => HomeNavigation(),
-        AppRoute.login: (_) => LoginScreen(),
-        AppRoute.register: (_) => RegisterScreen(),
-        AppRoute.authLanding: (_) => AuthLanding()
-      },
+      home: RegisterScreen(),
     );
   }
 }

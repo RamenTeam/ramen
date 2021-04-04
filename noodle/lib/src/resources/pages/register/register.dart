@@ -6,7 +6,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
-import 'package:noodle/src/constants/app_route.dart';
+import 'package:noodle/src/resources/pages/login/login.dart';
+import 'package:noodle/src/utils/route_builder.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -48,7 +49,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void navigateToLogin() {
-    Navigator.pushReplacementNamed(context, AppRoute.login);
+    Navigator.pushReplacement(
+      context,
+      BasicRoute(
+        page: LoginScreen(),
+      ),
+    );
   }
 
   @override
