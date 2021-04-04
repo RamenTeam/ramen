@@ -13,4 +13,5 @@ export enum CustomMessage {
 	userIsBanned = "Your account is banned",
 	userIsNotVerified = "Your account is not verified yet",
 	phoneNumberIsTaken = "Phone Number is taken",
+	expiredKeyError = "Key has expired",
 }

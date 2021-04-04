@@ -19,12 +19,6 @@ import * as fs from "fs";
 import * as express from "express";
 
 export const startServer = async () => {
-	await new NodeMailerService().sendEmail(
-		"bob@bob.com",
-		"Forgot Password",
-		"Hello World"
-	);
-
 	if (!env(EnvironmentType.PROD)) {
 		await new REDIS().server.flushall();
 	}
