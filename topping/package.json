@@ -75,9 +75,8 @@
 		"test": "jest --watch --runInBand",
 		"build": "rimraf ./dist & tsc",
 		"watch": "tsc -w",
-		"gen-gql": "gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
-		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e .",
-		"gen-rest-api-docs": "ts-node ./src/scripts/genOpenAPI.ts"
+		"gen-gql": "rimraf ./modules/graphql & gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
+		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e ."
 	},
 	"resolutions": {
 		"graphql": "^15.0.0"

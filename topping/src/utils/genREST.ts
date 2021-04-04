@@ -1,7 +1,5 @@
 import { GraphQLSchema } from "graphql";
 import sofa, { OpenAPI } from "sofa-api";
-import * as swaggerUi from "swagger-ui-express";
-import * as swaggerDocument from "../../swagger.json";
 
 export const genREST_API = (schema: GraphQLSchema, app: any) => {
 	const REST_ENDPOINT: string = "/api";
@@ -26,7 +24,5 @@ export const genREST_API = (schema: GraphQLSchema, app: any) => {
 		} as any)
 	);
 
-	app.use(REST_ENDPOINT, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-	// openApi.save("./swagger.json");
+	openApi.save("./swagger.json");
 };

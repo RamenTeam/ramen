@@ -7,6 +7,8 @@ type Query {
 type UserSchema {
   id: ID!
   email: String!
+  username: String!
+  isVerified: Boolean!
   password: String!
   firstName: String!
   lastName: String!
@@ -30,7 +32,7 @@ input GetUserDto {
 type Mutation {
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
-  register(data: RegisterDto!): ErrorMessage
+  register(data: RegisterDto!): [ErrorMessage!]
 }
 
 type ErrorMessage {
@@ -46,6 +48,7 @@ input LoginDto {
 input RegisterDto {
   firstName: String!
   lastName: String!
+  username: String!
   email: String!
   password: String!
 }
