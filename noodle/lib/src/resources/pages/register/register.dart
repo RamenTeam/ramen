@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void navigateToLogin() {
     Navigator.pushReplacement(
       context,
-      BasicRoute(
+      SlideRoute(
         page: LoginScreen(),
       ),
     );
