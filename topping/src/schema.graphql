@@ -32,7 +32,7 @@ input GetUserDto {
 type Mutation {
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
-  register(data: RegisterDto!): ErrorMessage
+  register(data: RegisterDto!): [ErrorMessage!]
 }
 
 type ErrorMessage {

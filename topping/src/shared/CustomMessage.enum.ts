@@ -9,4 +9,5 @@ export enum CustomMessage {
 	userIsNotOwner = "You are not the conversation owner",
 	userIsNotFound = "User is not Found",
 	userHasLoggedIn = "You have already logged in",
+	usernameIsTaken = "Username has been taken already",
 }

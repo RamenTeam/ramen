@@ -7,7 +7,6 @@ import { getRepository } from "typeorm";
 import { User } from "../../../../entity/User";
 import * as bcrypt from "bcrypt";
 import { RegisterDto } from "./register.dto";
-import { logger } from "../../../../config/winston.config";
 
 let client: TestClient | null = null;
 
@@ -27,7 +26,6 @@ testFrame(() => {
 	describe("Register test suite", () => {
 		test("register works", async () => {
 			const data = await client?.user.register(mockData);
-			logger.info(data);
 			expect(data.register).toBeNull();
 			const user = await getRepository(User).findOne({
 				where: {
@@ -41,10 +39,12 @@ testFrame(() => {
 				email: user?.email,
 				firstName: user?.firstName,
 				lastName: user?.lastName,
+				username: user?.username,
 			}).toStrictEqual({
 				email: mockData.email,
 				firstName: mockData.firstName,
 				lastName: mockData.lastName,
+				username: user?.username,
 			});
 			const isPasswordMatched = await bcrypt.compare(
 				mockData.password,
@@ -60,12 +60,18 @@ testFrame(() => {
 			});
 			expect(data.login).toBeNull();
 		});
-		test("account is registered", async () => {
+		test("email & username is registered", async () => {
 			const data = await client?.user.register(mockData);
-			expect(data.register).toMatchObject({
-				message: CustomMessage.emailIsRegister,
-				path: "email",
-			});
+			expect(data.register).toMatchObject([
+				{
+					message: CustomMessage.emailIsRegister,
+					path: "email",
+				},
+				{
+					message: CustomMessage.usernameIsTaken,
+					path: "username",
+				},
+			]);
 		});
 
 		test("[Yup] email is not valid", async () => {
@@ -143,6 +149,19 @@ testFrame(() => {
 				{
 					message: "lastName must be at least 3 characters",
 					path: "lastName",
+				},
+			]);
+		});
+
+		test("[Yup] username has been taken", async () => {
+			const data = await client?.user.register({
+				...mockData,
+				email: faker.internet.email(),
+			});
+			expect(data.register).toEqual([
+				{
+					message: CustomMessage.usernameIsTaken,
+					path: "username",
 				},
 			]);
 		});
