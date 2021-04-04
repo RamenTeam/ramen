@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
-import 'package:noodle/src/constants/api.dart' as Api;
+import 'package:noodle/src/constants/api_endpoint.dart';
+import 'package:noodle/src/constants/app_route.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -28,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String username = usernameController.text;
     String password = passwordController.text;
     http.Response res = await http.post(
-      Uri.https(Api.authority, Api.login),
+      Uri.https(ApiEndpoint.authority, ApiEndpoint.login),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -38,6 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
       }),
     );
     print(res.body);
+  }
+
+  void navigateToRegister() {
+    Navigator.pushReplacementNamed(context, AppRoute.register);
   }
 
   @override
@@ -113,12 +119,20 @@ class _LoginScreenState extends State<LoginScreen> {
                     Center(
                       child: RichText(
                         text: TextSpan(
-                          text: "Don't have an account? ",
-                          style: TextStyle(color: Colors.black),
-                          children: <TextSpan>[
+                          children: [
                             TextSpan(
-                                text: 'Register Now!',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
+                              text: 'Don\'t have an account? ',
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            TextSpan(
+                              text: 'Register here!',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = navigateToRegister,
+                            ),
                           ],
                         ),
                       ),

@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 
 void main() {
-  runApp(MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => AppTheme(),
         )
       ],
       child: MyApp(),
-    ),);
+    ),
+  );
 }
