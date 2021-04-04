@@ -4,6 +4,8 @@ query me{
         email
         username
         isVerified
+        isBanned
+        phoneNumber
         password
         firstName
         lastName

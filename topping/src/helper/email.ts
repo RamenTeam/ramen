@@ -1,5 +1,11 @@
+import { Redis } from "ioredis";
 import * as nodemailer from "nodemailer";
+import { v4 } from "uuid";
 import { logger } from "../config/winston.config";
+import {
+	EMAIL_CONFIRM_PREFIX,
+	FORGOT_PASSWORD_PREFIX,
+} from "../constants/global-variables";
 import { EmailService } from "./i_email";
 
 export default class NodeMailerService implements EmailService {
@@ -33,5 +39,19 @@ export default class NodeMailerService implements EmailService {
 		console.log("Message sent: %s", info.messageId);
 
 		console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+	}
+
+	async createConfirmedEmailLink(url: string, userId: string, redis: Redis) {
+		const id = v4();
+		//Disable all the login access while forgotPassword process is running
+		await redis.set(`${EMAIL_CONFIRM_PREFIX}${id}`, userId, "ex", 60 * 20);
+		return `${url}/confirm/${id}`;
+	}
+
+	async createForgotPasswordLink(url: string, userId: string, redis: Redis) {
+		const id = v4();
+		// Set the forgot password in the IMDB to avoid keep login while forgotPassword
+		await redis.set(`${FORGOT_PASSWORD_PREFIX}${id}`, userId, "ex", 60 * 20);
+		return `${url}/change-password/${id}`;
 	}
 }

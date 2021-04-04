@@ -22,20 +22,41 @@ class LoginResolver {
 		@Arg("data") { email, password }: LoginDto,
 		@Ctx() { request, session, redis }: GQLContext
 	) {
-		const user = await this.userRepository.findByEmail(email);
+		let user = await this.userRepository.findByEmail(email);
+
 		if (!user) {
 			return {
 				path: "email",
 				message: CustomMessage.accountIsNotRegister,
 			};
 		}
+
+		user = user as User;
+
+		if (!user.isVerified) {
+			return {
+				path: "isVerified",
+				message: CustomMessage.userIsNotVerified,
+			};
+		}
+
+		if (user.isBanned) {
+			return {
+				path: "isBanned",
+				message: CustomMessage.userIsBanned,
+			};
+		}
+		//TODO Check banned
+
 		const passwordMatch = await bcrypt.compare(password, user.password);
+
 		if (!passwordMatch) {
 			return {
 				path: "password",
 				message: CustomMessage.passwordIsNotMatch,
 			};
 		}
+
 		if (session.userId) {
 			return {
 				path: "login",

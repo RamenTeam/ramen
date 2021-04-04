@@ -29,6 +29,18 @@ export class User extends BaseEntity {
 	@Column("bool", { default: false })
 	isVerified: boolean;
 
+	@Field(() => Boolean!)
+	@Column("bool", { default: false })
+	isBanned: boolean;
+
+	@Field(() => Boolean!)
+	@Column("bool", { default: false })
+	forgotPasswordLock: boolean;
+
+	@Field(() => String!)
+	@Column("text", { unique: true })
+	phoneNumber: string;
+
 	// @Authorized(UserRole.super_admin)
 	@Field(() => String!)
 	@Column()

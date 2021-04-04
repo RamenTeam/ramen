@@ -3,6 +3,8 @@ import { TestClient } from "../../../../test-utils/TestClient";
 import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import * as faker from "faker";
 import { RegisterDto } from "../register/register.dto";
+import { getRepository } from "typeorm";
+import { User } from "../../../../entity/User";
 
 let client: TestClient | null = null;
 
@@ -12,12 +14,15 @@ const mockData: RegisterDto = {
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
+	phoneNumber: "1236187246",
 };
 
 testFrame(() => {
 	beforeAll(async () => {
 		client = new TestClient();
-		await client.user.register(mockData);
+		await getRepository(User)
+			.create({ ...mockData, isVerified: true })
+			.save();
 	});
 
 	describe("Logout test suite", () => {

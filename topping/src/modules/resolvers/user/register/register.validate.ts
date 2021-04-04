@@ -7,4 +7,5 @@ export const YUP_REGISTER = yup.object().shape({
 	email: sharedSchema.email,
 	password: sharedSchema.password,
 	username: yup.string().min(4).max(20),
+	phoneNumber: yup.string().max(20),
 });

@@ -17,6 +17,7 @@ const mockData: RegisterDto = {
 	firstName: faker.internet.userName(),
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
+	phoneNumber: "123456789123",
 };
 // TODO username test
 testFrame(() => {
@@ -27,14 +28,23 @@ testFrame(() => {
 	describe("Register test suite", () => {
 		test("register works", async () => {
 			const data = await client?.user.register(mockData);
-			logger.info(data);
 
 			expect(data.register).toBeNull();
+
 			const user = await getRepository(User).findOne({
 				where: {
 					email: mockData.email,
 				},
 			});
+
+			await getRepository(User).update(
+				{
+					email: mockData.email,
+				},
+				{
+					isVerified: true,
+				}
+			);
 
 			expect(user).toBeDefined();
 
@@ -43,11 +53,13 @@ testFrame(() => {
 				firstName: user?.firstName,
 				lastName: user?.lastName,
 				username: user?.username,
+				phoneNumber: user?.phoneNumber,
 			}).toStrictEqual({
 				email: mockData.email,
 				firstName: mockData.firstName,
 				lastName: mockData.lastName,
 				username: user?.username,
+				phoneNumber: user?.phoneNumber,
 			});
 			const isPasswordMatched = await bcrypt.compare(
 				mockData.password,
@@ -62,19 +74,6 @@ testFrame(() => {
 				password: mockData.password,
 			});
 			expect(data.login).toBeNull();
-		});
-		test("email & username is registered", async () => {
-			const data = await client?.user.register(mockData);
-			expect(data.register).toMatchObject([
-				{
-					message: CustomMessage.emailIsRegister,
-					path: "email",
-				},
-				{
-					message: CustomMessage.usernameIsTaken,
-					path: "username",
-				},
-			]);
 		});
 
 		test("[Yup] email is not valid", async () => {
@@ -143,6 +142,7 @@ testFrame(() => {
 				firstName: "",
 				lastName: "",
 				username: "tin123",
+				phoneNumber: "1231231231",
 			});
 			expect(yupErrorResponse(data)).toEqual([
 				{
@@ -156,17 +156,43 @@ testFrame(() => {
 			]);
 		});
 
-		test("[Yup] username has been taken", async () => {
+		test("[Yup] phoneNumber length match", async () => {
 			const data = await client?.user.register({
 				...mockData,
 				email: faker.internet.email(),
+				username: faker.internet.userName(),
+				phoneNumber: "1".repeat(30),
 			});
-			expect(data.register).toEqual([
+			expect(yupErrorResponse(data)).toEqual([
 				{
-					message: CustomMessage.usernameIsTaken,
-					path: "username",
+					message: "phoneNumber must be at most 20 characters",
+					path: "phoneNumber",
 				},
 			]);
+		});
+
+		test("[Yup] username has been taken", async () => {
+			const data = await client?.user.register({
+				...mockData,
+				phoneNumber: "89831286312",
+				email: faker.internet.email(),
+			});
+			expect(data.register).toEqual({
+				message: CustomMessage.usernameIsTaken,
+				path: "username",
+			});
+		});
+
+		test("[Yup] phoneNumber has been taken", async () => {
+			const data = await client?.user.register({
+				...mockData,
+				username: faker.internet.userName(),
+				email: faker.internet.email(),
+			});
+			expect(data.register).toEqual({
+				message: CustomMessage.phoneNumberIsTaken,
+				path: "phoneNumber",
+			});
 		});
 	});
 });

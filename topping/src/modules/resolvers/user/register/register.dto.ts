@@ -16,4 +16,7 @@ export class RegisterDto {
 
 	@Field()
 	password: string;
+
+	@Field()
+	phoneNumber: string;
 }

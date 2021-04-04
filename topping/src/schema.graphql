@@ -9,6 +9,8 @@ type UserSchema {
   email: String!
   username: String!
   isVerified: Boolean!
+  isBanned: Boolean!
+  phoneNumber: String!
   password: String!
   firstName: String!
   lastName: String!
@@ -32,7 +34,7 @@ input GetUserDto {
 type Mutation {
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
-  register(data: RegisterDto!): [ErrorMessage!]
+  register(data: RegisterDto!): ErrorMessage
 }
 
 type ErrorMessage {
@@ -51,4 +53,5 @@ input RegisterDto {
   username: String!
   email: String!
   password: String!
+  phoneNumber: String!
 }

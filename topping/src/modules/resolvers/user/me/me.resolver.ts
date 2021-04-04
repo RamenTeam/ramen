@@ -14,7 +14,7 @@ class MeResolver {
 	@Query(() => User!, { nullable: true })
 	async me(@Ctx() { session }: GQLContext) {
 		return await this.userRepository.findOne({
-			where: { id: session.userId },
+			where: { id: session?.userId },
 		});
 	}
 }
