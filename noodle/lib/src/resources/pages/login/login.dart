@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
+import 'package:noodle/src/models/ramen_api_response.dart';
 import 'package:noodle/src/resources/pages/register/register.dart';
 import 'package:noodle/src/utils/route_builder.dart';
 
@@ -26,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   ///@khaitruong922
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  String loginMessage = "";
+  Color loginMessageColor = Colors.red;
 
   Future<void> login() async {
     String username = usernameController.text;
@@ -35,12 +38,32 @@ class _LoginScreenState extends State<LoginScreen> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'username': username,
-        'password': password,
+      body: jsonEncode({
+        'data': {
+          'email': username,
+          'password': password,
+        },
       }),
     );
-    print(res.body);
+    if (res.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(res.body);
+      // Register account successfully
+      if (json == null) {
+        print("Login sucessfully!");
+        setState(() {
+          loginMessage = "Login successfully!";
+          loginMessageColor = Colors.green;
+        });
+      } else {
+        RamenApiResponse ramenApiResponse = RamenApiResponse.fromJson(json);
+        setState(() {
+          loginMessage = ramenApiResponse.message;
+          loginMessageColor = Colors.red;
+        });
+      }
+    } else {
+      print("API error");
+    }
   }
 
   void navigateToRegister() {
@@ -76,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 25,
                     ),
                     Text(
-                      'Login to your account',
+                      'Login your account',
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
@@ -86,6 +109,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     buildTextField("Username or Email Address",
                         controller: usernameController),
                     buildTextField("Password", controller: passwordController),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    buildLoginMessageText(),
                     SizedBox(
                       height: 15,
                     ),
@@ -146,6 +173,22 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 40))));
+  }
+
+  Widget buildLoginMessageText() {
+    return Visibility(
+      maintainState: true,
+      maintainAnimation: true,
+      maintainSize: true,
+      visible: loginMessage != "",
+      child: Text(
+        loginMessage,
+        style: TextStyle(
+          fontSize: 14,
+          color: loginMessageColor,
+        ),
+      ),
+    );
   }
 
   Widget buildTextField(String hintText, {TextEditingController controller}) {

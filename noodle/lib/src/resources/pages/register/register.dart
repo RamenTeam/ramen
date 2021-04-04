@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
+import 'package:noodle/src/models/ramen_api_response.dart';
 import 'package:noodle/src/resources/pages/login/login.dart';
 import 'package:noodle/src/utils/route_builder.dart';
 
@@ -16,11 +17,15 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   ///@khaitruong922
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  String registerMessage = "";
+  Color registerMessageColor = Colors.red;
 
   Future<void> register() async {
     String username = usernameController.text;
@@ -28,6 +33,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String confirmPassword = confirmPasswordController.text;
     String email = emailController.text;
     String phone = phoneController.text;
+    String firstName = firstNameController.text;
+    String lastName = lastNameController.text;
     if (password != confirmPassword) {
       // Display error message
       return;
@@ -38,14 +45,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode(<String, String>{
-        'username': username,
-        'password': password,
-        'email': email,
-        'phone': phone,
+      body: jsonEncode({
+        "data": {
+          'username': username,
+          'password': password,
+          'email': email,
+          'phoneNumber': phone,
+          'firstName': firstName,
+          'lastName': lastName,
+        },
       }),
     );
-    print(res.body);
+    if (res.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(res.body);
+      // Register account successfully
+      if (json == null) {
+        print("Register account sucessfully!");
+        setState(() {
+          registerMessage = "Register account successfully!";
+          registerMessageColor = Colors.green;
+        });
+      } else {
+        RamenApiResponse ramenApiResponse = RamenApiResponse.fromJson(json);
+        setState(() {
+          registerMessage = ramenApiResponse.message;
+          registerMessageColor = Colors.red;
+        });
+      }
+    } else {
+      print("API error");
+    }
   }
 
   void navigateToLogin() {
@@ -64,6 +93,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     confirmPasswordController.dispose();
     emailController.dispose();
     phoneController.dispose();
+    firstNameController.dispose();
+    lastNameController.dispose();
     super.dispose();
   }
 
@@ -91,6 +122,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       height: 15,
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          child: buildTextField(
+                            "First name",
+                            controller: firstNameController,
+                          ),
+                        ),
+                        Flexible(
+                          child: buildTextField(
+                            "Last name",
+                            controller: lastNameController,
+                          ),
+                        ),
+                      ],
+                    ),
+
                     buildTextField(
                       "Username",
                       controller: usernameController,
@@ -109,6 +158,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     buildTextField("Confirm password",
                         controller: confirmPasswordController),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    buildRegisterMessageText(),
                     SizedBox(
                       height: 15,
                     ),
@@ -169,6 +222,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ],
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 40))));
+  }
+
+  Widget buildRegisterMessageText() {
+    return Visibility(
+      maintainState: true,
+      maintainAnimation: true,
+      maintainSize: true,
+      visible: registerMessage != "",
+      child: Text(
+        registerMessage,
+        style: TextStyle(
+          fontSize: 14,
+          color: registerMessageColor,
+        ),
+      ),
+    );
   }
 
   Widget buildTextField(String hintText, {TextEditingController controller}) {
