@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 // import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:noodle/src/resources/pages/register/register.dart';
+import 'package:noodle/src/constants/routes.dart' as Routes;
 
 class MyApp extends StatelessWidget {
   @override
@@ -20,12 +21,12 @@ class MyApp extends StatelessWidget {
           primaryColor: HexColor("FCBF30"), accentColor: Colors.white),
 
       // AppTheme.of(context, listen: true).currentTheme,
-      initialRoute: "/auth-landing",
+      initialRoute: Routes.authLanding,
       routes: {
-        "/": (_) => HomeNavigation(),
-        "/login": (_) => LoginScreen(),
-        "/register": (_) => RegisterScreen(),
-        "/auth-landing": (_) => AuthLanding()
+        Routes.homeNavigation: (_) => HomeNavigation(),
+        Routes.login: (_) => LoginScreen(),
+        Routes.register: (_) => RegisterScreen(),
+        Routes.authLanding: (_) => AuthLanding()
       },
     );
   }

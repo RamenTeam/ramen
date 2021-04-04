@@ -17,8 +17,19 @@ class LoginScreen extends StatefulWidget {
 ///@chungquantin
 class _LoginScreenState extends State<LoginScreen> {
   ///@khaitruong922
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
+
   Future<void> login() async {
-    print("login");
+    print(usernameController.text);
+    print(passwordController.text);
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,8 +56,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    buildTextField("Username or Email Address"),
-                    buildTextField("Password"),
+                    buildTextField("Username or Email Address",
+                        controller: usernameController),
+                    buildTextField("Password", controller: passwordController),
                     SizedBox(
                       height: 15,
                     ),
@@ -101,10 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 40))));
   }
 
-  Widget buildTextField(String hintText) {
+  Widget buildTextField(String hintText, {TextEditingController controller}) {
     return Padding(
         padding: EdgeInsets.symmetric(vertical: 5),
         child: TextField(
+          controller: controller,
           decoration: InputDecoration(
               enabledBorder: OutlineInputBorder(
                 // width: 0.0 produces a thin "hairline" border
