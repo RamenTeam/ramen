@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:http/http.dart' as http;
+import 'package:noodle/src/constants/api.dart' as Api;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -21,8 +25,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   Future<void> login() async {
-    print(usernameController.text);
-    print(passwordController.text);
+    String username = usernameController.text;
+    String password = passwordController.text;
+    http.Response res = await http.post(
+      Uri.https(Api.authority, Api.login),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'username': username,
+        'password': password,
+      }),
+    );
+    print(res.body);
   }
 
   @override
