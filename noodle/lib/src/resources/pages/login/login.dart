@@ -13,8 +13,14 @@ class LoginScreen extends StatefulWidget {
 ///-> Add the social button
 ///-> Add API implementation
 ///
+
 ///@chungquantin
 class _LoginScreenState extends State<LoginScreen> {
+  ///@khaitruong922
+  Future<void> login() async {
+    print("login");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Theme.of(context).accentColor)),
                         ),
                         Theme.of(context).primaryColor,
-                        () {}),
+                        login),
                     SizedBox(height: 20),
                     buildDivider(),
                     SizedBox(height: 20),
@@ -133,12 +139,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget buildSubmitButton(
       Widget content, Color color, Function onPressCallback) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: onPressCallback,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      color: color,
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        )),
+        backgroundColor: MaterialStateProperty.all(color),
+      ),
       child: content,
-      elevation: 0.0,
     );
   }
 
