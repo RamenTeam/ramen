@@ -1,11 +1,12 @@
 import { Arg, Resolver, Mutation, UseMiddleware } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
-import { RegisterDto, YUP_REGISTER } from "./register.dto";
+import { RegisterDto } from "./register.dto";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
+import { YUP_REGISTER } from "./register.validate";
 
 @Resolver((of) => User)
 class RegisterResolver {

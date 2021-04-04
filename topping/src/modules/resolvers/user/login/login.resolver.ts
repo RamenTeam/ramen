@@ -1,7 +1,7 @@
 import { Arg, Resolver, Mutation, Ctx, UseMiddleware } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
-import { LoginDto, YUP_LOGIN } from "./login.dto";
+import { LoginDto } from "./login.dto";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import * as bcrypt from "bcrypt";
@@ -9,6 +9,7 @@ import { GQLContext } from "../../../../utils/graphql-utils";
 import { USER_SESSION_ID_PREFIX } from "../../../../constants/global-variables";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
+import { YUP_LOGIN } from "./login.validate";
 
 @Resolver((of) => User)
 class LoginResolver {

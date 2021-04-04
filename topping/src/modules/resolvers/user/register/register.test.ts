@@ -7,6 +7,7 @@ import { getRepository } from "typeorm";
 import { User } from "../../../../entity/User";
 import * as bcrypt from "bcrypt";
 import { RegisterDto } from "./register.dto";
+import { logger } from "../../../../config/winston.config";
 
 let client: TestClient | null = null;
 
@@ -26,6 +27,8 @@ testFrame(() => {
 	describe("Register test suite", () => {
 		test("register works", async () => {
 			const data = await client?.user.register(mockData);
+			logger.info(data);
+
 			expect(data.register).toBeNull();
 			const user = await getRepository(User).findOne({
 				where: {

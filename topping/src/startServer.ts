@@ -15,6 +15,7 @@ import { genREST_API } from "./utils/genREST";
 import { logger } from "./config/winston.config";
 import NodeMailerService from "./helper/email";
 import * as fs from "fs";
+import { genAPIDocument } from "./utils/genAPIDocument";
 
 export const startServer = async () => {
 	await new NodeMailerService().sendEmail(
@@ -46,7 +47,8 @@ export const startServer = async () => {
 	const corsOptions = { credentials: true, origin: DEV_BASE_URL };
 	server.express.use(sessionConfiguration);
 
-	genREST_API(schema, server.express);
+	// genREST_API(schema, server.express);
+	genAPIDocument(server.express);
 
 	const PORT = process.env.PORT || 5000;
 
@@ -75,6 +77,7 @@ export const startServer = async () => {
 				logger.info(
 					env(EnvironmentType.PROD)
 						? {
+								REST_API_URI: `${process.env.SERVER_URI}:${options?.port}/api`,
 								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								DATABASE_URL: process.env.DATABASE_URL,
@@ -82,6 +85,7 @@ export const startServer = async () => {
 								REDIS_PORT: process.env.REDIS_PORT,
 						  }
 						: {
+								REST_API_URI: `${process.env.SERVER_URI}:${options?.port}/api`,
 								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								PORT: options.port,

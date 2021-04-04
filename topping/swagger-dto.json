@@ -1,0 +1,41 @@
+{
+	"GetUserDto": {
+		"type": "object",
+		"required": ["userId"],
+		"properties": {
+			"userId": {
+				"type": "string"
+			}
+		}
+	},
+	"LoginDto": {
+		"type": "object",
+		"required": ["email", "password"],
+		"properties": {
+			"email": {
+				"type": "string"
+			},
+			"password": {
+				"type": "string"
+			}
+		}
+	},
+	"RegisterDto": {
+		"type": "object",
+		"required": ["firstName", "lastName", "email", "password"],
+		"properties": {
+			"firstName": {
+				"type": "string"
+			},
+			"lastName": {
+				"type": "string"
+			},
+			"email": {
+				"type": "string"
+			},
+			"password": {
+				"type": "string"
+			}
+		}
+	}
+}

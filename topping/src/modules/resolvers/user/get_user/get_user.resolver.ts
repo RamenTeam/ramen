@@ -2,8 +2,9 @@ import { Arg, Resolver, Query, UseMiddleware } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { UserRepository } from "../../../repository/user/UserRepository";
-import { GetUserDto, YUP_USER_READ } from "./get_user.dto";
+import { GetUserDto } from "./get_user.dto";
 import { User } from "../../../../entity/User";
+import { YUP_USER_READ } from "./get_user.validate";
 
 @Resolver((of) => User)
 class GetUserResolver {
