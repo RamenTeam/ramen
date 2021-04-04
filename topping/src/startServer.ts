@@ -14,8 +14,9 @@ import { printSchema } from "graphql";
 import { genREST_API } from "./utils/genREST";
 import { logger } from "./config/winston.config";
 import NodeMailerService from "./helper/email";
-import * as fs from "fs";
 import { genAPIDocument } from "./utils/genAPIDocument";
+import * as fs from "fs";
+import * as express from "express";
 
 export const startServer = async () => {
 	await new NodeMailerService().sendEmail(
@@ -45,9 +46,13 @@ export const startServer = async () => {
 	} as any);
 
 	const corsOptions = { credentials: true, origin: DEV_BASE_URL };
+
 	server.express.use(sessionConfiguration);
 
-	// genREST_API(schema, server.express);
+	server.express.use(express.json());
+	server.express.use(express.urlencoded({ extended: true }));
+
+	genREST_API(schema, server.express);
 	genAPIDocument(server.express);
 
 	const PORT = process.env.PORT || 5000;
@@ -67,7 +72,7 @@ export const startServer = async () => {
 				} as Options,
 				env(EnvironmentType.PROD)
 					? {
-							playground: false as any,
+							// playground: false as any,
 					  }
 					: {
 							endpoint: "/graphql",

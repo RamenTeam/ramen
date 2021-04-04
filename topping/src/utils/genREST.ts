@@ -24,5 +24,5 @@ export const genREST_API = (schema: GraphQLSchema, app: any) => {
 		} as any)
 	);
 
-	openApi.save("./swagger.json");
+	// openApi.save("./swagger.json");
 };

@@ -22,7 +22,14 @@
 	},
 	"RegisterDto": {
 		"type": "object",
-		"required": ["firstName", "lastName", "email", "password"],
+		"required": [
+			"firstName",
+			"lastName",
+			"email",
+			"password",
+			"username",
+			"phoneNumber"
+		],
 		"properties": {
 			"firstName": {
 				"type": "string"
@@ -34,6 +41,12 @@
 				"type": "string"
 			},
 			"password": {
+				"type": "string"
+			},
+			"phoneNumber": {
+				"type": "string"
+			},
+			"username": {
 				"type": "string"
 			}
 		}
