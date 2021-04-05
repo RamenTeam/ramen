@@ -16,6 +16,10 @@ import 'package:noodle/src/utils/route_builder.dart';
 import 'local_build/build_divider.dart';
 
 class LoginScreen extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => LoginScreen());
+  }
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -111,9 +115,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    buildTextField(hintText: "Username or Email Address",
+                    buildTextField(
+                        hintText: "Username or Email Address",
                         controller: usernameController),
-                    buildTextField(hintText: "Password", controller: passwordController),
+                    buildTextField(
+                        hintText: "Password", controller: passwordController),
                     SizedBox(
                       height: 15,
                     ),
@@ -195,6 +201,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
 }

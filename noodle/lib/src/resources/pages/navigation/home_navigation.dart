@@ -6,6 +6,10 @@ import 'package:noodle/src/resources/theme/theme.dart';
 class HomeNavigation extends StatefulWidget {
   HomeNavigation({Key? key}) : super(key: key);
 
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => HomeNavigation());
+  }
+
   @override
   _HomeNavigationState createState() => _HomeNavigationState();
 }

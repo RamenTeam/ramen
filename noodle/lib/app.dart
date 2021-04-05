@@ -5,17 +5,19 @@ import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/landing/auth_landing.dart';
 import 'package:flutter/material.dart';
-
 // import 'package:noodle/src/resources/theme/theme.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:hexcolor/hexcolor.dart';
 
 class RamenApp extends StatelessWidget {
-  final AuthenticationRepository authenticationRepository =
-      AuthenticationRepository();
-  final UserRepository userRepository = UserRepository();
+  final AuthenticationRepository authenticationRepository;
+  final UserRepository userRepository;
 
-  RamenApp({Key? key}) : super(key: key);
+  RamenApp(
+      {Key? key,
+      required this.authenticationRepository,
+      required this.userRepository})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

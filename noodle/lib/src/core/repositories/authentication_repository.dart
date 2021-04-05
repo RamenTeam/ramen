@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
+import 'package:noodle/src/core/models/authentication_status.dart';
 
 // @chungquantin
 class SignUpFailure implements Exception {}
@@ -13,8 +13,6 @@ class LogInWithEmailAndPasswordFailure implements Exception {}
 
 /// Thrown during the logout process if a failure occurs.
 class LogOutFailure implements Exception {}
-
-enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 /// {@template authentication_repository}
 /// Repository which manages user authentication.
@@ -27,7 +25,7 @@ class AuthenticationRepository {
 
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
-    yield AuthenticationStatus.unauthenticated;
+    yield AuthenticationStatus.FETCHING_CURRENT_USER;
     yield* _controller.stream;
   }
 
@@ -70,7 +68,6 @@ class AuthenticationRepository {
     required String email,
     required String password,
   }) async {
-    assert(email != null && password != null);
     try {
       http.Response res = await http.post(
         Uri.https(ApiEndpoint.authority, ApiEndpoint.login),
@@ -87,7 +84,7 @@ class AuthenticationRepository {
 
       if (res.statusCode == 200) {
         log("Logged In Successfully -> Authenticated");
-        _controller.add(AuthenticationStatus.authenticated);
+        _controller.add(AuthenticationStatus.AUTHENTICATED);
       }
 
       return res;
@@ -104,13 +101,23 @@ class AuthenticationRepository {
 
       if (res.statusCode == 200) {
         log("Logged In Successfully -> Authenticated");
-        _controller.add(AuthenticationStatus.unauthenticated);
+        _controller.add(AuthenticationStatus.UNAUTHENTICATED);
       }
 
       return res;
     } on Exception {
       throw LogOutFailure();
     }
+  }
+
+  //This is for testing only
+  void setAuthenticated() {
+    _controller.add(AuthenticationStatus.AUTHENTICATED);
+  }
+
+  //This is for testing only
+  void setUnauthenticated() {
+    _controller.add(AuthenticationStatus.UNAUTHENTICATED);
   }
 
   void dispose() => _controller.close();

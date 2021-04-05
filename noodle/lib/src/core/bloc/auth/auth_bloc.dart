@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/bloc/auth/auth_event.dart';
 import 'package:noodle/src/core/bloc/auth/auth_state.dart';
-import 'package:noodle/src/core/models/User.dart';
+import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 
@@ -27,11 +28,15 @@ class AuthenticationBloc
       _authenticationStatusSubscription;
 
   @override
-  Stream<AuthenticationState> mapEventToState(
+  Stream<AuthenticationState?> mapEventToState(
     AuthenticationEvent event,
   ) async* {
     if (event is AuthenticationStatusChanged) {
-      yield await _mapAuthenticationStatusChangedToState(event);
+      print("StatusChanged");
+      AuthenticationState state =
+          await _mapAuthenticationStatusChangedToState(event);
+      print(state.props);
+      yield state;
     } else if (event is AuthenticationLogoutRequested) {
       _authenticationRepository.logout();
     }
@@ -47,14 +52,20 @@ class AuthenticationBloc
   Future<AuthenticationState> _mapAuthenticationStatusChangedToState(
     AuthenticationStatusChanged event,
   ) async {
+    print(event.status);
     switch (event.status) {
-      case AuthenticationStatus.unauthenticated:
-        return const AuthenticationState.unauthenticated();
-      case AuthenticationStatus.authenticated:
+      case AuthenticationStatus.UNAUTHENTICATED:
+        return AuthenticationState.unauthenticated();
+      case AuthenticationStatus.AUTHENTICATED:
         final user = await _tryGetUser();
         return user != null
             ? AuthenticationState.authenticated(user)
-            : const AuthenticationState.unauthenticated();
+            : AuthenticationState.unauthenticated();
+      case AuthenticationStatus.FETCHING_CURRENT_USER:
+        final user = await _tryGetUser();
+        return user != null
+            ? AuthenticationState.authenticated(user)
+            : AuthenticationState.unauthenticated();
       default:
         return const AuthenticationState.unknown();
     }
