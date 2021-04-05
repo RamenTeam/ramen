@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     buildDivider(text: "or"),
                     SizedBox(height: 20),
                     SocialSubmitButton(
-                        media: "Facebook",
+                        text: "Sign in with Facebook",
                         color: HexColor("#3b5999"),
                         icon: FaIcon(
                           FontAwesomeIcons.facebookF,
@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressCallback: () {}),
                     SizedBox(height: 4),
                     SocialSubmitButton(
-                        media: "Google",
+                        text: "Sign in with Google",
                         color: HexColor("#dd4b39"),
                         icon: FaIcon(FontAwesomeIcons.google,
                             color: Colors.white, size: 14),
