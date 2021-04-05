@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/constants/mock/User.entity.dart';
 import 'package:noodle/src/resources/pages/navigation/home_navigation.dart';
-import 'package:noodle/src/resources/pages/login/login.dart';
+import 'package:noodle/src/resources/pages/auth/login.dart';
 import 'package:noodle/src/utils/route_builder.dart';
 
 class AuthLanding extends StatefulWidget {

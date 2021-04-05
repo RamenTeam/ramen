@@ -7,7 +7,11 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/models/ramen_api_response.dart';
-import 'package:noodle/src/resources/pages/login/login.dart';
+import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
+import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
+import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
+import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
+import 'package:noodle/src/resources/pages/auth/login.dart';
 import 'package:noodle/src/utils/route_builder.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -127,13 +131,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Flexible(
                           child: buildTextField(
-                            "First name",
+                            hintText:"First name",
                             controller: firstNameController,
                           ),
                         ),
                         Flexible(
                           child: buildTextField(
-                            "Last name",
+                            hintText:"Last name",
                             controller: lastNameController,
                           ),
                         ),
@@ -141,22 +145,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
 
                     buildTextField(
-                      "Username",
+                      hintText:"Username",
                       controller: usernameController,
                     ),
                     buildTextField(
-                      "Email address",
+                      hintText:"Email address",
                       controller: emailController,
                     ),
                     buildTextField(
-                      "Phone number",
+                      hintText:"Phone number",
                       controller: phoneController,
                     ),
                     buildTextField(
-                      "Password",
+                      hintText:"Password",
                       controller: passwordController,
                     ),
-                    buildTextField("Confirm password",
+                    buildTextField(hintText: "Confirm password",
                         controller: confirmPasswordController),
                     SizedBox(
                       height: 15,
@@ -165,8 +169,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    buildSubmitButton(
-                        Container(
+                    SubmitButton(
+                        content: Container(
                           margin: EdgeInsets.symmetric(vertical: 13),
                           child: Text("Sign Up",
                               style: TextStyle(
@@ -174,27 +178,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).accentColor)),
                         ),
-                        Theme.of(context).primaryColor,
-                        register),
+                        color: Theme.of(context).primaryColor,
+                        onPressCallback: register),
                     SizedBox(height: 20),
-                    buildDivider(),
+                    buildDivider(text: "Created with"),
                     SizedBox(height: 20),
-                    buildSocialButton(
-                        "Facebook",
-                        HexColor("#3b5999"),
-                        FaIcon(
+                    SocialSubmitButton(
+                        media: "Facebook",
+                        color: HexColor("#3b5999"),
+                        icon: FaIcon(
                           FontAwesomeIcons.facebookF,
                           color: Colors.white,
                           size: 14,
                         ),
-                        () {}),
+                        onPressCallback: () {}),
                     SizedBox(height: 4),
-                    buildSocialButton(
-                        "Google",
-                        HexColor("#dd4b39"),
-                        FaIcon(FontAwesomeIcons.google,
+                    SocialSubmitButton(
+                        media: "Google",
+                        color: HexColor("#dd4b39"),
+                        icon: FaIcon(FontAwesomeIcons.google,
                             color: Colors.white, size: 14),
-                        () {}),
+                        onPressCallback: () {}),
                     SizedBox(
                       height: 15,
                     ),
@@ -238,79 +242,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
-  }
-
-  Widget buildTextField(String hintText, {TextEditingController controller}) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                borderSide: BorderSide(color: Colors.grey, width: 0.3),
-              ),
-              contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              hintText: hintText),
-        ));
-  }
-
-  Widget buildDivider() {
-    return Row(children: <Widget>[
-      Expanded(
-          child: Divider(
-        height: 2,
-        thickness: 1,
-        color: Colors.black.withOpacity(0.3),
-      )),
-      SizedBox(width: 20),
-      Text("or"),
-      SizedBox(width: 20),
-      Expanded(
-          child: Divider(
-        height: 2,
-        thickness: 1,
-        color: Colors.black.withOpacity(0.3),
-      )),
-    ]);
-  }
-
-  Widget buildSubmitButton(
-      Widget content, Color color, Function onPressCallback) {
-    return ElevatedButton(
-      onPressed: onPressCallback,
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        )),
-        backgroundColor: MaterialStateProperty.all(color),
-      ),
-      child: content,
-    );
-  }
-
-  Widget buildSocialButton(
-      String media, Color color, Widget icon, Function onPressCallback) {
-    return buildSubmitButton(
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 13),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              icon,
-              SizedBox(width: 15),
-              Text("Sign up with $media",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).accentColor))
-            ],
-          ),
-        ),
-        color,
-        onPressCallback);
   }
 }

@@ -7,8 +7,13 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/models/ramen_api_response.dart';
-import 'package:noodle/src/resources/pages/register/register.dart';
+import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
+import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
+import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
+import 'package:noodle/src/resources/pages/auth/register.dart';
 import 'package:noodle/src/utils/route_builder.dart';
+
+import 'local_build/build_divider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -106,9 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    buildTextField("Username or Email Address",
+                    buildTextField(hintText: "Username or Email Address",
                         controller: usernameController),
-                    buildTextField("Password", controller: passwordController),
+                    buildTextField(hintText: "Password", controller: passwordController),
                     SizedBox(
                       height: 15,
                     ),
@@ -116,8 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    buildSubmitButton(
-                        Container(
+                    SubmitButton(
+                        content: Container(
                           margin: EdgeInsets.symmetric(vertical: 13),
                           child: Text("Sign In",
                               style: TextStyle(
@@ -125,27 +130,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.bold,
                                   color: Theme.of(context).accentColor)),
                         ),
-                        Theme.of(context).primaryColor,
-                        login),
+                        color: Theme.of(context).primaryColor,
+                        onPressCallback: login),
                     SizedBox(height: 20),
-                    buildDivider(),
+                    buildDivider(text: "or"),
                     SizedBox(height: 20),
-                    buildSocialButton(
-                        "Facebook",
-                        HexColor("#3b5999"),
-                        FaIcon(
+                    SocialSubmitButton(
+                        media: "Facebook",
+                        color: HexColor("#3b5999"),
+                        icon: FaIcon(
                           FontAwesomeIcons.facebookF,
                           color: Colors.white,
                           size: 14,
                         ),
-                        () {}),
+                        onPressCallback: () {}),
                     SizedBox(height: 4),
-                    buildSocialButton(
-                        "Google",
-                        HexColor("#dd4b39"),
-                        FaIcon(FontAwesomeIcons.google,
+                    SocialSubmitButton(
+                        media: "Google",
+                        color: HexColor("#dd4b39"),
+                        icon: FaIcon(FontAwesomeIcons.google,
                             color: Colors.white, size: 14),
-                        () {}),
+                        onPressCallback: () {}),
                     SizedBox(
                       height: 15,
                     ),
@@ -191,77 +196,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget buildTextField(String hintText, {TextEditingController controller}) {
-    return Padding(
-        padding: EdgeInsets.symmetric(vertical: 5),
-        child: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                // width: 0.0 produces a thin "hairline" border
-                borderSide: BorderSide(color: Colors.grey, width: 0.3),
-              ),
-              contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              hintText: hintText),
-        ));
-  }
 
-  Widget buildDivider() {
-    return Row(children: <Widget>[
-      Expanded(
-          child: Divider(
-        height: 2,
-        thickness: 1,
-        color: Colors.black.withOpacity(0.3),
-      )),
-      SizedBox(width: 20),
-      Text("or"),
-      SizedBox(width: 20),
-      Expanded(
-          child: Divider(
-        height: 2,
-        thickness: 1,
-        color: Colors.black.withOpacity(0.3),
-      )),
-    ]);
-  }
-
-  Widget buildSubmitButton(
-      Widget content, Color color, Function onPressCallback) {
-    return ElevatedButton(
-      onPressed: onPressCallback,
-      style: ButtonStyle(
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        )),
-        backgroundColor: MaterialStateProperty.all(color),
-      ),
-      child: content,
-    );
-  }
-
-  Widget buildSocialButton(
-      String media, Color color, Widget icon, Function onPressCallback) {
-    return buildSubmitButton(
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 13),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              icon,
-              SizedBox(width: 15),
-              Text("Sign in with $media",
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).accentColor))
-            ],
-          ),
-        ),
-        color,
-        onPressCallback);
-  }
 }
