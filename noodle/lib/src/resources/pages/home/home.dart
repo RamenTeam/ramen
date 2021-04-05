@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => HomeScreen());
+  }
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

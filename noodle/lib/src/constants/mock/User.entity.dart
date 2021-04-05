@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MockUser {
-  final String username;
+  final String id;
 
-  MockUser({@required this.username});
+  MockUser({required this.id});
 }

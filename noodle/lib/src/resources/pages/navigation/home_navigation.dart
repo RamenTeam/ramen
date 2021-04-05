@@ -4,7 +4,11 @@ import 'package:noodle/src/resources/pages/profile/profile.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 
 class HomeNavigation extends StatefulWidget {
-  HomeNavigation({Key key}) : super(key: key);
+  HomeNavigation({Key? key}) : super(key: key);
+
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => HomeNavigation());
+  }
 
   @override
   _HomeNavigationState createState() => _HomeNavigationState();
@@ -17,7 +21,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
     ProfileScreen(),
   ];
 
-  AppTheme _theme;
+  late AppTheme _theme;
 
   @override
   void didChangeDependencies() {

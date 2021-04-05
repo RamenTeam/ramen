@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
-import 'package:noodle/src/models/ramen_api_response.dart';
+import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
@@ -15,6 +15,10 @@ import 'package:noodle/src/resources/pages/auth/login.dart';
 import 'package:noodle/src/utils/route_builder.dart';
 
 class RegisterScreen extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => RegisterScreen());
+  }
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -131,13 +135,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       children: [
                         Flexible(
                           child: buildTextField(
-                            hintText:"First name",
+                            hintText: "First name",
                             controller: firstNameController,
                           ),
                         ),
                         Flexible(
                           child: buildTextField(
-                            hintText:"Last name",
+                            hintText: "Last name",
                             controller: lastNameController,
                           ),
                         ),
@@ -145,22 +149,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
 
                     buildTextField(
-                      hintText:"Username",
+                      hintText: "Username",
                       controller: usernameController,
                     ),
                     buildTextField(
-                      hintText:"Email address",
+                      hintText: "Email address",
                       controller: emailController,
                     ),
                     buildTextField(
-                      hintText:"Phone number",
+                      hintText: "Phone number",
                       controller: phoneController,
                     ),
                     buildTextField(
-                      hintText:"Password",
+                      hintText: "Password",
                       controller: passwordController,
                     ),
-                    buildTextField(hintText: "Confirm password",
+                    buildTextField(
+                        hintText: "Confirm password",
                         controller: confirmPasswordController),
                     SizedBox(
                       height: 15,

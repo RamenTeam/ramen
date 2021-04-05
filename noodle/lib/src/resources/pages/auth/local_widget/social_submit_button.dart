@@ -5,13 +5,15 @@ class SocialSubmitButton extends StatelessWidget {
   final String media;
   final Color color;
   final Widget icon;
-  final Function onPressCallback;
+  final void Function() onPressCallback;
 
-  SocialSubmitButton({Key key,
-    @required this.color,
-    @required this.media,
-    @required this.icon,
-    @required this.onPressCallback}):super(key : key);
+  SocialSubmitButton(
+      {Key? key,
+      required this.color,
+      required this.media,
+      required this.icon,
+      required this.onPressCallback})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

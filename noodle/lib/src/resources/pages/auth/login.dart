@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
-import 'package:noodle/src/models/ramen_api_response.dart';
+import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
@@ -16,6 +16,10 @@ import 'package:noodle/src/utils/route_builder.dart';
 import 'local_build/build_divider.dart';
 
 class LoginScreen extends StatefulWidget {
+  static Route route() {
+    return MaterialPageRoute<void>(builder: (_) => LoginScreen());
+  }
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -111,9 +115,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    buildTextField(hintText: "Username or Email Address",
+                    buildTextField(
+                        hintText: "Username or Email Address",
                         controller: usernameController),
-                    buildTextField(hintText: "Password", controller: passwordController),
+                    buildTextField(
+                        hintText: "Password", controller: passwordController),
                     SizedBox(
                       height: 15,
                     ),
@@ -195,6 +201,4 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
-
-
 }
