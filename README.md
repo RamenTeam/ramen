@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <strong>Take a fast-paced conversation lik eating Ramen 🍜</strong>
+  <strong>Take a fast-paced conversation like eating Ramen 🍜</strong>
 </p>
 
 <h3 align="center">
