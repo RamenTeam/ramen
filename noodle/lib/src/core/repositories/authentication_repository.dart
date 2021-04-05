@@ -32,14 +32,14 @@ class AuthenticationRepository {
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpFailure] if an exception occurs.
-  Future<http.Response> register(
-      {username,
-      password,
-      confirmPassword,
-      email,
-      phone,
-      firstName,
-      lastName}) async {
+  Future<http.Response> register({
+    username,
+    password,
+    email,
+    phone,
+    firstName,
+    lastName,
+  }) async {
     try {
       http.Response res = await http.post(
         Uri.https(ApiEndpoint.authority, ApiEndpoint.register),

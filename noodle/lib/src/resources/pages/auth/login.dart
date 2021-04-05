@@ -7,6 +7,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
+import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
@@ -36,43 +37,43 @@ class _LoginScreenState extends State<LoginScreen> {
   ///@khaitruong922
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final authRepo = AuthenticationRepository();
   String loginMessage = "";
   Color loginMessageColor = Colors.red;
 
   Future<void> login() async {
     String username = usernameController.text;
     String password = passwordController.text;
-    http.Response res = await http.post(
-      Uri.https(ApiEndpoint.authority, ApiEndpoint.login),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        'data': {
-          'email': username,
-          'password': password,
-        },
-      }),
+    http.Response res = await authRepo.logInWithEmailAndPassword(
+      email: username,
+      password: password,
     );
-    if (res.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(res.body);
-      // Register account successfully
-      if (json == null) {
-        print("Login sucessfully!");
-        setState(() {
-          loginMessage = "Login successfully!";
-          loginMessageColor = Colors.green;
-        });
-      } else {
-        RamenApiResponse ramenApiResponse = RamenApiResponse.fromJson(json);
-        setState(() {
-          loginMessage = ramenApiResponse.message;
-          loginMessageColor = Colors.red;
-        });
-      }
-    } else {
-      print("API error");
+    if (res.statusCode != 200) {
+      setErrorMessage("Bad request!");
+      return;
     }
+    dynamic json = jsonDecode(res.body);
+    // Login failed
+    if (json != null) {
+      RamenApiResponse ramenApiResponse = RamenApiResponse.fromJson(json);
+      setErrorMessage(ramenApiResponse.message);
+      return;
+    }
+    setSuccessMessage("Login account successfully!");
+  }
+
+  void setErrorMessage(String message) {
+    setState(() {
+      loginMessage = message;
+      loginMessageColor = Colors.red;
+    });
+  }
+
+  void setSuccessMessage(String message) {
+    setState(() {
+      loginMessage = message;
+      loginMessageColor = Colors.green;
+    });
   }
 
   void navigateToRegister() {

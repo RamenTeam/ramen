@@ -13,6 +13,8 @@ import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_butto
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/login.dart';
 import 'package:noodle/src/utils/route_builder.dart';
+import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/utils/validator.dart';
 
 class RegisterScreen extends StatefulWidget {
   static Route route() {
@@ -32,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final confirmPasswordController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  final authRepo = AuthenticationRepository();
   String registerMessage = "";
   Color registerMessageColor = Colors.red;
 
@@ -43,46 +46,78 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String phone = phoneController.text;
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
-    if (password != confirmPassword) {
-      // Display error message
+
+    String firstNameError = Validator.validateName(firstName);
+    if (firstNameError.isNotEmpty) {
+      setErrorMessage(firstNameError);
+      return;
+    }
+    String lastNameError = Validator.validateUsername(lastName);
+    if (lastNameError.isNotEmpty) {
+      setErrorMessage(lastNameError);
+      return;
+    }
+    String usernameError = Validator.validateUsername(username);
+    if (usernameError.isNotEmpty) {
+      setErrorMessage(usernameError);
+      return;
+    }
+    String emailError = Validator.validateEmail(email);
+    if (emailError.isNotEmpty) {
+      setErrorMessage(emailError);
+      return;
+    }
+    String phoneError = Validator.validateUsername(phone);
+    if (phoneError.isNotEmpty) {
+      setErrorMessage(phoneError);
       return;
     }
 
-    http.Response res = await http.post(
-      Uri.https(ApiEndpoint.authority, ApiEndpoint.register),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        "data": {
-          'username': username,
-          'password': password,
-          'email': email,
-          'phoneNumber': phone,
-          'firstName': firstName,
-          'lastName': lastName,
-        },
-      }),
-    );
-    if (res.statusCode == 200) {
-      Map<String, dynamic> json = jsonDecode(res.body);
-      // Register account successfully
-      if (json == null) {
-        print("Register account sucessfully!");
-        setState(() {
-          registerMessage = "Register account successfully!";
-          registerMessageColor = Colors.green;
-        });
-      } else {
-        RamenApiResponse ramenApiResponse = RamenApiResponse.fromJson(json);
-        setState(() {
-          registerMessage = ramenApiResponse.message;
-          registerMessageColor = Colors.red;
-        });
-      }
-    } else {
-      print("API error");
+    String passwordError = Validator.validatePassword(password);
+    if (passwordError.isNotEmpty) {
+      setErrorMessage(passwordError);
+      return;
     }
+
+    if (password != confirmPassword) {
+      setErrorMessage("Passwords do not match!");
+      return;
+    }
+
+    http.Response res = await authRepo.register(
+      username: username,
+      password: password,
+      email: email,
+      phone: phone,
+      firstName: firstName,
+      lastName: lastName,
+    );
+    if (res.statusCode != 200) {
+      setErrorMessage("Bad request!");
+      return;
+    }
+    dynamic json = jsonDecode(res.body);
+    // Register failed
+    if (json != null) {
+      RamenApiResponse ramenApiResponse = RamenApiResponse.fromJson(json);
+      setErrorMessage(ramenApiResponse.message);
+      return;
+    }
+    setSuccessMessage("Register account successfully!");
+  }
+
+  void setErrorMessage(String message) {
+    setState(() {
+      registerMessage = message;
+      registerMessageColor = Colors.red;
+    });
+  }
+
+  void setSuccessMessage(String message) {
+    setState(() {
+      registerMessage = message;
+      registerMessageColor = Colors.green;
+    });
   }
 
   void navigateToLogin() {
@@ -103,6 +138,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     phoneController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
+    authRepo.dispose();
     super.dispose();
   }
 
