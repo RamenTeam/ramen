@@ -2,13 +2,14 @@ import 'package:flutter/cupertino.dart';
 
 class BasicRoute extends PageRouteBuilder {
   final Widget page;
-  BasicRoute({this.page})
+  BasicRoute({required this.page})
       : super(pageBuilder: (context, animation, secondaryAnimation) => page);
 }
 
 class SlideRoute extends PageRouteBuilder {
   final Widget page;
-  SlideRoute({this.page})
+
+  SlideRoute({required this.page})
       : super(
             transitionDuration: Duration(milliseconds: 500),
             pageBuilder: (context, animation, secondaryAnimation) => page,
@@ -33,7 +34,8 @@ class SlideRoute extends PageRouteBuilder {
 
 class FadeRoute extends PageRouteBuilder {
   final Widget page;
-  FadeRoute({this.page})
+
+  FadeRoute({required this.page})
       : super(
           transitionDuration: Duration(seconds: 1),
           pageBuilder: (context, animation, secondaryAnimation) => page,

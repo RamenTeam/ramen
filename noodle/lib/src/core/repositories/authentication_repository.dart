@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
@@ -13,18 +14,35 @@ class LogInWithEmailAndPasswordFailure implements Exception {}
 /// Thrown during the logout process if a failure occurs.
 class LogOutFailure implements Exception {}
 
+enum AuthenticationStatus { unknown, authenticated, unauthenticated }
+
 /// {@template authentication_repository}
 /// Repository which manages user authentication.
 /// {@endtemplate}
 class AuthenticationRepository {
+  final _controller = StreamController<AuthenticationStatus>();
+
   /// {@macro authentication_repository}
   AuthenticationRepository();
+
+  Stream<AuthenticationStatus> get status async* {
+    await Future<void>.delayed(const Duration(seconds: 1));
+    yield AuthenticationStatus.unauthenticated;
+    yield* _controller.stream;
+  }
 
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpFailure] if an exception occurs.
-  Future<http.Response> register({username, password, confirmPassword, email, phone, firstName, lastName}) async {
-    try{
+  Future<http.Response> register(
+      {username,
+      password,
+      confirmPassword,
+      email,
+      phone,
+      firstName,
+      lastName}) async {
+    try {
       http.Response res = await http.post(
         Uri.https(ApiEndpoint.authority, ApiEndpoint.register),
         headers: <String, String>{
@@ -41,15 +59,16 @@ class AuthenticationRepository {
           },
         }),
       );
+
       return res;
-    } on Exception{
+    } on Exception {
       throw SignUpFailure();
     }
   }
 
   Future<http.Response> logInWithEmailAndPassword({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) async {
     assert(email != null && password != null);
     try {
@@ -65,6 +84,12 @@ class AuthenticationRepository {
           },
         }),
       );
+
+      if (res.statusCode == 200) {
+        log("Logged In Successfully -> Authenticated");
+        _controller.add(AuthenticationStatus.authenticated);
+      }
+
       return res;
     } on Exception {
       throw LogInWithEmailAndPasswordFailure();
@@ -76,9 +101,17 @@ class AuthenticationRepository {
       http.Response res = await http.post(
         Uri.https(ApiEndpoint.authority, ApiEndpoint.logout),
       );
+
+      if (res.statusCode == 200) {
+        log("Logged In Successfully -> Authenticated");
+        _controller.add(AuthenticationStatus.unauthenticated);
+      }
+
       return res;
     } on Exception {
       throw LogOutFailure();
     }
   }
+
+  void dispose() => _controller.close();
 }

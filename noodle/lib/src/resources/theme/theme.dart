@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noodle/src/resources/theme/dark_theme.dart';
 import 'package:noodle/src/resources/theme/light_theme.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
 
 enum AppThemeKeys { light, dark }
@@ -16,10 +17,11 @@ class AppTheme extends ChangeNotifier {
 
   AppThemeKeys _themeKey = AppThemeKeys.light;
 
-  ThemeData get currentTheme => _themes[_themeKey];
+  ThemeData? get currentTheme => _themes[_themeKey];
+
   AppThemeKeys get currentThemeKey => _themeKey;
 
-  ThemeData getTheme(AppThemeKeys key) {
+  ThemeData? getTheme(AppThemeKeys key) {
     return _themes[key];
   }
 

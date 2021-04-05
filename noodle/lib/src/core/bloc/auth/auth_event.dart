@@ -1,29 +1,20 @@
-abstract class AuthEvent {}
+import 'package:equatable/equatable.dart';
+import 'package:noodle/src/core/repositories/authentication_repository.dart';
 
-class LoginEvent extends AuthEvent {
-  final email;
-  final password;
-  LoginEvent({this.email, this.password});
+abstract class AuthenticationEvent extends Equatable {
+  const AuthenticationEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
-class LogoutEvent extends AuthEvent {}
+class AuthenticationStatusChanged extends AuthenticationEvent {
+  const AuthenticationStatusChanged(this.status);
 
-class SignUpEvent extends AuthEvent {
-  final username;
-  final password;
-  final confirmPassword;
-  final email;
-  final phone;
-  final firstName;
-  final lastName;
-  SignUpEvent({this.username, this.email, this.password, this.confirmPassword, this.phone, this.firstName, this.lastName});
+  final AuthenticationStatus status;
+
+  @override
+  List<Object> get props => [status];
 }
 
-class ForgotPasswordEvent extends AuthEvent {}
-
-class ResendCodeEvent extends AuthEvent {
-  final email;
-  ResendCodeEvent({this.email});
-}
-
-class ResetStateEvent extends AuthEvent {}
+class AuthenticationLogoutRequested extends AuthenticationEvent {}

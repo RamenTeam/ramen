@@ -1,31 +1,24 @@
-abstract class AuthState {}
+import 'package:equatable/equatable.dart';
+import 'package:noodle/src/core/models/User.dart';
+import 'package:noodle/src/core/repositories/authentication_repository.dart';
 
-class LoadingLogoutState extends AuthState {}
+class AuthenticationState extends Equatable {
+  const AuthenticationState._({
+    this.status = AuthenticationStatus.unknown,
+    this.user = User.empty,
+  });
 
-class LoadingLoginState extends AuthState {}
+  const AuthenticationState.unknown() : this._();
 
-class ForcingLoginState extends AuthState {}
+  const AuthenticationState.authenticated(User user)
+      : this._(status: AuthenticationStatus.authenticated, user: user);
 
-class UnlogedState extends AuthState {}
+  const AuthenticationState.unauthenticated()
+      : this._(status: AuthenticationStatus.unauthenticated);
 
-class LogedState extends AuthState {}
+  final AuthenticationStatus status;
+  final User user;
 
-class LoginErrorState extends AuthState {}
-
-class LoadingSignUpState extends AuthState {}
-
-class LoadedSignUpState extends AuthState {}
-
-class ErrorSignUpState extends AuthState {}
-
-class LoadingForgotPasswordState extends AuthState {}
-
-class LoadedForgotPasswordState extends AuthState {}
-
-class ErrorForgotPasswordState extends AuthState {}
-
-class LoadingResendCodeState extends AuthState {}
-
-class LoadedResendCodeState extends AuthState {}
-
-class ErrorResendCodeState extends AuthState {}
+  @override
+  List<Object> get props => [status, user];
+}

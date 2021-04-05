@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget buildTextField({String hintText, TextEditingController controller}) {
+Widget buildTextField(
+    {required String hintText, required TextEditingController controller}) {
   return Padding(
       padding: EdgeInsets.symmetric(vertical: 5),
       child: TextField(
@@ -11,8 +12,7 @@ Widget buildTextField({String hintText, TextEditingController controller}) {
               borderSide: BorderSide(color: Colors.grey, width: 0.3),
             ),
             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border:
-            OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
             hintText: hintText),
       ));
 }
