@@ -139,6 +139,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             controller: firstNameController,
                           ),
                         ),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Flexible(
                           child: buildTextField(
                             hintText: "Last name",
@@ -189,7 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     buildDivider(text: "Created with"),
                     SizedBox(height: 20),
                     SocialSubmitButton(
-                        media: "Facebook",
+                        text: "Sign up with Facebook",
                         color: HexColor("#3b5999"),
                         icon: FaIcon(
                           FontAwesomeIcons.facebookF,
@@ -199,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onPressCallback: () {}),
                     SizedBox(height: 4),
                     SocialSubmitButton(
-                        media: "Google",
+                        text: "Sign up with Google",
                         color: HexColor("#dd4b39"),
                         icon: FaIcon(FontAwesomeIcons.google,
                             color: Colors.white, size: 14),

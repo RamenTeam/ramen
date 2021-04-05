@@ -7,6 +7,7 @@ import 'package:noodle/src/core/bloc/auth/auth_state.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/pages/auth/register.dart';
 import 'package:noodle/src/resources/pages/auth/login.dart';
+import 'package:noodle/src/resources/pages/navigation/home_navigation.dart';
 import 'package:noodle/src/resources/pages/splash/splash.dart';
 
 class AuthLanding extends StatefulWidget {
@@ -17,13 +18,6 @@ class AuthLanding extends StatefulWidget {
 }
 
 class _AuthLandingState extends State<AuthLanding> {
-  /*void fetchUserData({required BuildContext context}) async {
-    // Do some API calls during loading state
-    context
-        .read<AuthenticationBloc>()
-        .add(AuthenticationStatusChanged(AuthenticationStatus.AUTHENTICATED));
-  }*/
-
   @override
   void initState() {
     super.initState();
@@ -37,7 +31,7 @@ class _AuthLandingState extends State<AuthLanding> {
             listener: (context, state) {
               switch (state.status) {
                 case AuthenticationStatus.AUTHENTICATED:
-                  Navigator.pushReplacement(context, RegisterScreen.route());
+                  Navigator.pushReplacement(context, HomeNavigation.route());
                   break;
                 case AuthenticationStatus.UNAUTHENTICATED:
                   Navigator.pushReplacement(context, LoginScreen.route());

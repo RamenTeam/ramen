@@ -21,7 +21,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
     ProfileScreen(),
   ];
 
-  late AppTheme _theme;
+  AppTheme? _theme;
 
   @override
   void didChangeDependencies() {
@@ -46,8 +46,6 @@ class _HomeNavigationState extends State<HomeNavigation> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: tabIndex,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.yellow,
-          selectedItemColor: Colors.black,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
