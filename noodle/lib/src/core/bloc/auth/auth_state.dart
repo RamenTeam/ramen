@@ -2,7 +2,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
-import 'package:noodle/src/core/repositories/authentication_repository.dart';
 
 class AuthenticationState extends Equatable {
   const AuthenticationState._({

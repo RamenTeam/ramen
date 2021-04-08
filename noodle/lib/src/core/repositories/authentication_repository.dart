@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
@@ -25,7 +26,7 @@ class AuthenticationRepository {
 
   Stream<AuthenticationStatus> get status async* {
     await Future<void>.delayed(const Duration(seconds: 1));
-    yield AuthenticationStatus.FETCHING_CURRENT_USER;
+    yield AuthenticationStatus.UNAUTHENTICATED;
     yield* _controller.stream;
   }
 

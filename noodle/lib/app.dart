@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
