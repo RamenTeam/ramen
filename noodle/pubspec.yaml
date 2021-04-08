@@ -41,6 +41,7 @@ dependencies:
   meta: ^1.1.8
   flutter_bloc: ^6.1.0
   get_it: ^3.0.3
+  textfield_tags: ^1.1.1
 
 
 dev_dependencies:
