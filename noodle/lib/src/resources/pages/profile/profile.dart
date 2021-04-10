@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -116,7 +118,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Image.network(
               "https://pbs.twimg.com/profile_images/1349755150316040194/VpUCtbH8_400x400.jpg"),
         )),
-        buildInfoSection()
+        buildInfoSection(),
+        Container(
+          height: 60,
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            actions: [
+              IconButton(
+                  icon: FaIcon(
+                    FontAwesomeIcons.edit,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {})
+            ],
+          ),
+        )
       ],
     ));
   }

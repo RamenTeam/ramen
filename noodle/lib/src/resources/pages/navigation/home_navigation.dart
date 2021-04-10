@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
@@ -48,12 +49,16 @@ class _HomeNavigationState extends State<HomeNavigation> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: FaIcon(FontAwesomeIcons.globeAsia),
               label: "Home",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
+              icon: FaIcon(FontAwesomeIcons.userAstronaut),
               label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: FaIcon(FontAwesomeIcons.userAstronaut),
+              label: 'Settings',
             ),
           ],
           onTap: onTabSelected,
