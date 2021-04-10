@@ -57,7 +57,7 @@ class LoginResolver {
 			};
 		}
 
-		if (session.userId) {
+		if (session?.userId) {
 			return {
 				path: "login",
 				message: CustomMessage.userHasLoggedIn,
@@ -65,7 +65,6 @@ class LoginResolver {
 		}
 
 		session.userId = user.id;
-
 		if (request?.sessionID) {
 			redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, user.id);
 		}
