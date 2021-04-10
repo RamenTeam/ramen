@@ -30,11 +30,30 @@ class RamenApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primaryColor: HexColor("FCBF30"),
-            accentColor: Colors.white,
+            accentColor: HexColor("121212"),
             bottomNavigationBarTheme: BottomNavigationBarThemeData(
-                backgroundColor: Colors.white,
+                backgroundColor: HexColor("121212"),
                 selectedItemColor: HexColor("FCBF30"),
-                unselectedItemColor: Colors.grey)),
+                unselectedItemColor: Colors.grey),
+            appBarTheme: AppBarTheme(
+                titleTextStyle: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
+            textTheme: TextTheme(
+                headline1: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
+                headline2: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                ),
+                headline3: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+                bodyText1: TextStyle(
+                    color: Colors.white.withAlpha(150),
+                    fontWeight: FontWeight.w400))),
         home: BlocProvider(
             create: (_) => AuthenticationBloc(
                   authenticationRepository: authenticationRepository,

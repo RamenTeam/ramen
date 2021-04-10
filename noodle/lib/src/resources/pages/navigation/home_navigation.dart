@@ -44,6 +44,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
     return SafeArea(
       child: Scaffold(
         body: tabs[tabIndex],
+        backgroundColor: Theme.of(context).accentColor,
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: tabIndex,
           type: BottomNavigationBarType.fixed,
@@ -55,10 +56,6 @@ class _HomeNavigationState extends State<HomeNavigation> {
             BottomNavigationBarItem(
               icon: FaIcon(FontAwesomeIcons.userAstronaut),
               label: 'Profile',
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.userAstronaut),
-              label: 'Settings',
             ),
           ],
           onTap: onTabSelected,

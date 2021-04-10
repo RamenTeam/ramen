@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:textfield_tags/textfield_tags.dart';
+import 'package:noodle/src/resources/pages/profile/local_build/build_bio.dart';
+import 'package:noodle/src/resources/pages/profile/local_build/build_hobbies.dart';
+import 'package:noodle/src/resources/pages/profile/local_widget/info_header.dart';
+import 'package:noodle/src/resources/pages/setting/setting.dart';
 
 class ProfileScreen extends StatefulWidget {
   ProfileScreen({Key? key}) : super(key: key);
@@ -19,31 +23,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    Widget buildInfoHeader() {
-      return ListTile(
-        leading: FlutterLogo(),
-        title: Text(
-          'John Doe',
-          style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-        ),
-        subtitle: Text('One-line with leading widget'),
-        trailing: ElevatedButton(
-          onPressed: () {},
-          child: Text("Connect", style: TextStyle(fontWeight: FontWeight.bold)),
-          style: ButtonStyle(
-              elevation: MaterialStateProperty.all<double>(0.0),
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).primaryColor),
-              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      side:
-                          BorderSide(color: Theme.of(context).primaryColor)))),
-        ),
-      );
-    }
-
     Widget buildInfoSection() {
       return Container(
           margin: EdgeInsets.only(top: screenSize.height / 2.2),
@@ -56,56 +35,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ListView(
                 children: [
                   SizedBox(
-                    height: 30,
+                    height: 20,
                   ),
-                  buildInfoHeader(),
-                  Container(
-                    child: ListTile(
-                      title: Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          child: Text(
-                            "Bio",
-                            style: TextStyle(
-                                fontSize: 20.0, fontWeight: FontWeight.bold),
-                          )),
-                      subtitle: Text(
-                        "The overflow property's behavior is affected by the softWrap argument. "
-                        "If the softWrap is true or null, the glyph causing overflow, and those that follow, "
-                        "will not be rendered. Otherwise, it will be shown with the given overflow option.",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 15.0),
-                      child: ListTile(
-                          title: Container(
-                              margin: EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                "Hoobies",
-                                style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold),
-                              )),
-                          subtitle: TextFieldTags(
-                              tagsStyler: TagsStyler(
-                                tagTextStyle: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                                tagDecoration: BoxDecoration(
-                                  color: Colors.amberAccent,
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                tagCancelIcon: Icon(Icons.cancel,
-                                    size: 16.0, color: Colors.white),
-                                tagPadding: const EdgeInsets.all(10.0),
-                              ),
-                              textFieldStyler: TextFieldStyler(),
-                              onTag: (tag) {},
-                              onDelete: (tag) {})),
-                    ),
-                  ),
+                  ProfileInfoHeader(),
+                  buildBio(context),
+                  /* As we don't have this feature yet so I will comment it out @chungquantin
+                  buildHobbies()
+                  */
                 ],
               )));
     }
@@ -127,10 +63,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             actions: [
               IconButton(
                   icon: FaIcon(
-                    FontAwesomeIcons.edit,
+                    FontAwesomeIcons.cog,
                     color: Colors.white,
                   ),
-                  onPressed: () {})
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SettingScreen()));
+                  })
             ],
           ),
         )
