@@ -1,6 +1,6 @@
 import { Field, InputType } from "type-graphql";
 @InputType()
-export class ChangePasswordDto {
+export class ForgotPasswordChangeDto {
 	@Field()
 	key: string;
 

@@ -19,6 +19,7 @@ const mockData: RegisterDto = {
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
 	phoneNumber: faker.phone.phoneNumber(),
+	bio: "",
 };
 
 testFrame(() => {
@@ -64,6 +65,7 @@ testFrame(() => {
 				lastName: faker.internet.userName(),
 				username: faker.internet.userName(),
 				phoneNumber: faker.phone.phoneNumber(),
+				bio: "",
 			};
 			await client1?.user.register(tempData);
 			await getRepository(User).update(

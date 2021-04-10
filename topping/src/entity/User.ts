@@ -37,6 +37,10 @@ export class User extends BaseEntity {
 	@Column("bool", { default: false })
 	forgotPasswordLock: boolean;
 
+	@Field(() => String)
+	@Column("varchar", { default: "", length: 150 })
+	bio: string;
+
 	@Field(() => String!)
 	@Column("text", { unique: true })
 	phoneNumber: string;

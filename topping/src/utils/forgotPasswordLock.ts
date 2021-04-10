@@ -9,6 +9,7 @@ export const forgotPasswordLockAccount = async (
 	session?: Session
 ) => {
 	// can't login
+	console.log(userId);
 	await User.update({ id: userId }, { forgotPasswordLock: true });
 	// remove all sessions
 	await removeAllUserSession(userId, session as Session, redis);

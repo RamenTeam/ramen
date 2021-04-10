@@ -2,14 +2,14 @@ import { Arg, Resolver, Mutation, UseMiddleware, Ctx } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { UserRepository } from "../../../repository/user/UserRepository";
 import { User } from "../../../../entity/User";
-import { ForgotPasswordDto } from "./send_forgot_password_email.dto";
+import { SendForgotPasswordDto } from "./send_forgot_password_email.dto";
 import { yupValidateMiddleware } from "../../../middleware";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { forgotPasswordLockAccount } from "../../../../utils/forgotPasswordLock";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import NodeMailerService from "../../../../helper/email";
 import { YUP_SEND_FORGOT_PASSWORD_EMAIL } from "./send_forgot_password_email.validate";
-import { ChangePasswordDto } from "./forgot_password_change.dto";
+import { ForgotPasswordChangeDto } from "./forgot_password_change.dto";
 import { YUP_CHANGE_PASSWORD } from "./forgot_password_change.validate";
 import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { FORGOT_PASSWORD_PREFIX } from "../../../../constants/global-variables";
@@ -25,7 +25,7 @@ class ForgotPasswordResolver {
 	@UseMiddleware(yupValidateMiddleware(YUP_SEND_FORGOT_PASSWORD_EMAIL))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async sendForgotPasswordEmail(
-		@Arg("data") { email }: ForgotPasswordDto,
+		@Arg("data") { email }: SendForgotPasswordDto,
 		@Ctx() { redis }: GQLContext
 	) {
 		const user = await this.userRepository.findOne({ where: { email } });
@@ -35,6 +35,7 @@ class ForgotPasswordResolver {
 				message: CustomMessage.userIsNotFound,
 			};
 		}
+		console.log(user);
 		await forgotPasswordLockAccount(user.id, redis);
 		// Send reset password link to email
 		const link = await new NodeMailerService().createForgotPasswordLink(
@@ -57,7 +58,7 @@ class ForgotPasswordResolver {
 	@UseMiddleware(yupValidateMiddleware(YUP_CHANGE_PASSWORD))
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async forgotPasswordChange(
-		@Arg("data") { key, newPassword }: ChangePasswordDto,
+		@Arg("data") { key, newPassword }: ForgotPasswordChangeDto,
 		@Ctx() { redis }: GQLContext
 	) {
 		const userId = await redis.get(`${FORGOT_PASSWORD_PREFIX}${key}`);

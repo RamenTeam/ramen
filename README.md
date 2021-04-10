@@ -35,7 +35,6 @@
 [Noodle] Cannot run with sound null safety because dependencies don't support null safety
 ![image](https://user-images.githubusercontent.com/56880684/113985176-1624b780-9876-11eb-9be7-342ca98b7235.png)
 
-
 ## Ramen Artists
 
 Contributors helping to review/merge pull requests:
@@ -43,5 +42,6 @@ Contributors helping to review/merge pull requests:
 - [@chungquantin](https://github.com/chungquantin)
 - [@khaitruong922](https://github.com/khaitruong922)
 - [@Kasturez](https://github.com/Kasturez)
+- [@tratng02](https://github.com/tratng02)
 
 <img src="https://media.giphy.com/media/xTiQyhBXTPwqvmURAQ/giphy.gif" width="100"/>

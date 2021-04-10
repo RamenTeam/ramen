@@ -4,6 +4,8 @@ import * as GQLModules from "../modules/graphql";
 import { LoginDto } from "../modules/resolvers/user/login/login.dto";
 import { RegisterDto } from "../modules/resolvers/user/register/register.dto";
 import { GetUserDto } from "../modules/resolvers/user/get_user/get_user.dto";
+import { SendForgotPasswordDto } from "../modules/resolvers/user/forgot_password/send_forgot_password_email.dto";
+import { ForgotPasswordChangeDto } from "../modules/resolvers/user/forgot_password/forgot_password_change.dto";
 interface GQL {
 	mutations: any;
 	queries: any;
@@ -38,19 +40,25 @@ export class TestClient {
 	}
 
 	user = {
+		me: async () => await this.query("me"),
+
+		getUser: async (args: GetUserDto) =>
+			await this.query<GetUserDto>("getUser", args),
+
+		getUsers: async () => await this.query("getUsers"),
+
+		logout: async () => await this.mutation("logout", null),
+
 		login: async (args: LoginDto) =>
 			await this.mutation<LoginDto>("login", args),
 
 		register: async (args: RegisterDto) =>
 			await this.mutation<RegisterDto>("register", args),
 
-		me: async () => await this.query("me"),
+		sendForgotPasswordEmail: async (args: SendForgotPasswordDto) =>
+			await this.mutation("sendForgotPasswordEmail", args),
 
-		logout: async () => await this.mutation("logout", null),
-
-		getUser: async (args: GetUserDto) =>
-			await this.query<GetUserDto>("getUser", args),
-
-		getUsers: async () => await this.query("getUsers"),
+		forgotPasswordChange: async (args: ForgotPasswordChangeDto) =>
+			await this.mutation("forgotPasswordChange", args),
 	};
 }

@@ -7,7 +7,6 @@ import { getRepository } from "typeorm";
 import { User } from "../../../../entity/User";
 import * as bcrypt from "bcrypt";
 import { RegisterDto } from "./register.dto";
-import { logger } from "../../../../config/winston.config";
 
 let client: TestClient | null = null;
 
@@ -18,8 +17,9 @@ const mockData: RegisterDto = {
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
 	phoneNumber: "123456789123",
+	bio: "1".repeat(130),
 };
-// TODO username test
+
 testFrame(() => {
 	beforeAll(async () => {
 		client = new TestClient();
@@ -143,6 +143,7 @@ testFrame(() => {
 				lastName: "",
 				username: "tin123",
 				phoneNumber: "1231231231",
+				bio: "1".repeat(130),
 			});
 			expect(yupErrorResponse(data)).toEqual([
 				{

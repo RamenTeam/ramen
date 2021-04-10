@@ -10,6 +10,8 @@ type UserSchema {
   username: String!
   isVerified: Boolean!
   isBanned: Boolean!
+  forgotPasswordLock: Boolean!
+  bio: String!
   phoneNumber: String!
   password: String!
   firstName: String!
@@ -35,6 +37,8 @@ type Mutation {
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
   register(data: RegisterDto!): ErrorMessage
+  sendForgotPasswordEmail(data: SendForgotPasswordDto!): ErrorMessage
+  forgotPasswordChange(data: ForgotPasswordChangeDto!): ErrorMessage
 }
 
 type ErrorMessage {
@@ -52,6 +56,16 @@ input RegisterDto {
   lastName: String!
   username: String!
   email: String!
+  bio: String!
   password: String!
   phoneNumber: String!
+}
+
+input SendForgotPasswordDto {
+  email: String!
+}
+
+input ForgotPasswordChangeDto {
+  key: String!
+  newPassword: String!
 }

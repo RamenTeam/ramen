@@ -5,6 +5,8 @@ query me{
         username
         isVerified
         isBanned
+        forgotPasswordLock
+        bio
         phoneNumber
         password
         firstName

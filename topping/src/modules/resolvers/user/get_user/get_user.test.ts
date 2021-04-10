@@ -15,6 +15,7 @@ const mockData: RegisterDto = {
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
 	phoneNumber: "9798678564",
+	bio: "",
 };
 
 testFrame(() => {
@@ -67,6 +68,8 @@ testFrame(() => {
 						username: mockData.username,
 						isBanned: false,
 						phoneNumber: mockData.phoneNumber,
+						forgotPasswordLock: false,
+						bio: "",
 					});
 				});
 		});

@@ -3,6 +3,7 @@ import { TestClient } from "../../../../test-utils/TestClient";
 import * as faker from "faker";
 import { User } from "../../../../entity/User";
 import { RegisterDto } from "../register/register.dto";
+import { lorem } from "faker";
 
 let client: TestClient | null = null;
 
@@ -13,6 +14,7 @@ const mockData: RegisterDto = {
 	lastName: faker.internet.userName(),
 	username: faker.internet.userName(),
 	phoneNumber: "12312312421",
+	bio: "1".repeat(130),
 };
 
 testFrame(() => {
@@ -42,8 +44,10 @@ testFrame(() => {
 						status: user.status,
 						isVerified: false,
 						isBanned: false,
+						forgotPasswordLock: false,
 						phoneNumber: mockData.phoneNumber,
 						username: mockData.username,
+						bio: "1".repeat(130),
 					},
 				]);
 			});

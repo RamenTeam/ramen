@@ -15,6 +15,9 @@ export class RegisterDto {
 	email: string;
 
 	@Field()
+	bio: string;
+
+	@Field()
 	password: string;
 
 	@Field()

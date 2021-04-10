@@ -5,6 +5,8 @@ query getUser($data: GetUserDto!){
         username
         isVerified
         isBanned
+        forgotPasswordLock
+        bio
         phoneNumber
         password
         firstName
