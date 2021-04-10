@@ -1,7 +1,6 @@
 import { Redis } from "ioredis";
 import * as nodemailer from "nodemailer";
 import { v4 } from "uuid";
-import { logger } from "../config/winston.config";
 import {
 	EMAIL_CONFIRM_PREFIX,
 	FORGOT_PASSWORD_PREFIX,
@@ -26,6 +25,9 @@ export default class NodeMailerService implements EmailService {
 			auth: {
 				user: AUTH_ACCOUNT.user, // generated ethereal user
 				pass: AUTH_ACCOUNT.pass, // generated ethereal password
+			},
+			tls: {
+				rejectUnauthorized: false,
 			},
 		});
 

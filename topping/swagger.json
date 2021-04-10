@@ -163,6 +163,74 @@
           }
         }
       }
+    },
+    "/api/send-forgot-password-email": {
+      "post": {
+        "operationId": "sendForgotPasswordEmailMutation",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/SendForgotPasswordDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/forgot-password-change": {
+      "post": {
+        "operationId": "forgotPasswordChangeMutation",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/components/schemas/ForgotPasswordChangeDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -193,6 +261,8 @@
           "username",
           "isVerified",
           "isBanned",
+          "forgotPasswordLock",
+          "bio",
           "phoneNumber",
           "password",
           "firstName",
@@ -215,6 +285,12 @@
           },
           "isBanned": {
             "type": "boolean"
+          },
+          "forgotPasswordLock": {
+            "type": "boolean"
+          },
+          "bio": {
+            "type": "string"
           },
           "phoneNumber": {
             "type": "string"
@@ -247,6 +323,12 @@
             "type": "boolean"
           },
           "register": {
+            "$ref": "#/components/schemas/ErrorMessage"
+          },
+          "sendForgotPasswordEmail": {
+            "$ref": "#/components/schemas/ErrorMessage"
+          },
+          "forgotPasswordChange": {
             "$ref": "#/components/schemas/ErrorMessage"
           }
         }

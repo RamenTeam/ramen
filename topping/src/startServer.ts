@@ -4,7 +4,7 @@ import { GraphQLServer, Options } from "graphql-yoga";
 import { genSchema } from "./utils/genSchema";
 import { sessionConfiguration } from "./helper/session";
 import { REDIS } from "./helper/redis";
-import { DEV_BASE_URL } from "./constants/global-variables";
+// import { DEV_BASE_URL } from "./constants/global-variables";
 import { env, EnvironmentType } from "./utils/environmentType";
 import { formatValidationError } from "./utils/formatValidationError";
 import { GQLContext } from "./utils/graphql-utils";
@@ -13,10 +13,11 @@ import { genORMConnection } from "./config/orm.config";
 import { printSchema } from "graphql";
 import { genREST_API } from "./utils/genREST";
 import { logger } from "./config/winston.config";
-import NodeMailerService from "./helper/email";
+// import NodeMailerService from "./helper/email";
 import { genAPIDocument } from "./utils/genAPIDocument";
 import * as fs from "fs";
 import * as express from "express";
+import { DEV_BASE_URL } from "./constants/global-variables";
 
 export const startServer = async () => {
 	if (!env(EnvironmentType.PROD)) {
@@ -39,12 +40,14 @@ export const startServer = async () => {
 		}),
 	} as any);
 
-	const corsOptions = { credentials: true, origin: DEV_BASE_URL };
-
 	server.express.use(sessionConfiguration);
-
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
+
+	const corsOptions = {
+		credentials: true,
+		origin: DEV_BASE_URL,
+	};
 
 	genREST_API(schema, server.express);
 	genAPIDocument(server.express);

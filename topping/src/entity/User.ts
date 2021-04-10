@@ -9,6 +9,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { UserStatus } from "../shared/UserStatus.enum";
+import { env, EnvironmentType } from "../utils/environmentType";
 
 @ObjectType("UserSchema")
 @Entity("User")
@@ -26,7 +27,7 @@ export class User extends BaseEntity {
 	username: string;
 
 	@Field(() => Boolean!)
-	@Column("bool", { default: false })
+	@Column("bool", { default: true })
 	isVerified: boolean;
 
 	@Field(() => Boolean!)
