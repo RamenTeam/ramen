@@ -10,10 +10,10 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.orange[50],
+        backgroundColor: Theme.of(context).accentColor,
         body: Center(
           child: SpinKitWave(
-            color: Colors.orange,
+            color: Theme.of(context).primaryColor,
             size: 50.0,
           ),
         ),
