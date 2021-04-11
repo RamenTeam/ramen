@@ -18,13 +18,28 @@ import { genAPIDocument } from "./utils/genAPIDocument";
 import * as fs from "fs";
 import * as express from "express";
 import { DEV_BASE_URL } from "./constants/global-variables";
+import { Connection } from "typeorm";
 
 export const startServer = async () => {
 	if (!env(EnvironmentType.PROD)) {
 		await new REDIS().server.flushall();
 	}
 
-	const conn = await genORMConnection();
+	let retries = 5;
+	let conn: Connection | null = null;
+	while (retries) {
+		try {
+			conn = await genORMConnection();
+			break;
+		} catch (error) {
+			logger.error(error);
+			retries -= 1;
+			console.log(`retries left: ${retries}`);
+			// wait 5 seconds before retry
+			await new Promise((res) => setTimeout(res, 5000));
+		}
+	}
+
 	const schema = await genSchema();
 
 	const sdl = printSchema(schema);
@@ -91,7 +106,7 @@ export const startServer = async () => {
 								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								PORT: options.port,
-								DATABASE: conn.options.database,
+								DATABASE: conn?.options.database,
 						  }
 				);
 			}

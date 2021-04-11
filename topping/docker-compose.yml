@@ -7,10 +7,19 @@ services:
     ports:
       - 6379:6379
 
+  db:
+    image: postgres
+    environment:
+      POSTGRES_HOST: localhost
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: Cqt20011101
+    ports:
+      - 5432:5432
+
   node:
-    container_name: "ramen-topping"
-    image: "chungtin2001/ramen-topping:1.0"
-    # buid:
-    #     context: .
+    image: "ramen/topping:1.0"
+    depends_on:
+      - db
+      - redis
     ports:
       - 5000:5000

@@ -19,6 +19,10 @@ COPY package*.json ./
 
 RUN npm install
 
+COPY ormconfig.docker.json ./ormconfig.json
+
+COPY .env .
+
 COPY . .
 
 ENV PORT=5000
