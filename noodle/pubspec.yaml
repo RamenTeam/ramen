@@ -30,6 +30,7 @@ dependencies:
 
   flutter_spinkit: "^4.1.2"
   provider: ^4.0.5
+  http: ^0.12.0+2
   font_awesome_flutter: ^8.8.1
   flutter_platform_widgets: ^0.72.0
   # device_preview: ^0.6.2-beta
@@ -42,16 +43,15 @@ dependencies:
   flutter_bloc: ^6.1.0
   get_it: ^3.0.3
   textfield_tags: ^1.1.1
-  #TODO Necessary packages for graphql
-  graphql_flutter: 4.0.3-alpha.1
+  #TODO Necessary packages for src.core.graphql
+  gql_exec: #[latest-version]
+  gql_link: #[latest-version]
   graphql: ^4.0.1
-  gql_exec: ^0.3.0-nullsafety.1
 
 dev_dependencies:
-  flutter_launcher_icons: "^0.9.0"
+#  flutter_launcher_icons: "^0.9.0"
   change_app_package_name: ^0.1.2
   bloc_test: ^7.1.0
-
 
 flutter_icons:
   android: "launcher_icon"

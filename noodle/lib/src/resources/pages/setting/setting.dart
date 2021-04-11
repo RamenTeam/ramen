@@ -5,7 +5,6 @@ import 'package:noodle/src/resources/pages/setting/local_build/build_app_bar.dar
 import 'package:noodle/src/resources/pages/setting/local_build/build_setting_item.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 import 'local_build/build_setting_separator.dart';
 
@@ -20,7 +19,7 @@ class _SettingScreenState extends State<SettingScreen> {
     bool isSwitched = AppTheme.of(context).currentThemeKey == AppThemeKeys.dark;
 
     Widget buildAdaptiveSwitch() {
-      return PlatformSwitch(
+      return Switch(
         value: isSwitched,
         onChanged: (value) {
           setState(() {
@@ -29,14 +28,9 @@ class _SettingScreenState extends State<SettingScreen> {
             print(AppTheme.of(context).currentThemeKey);
           });
         },
-        material: (_, __) => MaterialSwitchData(
-          activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.5),
-          activeColor: Theme.of(context).primaryColor,
-          inactiveTrackColor: Colors.grey,
-        ),
-        cupertino: (_, __) => CupertinoSwitchData(
-          activeColor: Theme.of(context).primaryColor,
-        ),
+        activeTrackColor: Theme.of(context).primaryColor.withOpacity(0.5),
+        activeColor: Theme.of(context).primaryColor,
+        inactiveTrackColor: Colors.grey,
       );
     }
 
