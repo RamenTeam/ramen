@@ -71,7 +71,7 @@
 		"yup": "^0.32.8"
 	},
 	"scripts": {
-		"start": "SET NODE_ENV=production& node dist/src/index.js",
+		"start": "node dist/src/index.js",
 		"dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
 		"dev:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
 		"test": "jest --watch --runInBand",

@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+  redis:
+    container_name: "redis"
+    image: redis:alpine
+    ports:
+      - 6379:6379
+
+  node:
+    container_name: "ramen-topping"
+    image: "chungtin2001/ramen-topping:1.0"
+    # buid:
+    #     context: .
+    ports:
+      - 5000:5000
