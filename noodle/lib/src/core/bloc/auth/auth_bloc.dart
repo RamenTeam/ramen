@@ -97,13 +97,13 @@ class AuthenticationBloc
     required password,
     required firstName,
     required lastName,
-    required phone,
+    required phoneNumber,
   }) async {
     return _authenticationRepository.register(
       username: username,
       email: email,
       password: password,
-      phone: phone,
+      phoneNumber: phoneNumber,
       firstName: firstName,
       lastName: lastName,
     );

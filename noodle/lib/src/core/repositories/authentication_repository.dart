@@ -44,7 +44,7 @@ class AuthenticationRepository {
     required username,
     required password,
     required email,
-    required phone,
+    required phoneNumber,
     required firstName,
     required lastName,
   }) async {
@@ -56,7 +56,7 @@ class AuthenticationRepository {
         "username": username,
         "password": password,
         "email": email,
-        "phoneNumber": phone,
+        "phoneNumber": phoneNumber,
         "firstName": firstName,
         "lastName": lastName,
       },

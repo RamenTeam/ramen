@@ -29,7 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final emailController = TextEditingController();
-  final phoneController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   final authRepo = AuthenticationRepository();
   String registerMessage = "";
   Color registerMessageColor = Colors.red;
@@ -39,7 +39,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String password = passwordController.text;
     String confirmPassword = confirmPasswordController.text;
     String email = emailController.text;
-    String phone = phoneController.text;
+    String phoneNumber = phoneNumberController.text;
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
     RamenApiResponse? res =
@@ -47,7 +47,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       username: username,
       email: email,
       password: password,
-      phone: phone,
+      phoneNumber: phoneNumber,
       firstName: firstName,
       lastName: lastName,
     );
@@ -84,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     emailController.dispose();
-    phoneController.dispose();
+    phoneNumberController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
     authRepo.dispose();
@@ -146,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     buildTextField(
                       hintText: "Phone number",
-                      controller: phoneController,
+                      controller: phoneNumberController,
                     ),
                     buildTextField(
                       hintText: "Password",
