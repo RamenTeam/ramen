@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/bloc/auth/auth_event.dart';
 import 'package:noodle/src/core/bloc/auth/auth_state.dart';
+import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
@@ -14,7 +15,7 @@ class AuthenticationBloc
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
     required UserRepository userRepository,
-  })  : _authenticationRepository = authenticationRepository,
+  })   : _authenticationRepository = authenticationRepository,
         _userRepository = userRepository,
         super(const AuthenticationState.unknown()) {
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
@@ -78,5 +79,33 @@ class AuthenticationBloc
     } on Exception {
       return null;
     }
+  }
+
+  Future<RamenApiResponse?> logInWithEmailAndPassword({
+    required email,
+    required password,
+  }) async {
+    return _authenticationRepository.logInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+  }
+
+  Future<RamenApiResponse?> register({
+    required username,
+    required email,
+    required password,
+    required firstName,
+    required lastName,
+    required phone,
+  }) async {
+    return _authenticationRepository.register(
+      username: username,
+      email: email,
+      password: password,
+      phone: phone,
+      firstName: firstName,
+      lastName: lastName,
+    );
   }
 }

@@ -13,7 +13,7 @@ class UserRepository {
 
     final QueryResult res =
         await client.query(getQueryOptions(schema: getUserQuery, variables: {
-      "data": {"userId": "4236768d-aca8-4667-a2df-8f62247a0f68"}
+      "data": {"userId": "4236768d-aca8-4667-a2df-8f62247a8"}
     }));
 
     if (res.hasException) {
