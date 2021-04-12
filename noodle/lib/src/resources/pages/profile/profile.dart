@@ -50,6 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: Stack(
       children: [
         Container(
+            // does the container below needed? it may have create the empty space next to the img
             child: Container(
           child: Image.network(
               "https://pbs.twimg.com/profile_images/1349755150316040194/VpUCtbH8_400x400.jpg"),
