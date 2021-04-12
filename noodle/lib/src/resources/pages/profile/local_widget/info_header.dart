@@ -5,10 +5,12 @@ import 'package:provider/provider.dart';
 
 class ProfileInfoHeader extends StatelessWidget {
   ProfileInfoHeader({
+    required this.username,
     required this.firstName,
     required this.lastName,
   });
 
+  final String username;
   final String firstName;
   final String lastName;
 
@@ -21,7 +23,7 @@ class ProfileInfoHeader extends StatelessWidget {
         style: Theme.of(context).textTheme.headline1,
       ),
       subtitle: Text(
-        'One-line with leading widget',
+        '@$username',
         style: Theme.of(context).textTheme.headline2,
       ),
       trailing: ElevatedButton(

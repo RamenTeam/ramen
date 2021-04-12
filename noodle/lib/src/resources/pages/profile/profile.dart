@@ -35,6 +35,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileInfoHeader(
                   firstName: user.firstName,
                   lastName: user.lastName,
+                  username: user.username,
                 ),
                 buildBio(context: context, bio: user.bio),
                 /* As we don't have this feature yet so I will comment it out @chungquantin
