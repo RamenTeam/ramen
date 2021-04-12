@@ -11,6 +11,7 @@ import 'package:noodle/src/resources/pages/auth/register.dart';
 import 'package:noodle/src/resources/pages/auth/login.dart';
 import 'package:noodle/src/resources/pages/navigation/home_navigation.dart';
 import 'package:noodle/src/resources/pages/navigation/login_navigation.dart';
+import 'package:noodle/src/resources/pages/navigation/tab_navigation_provider.dart';
 import 'package:noodle/src/resources/pages/splash/splash.dart';
 
 class AuthLanding extends StatelessWidget {
@@ -18,6 +19,7 @@ class AuthLanding extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
+        return TabNavigationProvider(navigator: HomeNavigation());
         switch (state.status) {
           case AuthenticationStatus.AUTHENTICATED:
             return HomeNavigation();
