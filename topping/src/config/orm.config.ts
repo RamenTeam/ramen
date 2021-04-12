@@ -5,6 +5,7 @@ import { env, EnvironmentType } from "../utils/environmentType";
 export const genORMConnection = async (
 	logging: boolean = true
 ): Promise<Connection> => {
+	console.log("genORMConnection!!!!")
 	const connectionOptions = await getConnectionOptions(
 		env(EnvironmentType.PROD) ? "production-database" : "default"
 	);

@@ -21,6 +21,8 @@ import { DEV_BASE_URL } from "./constants/global-variables";
 import { Connection } from "typeorm";
 
 export const startServer = async () => {
+	console.log(process.env.NODE_ENV);
+
 	if (!env(EnvironmentType.PROD)) {
 		await new REDIS().server.flushall();
 	}

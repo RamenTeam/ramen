@@ -7,9 +7,14 @@ import "dotenv/config";
 
 export class REDIS {
 	isProduction = process.env.NODE_ENV?.trim() == EnvironmentType.PROD;
+	isStaging = process.env.NODE_ENV?.trim() == EnvironmentType.STAGE;
 	private readonly config: Redis.RedisOptions = {
 		port: this.isProduction ? parseInt(process.env.REDIS_PORT as string) : 6379, // Redis port
-		host: this.isProduction ? (process.env.REDIS_HOST as string) : "127.0.0.1", // Redis host,
+		host: this.isProduction
+			? process.env.REDIS_HOST
+			: this.isStaging
+			? process.env.REDIS_HOST
+			: "127.0.0.1", // Redis host,
 		password: this.isProduction ? (process.env.REDIS_PASSWORD as string) : "",
 	};
 	public server = new Redis(this.config);
@@ -17,6 +22,10 @@ export class REDIS {
 }
 
 export const redisPubSub = new RedisPubSub({
+	connection: {
+		host: process.env.REDIS_HOST || "127.0.0.1",
+		port: 6379,
+	},
 	publisher: new REDIS().server,
 	subscriber: new REDIS().client,
 });
