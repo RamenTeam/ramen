@@ -11,6 +11,7 @@ import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/schema/mutation_option.dart';
 import 'package:noodle/src/core/schema/mutations/login.mutation.dart';
+import 'package:noodle/src/core/schema/mutations/register.mutation.dart';
 import 'package:noodle/src/core/schema/queries/get_user.query.dart';
 
 // @chungquantin
@@ -32,7 +33,6 @@ class AuthenticationRepository {
   AuthenticationRepository();
 
   Stream<AuthenticationStatus> get status async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.FETCHING_CURRENT_USER;
     yield* _controller.stream;
   }
@@ -40,36 +40,48 @@ class AuthenticationRepository {
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpFailure] if an exception occurs.
-  Future<http.Response> register({
-    username,
-    password,
-    email,
-    phone,
-    firstName,
-    lastName,
+  Future<RamenApiResponse?> register({
+    required username,
+    required password,
+    required email,
+    required phone,
+    required firstName,
+    required lastName,
   }) async {
-    try {
-      http.Response res = await http.post(
-        Uri.https(ApiEndpoint.authority, ApiEndpoint.register),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode({
-          "data": {
-            'username': username,
-            'password': password,
-            'email': email,
-            'phoneNumber': phone,
-            'firstName': firstName,
-            'lastName': lastName,
-          },
-        }),
-      );
+    GraphQLClient client = await getClient();
 
-      return res;
-    } on Exception {
-      throw SignUpFailure();
+    final QueryResult res = await client
+        .mutate(getMutationOptions(schema: getRegisterMutation, variables: {
+      "data": {
+        "username": username,
+        "password": password,
+        "email": email,
+        "phone": phone,
+        "firstName": firstName,
+        "lastName": lastName,
+      },
+    }));
+
+    if (res.hasException) {
+      print(res.exception.toString());
+      return RamenApiResponse(
+        path: 'flutter_error',
+        message: res.exception.toString(),
+      );
     }
+
+    if (res.isLoading) {
+      print("Loading...");
+    }
+
+    dynamic responseData = res.data['register'];
+
+    if (responseData == null) return null;
+
+    return RamenApiResponse(
+      message: responseData['message'],
+      path: responseData['path'],
+    );
   }
 
   Future<RamenApiResponse?> logInWithEmailAndPassword({

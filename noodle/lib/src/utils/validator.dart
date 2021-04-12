@@ -10,8 +10,6 @@ class Validator {
 
   static String validateUsername(String input) {
     if (input.isEmpty) return "Username is required!";
-    if (!alphanumeric.hasMatch(input))
-      return "Please don't use special characters!";
     return "";
   }
 

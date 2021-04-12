@@ -81,10 +81,31 @@ class AuthenticationBloc
     }
   }
 
-  Future<RamenApiResponse?> logInWithEmailAndPassword({required String email,required String password}) async {
+  Future<RamenApiResponse?> logInWithEmailAndPassword({
+    required email,
+    required password,
+  }) async {
     return _authenticationRepository.logInWithEmailAndPassword(
       email: email,
       password: password,
+    );
+  }
+
+  Future<RamenApiResponse?> register({
+    required username,
+    required email,
+    required password,
+    required firstName,
+    required lastName,
+    required phone,
+  }) async {
+    return _authenticationRepository.register(
+      username: username,
+      email: email,
+      password: password,
+      phone: phone,
+      firstName: firstName,
+      lastName: lastName,
     );
   }
 }

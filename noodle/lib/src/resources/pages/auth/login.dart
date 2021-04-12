@@ -8,6 +8,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
+import 'package:noodle/src/core/bloc/auth/auth_event.dart';
+import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
@@ -44,6 +46,23 @@ class _LoginScreenState extends State<LoginScreen> {
   String loginMessage = "";
   Color loginMessageColor = Colors.red;
 
+  Future<void> login() async {
+    String username = usernameController.text;
+    String password = passwordController.text;
+    RamenApiResponse? res =
+        await context.read<AuthenticationBloc>().logInWithEmailAndPassword(
+              email: username,
+              password: password,
+            );
+
+    if (res == null) {
+      Provider.of<AuthenticationBloc>(context, listen: false)
+          .add(AuthenticationStatusChanged(AuthenticationStatus.AUTHENTICATED));
+      return;
+    }
+    setErrorMessage(res.message);
+  }
+
   void setErrorMessage(String message) {
     setState(() {
       loginMessage = message;
@@ -76,22 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> login() async {
-      String username = usernameController.text;
-      String password = passwordController.text;
-      RamenApiResponse? res =
-          await context.read<AuthenticationBloc>().logInWithEmailAndPassword(
-                email: username,
-                password: password,
-              );
-
-      if (res == null) {
-        Navigator.of(context).pushReplacement(HomeNavigation.route());
-        return;
-      }
-      setErrorMessage(res.message);
-    }
-
     return Scaffold(
         body: Center(
             child: Padding(
