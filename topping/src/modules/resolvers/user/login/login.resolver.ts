@@ -20,7 +20,7 @@ class LoginResolver {
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async login(
 		@Arg("data") { email, password }: LoginDto,
-		@Ctx() { request, session, redis }: GQLContext
+		@Ctx() { request, session }: GQLContext
 	) {
 		let user = await this.userRepository.findByEmail(email);
 
@@ -65,9 +65,9 @@ class LoginResolver {
 		}
 
 		session.userId = user.id;
-		if (request?.sessionID) {
-			redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, user.id);
-		}
+		// if (request?.sessionID) {
+		// 	redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, user.id);
+		// }
 		session.save();
 		return null;
 	}

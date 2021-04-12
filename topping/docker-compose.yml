@@ -1,24 +1,28 @@
 version: "3.7"
 
 services:
-  redis:
-    container_name: "redis"
-    image: redis:alpine
-    command: ["redis-server", "--bind", "redis", "--port", "6379"]
-    networks:
-      - webnet
-    ports:
-      - "6379:6379"
-    expose:
-      - 6379
+  # We are currently not using Redis as a storage for session anymore
+
+  # redis:
+  #   container_name: "redis"
+  #   image: redis:alpine
+  #   command: ["redis-server", "--bind", "redis", "--port", "6379"]
+  #   volumes:
+  #     - logvolume01:/log/redis
+  #   networks:
+  #     - webnet
+  #   ports:
+  #     - "6379:6379"
+  #   expose:
+  #     - 6379
 
   db:
     image: postgres
     networks:
       - webnet
     environment:
-      POSTGRES_HOST: localhost
-      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: gitgab-db
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Cqt20011101
     ports:
       - "5432:5432"
@@ -33,9 +37,13 @@ services:
     environment:
       NODE_ENV: staging
       DB_HOST: db
+      POSTGRES_HOST: localhost
+      REDIS_PORT: 6379
       REDIS_HOST: redis
     command: ["./wait-for-it.sh", "db:5432", "--", "npm", "start"]
     ports:
       - 5000:5000
 networks:
   webnet:
+volumes:
+  logvolume01: {}

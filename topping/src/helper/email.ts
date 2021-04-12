@@ -45,15 +45,15 @@ export default class NodeMailerService implements EmailService {
 
 	async createConfirmedEmailLink(url: string, userId: string, redis: Redis) {
 		const id = v4();
-		//Disable all the login access while forgotPassword process is running
-		await redis.set(`${EMAIL_CONFIRM_PREFIX}${id}`, userId, "ex", 60 * 20);
+		//TODO Disable all the login access while forgotPassword process is running
+		// await redis.set(`${EMAIL_CONFIRM_PREFIX}${id}`, userId, "ex", 60 * 20);
 		return `${url}/confirm/${id}`;
 	}
 
 	async createForgotPasswordLink(url: string, userId: string, redis: Redis) {
 		const id = v4();
-		// Set the forgot password in the IMDB to avoid keep login while forgotPassword
-		await redis.set(`${FORGOT_PASSWORD_PREFIX}${id}`, userId, "ex", 60 * 20);
+		//TODO Set the forgot password in the IMDB to avoid keep login while forgotPassword
+		// await redis.set(`${FORGOT_PASSWORD_PREFIX}${id}`, userId, "ex", 60 * 20);
 		return `${url}/change-password/${id}`;
 	}
 }

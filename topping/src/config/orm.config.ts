@@ -5,10 +5,10 @@ import { env, EnvironmentType } from "../utils/environmentType";
 export const genORMConnection = async (
 	logging: boolean = true
 ): Promise<Connection> => {
-	console.log("genORMConnection!!!!")
 	const connectionOptions = await getConnectionOptions(
 		env(EnvironmentType.PROD) ? "production-database" : "default"
 	);
+
 	const extendedOptions = {
 		...connectionOptions,
 		database: (connectionOptions.database +
@@ -18,18 +18,18 @@ export const genORMConnection = async (
 		logging,
 		name: "default",
 	};
-	if (process.env.DATABASE_URL && env(EnvironmentType.PROD)) {
+	if (process.env.POSTGRES_URL && env(EnvironmentType.PROD)) {
 		Object.assign(extendedOptions, {
-			url: process.env.DATABASE_URL,
+			url: process.env.POSTGRES_URL,
 			ssl: { rejectUnauthorized: false },
 		});
 	} else {
 		Object.assign(extendedOptions, {
-			host: process.env.DATABASE_HOST,
-			username: process.env.DATABASE_USERNAME,
-			password: process.env.DATABASE_PASSWORD,
+			host: process.env.POSTGRES_HOST || "localhost",
+			username: process.env.POSTGRES_USER,
+			password: process.env.POSTGRES_PASSWORD,
 		});
 	}
 
-	return await createConnection(extendedOptions);
+	return await createConnection({ ...extendedOptions });
 };

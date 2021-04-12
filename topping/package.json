@@ -17,6 +17,8 @@
 	},
 	"dependencies": {
 		"@types/body-parser": "^1.19.0",
+		"@types/connect-mongodb-session": "^2.4.0",
+		"@types/connect-pg-simple": "^4.2.2",
 		"@types/express-winston": "^4.0.0",
 		"@types/jest": "^26.0.20",
 		"@types/morgan": "^1.9.2",
@@ -25,6 +27,8 @@
 		"bcrypt": "^5.0.0",
 		"body-parser": "^1.19.0",
 		"class-validator": "^0.13.1",
+		"connect-mongodb-session": "^2.4.1",
+		"connect-pg-simple": "^6.2.1",
 		"connect-redis": "^5.0.0",
 		"cookie-parser": "^1.4.5",
 		"core-js": "3.0.0-beta.11",
@@ -72,8 +76,8 @@
 	},
 	"scripts": {
 		"start": "node dist/src/index.js",
-		"dev": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
-		"dev:test": "concurrently \" npx cross-env redis-server \" \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
+		"dev": "concurrently \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
+		"dev:test": "concurrently \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
 		"test": "jest --watch --runInBand",
 		"build": "rimraf ./dist & tsc",
 		"heroku-deploy": "npm run build & git push heroku master",

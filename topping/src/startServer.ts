@@ -3,7 +3,7 @@ import "dotenv/config";
 import { GraphQLServer, Options } from "graphql-yoga";
 import { genSchema } from "./utils/genSchema";
 import { sessionConfiguration } from "./helper/session";
-import { REDIS } from "./helper/redis";
+// import { REDIS } from "./helper/redis";
 // import { DEV_BASE_URL } from "./constants/global-variables";
 import { env, EnvironmentType } from "./utils/environmentType";
 import { formatValidationError } from "./utils/formatValidationError";
@@ -23,9 +23,9 @@ import { Connection } from "typeorm";
 export const startServer = async () => {
 	console.log(process.env.NODE_ENV);
 
-	if (!env(EnvironmentType.PROD)) {
-		await new REDIS().server.flushall();
-	}
+	// if (!env(EnvironmentType.PROD)) {
+	// 	await new REDIS().server.flushall();
+	// }
 
 	let retries = 5;
 	let conn: Connection | null = null;
@@ -51,7 +51,7 @@ export const startServer = async () => {
 		schema,
 		context: ({ request }: ContextParameters): Partial<GQLContext> => ({
 			request,
-			redis: new REDIS().server,
+			// redis: new REDIS().server,
 			session: request?.session,
 			url: request?.protocol + "://" + request?.get("host"),
 		}),
@@ -100,8 +100,8 @@ export const startServer = async () => {
 								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								DATABASE_URL: process.env.DATABASE_URL,
-								REDIS_HOST: process.env.REDIS_HOST,
-								REDIS_PORT: process.env.REDIS_PORT,
+								// REDIS_HOST: process.env.REDIS_HOST,
+								// REDIS_PORT: process.env.REDIS_PORT,
 						  }
 						: {
 								REST_API_URI: `${process.env.SERVER_URI}:${options?.port}/api`,
