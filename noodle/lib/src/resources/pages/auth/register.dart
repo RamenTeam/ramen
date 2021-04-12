@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart';
@@ -7,20 +5,13 @@ import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dar
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:http/http.dart' as http;
-import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
-import 'package:noodle/src/core/bloc/auth/auth_event.dart';
-import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
-import 'package:noodle/src/resources/pages/auth/login.dart';
-import 'package:noodle/src/utils/route_builder.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
-import 'package:noodle/src/utils/validator.dart';
 
 class RegisterScreen extends StatefulWidget {
   static Route route() {
@@ -32,7 +23,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  ///@khaitruong922
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final usernameController = TextEditingController();
@@ -52,43 +42,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String phone = phoneController.text;
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
-
-    // String firstNameError = Validator.validateName(firstName);
-    // if (firstNameError.isNotEmpty) {
-    //   setErrorMessage(firstNameError);
-    //   return;
-    // }
-    // String lastNameError = Validator.validateUsername(lastName);
-    // if (lastNameError.isNotEmpty) {
-    //   setErrorMessage(lastNameError);
-    //   return;
-    // }
-    // String usernameError = Validator.validateUsername(username);
-    // if (usernameError.isNotEmpty) {
-    //   setErrorMessage(usernameError);
-    //   return;
-    // }
-    // String emailError = Validator.validateEmail(email);
-    // if (emailError.isNotEmpty) {
-    //   setErrorMessage(emailError);
-    //   return;
-    // }
-    // String phoneError = Validator.validateUsername(phone);
-    // if (phoneError.isNotEmpty) {
-    //   setErrorMessage(phoneError);
-    //   return;
-    // }
-    //
-    // String passwordError = Validator.validatePassword(password);
-    // if (passwordError.isNotEmpty) {
-    //   setErrorMessage(passwordError);
-    //   return;
-    // }
-    //
-    // if (password != confirmPassword) {
-    //   setErrorMessage("Passwords do not match!");
-    //   return;
-    // }
     RamenApiResponse? res =
         await Provider.of<AuthenticationBloc>(context, listen: false).register(
       username: username,

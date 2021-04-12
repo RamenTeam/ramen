@@ -1,25 +1,17 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:http/http.dart' as http;
-import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:noodle/src/core/bloc/auth/auth_event.dart';
 import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart';
 import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
-import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
-import 'package:noodle/src/resources/pages/auth/register.dart';
-import 'package:noodle/src/resources/pages/navigation/home_navigation.dart';
-import 'package:noodle/src/utils/route_builder.dart';
 import 'package:provider/provider.dart';
 
 import 'local_build/build_divider.dart';
