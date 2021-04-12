@@ -21,6 +21,7 @@ class _AuthLandingState extends State<AuthLanding> {
   @override
   void initState() {
     super.initState();
+    context.read<AuthenticationBloc>().add(AuthenticationStatusChanged(AuthenticationStatus.UNKNOWN));
   }
 
   @override
