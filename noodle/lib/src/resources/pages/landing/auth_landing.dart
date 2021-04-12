@@ -19,9 +19,10 @@ class AuthLanding extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
+        return HomeNavigation();
         switch (state.status) {
           case AuthenticationStatus.AUTHENTICATED:
-            return TabNavigationProvider(navigator: HomeNavigation());
+            return HomeNavigation();
           case AuthenticationStatus.UNAUTHENTICATED:
             return LoginNavigation();
           default:

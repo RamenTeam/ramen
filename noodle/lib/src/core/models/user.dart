@@ -22,4 +22,13 @@ class User extends Equatable {
   List<Object> get props => [id, email, username, bio, phoneNumber];
 
   static const empty = null;
+
+  static User mock() {
+    return new User(
+        id: "s3818074",
+        email: "khaitruong922",
+        username: "khaitruong922",
+        bio: "Hello World!",
+        phoneNumber: "0908321238");
+  }
 }

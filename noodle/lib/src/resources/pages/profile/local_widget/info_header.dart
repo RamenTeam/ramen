@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:noodle/src/core/bloc/profile/profile_bloc.dart';
+import 'package:noodle/src/core/bloc/profile/profile_event.dart';
+import 'package:provider/provider.dart';
 
 class ProfileInfoHeader extends StatelessWidget {
   @override
@@ -14,7 +17,10 @@ class ProfileInfoHeader extends StatelessWidget {
         style: Theme.of(context).textTheme.headline2,
       ),
       trailing: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          Provider.of<ProfileBloc>(context, listen: false)
+              .add(BioChanged(bio: "Helloooo!"));
+        },
         child: Text("Connect", style: TextStyle(fontWeight: FontWeight.bold)),
         style: ButtonStyle(
             elevation: MaterialStateProperty.all<double>(0.0),
