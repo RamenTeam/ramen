@@ -25,15 +25,19 @@ class UserRepository {
       print("Loading...");
     }
 
-    dynamic userData = res.data['getUser'];
+    dynamic data = res.data['getUser'];
 
-    if (userData == null) return null;
+    if (data == null) return null;
 
     return User(
-        email: userData["email"],
-        username: userData["username"],
-        id: userData["id"],
-        bio: userData["bio"],
-        phoneNumber: userData["phoneNumber"]);
+      email: data["email"],
+      username: data["username"],
+      id: data["id"],
+      bio: data["bio"],
+      phoneNumber: data["phoneNumber"],
+      firstName: data["firstName"],
+      lastName: data["lastName"],
+      avatarPath: data["avatarPath"],
+    );
   }
 }

@@ -4,12 +4,20 @@ import 'package:noodle/src/core/bloc/profile/profile_event.dart';
 import 'package:provider/provider.dart';
 
 class ProfileInfoHeader extends StatelessWidget {
+  ProfileInfoHeader({
+    required this.firstName,
+    required this.lastName,
+  });
+
+  final String firstName;
+  final String lastName;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: FlutterLogo(),
       title: Text(
-        'John Doe',
+        '$firstName $lastName',
         style: Theme.of(context).textTheme.headline1,
       ),
       subtitle: Text(
@@ -19,7 +27,7 @@ class ProfileInfoHeader extends StatelessWidget {
       trailing: ElevatedButton(
         onPressed: () {
           Provider.of<ProfileBloc>(context, listen: false)
-              .add(BioChanged(bio: "Helloooo!"));
+              .add(BioChanged(bio: "Bio"));
         },
         child: Text("Connect", style: TextStyle(fontWeight: FontWeight.bold)),
         style: ButtonStyle(

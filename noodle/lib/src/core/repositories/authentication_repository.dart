@@ -56,7 +56,7 @@ class AuthenticationRepository {
         "username": username,
         "password": password,
         "email": email,
-        "phone": phone,
+        "phoneNumber": phone,
         "firstName": firstName,
         "lastName": lastName,
       },
