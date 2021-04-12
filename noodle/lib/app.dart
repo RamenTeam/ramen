@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
+import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/landing/auth_landing.dart';
@@ -32,11 +33,18 @@ class RamenApp extends StatelessWidget {
       title: "Ramen",
       debugShowCheckedModeBanner: false,
       theme: AppTheme.of(context, listen: true).currentTheme,
-      home: BlocProvider<AuthenticationBloc>(
-        create: (_) => AuthenticationBloc(
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository,
-        ),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthenticationBloc>(
+            create: (_) => AuthenticationBloc(
+              authenticationRepository: authenticationRepository,
+              userRepository: userRepository,
+            ),
+          ),
+          BlocProvider<LoginNavigationBloc>(
+            create: (_) => LoginNavigationBloc(),
+          ),
+        ],
         child: AuthLanding(),
       ),
     );

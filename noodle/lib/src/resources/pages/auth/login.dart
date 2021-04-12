@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:noodle/src/core/bloc/auth/auth_event.dart';
+import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart';
+import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
@@ -78,12 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void navigateToRegister() {
-    Navigator.pushReplacement(
-      context,
-      SlideRoute(
-        page: RegisterScreen(),
-      ),
-    );
+    Provider.of<LoginNavigationBloc>(context, listen: false)
+        .add(NavigateToRegister());
   }
 
   @override

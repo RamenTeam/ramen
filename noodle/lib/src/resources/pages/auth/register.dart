@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart';
+import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -119,12 +121,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void navigateToLogin() {
-    Navigator.pushReplacement(
-      context,
-      SlideRoute(
-        page: LoginScreen(),
-      ),
-    );
+    Provider.of<LoginNavigationBloc>(context, listen: false)
+        .add(NavigateToLogin());
   }
 
   @override

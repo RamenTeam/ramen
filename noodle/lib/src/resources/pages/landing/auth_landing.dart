@@ -10,21 +10,10 @@ import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/auth/register.dart';
 import 'package:noodle/src/resources/pages/auth/login.dart';
 import 'package:noodle/src/resources/pages/navigation/home_navigation.dart';
+import 'package:noodle/src/resources/pages/navigation/login_navigation.dart';
 import 'package:noodle/src/resources/pages/splash/splash.dart';
 
-class AuthLanding extends StatefulWidget {
-  AuthLanding({Key? key}) : super(key: key);
-
-  @override
-  _AuthLandingState createState() => _AuthLandingState();
-}
-
-class _AuthLandingState extends State<AuthLanding> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
+class AuthLanding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
@@ -33,7 +22,7 @@ class _AuthLandingState extends State<AuthLanding> {
           case AuthenticationStatus.AUTHENTICATED:
             return HomeNavigation();
           case AuthenticationStatus.UNAUTHENTICATED:
-            return LoginScreen();
+            return LoginNavigation();
           default:
             return SplashScreen();
         }
