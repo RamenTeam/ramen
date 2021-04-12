@@ -5,7 +5,6 @@ import 'package:noodle/src/core/bloc/tab_navigation/tab_navigation_bloc.dart';
 import 'package:noodle/src/core/bloc/tab_navigation/tab_navigation_event.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
-import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:provider/provider.dart';
 
 class HomeNavigation extends StatefulWidget {
@@ -20,17 +19,6 @@ class HomeNavigation extends StatefulWidget {
 }
 
 class _HomeNavigationState extends State<HomeNavigation> {
-  AppTheme? _theme;
-
-  @override
-  void didChangeDependencies() {
-    if (_theme == null) {
-      _theme = AppTheme.of(context);
-    }
-
-    super.didChangeDependencies();
-  }
-
   void onTabSelected(index) {
     Provider.of<TabNavigationBloc>(context, listen: false)
         .add(TabSwitchEvent(index));
