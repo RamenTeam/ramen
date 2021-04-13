@@ -49,7 +49,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
           Container(),
           buildInteractionUserInfo(),
           Align(
-            alignment: Alignment(.5, .8),
+            alignment: Alignment(1, 1),
             child: Column(
               children: [
                 IconButton(
