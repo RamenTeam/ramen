@@ -48,18 +48,39 @@ class ProfileScreen extends StatelessWidget {
       });
     }
 
-    return BlocProvider<ProfileBloc>(
-      create: (_) => ProfileBloc(user: User.mock()),
-      child: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          final User user = state.user;
-          return Container(
-            child: Stack(
-              children: [
-                Container(
-                    child: Container(
-                  child: Image.network(
-                    user.avatarPath,
+    return Scaffold(
+        body: Stack(
+      children: [
+        Container(
+            // does the container below needed? it may have create the empty space next to the img
+            child: Container(
+          child: Image.network(
+              "https://pbs.twimg.com/profile_images/1349755150316040194/VpUCtbH8_400x400.jpg"),
+        )),
+        buildInfoSection(),
+        Container(
+          height: 60,
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            actions: [
+              IconButton(
+                  icon: FaIcon(
+                    FontAwesomeIcons.cog,
+                    color: Colors.white,
+
+//     return BlocProvider<ProfileBloc>(
+//       create: (_) => ProfileBloc(user: User.mock()),
+//       child: BlocBuilder<ProfileBloc, ProfileState>(
+//         builder: (context, state) {
+//           final User user = state.user;
+//           return Container(
+//             child: Stack(
+//               children: [
+//                 Container(
+//                     child: Container(
+//                   child: Image.network(
+//                     user.avatarPath,
                   ),
                 )),
                 buildInfoSection(user),
