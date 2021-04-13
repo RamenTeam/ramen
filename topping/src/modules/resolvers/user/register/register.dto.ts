@@ -22,4 +22,7 @@ export class RegisterDto {
 
 	@Field()
 	phoneNumber: string;
+
+	@Field({ nullable: true })
+	avatarPath?: string;
 }

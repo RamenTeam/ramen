@@ -3,6 +3,7 @@ query getUser($data: GetUserDto!){
         id
         email
         username
+        avatarPath
         isVerified
         isBanned
         forgotPasswordLock
