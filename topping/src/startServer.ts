@@ -40,6 +40,7 @@ export const startServer = async () => {
 	while (retries) {
 		try {
 			conn = await genORMConnection();
+			await conn.runMigrations();
 			break;
 		} catch (error) {
 			retries -= 1;

@@ -32,16 +32,16 @@ testFrame(() => {
 	});
 
 	describe("Login test suite", () => {
-		test("account is not verified", async () => {
-			await client1?.user
-				.login({ email: mockData.email, password: mockData.password })
-				.then((res) =>
-					expect(res.login).toEqual({
-						message: CustomMessage.userIsNotVerified,
-						path: "isVerified",
-					})
-				);
-		});
+		// test("account is not verified", async () => {
+		// 	await client1?.user
+		// 		.login({ email: mockData.email, password: mockData.password })
+		// 		.then((res) =>
+		// 			expect(res.login).toEqual({
+		// 				message: CustomMessage.userIsNotVerified,
+		// 				path: "isVerified",
+		// 			})
+		// 		);
+		// });
 		test("verify account", async () => {
 			await getRepository(User).update(
 				{ email: mockData.email },

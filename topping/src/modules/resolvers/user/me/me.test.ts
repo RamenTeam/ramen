@@ -5,6 +5,7 @@ import * as faker from "faker";
 import { User } from "../../../../entity/User";
 import { getRepository } from "typeorm";
 import { RegisterDto } from "../register/register.dto";
+import { DEFAULT_AVATAR_PATH } from "../../../../constants/global-variables";
 
 let client: TestClient | null = null;
 
@@ -66,6 +67,7 @@ testFrame(() => {
 					isBanned: false,
 					phoneNumber: mockData.phoneNumber,
 					forgotPasswordLock: false,
+					avatarPath: DEFAULT_AVATAR_PATH,
 					bio: "",
 				})
 			);
