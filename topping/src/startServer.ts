@@ -23,12 +23,18 @@ import { genMongoDbClient } from "./helper/mongodb";
 import { MongoClient } from "mongodb";
 
 export const startServer = async () => {
-	// if (!env(EnvironmentType.PROD)) {
-	// 	await new REDIS().server.flushall();
-	// }
-
 	// MongoDB
 	const mongoConn: MongoClient = await genMongoDbClient().connect();
+
+	console.log(await mongoConn.db().admin().listDatabases());
+
+	if (!(mongoConn instanceof MongoClient)) {
+		(mongoConn as any).then((err) => console.log(err));
+	}
+
+	if (!env(EnvironmentType.PROD)) {
+		await mongoConn.db().dropCollection("session");
+	}
 
 	// TypeORM
 	let retries = 5;

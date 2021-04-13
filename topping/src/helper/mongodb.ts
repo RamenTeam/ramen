@@ -21,11 +21,11 @@ export function genMongoDBSessionStore(session: any) {
 }
 
 export function genMongoDbClient() {
-	const uri = env(EnvironmentType.PROD)
-		? (process.env.MONGODB_URI as string)
-		: "mongodb://localhost:27017/ramen";
+	const uri =
+		(process.env.MONGODB_URI as string) || "mongodb://localhost:27017/ramen";
 
 	const client = new MongoClient(uri, {
+		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
 
