@@ -14,8 +14,8 @@ export class RegisterDto {
 	@Field()
 	email: string;
 
-	@Field()
-	bio: string;
+	@Field({ nullable: true })
+	bio?: string;
 
 	@Field()
 	password: string;

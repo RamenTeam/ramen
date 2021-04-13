@@ -57,7 +57,7 @@ input RegisterDto {
   lastName: String!
   username: String!
   email: String!
-  bio: String!
+  bio: String
   password: String!
   phoneNumber: String!
   avatarPath: String
