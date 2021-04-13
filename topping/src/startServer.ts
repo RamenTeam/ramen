@@ -42,7 +42,6 @@ export const startServer = async () => {
 			conn = await genORMConnection();
 			break;
 		} catch (error) {
-			console.error(error);
 			retries -= 1;
 			console.log(`retries left: ${retries}`);
 			// wait 5 seconds before retry
