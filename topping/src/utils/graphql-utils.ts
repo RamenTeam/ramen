@@ -1,6 +1,7 @@
 import { Request } from "express";
 import { Session } from "express-session";
 import { Redis } from "ioredis";
+import { Db } from "mongodb";
 
 declare module "express-session" {
 	export interface SessionData {
@@ -25,4 +26,5 @@ export type GQLContext = {
 	session: SessionStorage;
 	url: string;
 	redis: Redis;
+	mongodb: Db;
 };

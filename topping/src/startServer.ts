@@ -19,19 +19,23 @@ import * as fs from "fs";
 import * as express from "express";
 import { DEV_BASE_URL } from "./constants/global-variables";
 import { Connection } from "typeorm";
+import { genMongoDbClient } from "./helper/mongodb";
+import { MongoClient } from "mongodb";
 
 export const startServer = async () => {
-	console.log(process.env.NODE_ENV);
-
 	// if (!env(EnvironmentType.PROD)) {
 	// 	await new REDIS().server.flushall();
 	// }
 
+	// MongoDB
+	const mongoConn: MongoClient = await genMongoDbClient().connect();
+
+	// TypeORM
 	let retries = 5;
 	let conn: Connection | null = null;
 	while (retries) {
 		try {
-			conn = await genORMConnection();
+			conn = await genORMConnection(false);
 			break;
 		} catch (error) {
 			logger.error(error);
@@ -42,6 +46,7 @@ export const startServer = async () => {
 		}
 	}
 
+	// GraphQL Server
 	const schema = await genSchema();
 
 	const sdl = printSchema(schema);
@@ -49,23 +54,30 @@ export const startServer = async () => {
 
 	const server = new GraphQLServer({
 		schema,
-		context: ({ request }: ContextParameters): Partial<GQLContext> => ({
-			request,
-			// redis: new REDIS().server,
-			session: request?.session,
-			url: request?.protocol + "://" + request?.get("host"),
-		}),
+		context: ({ request }: ContextParameters): Partial<GQLContext> => {
+			console.log(request.session);
+			return {
+				request,
+				// redis: new REDIS().server,
+				mongodb: mongoConn.db() as any,
+				session: request?.session,
+				url: request?.protocol + "://" + request?.get("host"),
+			};
+		},
 	} as any);
 
+	// Middlewares
 	server.express.use(sessionConfiguration);
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
 
+	// CORS
 	const corsOptions = {
 		credentials: true,
 		origin: DEV_BASE_URL,
 	};
 
+	//REST API
 	genREST_API(schema, server.express);
 	genAPIDocument(server.express);
 
@@ -100,6 +112,8 @@ export const startServer = async () => {
 								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								DATABASE_URL: process.env.DATABASE_URL,
+								MONGODB_URI: process.env.MONGODB_URI,
+								MONGODB_IS_CONNECTED: mongoConn.isConnected(),
 								// REDIS_HOST: process.env.REDIS_HOST,
 								// REDIS_PORT: process.env.REDIS_PORT,
 						  }
@@ -109,6 +123,8 @@ export const startServer = async () => {
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								PORT: options.port,
 								DATABASE: conn?.options.database,
+								MONGODB_URI: process.env.MONGODB_URI,
+								MONGODB_IS_CONNECTED: mongoConn.isConnected(),
 						  }
 				);
 			}

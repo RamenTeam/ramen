@@ -6,9 +6,7 @@ declare namespace NodeJS {
     POSTGRES_URL: string;
     POSTGRES_USER: string;
     POSTGRES_PASSWORD: string;
-    REDIS_HOST: string;
-    REDIS_PORT: string;
-    REDIS_PASSWORD: string;
+    MONGODB_URI: string;
     SERVER_URI: string;
     SERVER_ENDPOINT: string;
     TEST_HOST: string;

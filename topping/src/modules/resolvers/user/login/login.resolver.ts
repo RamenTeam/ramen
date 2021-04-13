@@ -6,7 +6,10 @@ import { UserRepository } from "../../../repository/user/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import * as bcrypt from "bcrypt";
 import { GQLContext } from "../../../../utils/graphql-utils";
-import { USER_SESSION_ID_PREFIX } from "../../../../constants/global-variables";
+import {
+	REDIS_SESSION_PREFIX,
+	USER_SESSION_ID_PREFIX,
+} from "../../../../constants/global-variables";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";
 import { YUP_LOGIN } from "./login.validate";
@@ -20,7 +23,7 @@ class LoginResolver {
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async login(
 		@Arg("data") { email, password }: LoginDto,
-		@Ctx() { request, session }: GQLContext
+		@Ctx() { session, mongodb, request }: GQLContext
 	) {
 		let user = await this.userRepository.findByEmail(email);
 
@@ -65,9 +68,11 @@ class LoginResolver {
 		}
 
 		session.userId = user.id;
-		// if (request?.sessionID) {
-		// 	redis.lpush(`${USER_SESSION_ID_PREFIX}${user.id}`, user.id);
-		// }
+		if (request?.sessionID) {
+			mongodb.collection(`${USER_SESSION_ID_PREFIX}${user.id}`).insertOne({
+				[`${REDIS_SESSION_PREFIX}`]: user.id,
+			});
+		}
 		session.save();
 		return null;
 	}

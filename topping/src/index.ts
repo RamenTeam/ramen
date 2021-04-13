@@ -7,4 +7,4 @@ console.log("Server boots up!");
 
 typeorm.useContainer(Container);
 
-startServer().catch((err) => logger.error(err));
+startServer().catch((err) => console.error(err));
