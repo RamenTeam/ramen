@@ -14,12 +14,15 @@ export class RegisterDto {
 	@Field()
 	email: string;
 
-	@Field()
-	bio: string;
+	@Field({ nullable: true })
+	bio?: string;
 
 	@Field()
 	password: string;
 
 	@Field()
 	phoneNumber: string;
+
+	@Field({ nullable: true })
+	avatarPath?: string;
 }

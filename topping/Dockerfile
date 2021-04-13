@@ -1,34 +1,41 @@
 FROM node:12
 
-ENV SESSION_SECRET = s3ss1on-s3cr3t \
-    NODE_ENV=production \
-    CLIENT_PORT = 4200 \
-    PORT = 5000 \ 
-    DATABASE_HOST = localhost \ 
-    DATABASE_USERNAME = postgres \ 
-    DATABASE_PASSWORD = Cqt20011101 \ 
-    REDIS_PORT = 19229 \ 
-    SERVER_URI = http://localhost \ 
-    SERVER_ENDPOINT = /graphql \ 
-    TEST_HOST = http://localhost:5050 \ 
-    PROD_SERVER_HOST = https://ramen-server.herokuapp.com
+ENV SESSION_SECRET = s3ss1on-s3cr3t 
+
+ENV NODE_ENV=staging 
+
+ENV PORT = 5000  
+
+ENV POSTGRES_HOST = localhost  
+
+ENV POSTGRES_USER = postgres  
+
+ENV POSTGRES_PASSWORD = Cqt20011101  
+
+ENV MONGODB_URI = mongodb://localhost:27107/session
+
+ENV SERVER_URI = http://localhost  
+
+ENV SERVER_ENDPOINT = /graphql  
+
+ENV PORT=5000
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package-lock.json .
+
+COPY package*.json .
 
 RUN npm install
-
-COPY ormconfig.docker.json ./ormconfig.json
 
 COPY .env .
 
 COPY . .
 
-ENV PORT=5000
-
 EXPOSE 5000
 
 RUN npm run build
+
+COPY wait-for-it.sh .
 
 CMD ["npm", "start"]

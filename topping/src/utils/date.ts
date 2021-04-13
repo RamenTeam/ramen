@@ -21,3 +21,13 @@ export function convertISOTime(isoTime) {
 
 	return hours + ":" + minutes + " " + ampm;
 }
+
+export const getCurrentTime = () =>
+	new Date(
+		new Date().getFullYear(),
+		new Date().getMonth(),
+		new Date().getDay(),
+		new Date().getHours(),
+		new Date().getMinutes(),
+		new Date().getSeconds()
+	);

@@ -5,6 +5,7 @@ import { yupErrorResponse } from "../../../../test-utils/yupErrorResponse";
 import { User } from "../../../../entity/User";
 import { v4 as uuidV4 } from "uuid";
 import { RegisterDto } from "../register/register.dto";
+import { DEFAULT_AVATAR_PATH } from "../../../../constants/global-variables";
 
 let client: TestClient | null = null;
 
@@ -64,11 +65,12 @@ testFrame(() => {
 						name: `${mockData.firstName} ${mockData.lastName}`,
 						password: user.password,
 						status: user.status,
-						isVerified: false,
+						isVerified: true,
 						username: mockData.username,
 						isBanned: false,
 						phoneNumber: mockData.phoneNumber,
 						forgotPasswordLock: false,
+						avatarPath: DEFAULT_AVATAR_PATH,
 						bio: "",
 					});
 				});

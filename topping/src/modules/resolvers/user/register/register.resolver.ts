@@ -18,7 +18,10 @@ class RegisterResolver {
 
 	@UseMiddleware(yupValidateMiddleware(YUP_REGISTER))
 	@Mutation(() => ErrorMessage!, { nullable: true })
-	async register(@Arg("data") dto: RegisterDto, @Ctx() { redis }: GQLContext) {
+	async register(
+		@Arg("data") dto: RegisterDto,
+		@Ctx() { mongodb }: GQLContext
+	) {
 		if (!!(await this.userRepository.findByEmail(dto.email))) {
 			return {
 				path: "email",
@@ -47,7 +50,7 @@ class RegisterResolver {
 				? process.env.PROD_SERVER_HOST
 				: (process.env.TEST_HOST as any),
 			user.id,
-			redis
+			mongodb
 		);
 
 		await new NodeMailerService().sendEmail(

@@ -26,7 +26,7 @@ class ForgotPasswordResolver {
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async sendForgotPasswordEmail(
 		@Arg("data") { email }: SendForgotPasswordDto,
-		@Ctx() { redis }: GQLContext
+		@Ctx() { mongodb }: GQLContext
 	) {
 		const user = await this.userRepository.findOne({ where: { email } });
 		if (!user) {
@@ -36,14 +36,14 @@ class ForgotPasswordResolver {
 			};
 		}
 		console.log(user);
-		await forgotPasswordLockAccount(user.id, redis);
+		await forgotPasswordLockAccount(user.id, mongodb);
 		// Send reset password link to email
 		const link = await new NodeMailerService().createForgotPasswordLink(
 			env(EnvironmentType.PROD)
 				? process.env.PROD_SERVER_HOST
 				: (process.env.TEST_HOST as any),
 			user.id,
-			redis
+			mongodb
 		);
 
 		await new NodeMailerService().sendEmail(
@@ -59,9 +59,12 @@ class ForgotPasswordResolver {
 	@Mutation(() => ErrorMessage!, { nullable: true })
 	async forgotPasswordChange(
 		@Arg("data") { key, newPassword }: ForgotPasswordChangeDto,
-		@Ctx() { redis }: GQLContext
+		@Ctx() { mongodb }: GQLContext
 	) {
-		const userId = await redis.get(`${FORGOT_PASSWORD_PREFIX}${key}`);
+		const userId = await mongodb.collection("session").findOne({
+			tag: `${FORGOT_PASSWORD_PREFIX}${key}`,
+		});
+
 		if (!userId) {
 			return [
 				{

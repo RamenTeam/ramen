@@ -4,6 +4,7 @@ import * as faker from "faker";
 import { User } from "../../../../entity/User";
 import { RegisterDto } from "../register/register.dto";
 import { lorem } from "faker";
+import { DEFAULT_AVATAR_PATH } from "../../../../constants/global-variables";
 
 let client: TestClient | null = null;
 
@@ -42,11 +43,12 @@ testFrame(() => {
 						name: `${mockData.firstName} ${mockData.lastName}`,
 						password: user.password,
 						status: user.status,
-						isVerified: false,
+						isVerified: true,
 						isBanned: false,
 						forgotPasswordLock: false,
 						phoneNumber: mockData.phoneNumber,
 						username: mockData.username,
+						avatarPath: DEFAULT_AVATAR_PATH,
 						bio: "1".repeat(130),
 					},
 				]);
