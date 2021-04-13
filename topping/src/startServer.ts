@@ -54,16 +54,13 @@ export const startServer = async () => {
 
 	const server = new GraphQLServer({
 		schema,
-		context: ({ request }: ContextParameters): Partial<GQLContext> => {
-			console.log(request.session);
-			return {
-				request,
-				// redis: new REDIS().server,
-				mongodb: mongoConn.db() as any,
-				session: request?.session,
-				url: request?.protocol + "://" + request?.get("host"),
-			};
-		},
+		context: ({ request }: ContextParameters): Partial<GQLContext> => ({
+			request,
+			// redis: new REDIS().server,
+			mongodb: mongoConn.db() as any,
+			session: request?.session,
+			url: request?.protocol + "://" + request?.get("host"),
+		}),
 	} as any);
 
 	// Middlewares

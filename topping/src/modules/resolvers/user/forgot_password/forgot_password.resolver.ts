@@ -61,9 +61,9 @@ class ForgotPasswordResolver {
 		@Arg("data") { key, newPassword }: ForgotPasswordChangeDto,
 		@Ctx() { mongodb }: GQLContext
 	) {
-		const userId = await mongodb
-			.collection(`${FORGOT_PASSWORD_PREFIX}${key}`)
-			.findOne({});
+		const userId = await mongodb.collection("session").findOne({
+			tag: `${FORGOT_PASSWORD_PREFIX}${key}`,
+		});
 
 		if (!userId) {
 			return [

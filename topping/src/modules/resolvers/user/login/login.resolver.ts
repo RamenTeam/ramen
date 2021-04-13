@@ -69,8 +69,9 @@ class LoginResolver {
 
 		session.userId = user.id;
 		if (request?.sessionID) {
-			mongodb.collection(`${USER_SESSION_ID_PREFIX}${user.id}`).insertOne({
-				[`${REDIS_SESSION_PREFIX}`]: user.id,
+			mongodb.collection(`session`).insertOne({
+				tag: `${USER_SESSION_ID_PREFIX}${user.id}`,
+				[`${REDIS_SESSION_PREFIX}`]: session.id,
 			});
 		}
 		session.save();
