@@ -26,14 +26,12 @@ export const startServer = async () => {
 	// MongoDB
 	const mongoConn: MongoClient = await genMongoDbClient().connect();
 
-	console.log(await mongoConn.db().admin().listDatabases());
-
 	if (!(mongoConn instanceof MongoClient)) {
 		(mongoConn as any).then((err) => console.log(err));
 	}
 
 	if (!env(EnvironmentType.PROD)) {
-		await mongoConn.db().dropCollection("session");
+		await mongoConn.db().dropDatabase();
 	}
 
 	// TypeORM
@@ -41,10 +39,10 @@ export const startServer = async () => {
 	let conn: Connection | null = null;
 	while (retries) {
 		try {
-			conn = await genORMConnection(false);
+			conn = await genORMConnection();
 			break;
 		} catch (error) {
-			logger.error(error);
+			console.error(error);
 			retries -= 1;
 			console.log(`retries left: ${retries}`);
 			// wait 5 seconds before retry
