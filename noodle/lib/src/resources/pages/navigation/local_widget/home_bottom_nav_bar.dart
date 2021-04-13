@@ -27,6 +27,10 @@ class HomeBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.userAstronaut),
+          label: 'Meeting',
+        ),
+        BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.userAstronaut),
           label: 'Profile',
         ),
       ],

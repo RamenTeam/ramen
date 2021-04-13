@@ -15,6 +15,8 @@ class HomeNavigation extends StatelessWidget {
       case 0:
         return HomeScreen();
       case 1:
+        return MeetingScreen();
+      case 2:
         return ProfileScreen();
       default:
         return Container();
