@@ -16,6 +16,16 @@ services:
   #   expose:
   #     - 6379
 
+  mongodb:
+    image: mongo
+    container_name: "mongodb"
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_DATABASE: ramen
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+
   db:
     image: postgres
     networks:
@@ -33,7 +43,7 @@ services:
     image: "ramen/topping:1.0"
     depends_on:
       - db
-      - redis
+      - mongodb
     environment:
       NODE_ENV: staging
       DB_HOST: db
