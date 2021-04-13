@@ -2,7 +2,7 @@ import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import { Container } from "typedi";
 import * as path from "path";
-import { redisPubSub } from "../helper/redis";
+// import { redisPubSub } from "../helper/redis";
 import { customAuthChecker } from "./authChecker";
 import { ResolveTime } from "../modules/middleware";
 import * as User from "../modules/resolvers/user";
@@ -21,7 +21,7 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			User.ForgotPasswordResolver,
 		],
 		container: Container,
-		pubSub: redisPubSub,
+		// pubSub: redisPubSub,
 		authChecker: customAuthChecker,
 		globalMiddlewares: [ResolveTime],
 	});

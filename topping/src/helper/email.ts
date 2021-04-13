@@ -1,10 +1,12 @@
 import { Redis } from "ioredis";
+import { Db } from "mongodb";
 import * as nodemailer from "nodemailer";
 import { v4 } from "uuid";
 import {
 	EMAIL_CONFIRM_PREFIX,
 	FORGOT_PASSWORD_PREFIX,
 } from "../constants/global-variables";
+import { getCurrentTime } from "../utils/date";
 import { EmailService } from "./i_email";
 
 export default class NodeMailerService implements EmailService {
@@ -43,17 +45,33 @@ export default class NodeMailerService implements EmailService {
 		console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 	}
 
-	async createConfirmedEmailLink(url: string, userId: string, redis: Redis) {
+	async createConfirmedEmailLink(url: string, userId: string, mongodb: Db) {
 		const id = v4();
-		//Disable all the login access while forgotPassword process is running
-		await redis.set(`${EMAIL_CONFIRM_PREFIX}${id}`, userId, "ex", 60 * 20);
+		//TODO Disable all the login access while forgotPassword process is running
+		// await redis.set(`${EMAIL_CONFIRM_PREFIX}${id}`, userId, "ex", 60 * 20);
+		mongodb
+			.collection(`session`)
+			.createIndex({ expireAt: 1 }, { expireAfterSeconds: 60 * 20 });
+		mongodb.collection(`session`).insertOne({
+			tag: `${EMAIL_CONFIRM_PREFIX}${id}`,
+			expireAt: getCurrentTime(),
+			_id: userId,
+		});
 		return `${url}/confirm/${id}`;
 	}
 
-	async createForgotPasswordLink(url: string, userId: string, redis: Redis) {
+	async createForgotPasswordLink(url: string, userId: string, mongodb: Db) {
 		const id = v4();
-		// Set the forgot password in the IMDB to avoid keep login while forgotPassword
-		await redis.set(`${FORGOT_PASSWORD_PREFIX}${id}`, userId, "ex", 60 * 20);
+		//TODO Set the forgot password in the IMDB to avoid keep login while forgotPassword
+		// await redis.set(`${FORGOT_PASSWORD_PREFIX}${id}`, userId, "ex", 60 * 20);
+		mongodb
+			.collection(`session`)
+			.createIndex({ expireAt: 1 }, { expireAfterSeconds: 60 * 20 });
+		mongodb.collection(`session`).insertOne({
+			tag: `${FORGOT_PASSWORD_PREFIX}${id}`,
+			expireAt: getCurrentTime(),
+			_id: userId,
+		});
 		return `${url}/change-password/${id}`;
 	}
 }

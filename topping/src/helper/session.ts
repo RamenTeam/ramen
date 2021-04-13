@@ -1,17 +1,19 @@
 import * as session from "express-session";
 import "dotenv/config";
 import { env, EnvironmentType } from "../utils/environmentType";
-import { initializeRedisStore } from "./redis";
+import { genMongoDBSessionStore } from "./mongodb";
+// import { initializeRedisStore } from "./redis";
 
 //FIXME Must change the graphql playground "credential" from "omit" to "include"
 const COOKIE_NAME = "a sweet bowl of ramen";
 
+// initializeRedisStore(session)
 export const sessionConfiguration = session({
 	name: COOKIE_NAME,
 	secret: process.env.SESSION_SECRET as string,
 	resave: false,
 	saveUninitialized: false,
-	store: initializeRedisStore(session),
+	store: genMongoDBSessionStore(session),
 	cookie: {
 		httpOnly: !env(EnvironmentType.PROD),
 		secure: false,
