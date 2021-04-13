@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
-import 'package:noodle/src/resources/pages/interaction/interaction.dart';
+import 'package:noodle/src/resources/pages/interaction/meeting.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 
 class HomeNavigation extends StatefulWidget {
@@ -21,7 +21,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
   final List<Widget> tabs = [
     HomeScreen(),
     ProfileScreen(),
-    InteractionScreen(),
+    MeetingScreen(),
   ];
 
   AppTheme? _theme;

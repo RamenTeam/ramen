@@ -4,23 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/resources/pages/setting/setting.dart';
 
-class InteractionScreen extends StatefulWidget {
-  InteractionScreen({Key? key}) : super(key: key);
+class MeetingScreen extends StatefulWidget {
+  MeetingScreen({Key? key}) : super(key: key);
 
   static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => InteractionScreen());
+    return MaterialPageRoute<void>(builder: (_) => MeetingScreen());
   }
 
   @override
-  _InteractionScreenState createState() => _InteractionScreenState();
+  _MeetingScreenState createState() => _MeetingScreenState();
 }
 
-class _InteractionScreenState extends State<InteractionScreen> {
+class _MeetingScreenState extends State<MeetingScreen> {
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    Widget buildInteractionUserInfo() {
+    Widget buildMeetingUserInfo() {
       return Container(
           margin: EdgeInsets.only(top: screenSize.height / 1.2),
           decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class _InteractionScreenState extends State<InteractionScreen> {
         children: [
           //video call
           Container(),
-          buildInteractionUserInfo(),
+          buildMeetingUserInfo(),
           Align(
             alignment: Alignment(1, 1),
             child: Column(
