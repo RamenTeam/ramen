@@ -5,7 +5,6 @@ import 'package:graphql/client.dart';
 import 'package:noodle/src/core/config/graphql_client.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/schema/queries/get_user.query.dart';
-import 'package:noodle/src/core/schema/queries/me.query.dart';
 import 'package:noodle/src/core/schema/query_option.dart';
 
 class UserRepository {
@@ -13,7 +12,9 @@ class UserRepository {
     GraphQLClient client = await getClient();
 
     final QueryResult res =
-        await client.query(getQueryOptions(schema: meQuery));
+        await client.query(getQueryOptions(schema: getUserQuery, variables: {
+      "data": {"userId": "4236768d-aca8-4667-a2df-8f62247a8"}
+    }));
 
     if (res.hasException) {
       print(res.exception.toString());
@@ -24,7 +25,7 @@ class UserRepository {
       print("Loading...");
     }
 
-    dynamic data = res.data['me'];
+    dynamic data = res.data['getUser'];
 
     if (data == null) return null;
 
