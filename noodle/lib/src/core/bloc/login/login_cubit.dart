@@ -39,19 +39,26 @@ class LoginCubit extends Cubit<LoginState> {
         password: state.password.value,
       );
 
-      // Login success
+      // Login successful
       if (response == null) {
         emit(state.copyWith(
-            status: FormzStatus.submissionSuccess, success: true));
+          status: FormzStatus.submissionSuccess,
+          responseMessage: "",
+          success: true,
+        ));
       } else {
+        // Login failed
         emit(state.copyWith(
-            status: FormzStatus.submissionSuccess,
-            responseMessage: response.message));
+          status: FormzStatus.submissionSuccess,
+          responseMessage: response.message,
+          success: false,
+        ));
       }
     } on Exception {
       emit(state.copyWith(
           status: FormzStatus.submissionFailure,
-          responseMessage: "Form submission failed!"));
+          responseMessage: "Form submission failed!",
+          success: false));
     }
   }
 }

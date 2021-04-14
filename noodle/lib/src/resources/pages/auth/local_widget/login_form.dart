@@ -118,7 +118,6 @@ class _EmailInput extends StatelessWidget {
             helperText: '',
             errorText: state.email.invalid ? 'Invalid email' : null,
             enabledBorder: OutlineInputBorder(
-              // width: 0.0 produces a thin "hairline" border
               borderSide: BorderSide(color: Colors.grey, width: 0.3),
             ),
             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -148,7 +147,6 @@ class _PasswordInput extends StatelessWidget {
             helperText: '',
             errorText: state.password.invalid ? 'Invalid password' : null,
             enabledBorder: OutlineInputBorder(
-              // width: 0.0 produces a thin "hairline" border
               borderSide: BorderSide(color: Colors.grey, width: 0.3),
             ),
             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
@@ -168,9 +166,9 @@ class _SignInButton extends StatelessWidget {
         builder: (context, state) {
           return SubmitButton(
               content: Container(
-                key: const Key('loginForm_continue_raisedButton'),
+                key: const Key('loginForm_submitButton'),
                 margin: EdgeInsets.symmetric(vertical: 13),
-                child: Text("Sign In",
+                child: Text("Login",
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -179,7 +177,7 @@ class _SignInButton extends StatelessWidget {
               color: Theme.of(context).primaryColor,
               onPressCallback: () {
                 if (state.status.isValidated) {
-                  print("valid");
+                  print("login valid");
                   Provider.of<LoginCubit>(context, listen: false)
                       .logInWithEmailAndPassword();
                 }
