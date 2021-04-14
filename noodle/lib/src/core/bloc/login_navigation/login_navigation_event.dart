@@ -2,11 +2,12 @@
 import 'package:equatable/equatable.dart';
 
 abstract class LoginNavigationEvent extends Equatable {
-  const LoginNavigationEvent();
+  LoginNavigationEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class NavigateToLogin extends LoginNavigationEvent{}
-class NavigateToRegister extends LoginNavigationEvent{}
+class NavigateToLogin extends LoginNavigationEvent {}
+
+class NavigateToRegister extends LoginNavigationEvent {}

@@ -5,6 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:noodle/src/core/bloc/auth/auth_event.dart';
+import 'package:noodle/src/core/bloc/login/login_bloc.dart';
+import 'package:noodle/src/core/bloc/login/login_event.dart';
+import 'package:noodle/src/core/bloc/login/login_state.dart';
 import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart';
 import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
@@ -37,8 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
   ///@khaitruong922
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-  String loginMessage = "";
-  Color loginMessageColor = Colors.red;
+  final LoginBloc loginBloc = LoginBloc();
 
   Future<void> login() async {
     String username = usernameController.text;
@@ -59,17 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void setErrorMessage(String message) {
-    setState(() {
-      loginMessage = message;
-      loginMessageColor = Colors.red;
-    });
-  }
-
-  void setSuccessMessage(String message) {
-    setState(() {
-      loginMessage = message;
-      loginMessageColor = Colors.green;
-    });
+    loginBloc.add(LoginError(errorMessage: message));
   }
 
   void navigateToRegister() {
@@ -81,6 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void dispose() {
     usernameController.dispose();
     passwordController.dispose();
+    loginBloc.close();
     super.dispose();
   }
 
@@ -116,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       height: 15,
                     ),
-                    buildLoginMessageText(),
+                    buildErrorMessageText(),
                     SizedBox(
                       height: 15,
                     ),
@@ -179,19 +172,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 40))));
   }
 
-  Widget buildLoginMessageText() {
-    return Visibility(
-      maintainState: true,
-      maintainAnimation: true,
-      maintainSize: true,
-      visible: loginMessage != "",
-      child: Text(
-        loginMessage,
-        style: TextStyle(
-          fontSize: 14,
-          color: loginMessageColor,
-        ),
-      ),
-    );
+  Widget buildErrorMessageText() {
+    return BlocBuilder<LoginBloc, LoginState>(
+        cubit: loginBloc,
+        builder: (context, state) {
+          return Visibility(
+            maintainState: true,
+            maintainAnimation: true,
+            maintainSize: true,
+            visible: state.errorMessage != "",
+            child: Text(
+              state.errorMessage,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.red,
+              ),
+            ),
+          );
+        });
   }
 }
