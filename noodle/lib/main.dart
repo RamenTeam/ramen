@@ -16,11 +16,14 @@ void main() {
         ChangeNotifierProvider(
           create: (_) => AppTheme(),
         ),
+        Provider<AuthenticationRepository>(
+          create: (_) => AuthenticationRepository(),
+        ),
+        Provider<UserRepository>(
+          create: (_) => UserRepository(),
+        ),
       ],
-      child: RamenApp(
-        authenticationRepository: AuthenticationRepository(),
-        userRepository: UserRepository(),
-      ),
+      child: RamenApp(),
     ),
   );
 }
