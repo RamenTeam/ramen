@@ -54,7 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (res == null) {
       Provider.of<AuthenticationBloc>(context, listen: false)
           .add(AuthenticationStatusChanged(AuthenticationStatus.AUTHENTICATED));
-      setSuccessMessage("Login to account successfully!");
+      // setSuccessMessage("Login to account successfully!");
       return;
     }
     setErrorMessage(res.message);

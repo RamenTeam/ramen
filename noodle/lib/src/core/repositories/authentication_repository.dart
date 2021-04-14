@@ -111,8 +111,6 @@ class AuthenticationRepository {
 
     dynamic responseData = res.data['login'];
 
-    getCookieFromApp();
-
     if (responseData == null) return null;
 
     return RamenApiResponse(
