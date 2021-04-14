@@ -119,23 +119,6 @@ class AuthenticationRepository {
     );
   }
 
-  // Future<http.Response> logout() async {
-  //   try {
-  //     http.Response res = await http.post(
-  //       Uri.https(ApiEndpoint.authority, ApiEndpoint.logout),
-  //     );
-  //
-  //     if (res.statusCode == 200) {
-  //       log("Logged In Successfully -> Authenticated");
-  //       _controller.add(AuthenticationStatus.UNAUTHENTICATED);
-  //     }
-  //
-  //     return res;
-  //   } on Exception {
-  //     throw LogOutFailure();
-  //   }
-  // }
-
 //This is for testing only
   void setAuthenticated() {
     _controller.add(AuthenticationStatus.AUTHENTICATED);
