@@ -3,15 +3,17 @@ import 'package:formz/formz.dart';
 enum PasswordValidationError { invalid }
 
 class Password extends FormzInput<String, PasswordValidationError> {
-  const Password.pure() : super.pure('');
+  const Password.pure({this.shouldValidate = true}) : super.pure('');
 
-  const Password.dirty([String value = '']) : super.dirty(value);
+  const Password.dirty({this.shouldValidate = true, String value = ''})
+      : super.dirty(value);
 
-  static final _passwordRegExp =
-      RegExp(r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{1,}$');
+  final bool shouldValidate;
 
   @override
   PasswordValidationError? validator(String value) {
+    if (shouldValidate)
+      return value.length >= 6 ? null : PasswordValidationError.invalid;
     return value.isNotEmpty ? null : PasswordValidationError.invalid;
   }
 }

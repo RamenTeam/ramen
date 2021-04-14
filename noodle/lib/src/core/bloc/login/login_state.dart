@@ -7,7 +7,7 @@ import 'package:noodle/src/core/models/ramen_api_response.dart';
 class LoginState extends Equatable {
   const LoginState(
       {this.email = const Email.pure(),
-      this.password = const Password.pure(),
+      this.password = const Password.pure(shouldValidate: false),
       this.status = FormzStatus.pure,
       this.responseMessage = "",
       this.success = false});

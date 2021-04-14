@@ -99,7 +99,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   void passwordChanged(String value) {
-    final password = Password.dirty(value);
+    final password = Password.dirty(value: value);
     final confirmedPassword = ConfirmedPassword.dirty(
       password: password.value,
       value: state.confirmedPassword.value,

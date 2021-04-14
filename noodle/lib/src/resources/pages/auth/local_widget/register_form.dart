@@ -265,7 +265,7 @@ class _PasswordInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Password',
             helperText: '',
-            errorText: state.password.invalid ? 'Invalid password' : null,
+            errorText: state.password.invalid ? 'Password must have at least 6 characters' : null,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey, width: 0.3),
             ),
