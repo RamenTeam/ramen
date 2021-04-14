@@ -2,9 +2,9 @@ class RamenApiResponse {
   final String path;
   final String message;
 
-  RamenApiResponse({required this.path, required this.message});
+  RamenApiResponse({this.path = "", this.message = ""});
 
-  RamenApiResponse.fromJson(Map<String, dynamic> json)
+  RamenApiResponse.fromJson(dynamic json)
       : path = json['path'],
         message = json['message'];
 

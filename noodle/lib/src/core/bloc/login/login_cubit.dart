@@ -3,6 +3,7 @@ import 'package:formz/formz.dart';
 import 'package:noodle/src/core/bloc/login/login_state.dart';
 import 'package:noodle/src/core/models/form/email.dart';
 import 'package:noodle/src/core/models/form/password.dart';
+import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 
 class LoginCubit extends Cubit<LoginState> {
@@ -32,13 +33,25 @@ class LoginCubit extends Cubit<LoginState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      await _authenticationRepository.logInWithEmailAndPassword(
+      RamenApiResponse? response =
+          await _authenticationRepository.logInWithEmailAndPassword(
         email: state.email.value,
         password: state.password.value,
       );
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+
+      // Login success
+      if (response == null) {
+        emit(state.copyWith(
+            status: FormzStatus.submissionSuccess, success: true));
+      } else {
+        emit(state.copyWith(
+            status: FormzStatus.submissionSuccess,
+            responseMessage: response.message));
+      }
     } on Exception {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
+      emit(state.copyWith(
+          status: FormzStatus.submissionFailure,
+          responseMessage: "Form submission failed!"));
     }
   }
 }

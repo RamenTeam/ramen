@@ -82,16 +82,6 @@ class AuthenticationBloc
     }
   }
 
-  Future<RamenApiResponse?> logInWithEmailAndPassword({
-    required email,
-    required password,
-  }) async {
-    return _authenticationRepository.logInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-
   Future<RamenApiResponse?> register({
     required username,
     required email,

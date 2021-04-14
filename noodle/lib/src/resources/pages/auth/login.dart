@@ -22,23 +22,6 @@ class LoginScreen extends StatelessWidget {
       child: LoginForm(),
     );
 
-    // Widget buildErrorMessageText() {
-    //   return BlocBuilder<LoginBloc, LoginState>(
-    //       cubit: loginBloc,
-    //       builder: (context, state) {
-    //         return Visibility(
-    //           maintainState: true,
-    //           maintainAnimation: true,
-    //           maintainSize: true,
-    //           visible: state.errorMessage != "",
-    //           child: Text(
-    //             state.errorMessage,
-    //             style: TextStyle(
-    //               fontSize: 14,
-    //               color: Colors.red,
-    //             ),
-    //           ),
-    //         );
-    //       });
+
   }
 }
