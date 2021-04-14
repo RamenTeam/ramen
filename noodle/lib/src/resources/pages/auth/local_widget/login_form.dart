@@ -22,6 +22,7 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       body: Center(
         child: Padding(
           child: Column(
@@ -44,7 +45,7 @@ class LoginForm extends StatelessWidget {
               _LoginErrorText(),
               _SignInButton(),
               SizedBox(height: 20),
-              buildDivider(text: "or"),
+              buildDivider(text: "or", context: context),
               SizedBox(height: 20),
               SocialSubmitButton(
                   text: "Sign in with Facebook",
@@ -71,12 +72,14 @@ class LoginForm extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: 'Don\'t have an account? ',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.headline1?.color),
                       ),
                       TextSpan(
                         text: 'Register now!',
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).textTheme.headline1?.color,
                           fontWeight: FontWeight.bold,
                         ),
                         recognizer: TapGestureRecognizer()
@@ -115,10 +118,12 @@ class _EmailInput extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'Email',
+            labelStyle: TextStyle(color: Theme.of(context).highlightColor),
             helperText: '',
             errorText: state.email.invalid ? 'Invalid email' : null,
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
+              borderSide: BorderSide(
+                  color: Theme.of(context).highlightColor, width: 0.6),
             ),
             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -144,10 +149,12 @@ class _PasswordInput extends StatelessWidget {
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'Password',
+            labelStyle: TextStyle(color: Theme.of(context).highlightColor),
             helperText: '',
             errorText: state.password.invalid ? 'Invalid password' : null,
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
+              borderSide: BorderSide(
+                  color: Theme.of(context).highlightColor, width: 0.6),
             ),
             contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -172,7 +179,7 @@ class _SignInButton extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).accentColor)),
+                        color: Theme.of(context).textTheme.headline1?.color)),
               ),
               color: Theme.of(context).primaryColor,
               onPressCallback: () {

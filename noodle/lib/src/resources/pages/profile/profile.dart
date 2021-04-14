@@ -35,13 +35,16 @@ class ProfileScreen extends StatelessWidget {
               Container(
                 height: 60,
                 child: AppBar(
-                  backgroundColor: Colors.transparent,
+                  iconTheme: Theme.of(context).appBarTheme.iconTheme,
+                  backgroundColor: Theme.of(context).accentColor,
+                  centerTitle: true,
+                  title: Text("Profile 😉",
+                      style: Theme.of(context).appBarTheme.titleTextStyle),
                   elevation: 0,
                   actions: [
                     IconButton(
                         icon: FaIcon(
                           FontAwesomeIcons.cog,
-                          color: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -92,7 +95,6 @@ class _InfoSection extends StatelessWidget {
             SizedBox(height: 20),
             _ProfileInfoHeader(user: user),
             _BioSection(bio: user.bio),
-            _LogoutButton(),
           ],
         ),
       ),
@@ -152,31 +154,6 @@ class _BioSection extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 10),
             child: Text("Bio", style: Theme.of(context).textTheme.headline3)),
         subtitle: Text(bio, style: Theme.of(context).textTheme.bodyText1),
-      ),
-    );
-  }
-}
-
-class _LogoutButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {
-        Provider.of<AuthenticationBloc>(context, listen: false).add(
-            AuthenticationStatusChanged(AuthenticationStatus.LOGOUT_REQUESTED));
-      },
-      child: Text("Log out", style: TextStyle(fontWeight: FontWeight.bold)),
-      style: ButtonStyle(
-        elevation: MaterialStateProperty.all<double>(0.0),
-        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-        backgroundColor:
-            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-            side: BorderSide(color: Theme.of(context).primaryColor),
-          ),
-        ),
       ),
     );
   }

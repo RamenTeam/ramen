@@ -17,6 +17,7 @@ class RegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
       body: Center(
         child: Padding(
           child: Column(
@@ -50,7 +51,7 @@ class RegisterForm extends StatelessWidget {
               _RegisterErrorText(),
               _RegisterButton(),
               SizedBox(height: 20),
-              buildDivider(text: "Created with"),
+              buildDivider(text: "Created with", context: context),
               SizedBox(height: 20),
               SocialSubmitButton(
                   text: "Sign up with Facebook",
@@ -265,7 +266,9 @@ class _PasswordInput extends StatelessWidget {
           decoration: InputDecoration(
             labelText: 'Password',
             helperText: '',
-            errorText: state.password.invalid ? 'Password must have at least 6 characters' : null,
+            errorText: state.password.invalid
+                ? 'Password must have at least 6 characters'
+                : null,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey, width: 0.3),
             ),
