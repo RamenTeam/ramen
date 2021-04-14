@@ -18,7 +18,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.12.0-259.9.beta <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -30,11 +30,11 @@ dependencies:
 
   flutter_spinkit: "^4.1.2"
   provider: ^4.0.5
-  http: ^0.12.0+2
+#  http: ^0.12.0+2
   font_awesome_flutter: ^8.8.1
   flutter_platform_widgets: ^0.72.0
   # device_preview: ^0.6.2-beta
-  shared_preferences: ^0.5.7+3
+#  shared_preferences: ^0.5.7+3
   dartz: ^0.9.2
   hexcolor: ^2.0.0
   #TODO Packages for bloc pattern
@@ -46,7 +46,15 @@ dependencies:
   #TODO Necessary packages for src.core.graphql
   gql_exec: #[latest-version]
   gql_link: #[latest-version]
+  gql_dio_link:
   graphql_flutter: ^4.0.0-beta
+  dio_cookie_manager:
+  #TODO Session-cookies
+  http_parser: ^4.0.0
+  cookie_jar: 3.0.1
+  dio: ^4.0.0
+  #NEED THIS TO FIX BUG!!!!
+  ffi: ^1.0.0
 
 dev_dependencies:
 #  flutter_launcher_icons: "^0.9.0"

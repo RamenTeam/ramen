@@ -51,6 +51,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       firstName: firstName,
       lastName: lastName,
     );
+
+    print(res);
+
     if (res == null) {
       // Todo: Change to snackbar
       setSuccessMessage("Register account successfully!");
