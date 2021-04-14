@@ -7,9 +7,7 @@ import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._authenticationRepository)
-      : assert(_authenticationRepository != null),
-        super(const LoginState());
+  LoginCubit(this._authenticationRepository) : super(const LoginState());
 
   final AuthenticationRepository _authenticationRepository;
 

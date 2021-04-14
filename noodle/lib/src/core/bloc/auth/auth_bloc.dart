@@ -38,8 +38,6 @@ class AuthenticationBloc
           await _mapAuthenticationStatusChangedToState(event);
       print(state.props);
       yield state;
-    } else if (event is AuthenticationLogoutRequested) {
-      yield AuthenticationState.unauthenticated();
     }
   }
 
@@ -67,6 +65,11 @@ class AuthenticationBloc
         return user != null
             ? AuthenticationState.authenticated(user)
             : AuthenticationState.unauthenticated();
+      case AuthenticationStatus.LOGOUT_REQUESTED:
+        final res = await _logout();
+        return res == null
+            ? AuthenticationState.unauthenticated()
+            : AuthenticationState.unknown();
       default:
         return const AuthenticationState.unknown();
     }
@@ -76,6 +79,14 @@ class AuthenticationBloc
     try {
       final user = await _userRepository.getUser();
       return user;
+    } on Exception {
+      return null;
+    }
+  }
+
+  FutureOr<RamenApiResponse?> _logout() async {
+    try {
+      return await _authenticationRepository.logout();
     } on Exception {
       return null;
     }

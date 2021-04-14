@@ -11,6 +11,7 @@ import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/schema/mutation_option.dart';
 import 'package:noodle/src/core/schema/mutations/login.mutation.dart';
+import 'package:noodle/src/core/schema/mutations/logout.mutation.dart';
 import 'package:noodle/src/core/schema/mutations/register.mutation.dart';
 
 // @chungquantin
@@ -117,6 +118,28 @@ class AuthenticationRepository {
       message: responseData['message'],
       path: responseData['path'],
     );
+  }
+
+  Future<RamenApiResponse?> logout() async {
+    GraphQLClient client = await getClient();
+    final QueryResult res =
+        await client.mutate(getMutationOptions(schema: getLogoutMutation));
+
+    if (res.hasException) {
+      print(res.exception.toString());
+      return RamenApiResponse(
+        path: 'logout',
+        message: "unauthenticated",
+      );
+    }
+
+    if (res.isLoading) {
+      print("Loading...");
+    }
+
+    dynamic responseData = res.data['logout'];
+
+    if (responseData == null) return null;
   }
 
 //This is for testing only

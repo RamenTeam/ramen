@@ -10,6 +10,7 @@ import 'package:noodle/src/core/bloc/auth/auth_event.dart';
 import 'package:noodle/src/core/bloc/profile/profile_bloc.dart';
 import 'package:noodle/src/core/bloc/profile/profile_event.dart';
 import 'package:noodle/src/core/bloc/profile/profile_state.dart';
+import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/setting/setting.dart';
 import 'package:provider/provider.dart';
@@ -161,8 +162,8 @@ class _LogoutButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Provider.of<AuthenticationBloc>(context, listen: false)
-            .add(AuthenticationLogoutRequested());
+        Provider.of<AuthenticationBloc>(context, listen: false).add(
+            AuthenticationStatusChanged(AuthenticationStatus.LOGOUT_REQUESTED));
       },
       child: Text("Log out", style: TextStyle(fontWeight: FontWeight.bold)),
       style: ButtonStyle(

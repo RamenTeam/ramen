@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:graphql/client.dart';
 import 'package:noodle/src/core/config/graphql_client.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/core/schema/queries/get_user.query.dart';
 import 'package:noodle/src/core/schema/queries/me.query.dart';
 import 'package:noodle/src/core/schema/query_option.dart';
 
