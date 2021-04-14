@@ -54,6 +54,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       firstName: firstName,
       lastName: lastName,
     );
+
+    print(res);
+
     if (res == null) {
       onRegisterSuccess();
       return;

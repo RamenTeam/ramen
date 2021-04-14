@@ -39,7 +39,8 @@ class AuthenticationBloc
       print(state.props);
       yield state;
     } else if (event is AuthenticationLogoutRequested) {
-      _authenticationRepository.logout();
+      // _authenticationRepository.logout();
+      // Logout
     }
   }
 
