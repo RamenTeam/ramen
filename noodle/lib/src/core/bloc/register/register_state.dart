@@ -7,5 +7,5 @@ class RegisterState extends Equatable {
   final bool success;
 
   @override
-  List<Object> get props => [errorMessage];
+  List<Object> get props => [errorMessage, success];
 }
