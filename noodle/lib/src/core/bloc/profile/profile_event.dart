@@ -7,6 +7,8 @@ abstract class ProfileEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class FetchUser extends ProfileEvent{}
+
 class ChangeAvatarRequest extends ProfileEvent {}
 
 class OpenImagePicker extends ProfileEvent {}
