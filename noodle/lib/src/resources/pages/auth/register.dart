@@ -1,20 +1,17 @@
-import 'dart:convert';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart';
+import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dart';
+import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:http/http.dart' as http;
-import 'package:noodle/src/constants/api_endpoint.dart';
+import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
-import 'package:noodle/src/resources/pages/auth/login.dart';
-import 'package:noodle/src/utils/route_builder.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
-import 'package:noodle/src/utils/validator.dart';
 
 class RegisterScreen extends StatefulWidget {
   static Route route() {
@@ -26,14 +23,13 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  ///@khaitruong922
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   final emailController = TextEditingController();
-  final phoneController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   final authRepo = AuthenticationRepository();
   String registerMessage = "";
   Color registerMessageColor = Colors.red;
@@ -43,67 +39,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
     String password = passwordController.text;
     String confirmPassword = confirmPasswordController.text;
     String email = emailController.text;
-    String phone = phoneController.text;
+    String phoneNumber = phoneNumberController.text;
     String firstName = firstNameController.text;
     String lastName = lastNameController.text;
-
-    String firstNameError = Validator.validateName(firstName);
-    if (firstNameError.isNotEmpty) {
-      setErrorMessage(firstNameError);
-      return;
-    }
-    String lastNameError = Validator.validateUsername(lastName);
-    if (lastNameError.isNotEmpty) {
-      setErrorMessage(lastNameError);
-      return;
-    }
-    String usernameError = Validator.validateUsername(username);
-    if (usernameError.isNotEmpty) {
-      setErrorMessage(usernameError);
-      return;
-    }
-    String emailError = Validator.validateEmail(email);
-    if (emailError.isNotEmpty) {
-      setErrorMessage(emailError);
-      return;
-    }
-    String phoneError = Validator.validateUsername(phone);
-    if (phoneError.isNotEmpty) {
-      setErrorMessage(phoneError);
-      return;
-    }
-
-    String passwordError = Validator.validatePassword(password);
-    if (passwordError.isNotEmpty) {
-      setErrorMessage(passwordError);
-      return;
-    }
-
-    if (password != confirmPassword) {
-      setErrorMessage("Passwords do not match!");
-      return;
-    }
-
-    http.Response res = await authRepo.register(
+    RamenApiResponse? res =
+        await Provider.of<AuthenticationBloc>(context, listen: false).register(
       username: username,
-      password: password,
       email: email,
-      phone: phone,
+      password: password,
+      phoneNumber: phoneNumber,
       firstName: firstName,
       lastName: lastName,
     );
-    if (res.statusCode != 200) {
-      setErrorMessage("Bad request!");
+    if (res == null) {
+      // Todo: Change to snackbar
+      setSuccessMessage("Register account successfully!");
       return;
     }
-    dynamic json = jsonDecode(res.body);
-    // Register failed
-    if (json != null) {
-      RamenApiResponse ramenApiResponse = RamenApiResponse.fromJson(json);
-      setErrorMessage(ramenApiResponse.message);
-      return;
-    }
-    setSuccessMessage("Register account successfully!");
+    setErrorMessage(res.message);
   }
 
   void setErrorMessage(String message) {
@@ -121,12 +74,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void navigateToLogin() {
-    Navigator.pushReplacement(
-      context,
-      SlideRoute(
-        page: LoginScreen(),
-      ),
-    );
+    Provider.of<LoginNavigationBloc>(context, listen: false)
+        .add(NavigateToLogin());
   }
 
   @override
@@ -135,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     emailController.dispose();
-    phoneController.dispose();
+    phoneNumberController.dispose();
     firstNameController.dispose();
     lastNameController.dispose();
     authRepo.dispose();
@@ -197,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     buildTextField(
                       hintText: "Phone number",
-                      controller: phoneController,
+                      controller: phoneNumberController,
                     ),
                     buildTextField(
                       hintText: "Password",

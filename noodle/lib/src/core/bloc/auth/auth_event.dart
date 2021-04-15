@@ -4,7 +4,6 @@ import 'package:noodle/src/core/models/authentication_status.dart';
 
 abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
-
   @override
   List<Object> get props => [];
 }

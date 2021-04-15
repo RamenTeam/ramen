@@ -8,6 +8,7 @@ type UserSchema {
   id: ID!
   email: String!
   username: String!
+  avatarPath: String!
   isVerified: Boolean!
   isBanned: Boolean!
   forgotPasswordLock: Boolean!
@@ -56,9 +57,10 @@ input RegisterDto {
   lastName: String!
   username: String!
   email: String!
-  bio: String!
+  bio: String
   password: String!
   phoneNumber: String!
+  avatarPath: String
 }
 
 input SendForgotPasswordDto {

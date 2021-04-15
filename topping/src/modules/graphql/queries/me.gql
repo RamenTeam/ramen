@@ -3,6 +3,7 @@ query me{
         id
         email
         username
+        avatarPath
         isVerified
         isBanned
         forgotPasswordLock

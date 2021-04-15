@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { UserStatus } from "../shared/UserStatus.enum";
 import { env, EnvironmentType } from "../utils/environmentType";
+import { DEFAULT_AVATAR_PATH } from "../constants/global-variables";
 
 @ObjectType("UserSchema")
 @Entity("User")
@@ -25,6 +26,12 @@ export class User extends BaseEntity {
 	@Field(() => String!)
 	@Column("text", { unique: true })
 	username: string;
+
+	@Field(() => String)
+	@Column("text", {
+		default: DEFAULT_AVATAR_PATH,
+	})
+	avatarPath: string;
 
 	@Field(() => Boolean!)
 	@Column("bool", { default: true })

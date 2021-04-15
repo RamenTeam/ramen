@@ -3,7 +3,7 @@ import "dotenv/config";
 import { GraphQLServer, Options } from "graphql-yoga";
 import { genSchema } from "./utils/genSchema";
 import { sessionConfiguration } from "./helper/session";
-import { REDIS } from "./helper/redis";
+// import { REDIS } from "./helper/redis";
 // import { DEV_BASE_URL } from "./constants/global-variables";
 import { env, EnvironmentType } from "./utils/environmentType";
 import { formatValidationError } from "./utils/formatValidationError";
@@ -19,20 +19,30 @@ import * as fs from "fs";
 import * as express from "express";
 import { DEV_BASE_URL } from "./constants/global-variables";
 import { Connection } from "typeorm";
+import { genMongoDbClient } from "./helper/mongodb";
+import { MongoClient } from "mongodb";
 
 export const startServer = async () => {
-	if (!env(EnvironmentType.PROD)) {
-		await new REDIS().server.flushall();
+	// MongoDB
+	const mongoConn: MongoClient = await genMongoDbClient().connect();
+
+	if (!(mongoConn instanceof MongoClient)) {
+		(mongoConn as any).then((err) => console.log(err));
 	}
 
+	if (!env(EnvironmentType.PROD)) {
+		await mongoConn.db().dropDatabase();
+	}
+
+	// TypeORM
 	let retries = 5;
 	let conn: Connection | null = null;
 	while (retries) {
 		try {
 			conn = await genORMConnection();
+			await conn.runMigrations();
 			break;
 		} catch (error) {
-			logger.error(error);
 			retries -= 1;
 			console.log(`retries left: ${retries}`);
 			// wait 5 seconds before retry
@@ -40,6 +50,7 @@ export const startServer = async () => {
 		}
 	}
 
+	// GraphQL Server
 	const schema = await genSchema();
 
 	const sdl = printSchema(schema);
@@ -49,21 +60,25 @@ export const startServer = async () => {
 		schema,
 		context: ({ request }: ContextParameters): Partial<GQLContext> => ({
 			request,
-			redis: new REDIS().server,
+			// redis: new REDIS().server,
+			mongodb: mongoConn.db() as any,
 			session: request?.session,
 			url: request?.protocol + "://" + request?.get("host"),
 		}),
 	} as any);
 
+	// Middlewares
 	server.express.use(sessionConfiguration);
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
 
+	// CORS
 	const corsOptions = {
 		credentials: true,
 		origin: DEV_BASE_URL,
 	};
 
+	//REST API
 	genREST_API(schema, server.express);
 	genAPIDocument(server.express);
 
@@ -98,8 +113,10 @@ export const startServer = async () => {
 								ENDPOINT: `${process.env.SERVER_URI}:${options?.port}${process.env.SERVER_ENDPOINT}`,
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								DATABASE_URL: process.env.DATABASE_URL,
-								REDIS_HOST: process.env.REDIS_HOST,
-								REDIS_PORT: process.env.REDIS_PORT,
+								MONGODB_URI: process.env.MONGODB_URI,
+								MONGODB_IS_CONNECTED: mongoConn.isConnected(),
+								// REDIS_HOST: process.env.REDIS_HOST,
+								// REDIS_PORT: process.env.REDIS_PORT,
 						  }
 						: {
 								REST_API_URI: `${process.env.SERVER_URI}:${options?.port}/api`,
@@ -107,6 +124,8 @@ export const startServer = async () => {
 								ENVIRONMENT: process.env.NODE_ENV?.trim(),
 								PORT: options.port,
 								DATABASE: conn?.options.database,
+								MONGODB_URI: process.env.MONGODB_URI,
+								MONGODB_IS_CONNECTED: mongoConn.isConnected(),
 						  }
 				);
 			}

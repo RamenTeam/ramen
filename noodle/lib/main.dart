@@ -1,5 +1,5 @@
-// @dart = 2.9
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 import 'package:noodle/app.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
@@ -15,7 +15,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AppTheme(),
-        )
+        ),
       ],
       child: RamenApp(
         authenticationRepository: AuthenticationRepository(),

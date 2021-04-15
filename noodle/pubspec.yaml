@@ -46,7 +46,7 @@ dependencies:
   #TODO Necessary packages for src.core.graphql
   gql_exec: #[latest-version]
   gql_link: #[latest-version]
-  graphql: ^4.0.1
+  graphql_flutter: ^4.0.0-beta
   video_player: ^1.0.1
 
 dev_dependencies:

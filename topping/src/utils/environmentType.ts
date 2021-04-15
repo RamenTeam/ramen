@@ -3,6 +3,7 @@ import "dotenv/config";
 export enum EnvironmentType {
 	PROD = "production",
 	DEV = "development",
+	STAGE = "staging",
 	TEST = "test",
 }
 

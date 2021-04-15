@@ -1,15 +1,14 @@
 declare namespace NodeJS {
-  interface ProcessEnv {
-    SESSION_SECRET: string;
-    CLIENT_PORT: string;
-    DATABASE_URL: string;
-    DATABASE_HOST: string;
-    DATABASE_USERNAME: string;
-    DATABASE_PASSWORD: string;
-    REDIS_HOST: string;
-    REDIS_PORT: string;
-    REDIS_PASSWORD: string;
-    SERVER_URI: string;
-    SERVER_ENDPOINT: string;
-  }
+	interface ProcessEnv {
+		SESSION_SECRET: string;
+		CLIENT_PORT: string;
+		POSTGRES_URL: string;
+		POSTGRES_USER: string;
+		POSTGRES_PASSWORD: string;
+		MONGODB_URI: string;
+		SERVER_URI: string;
+		SERVER_ENDPOINT: string;
+		TEST_HOST: string;
+		PROD_SERVER_HOST: string;
+	}
 }
