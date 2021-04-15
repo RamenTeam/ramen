@@ -17,9 +17,9 @@ class HomeNavigation extends StatelessWidget {
     switch (tabIndex) {
       case 0:
         return HomeScreen();
+/*      case 1:
+        return MeetingScreen();*/
       case 1:
-        return MeetingScreen();
-      case 2:
         return ProfileScreen();
       default:
         return Container();

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:noodle/src/resources/pages/navigation/home_navigation.dart';
+import 'package:noodle/src/resources/pages/home/local_build/build_banner.dart';
+import 'package:noodle/src/resources/shared/app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -20,15 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isFinding = !isFinding;
     });
-  }
-
-  Container icon() {
-    return Container(
-      margin: EdgeInsets.all(20),
-      child: Image.asset(
-        "assets/images/logo.png",
-      ),
-    );
   }
 
   Container tooltipText() {
@@ -55,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         maintainSize: true,
         visible: isFinding,
         child: SpinKitThreeBounce(
-          color: Colors.black,
+          color: Theme.of(context).primaryColor,
           size: 20,
         ),
       ),
@@ -68,12 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
       child: ElevatedButton(
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(
-                isFinding ? Colors.red : Colors.yellow)),
+                isFinding ? Colors.red : Theme.of(context).primaryColor)),
         child: Text(
           isFinding ? "Cancel" : "Find a partner",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+          style: TextStyle(color: Theme.of(context).accentColor),
         ),
         onPressed: findPartner,
       ),
@@ -82,16 +72,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          icon(),
-          tooltipText(),
-          spinKitThreeBounce(),
-          button(),
-        ],
-      ),
-    );
+    return Scaffold(
+        appBar: SharedAppBar(
+          title: 'Ramen',
+        ),
+        backgroundColor: Theme.of(context).accentColor,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              buildBanner(),
+              tooltipText(),
+              spinKitThreeBounce(),
+              button(),
+            ],
+          ),
+        ));
   }
 }

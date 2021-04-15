@@ -3,8 +3,8 @@ import 'package:hexcolor/hexcolor.dart';
 
 ThemeData darkTheme = ThemeData(
     primaryColor: HexColor("FCBF30"),
-    accentColor: HexColor("090909"),
-    secondaryHeaderColor: HexColor("131313"),
+    accentColor: HexColor("111111"),
+    secondaryHeaderColor: HexColor("202020"),
     highlightColor:
         HexColor("505050"), //TODO swap hightlightColor with primaryColor
     bottomNavigationBarTheme: BottomNavigationBarThemeData(

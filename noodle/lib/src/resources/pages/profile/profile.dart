@@ -13,6 +13,7 @@ import 'package:noodle/src/core/bloc/profile/profile_state.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/setting/setting.dart';
+import 'package:noodle/src/resources/shared/app_bar.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -32,29 +33,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               )),
               _InfoSection(user: user),
-              Container(
-                height: 60,
-                child: AppBar(
-                  iconTheme: Theme.of(context).appBarTheme.iconTheme,
-                  backgroundColor: Theme.of(context).accentColor,
-                  centerTitle: true,
-                  title: Text("Profile 😉",
-                      style: Theme.of(context).appBarTheme.titleTextStyle),
-                  elevation: 0,
-                  actions: [
-                    IconButton(
-                        icon: FaIcon(
-                          FontAwesomeIcons.cog,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SettingScreen()));
-                        })
-                  ],
-                ),
-              )
+              Container(height: 60, child: SharedAppBar(title: "Profile"))
             ],
           ),
         );
