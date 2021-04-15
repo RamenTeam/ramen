@@ -50,7 +50,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
           VideoApp(),
           buildMeetingUserInfo(),
           Align(
-            alignment: Alignment(1, 1),
+            alignment: Alignment(.5, .5),
             child: Column(
               children: [
                 IconButton(
@@ -72,7 +72,18 @@ class _MeetingScreenState extends State<MeetingScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => SettingScreen()));
-                    })
+                    }),
+                IconButton(
+                    icon: FaIcon(
+                      FontAwesomeIcons.bitcoin,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingScreen()));
+                    }),
               ],
             ),
           ),
