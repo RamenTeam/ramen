@@ -2,11 +2,13 @@ const String meQuery = r"""
 query GetCurrentUser{
   me{
     id
-    email
-    username
+    firstName,
+    lastName,
+    username,
+    email,
+    phoneNumber,
+    avatarPath,
     bio
-    phoneNumber
-    name
   }
 }
 """;

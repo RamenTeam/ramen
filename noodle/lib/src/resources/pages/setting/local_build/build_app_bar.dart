@@ -28,7 +28,7 @@ dynamic buildAppBar(context) {
         Spacer(),
         Container(
             child: Text(
-              "Settings",
+              "Setting",
               style: Theme.of(context).appBarTheme.titleTextStyle,
             ),
             margin: EdgeInsets.only(right: 50)),

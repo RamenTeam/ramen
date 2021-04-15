@@ -25,6 +25,10 @@ class HomeBottomNavigationBar extends StatelessWidget {
           icon: FaIcon(FontAwesomeIcons.globeAsia),
           label: "Home",
         ),
+        /*       BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.userAstronaut),
+          label: 'Meeting',
+        ),*/
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.userAstronaut),
           label: 'Profile',

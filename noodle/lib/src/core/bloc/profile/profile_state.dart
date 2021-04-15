@@ -1,13 +1,16 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:noodle/src/core/models/user.dart';
 
 class ProfileState extends Equatable {
-  ProfileState({required this.user});
+  ProfileState({this.user});
 
-  final User user;
+  final User? user;
 
   @override
   // TODO: implement props
-  List<Object> get props => [user];
+  List<Object?> get props => [user];
+}
+
+class ProfileLoadingState extends ProfileState {
+  ProfileLoadingState() : super(user: null);
 }

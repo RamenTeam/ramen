@@ -13,17 +13,9 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:hexcolor/hexcolor.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
+import 'package:provider/provider.dart';
 
 class RamenApp extends StatelessWidget {
-  final AuthenticationRepository authenticationRepository;
-  final UserRepository userRepository;
-
-  RamenApp(
-      {Key? key,
-      required this.authenticationRepository,
-      required this.userRepository})
-      : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -37,13 +29,15 @@ class RamenApp extends StatelessWidget {
         providers: [
           BlocProvider<AuthenticationBloc>(
             create: (_) => AuthenticationBloc(
-              authenticationRepository: authenticationRepository,
-              userRepository: userRepository,
+              authenticationRepository:
+                  Provider.of<AuthenticationRepository>(context, listen: false),
+              userRepository:
+                  Provider.of<UserRepository>(context, listen: false),
             ),
           ),
           BlocProvider<LoginNavigationBloc>(
             create: (_) => LoginNavigationBloc(),
-          ),
+          )
         ],
         child: AuthLanding(),
       ),

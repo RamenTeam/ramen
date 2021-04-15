@@ -38,8 +38,6 @@ class AuthenticationBloc
           await _mapAuthenticationStatusChangedToState(event);
       print(state.props);
       yield state;
-    } else if (event is AuthenticationLogoutRequested) {
-      _authenticationRepository.logout();
     }
   }
 
@@ -67,6 +65,11 @@ class AuthenticationBloc
         return user != null
             ? AuthenticationState.authenticated(user)
             : AuthenticationState.unauthenticated();
+      case AuthenticationStatus.LOGOUT_REQUESTED:
+        final res = await _logout();
+        return res == null
+            ? AuthenticationState.unauthenticated()
+            : AuthenticationState.unknown();
       default:
         return const AuthenticationState.unknown();
     }
@@ -81,14 +84,12 @@ class AuthenticationBloc
     }
   }
 
-  Future<RamenApiResponse?> logInWithEmailAndPassword({
-    required email,
-    required password,
-  }) async {
-    return _authenticationRepository.logInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  FutureOr<RamenApiResponse?> _logout() async {
+    try {
+      return await _authenticationRepository.logout();
+    } on Exception {
+      return null;
+    }
   }
 
   Future<RamenApiResponse?> register({
