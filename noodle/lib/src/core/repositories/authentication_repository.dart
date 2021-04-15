@@ -1,18 +1,18 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:graphql/client.dart';
-import 'package:http/http.dart' as http;
 import 'package:noodle/src/constants/api_endpoint.dart';
 import 'package:noodle/src/core/config/graphql_client.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/schema/mutation_option.dart';
 import 'package:noodle/src/core/schema/mutations/login.mutation.dart';
+import 'package:noodle/src/core/schema/mutations/logout.mutation.dart';
 import 'package:noodle/src/core/schema/mutations/register.mutation.dart';
-import 'package:noodle/src/core/schema/queries/get_user.query.dart';
 
 // @chungquantin
 class SignUpFailure implements Exception {}
@@ -120,21 +120,26 @@ class AuthenticationRepository {
     );
   }
 
-  Future<http.Response> logout() async {
-    try {
-      http.Response res = await http.post(
-        Uri.https(ApiEndpoint.authority, ApiEndpoint.logout),
+  Future<RamenApiResponse?> logout() async {
+    GraphQLClient client = await getClient();
+    final QueryResult res =
+        await client.mutate(getMutationOptions(schema: getLogoutMutation));
+
+    if (res.hasException) {
+      print(res.exception.toString());
+      return RamenApiResponse(
+        path: 'logout',
+        message: "unauthenticated",
       );
-
-      if (res.statusCode == 200) {
-        log("Logged In Successfully -> Authenticated");
-        _controller.add(AuthenticationStatus.UNAUTHENTICATED);
-      }
-
-      return res;
-    } on Exception {
-      throw LogOutFailure();
     }
+
+    if (res.isLoading) {
+      print("Loading...");
+    }
+
+    dynamic responseData = res.data['logout'];
+
+    if (responseData == null) return null;
   }
 
 //This is for testing only

@@ -8,19 +8,25 @@ import 'package:noodle/src/core/repositories/user_repository.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  // ignore: invalid_use_of_visible_for_testing_member
+  SharedPreferences.setMockInitialValues({});
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => AppTheme(),
         ),
+        Provider<AuthenticationRepository>(
+          create: (_) => AuthenticationRepository(),
+        ),
+        Provider<UserRepository>(
+          create: (_) => UserRepository(),
+        ),
       ],
-      child: RamenApp(
-        authenticationRepository: AuthenticationRepository(),
-        userRepository: UserRepository(),
-      ),
+      child: RamenApp(),
     ),
   );
 }

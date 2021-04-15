@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
+import 'package:noodle/src/core/bloc/auth/auth_event.dart';
+import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/pages/setting/local_build/build_app_bar.dart';
 import 'package:noodle/src/resources/pages/setting/local_build/build_setting_item.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
+import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 import 'local_build/build_setting_separator.dart';
@@ -154,6 +158,30 @@ class _SettingScreenState extends State<SettingScreen> {
                     style: TextStyle(
                         color: Theme.of(context).primaryIconTheme.color),
                   ),
+                ]),
+          ]),
+          buildSettingArea([
+            buildSettingItem(
+                context: context,
+                onTapEvent: () {
+                  Provider.of<AuthenticationBloc>(context, listen: false).add(
+                      AuthenticationStatusChanged(
+                          AuthenticationStatus.LOGOUT_REQUESTED));
+                },
+                leftChildren: [
+                  Text(
+                    "Sign out",
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 13,
+                    ),
+                  )
+                ],
+                rightChildren: [
+                  FaIcon(
+                    FontAwesomeIcons.signOutAlt,
+                    color: Colors.red,
+                  )
                 ]),
           ])
         ],
