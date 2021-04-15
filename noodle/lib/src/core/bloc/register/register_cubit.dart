@@ -160,7 +160,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       } else {
         // Register failed
         emit(state.copyWith(
-          status: FormzStatus.submissionSuccess,
+          status: FormzStatus.submissionFailure,
           responseMessage: response.message,
           success: false,
         ));

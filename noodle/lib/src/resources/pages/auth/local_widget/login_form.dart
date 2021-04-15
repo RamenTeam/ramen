@@ -13,7 +13,6 @@ import 'package:noodle/src/core/bloc/login_navigation/login_navigation_bloc.dart
 import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
-import 'package:noodle/src/resources/pages/auth/local_build/build_text_field.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
 import 'package:provider/provider.dart';
@@ -35,8 +34,11 @@ class LoginForm extends StatelessWidget {
               // ),
               SizedBox(height: 25),
               Text(
-                'Login your account',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                'Login to your account',
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.headline1?.color),
               ),
               SizedBox(height: 15),
               _LoginSuccessListener(),
@@ -109,26 +111,33 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_emailInput_textField'),
-          onChanged: (value) => Provider.of<LoginCubit>(
-            context,
-            listen: false,
-          ).emailChanged(value),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            labelStyle: TextStyle(color: Theme.of(context).highlightColor),
-            helperText: '',
-            errorText: state.email.invalid ? 'Invalid email' : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).highlightColor, width: 0.6),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+        return Container(
+            margin: EdgeInsets.only(bottom: state.email.invalid ? 10 : 0),
+            child: TextField(
+              key: const Key('loginForm_emailInput_textField'),
+              style: TextStyle(
+                color: Theme.of(context).textTheme.headline1?.color,
+              ),
+              onChanged: (value) => Provider.of<LoginCubit>(
+                context,
+                listen: false,
+              ).emailChanged(value),
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(
+                labelText: 'Email',
+                labelStyle: TextStyle(color: Theme.of(context).highlightColor),
+                helperText: '',
+                focusColor: Theme.of(context).textTheme.headline1?.color,
+                errorText: state.email.invalid ? 'Invalid email' : null,
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).highlightColor, width: 0.6),
+                ),
+                contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+            ));
       },
     );
   }
@@ -142,12 +151,16 @@ class _PasswordInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_passwordInput_textField'),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.headline1?.color,
+          ),
           onChanged: (value) => Provider.of<LoginCubit>(
             context,
             listen: false,
           ).passwordChanged(value),
           obscureText: true,
           decoration: InputDecoration(
+            focusColor: Theme.of(context).textTheme.headline1?.color,
             labelText: 'Password',
             labelStyle: TextStyle(color: Theme.of(context).highlightColor),
             helperText: '',

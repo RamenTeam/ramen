@@ -8,6 +8,7 @@ import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dar
 import 'package:noodle/src/core/bloc/register/register_cubit.dart';
 import 'package:noodle/src/core/bloc/register/register_state.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
+import 'package:noodle/src/resources/pages/auth/local_widget/form_input.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
 import 'package:provider/provider.dart';
@@ -20,9 +21,7 @@ class RegisterForm extends StatelessWidget {
       backgroundColor: Theme.of(context).accentColor,
       body: Center(
         child: Padding(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: ListView(
             children: [
               // Image.asset(
               //   'assets/images/logo.png',
@@ -31,7 +30,10 @@ class RegisterForm extends StatelessWidget {
               SizedBox(height: 25),
               Text(
                 'Sign up with Ramen',
-                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.headline1?.color),
               ),
               SizedBox(height: 15),
               Row(
@@ -49,6 +51,7 @@ class RegisterForm extends StatelessWidget {
               _PasswordInput(),
               _ConfirmedPasswordInput(),
               _RegisterErrorText(),
+              SizedBox(height: 20),
               _RegisterButton(),
               SizedBox(height: 20),
               buildDivider(text: "Created with", context: context),
@@ -77,13 +80,15 @@ class RegisterForm extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: 'Already have an account? ',
-                        style: TextStyle(color: Colors.black),
+                        text: 'Already have an account?',
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.headline1?.color),
                       ),
                       TextSpan(
-                          text: 'Login here!',
+                          text: ' Login here!',
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).textTheme.headline1?.color,
                             fontWeight: FontWeight.bold,
                           ),
                           recognizer: TapGestureRecognizer()
@@ -97,6 +102,7 @@ class RegisterForm extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 40),
             ],
           ),
           padding: EdgeInsets.symmetric(horizontal: 40),
@@ -112,23 +118,14 @@ class _FirstNameInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.firstName != current.firstName,
       builder: (context, state) {
-        return TextField(
-          key: const Key('registerForm_firstNameInput_textField'),
-          onChanged: (value) => Provider.of<RegisterCubit>(
-            context,
-            listen: false,
-          ).firstNameChanged(value),
-          decoration: InputDecoration(
+        return FormInput(
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+                  context,
+                  listen: false,
+                ).firstNameChanged(value),
             labelText: 'First name',
-            helperText: '',
             errorText: state.firstName.invalid ? 'Invalid name' : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+            inputKey: 'registerForm_firstNameInput_textField');
       },
     );
   }
@@ -140,23 +137,13 @@ class _LastNameInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.lastName != current.lastName,
       builder: (context, state) {
-        return TextField(
-          key: const Key('registerForm_lastNameInput_textField'),
-          onChanged: (value) => Provider.of<RegisterCubit>(
-            context,
-            listen: false,
-          ).lastNameChanged(value),
-          decoration: InputDecoration(
+        return FormInput(
+            onChangedCallback: (value) =>
+                Provider.of<RegisterCubit>(context, listen: false)
+                    .lastNameChanged(value),
             labelText: 'Last name',
-            helperText: '',
             errorText: state.lastName.invalid ? 'Invalid name' : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+            inputKey: 'registerForm_lastNameInput_textField');
       },
     );
   }
@@ -168,23 +155,14 @@ class _UsernameInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
-        return TextField(
-          key: const Key('registerForm_usernameInput_textField'),
-          onChanged: (value) => Provider.of<RegisterCubit>(
-            context,
-            listen: false,
-          ).usernameChanged(value),
-          decoration: InputDecoration(
-            labelText: 'Username',
-            helperText: '',
-            errorText: state.username.invalid ? 'Invalid username' : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+        return FormInput(
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+                  context,
+                  listen: false,
+                ).usernameChanged(value),
+            labelText: "Username",
+            errorText: state.username.invalid ? "Invalid username" : null,
+            inputKey: "'registerForm_usernameInput_textField'");
       },
     );
   }
@@ -196,24 +174,14 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
-          key: const Key('registerForm_emailInput_textField'),
-          onChanged: (value) => Provider.of<RegisterCubit>(
-            context,
-            listen: false,
-          ).emailChanged(value),
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
+        return FormInput(
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+                  context,
+                  listen: false,
+                ).emailChanged(value),
             labelText: 'Email',
-            helperText: '',
             errorText: state.email.invalid ? 'Invalid email' : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+            inputKey: 'registerForm_emailInput_textField');
       },
     );
   }
@@ -226,25 +194,15 @@ class _PhoneNumberInput extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.phoneNumber != current.phoneNumber,
       builder: (context, state) {
-        return TextField(
-          key: const Key('registerForm_phoneNumberInput_textField'),
-          onChanged: (value) => Provider.of<RegisterCubit>(
-            context,
-            listen: false,
-          ).phoneNumberChanged(value),
-          keyboardType: TextInputType.phone,
-          decoration: InputDecoration(
+        return FormInput(
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+                  context,
+                  listen: false,
+                ).phoneNumberChanged(value),
             labelText: 'Phone number',
-            helperText: '',
             errorText:
                 state.phoneNumber.invalid ? 'Invalid phone number' : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+            inputKey: 'registerForm_phoneNumberInput_textField');
       },
     );
   }
@@ -256,26 +214,17 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('registerForm_passwordInput_textField'),
-          onChanged: (value) => Provider.of<RegisterCubit>(
-            context,
-            listen: false,
-          ).passwordChanged(value),
-          obscureText: true,
-          decoration: InputDecoration(
+        return FormInput(
+            isObscured: true,
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+                  context,
+                  listen: false,
+                ).passwordChanged(value),
             labelText: 'Password',
-            helperText: '',
             errorText: state.password.invalid
                 ? 'Password must have at least 6 characters'
                 : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+            inputKey: 'registerForm_passwordInput_textField');
       },
     );
   }
@@ -288,26 +237,16 @@ class _ConfirmedPasswordInput extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.confirmedPassword != current.confirmedPassword,
       builder: (context, state) {
-        return TextField(
-          key: const Key('registerForm_confirmedPasswordInput_textField'),
-          onChanged: (value) => Provider.of<RegisterCubit>(
-            context,
-            listen: false,
-          ).confirmedPasswordChanged(value),
-          obscureText: true,
-          decoration: InputDecoration(
+        return FormInput(
+            isObscured: true,
+            onChangedCallback: (value) =>
+                Provider.of<RegisterCubit>(context, listen: false)
+                    .confirmedPasswordChanged(value),
             labelText: 'Confirmed password',
-            helperText: '',
             errorText: state.confirmedPassword.invalid
                 ? 'Passwords do not match'
                 : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey, width: 0.3),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-          ),
-        );
+            inputKey: 'registerForm_confirmedPasswordInput_textField');
       },
     );
   }
@@ -349,7 +288,7 @@ class _RegisterButton extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).accentColor)),
+                        color: Theme.of(context).textTheme.headline1?.color)),
               ),
               color: Theme.of(context).primaryColor,
               onPressCallback: () {
@@ -368,8 +307,10 @@ class _RegisterSuccessListener extends StatelessWidget {
     return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state.success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Register account successfully!")));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("Register account successfully!"),
+            backgroundColor: Colors.green,
+          ));
         }
       },
       child: Container(),

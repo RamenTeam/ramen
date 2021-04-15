@@ -6,7 +6,7 @@ ThemeData darkTheme = ThemeData(
     accentColor: HexColor("090909"),
     secondaryHeaderColor: HexColor("131313"),
     highlightColor:
-        HexColor("252525"), //TODO swap hightlightColor with primaryColor
+        HexColor("505050"), //TODO swap hightlightColor with primaryColor
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: HexColor("090909"),
         selectedItemColor: HexColor("FCBF30"),
