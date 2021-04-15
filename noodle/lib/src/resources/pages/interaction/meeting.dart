@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/resources/pages/setting/setting.dart';
+import 'package:noodle/src/resources/pages/interaction/local_widget/video_player.dart';
 
 class MeetingScreen extends StatefulWidget {
   MeetingScreen({Key? key}) : super(key: key);
@@ -46,10 +47,10 @@ class _MeetingScreenState extends State<MeetingScreen> {
       body: Stack(
         children: [
           //video call
-          Container(),
+          VideoApp(),
           buildMeetingUserInfo(),
           Align(
-            alignment: Alignment(1, 1),
+            alignment: Alignment(.5, .5),
             child: Column(
               children: [
                 IconButton(
@@ -71,7 +72,18 @@ class _MeetingScreenState extends State<MeetingScreen> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => SettingScreen()));
-                    })
+                    }),
+                IconButton(
+                    icon: FaIcon(
+                      FontAwesomeIcons.bitcoin,
+                      color: Colors.red,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingScreen()));
+                    }),
               ],
             ),
           ),

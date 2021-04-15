@@ -50,6 +50,7 @@ dependencies:
   gql_link: #[latest-version]
   gql_dio_link:
   graphql_flutter: ^4.0.0-beta
+  video_player: ^1.0.1
   dio_cookie_manager:
   #TODO Session-cookies
   http_parser: ^4.0.0
