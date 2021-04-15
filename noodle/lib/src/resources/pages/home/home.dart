@@ -54,18 +54,20 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Container button() {
-    return Container(
-      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-      child: ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-                isFinding ? Colors.red : Theme.of(context).primaryColor)),
-        child: Text(
-          isFinding ? "Cancel" : "Find a partner",
-          style: TextStyle(color: Theme.of(context).accentColor),
+  Widget button() {
+    return ClipOval(
+      child: Material(
+        color: isFinding
+            ? Colors.red
+            : Theme.of(context).primaryColor, // button color
+        child: InkWell(
+          splashColor: Colors.red, // inkwell color
+          child: SizedBox(
+              width: 56,
+              height: 56,
+              child: Icon(Icons.menu, color: Theme.of(context).accentColor)),
+          onTap: findPartner,
         ),
-        onPressed: findPartner,
       ),
     );
   }
@@ -77,8 +79,9 @@ class _HomeScreenState extends State<HomeScreen> {
           title: 'Ramen',
         ),
         backgroundColor: Theme.of(context).accentColor,
-        body: SingleChildScrollView(
+        body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildBanner(),
               tooltipText(),
