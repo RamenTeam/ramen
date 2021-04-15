@@ -192,7 +192,7 @@ class _SignInButton extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).textTheme.headline1?.color)),
+                        color: Theme.of(context).accentColor)),
               ),
               color: Theme.of(context).primaryColor,
               onPressCallback: () {
