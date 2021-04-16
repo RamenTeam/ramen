@@ -1,7 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:noodle/src/core/models/user.dart';
 
-enum MatchingStatus { IDLE, FINDING, MATCHING, ABORTING, DONE }
+enum MatchingStatus {
+  IDLE,
+  FINDING,
+  MATCHING,
+  ABORTING,
+  DONE,
+  PEER_REQUEST,
+  PEER_NOT_FOUND
+}
 
 class MatchingState extends Equatable {
   const MatchingState._({
@@ -20,6 +28,9 @@ class MatchingState extends Equatable {
       : this._(status: MatchingStatus.MATCHING, peer: peer);
 
   const MatchingState.idling() : this._(status: MatchingStatus.IDLE);
+
+  const MatchingState.notFound()
+      : this._(status: MatchingStatus.PEER_NOT_FOUND);
 
   final MatchingStatus status;
   final User? peer;

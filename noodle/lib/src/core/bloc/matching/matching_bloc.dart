@@ -9,6 +9,8 @@ import 'package:noodle/src/core/models/user.dart';
 class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
   MatchingBloc() : super(const MatchingState.idling());
 
+  // ignore: close_sinks
+  late StreamSubscription _matchingSubscription;
   late StreamSubscription<MatchingStatus> _matchingStatusSubscription;
 
   @override
@@ -16,7 +18,7 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
     MatchingEvent event,
   ) async* {
     if (event is MatchingStatusChanged) {
-      MatchingState state = await _mapMatchingStatusChangedToState(event);
+      yield* _mapMatchingStatusChangedToState(event);
       print(state.props);
       yield state;
     }
@@ -28,27 +30,50 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
     return super.close();
   }
 
-  Future<MatchingState> _mapMatchingStatusChangedToState(
+  Stream<MatchingState> _mapMatchingStatusChangedToState(
     MatchingStatusChanged event,
-  ) async {
+  ) async* {
     print(event.status);
     switch (event.status) {
       case MatchingStatus.ABORTING: // TODO Temporarily
-        return const MatchingState.aborting(User.empty);
+        yield const MatchingState.aborting(User.empty);
+        break;
       case MatchingStatus.FINDING: // TODO Temporarily
-        bool mockCond = true;
-        Timer(Duration(seconds: 5), () {
-          mockCond = false;
+        /* Need to cancel the asynchronous function when being IDLE
+        add(MatchingStatusChanged(MatchingStatus.PEER_REQUEST));*/
+        _matchingSubscription = listen((state) {
+          add(MatchingStatusChanged(MatchingStatus.PEER_REQUEST));
         });
-        return mockCond
-            ? MatchingState.finding()
-            : MatchingState.matching(User.empty);
+        yield MatchingState.finding();
+        break;
       case MatchingStatus.DONE: // TODO Temporarily
-        return const MatchingState.idling();
+        yield const MatchingState.idling();
+        break;
       case MatchingStatus.MATCHING: // TODO Temporarily
-        return const MatchingState.matching(User.empty);
+        yield const MatchingState.matching(User.empty);
+        break;
+      case MatchingStatus.PEER_REQUEST: // TODO Temporarily
+        User? peer = await getPeer();
+        yield peer == null
+            ? MatchingState.notFound()
+            : MatchingState.matching(peer);
+        break;
+      case MatchingStatus.IDLE:
+        _matchingSubscription.cancel();
+        yield MatchingState.idling();
+        break;
       default:
-        return const MatchingState.idling();
+        yield const MatchingState.idling();
+        break;
     }
+  }
+
+  Future<User?> getPeer() async {
+    User? _user;
+    if (_user != null) return _user;
+    return Future.delayed(
+      const Duration(milliseconds: 3000),
+      () => _user = null,
+    );
   }
 }

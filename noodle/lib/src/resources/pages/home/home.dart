@@ -84,11 +84,16 @@ class _FindButton extends StatelessWidget {
                 case MatchingStatus.FINDING:
                   matchingBloc.add(MatchingStatusChanged(MatchingStatus.IDLE));
                   break;
+                case MatchingStatus.PEER_REQUEST:
+                  matchingBloc.add(MatchingStatusChanged(MatchingStatus.IDLE));
+                  break;
                 case MatchingStatus.IDLE:
                   matchingBloc
                       .add(MatchingStatusChanged(MatchingStatus.FINDING));
                   break;
                 default:
+                  matchingBloc
+                      .add(MatchingStatusChanged(MatchingStatus.FINDING));
                   break;
               }
             },
@@ -123,15 +128,27 @@ class _Banner extends StatelessWidget {
 class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
-      bool isFinding = state.status == MatchingStatus.FINDING;
+    Widget inner({required String text}) {
       return Text(
-        isFinding ? "Finding a partner..." : "Welcome to Ramen!",
+        text,
         style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).textTheme.headline1?.color),
       );
+    }
+
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      switch (state.status) {
+        case MatchingStatus.FINDING:
+          return inner(text: "Find a partner...");
+        case MatchingStatus.PEER_NOT_FOUND:
+          return inner(text: "No one online 😥");
+        case MatchingStatus.IDLE:
+          return inner(text: "Welcome to Ramen!");
+        default:
+          return inner(text: "Welcome to Ramen!");
+      }
     });
   }
 }
@@ -139,17 +156,27 @@ class _Title extends StatelessWidget {
 class _Tooltip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
-      bool isFinding = state.status == MatchingStatus.FINDING;
+    Widget inner({required String text}) {
       return Text(
-        isFinding
-            ? "Click a button to cancel"
-            : "Only 30 seconds for a conversation.",
+        text,
         style: TextStyle(
           fontSize: 17,
           color: Theme.of(context).textTheme.bodyText1?.color,
         ),
       );
+    }
+
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      switch (state.status) {
+        case MatchingStatus.FINDING:
+          return inner(text: "Click a button to cancel");
+        case MatchingStatus.PEER_NOT_FOUND:
+          return inner(text: "Maybe someone is online now. Try again!");
+        case MatchingStatus.IDLE:
+          return inner(text: "Only 30 seconds for a conversation.");
+        default:
+          return inner(text: "Only 30 seconds for a conversation.");
+      }
     });
   }
 }
