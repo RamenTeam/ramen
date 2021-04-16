@@ -5,8 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/core/bloc/home/home_cubit.dart';
-import 'package:noodle/src/core/bloc/home/home_state.dart';
+import 'package:noodle/src/core/bloc/matching/matching_bloc.dart';
+import 'package:noodle/src/core/bloc/matching/matching_event.dart';
+import 'package:noodle/src/core/bloc/matching/matching_state.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -55,8 +56,8 @@ class _FindButton extends StatelessWidget {
       );
     }
 
-    return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      bool isFinding = state.status == HomeStatus.Finding;
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      bool isFinding = state.status == MatchingStatus.FINDING;
       return ClipOval(
         child: Material(
           color: isFinding
@@ -76,13 +77,16 @@ class _FindButton extends StatelessWidget {
                             size: 18,
                           ))),
             onTap: () {
-              HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
+              // ignore: close_sinks
+              MatchingBloc matchingBloc =
+                  BlocProvider.of<MatchingBloc>(context);
               switch (state.status) {
-                case HomeStatus.Finding:
-                  homeCubit.cancelFind();
+                case MatchingStatus.FINDING:
+                  matchingBloc.add(MatchingStatusChanged(MatchingStatus.IDLE));
                   break;
-                case HomeStatus.Idle:
-                  homeCubit.find();
+                case MatchingStatus.IDLE:
+                  matchingBloc
+                      .add(MatchingStatusChanged(MatchingStatus.FINDING));
                   break;
                 default:
                   break;
@@ -98,8 +102,8 @@ class _FindButton extends StatelessWidget {
 class _Banner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      bool isFinding = state.status == HomeStatus.Finding;
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      bool isFinding = state.status == MatchingStatus.FINDING;
       return Container(
         child: Image.asset(
           AppTheme.of(context).currentThemeKey == AppThemeKeys.dark
@@ -119,8 +123,8 @@ class _Banner extends StatelessWidget {
 class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      bool isFinding = state.status == HomeStatus.Finding;
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      bool isFinding = state.status == MatchingStatus.FINDING;
       return Text(
         isFinding ? "Finding a partner..." : "Welcome to Ramen!",
         style: TextStyle(
@@ -135,8 +139,8 @@ class _Title extends StatelessWidget {
 class _Tooltip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-      bool isFinding = state.status == HomeStatus.Finding;
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      bool isFinding = state.status == MatchingStatus.FINDING;
       return Text(
         isFinding
             ? "Click a button to cancel"
