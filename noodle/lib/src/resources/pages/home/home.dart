@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/home/local_build/build_banner.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isFinding = false;
+
   void findPartner() {
     setState(() {
       isFinding = !isFinding;
@@ -74,8 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // print(Provider.of<AuthenticationBloc>(context, listen: false)==null);
     return Scaffold(
         appBar: SharedAppBar(
+          authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
           title: 'Ramen',
         ),
         backgroundColor: Theme.of(context).accentColor,

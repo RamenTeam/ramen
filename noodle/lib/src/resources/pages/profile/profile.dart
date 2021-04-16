@@ -33,7 +33,13 @@ class ProfileScreen extends StatelessWidget {
                 ),
               )),
               _InfoSection(user: user),
-              Container(height: 60, child: SharedAppBar(title: "Profile"))
+              Container(
+                  height: 60,
+                  child: SharedAppBar(
+                    title: "Profile",
+                    authBloc:
+                        Provider.of<AuthenticationBloc>(context, listen: false),
+                  ))
             ],
           ),
         );

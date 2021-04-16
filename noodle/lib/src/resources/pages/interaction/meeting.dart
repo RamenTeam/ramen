@@ -60,7 +60,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SettingScreen()));
+                              builder: (context) => Container()));
                     }),
                 IconButton(
                     icon: FaIcon(
@@ -71,7 +71,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SettingScreen()));
+                              builder: (context) => Container()));
                     }),
                 IconButton(
                     icon: FaIcon(
@@ -82,7 +82,7 @@ class _MeetingScreenState extends State<MeetingScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SettingScreen()));
+                              builder: (context) => Container()));
                     }),
               ],
             ),
