@@ -9,8 +9,6 @@ import 'package:noodle/src/core/models/user.dart';
 class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
   MatchingBloc() : super(const MatchingState.idling());
 
-  // ignore: close_sinks
-  late StreamSubscription _matchingSubscription;
   late StreamSubscription<MatchingStatus> _matchingStatusSubscription;
 
   @override
@@ -39,11 +37,8 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
         yield const MatchingState.aborting(User.empty);
         break;
       case MatchingStatus.FINDING: // TODO Temporarily
-        /* Need to cancel the asynchronous function when being IDLE
-        add(MatchingStatusChanged(MatchingStatus.PEER_REQUEST));*/
-        _matchingSubscription = listen((state) {
-          add(MatchingStatusChanged(MatchingStatus.PEER_REQUEST));
-        });
+        /* Need to cancel the asynchronous function when being IDLE */
+        add(MatchingStatusChanged(MatchingStatus.PEER_REQUEST));
         yield MatchingState.finding();
         break;
       case MatchingStatus.DONE: // TODO Temporarily
@@ -59,12 +54,10 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
             : MatchingState.matching(peer);
         break;
       case MatchingStatus.IDLE:
-        _matchingSubscription.cancel();
         yield MatchingState.idling();
         break;
       default:
         yield const MatchingState.idling();
-        break;
     }
   }
 
