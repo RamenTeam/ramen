@@ -34,8 +34,6 @@ class _MeetingScreenState extends State<MeetingScreen> {
       ],
     );
 
-    final Size screenSize = MediaQuery.of(context).size;
-
     return Scaffold(
         backgroundColor: Theme.of(context).accentColor,
         body: SafeArea(
