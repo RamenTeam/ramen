@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/bloc/matching/matching_bloc.dart';
 import 'package:noodle/src/core/bloc/matching/matching_event.dart';
 import 'package:noodle/src/core/bloc/matching/matching_state.dart';
+import 'package:noodle/src/resources/pages/interaction/meeting.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:provider/provider.dart';
@@ -15,26 +16,50 @@ import 'package:provider/provider.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: SharedAppBar(
-          authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
-          title: 'Ramen',
-        ),
-        backgroundColor: Theme.of(context).accentColor,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _Banner(),
-              SizedBox(height: 20),
-              _Title(),
-              SizedBox(height: 5),
-              _Tooltip(),
-              SizedBox(height: 30),
-              _FindButton(),
-            ],
+    return BlocListener<MatchingBloc, MatchingState>(
+      listener: (context, state) {
+        switch (state.status) {
+          case MatchingStatus.MATCHING:
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => MeetingScreen()));
+            return;
+          default:
+            return;
+        }
+      },
+      child: Scaffold(
+          appBar: SharedAppBar(
+            authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
+            title: 'Ramen',
           ),
-        ));
+          backgroundColor: Theme.of(context).accentColor,
+          body: _HomeScreenBody()),
+    );
+  }
+}
+
+class _HomeScreenBody extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      switch (state.status) {
+        default:
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _Banner(),
+                SizedBox(height: 20),
+                _Title(),
+                SizedBox(height: 5),
+                _Tooltip(),
+                SizedBox(height: 30),
+                _FindButton(),
+              ],
+            ),
+          );
+      }
+    });
   }
 }
 

@@ -66,7 +66,16 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
     if (_user != null) return _user;
     return Future.delayed(
       const Duration(milliseconds: 3000),
-      () => _user = null,
+      () => _user = User(
+          id: "123",
+          email: "email@net.com",
+          username: "Tin Chung",
+          bio: "Hello World",
+          phoneNumber: "123123123",
+          firstName: "Tin",
+          lastName: "Chung",
+          avatarPath:
+              "https://th.bing.com/th/id/OIP.xzIfQQCZiBpvccxSZUsOSAHaHa?pid=ImgDet&rs=1"),
     );
   }
 }

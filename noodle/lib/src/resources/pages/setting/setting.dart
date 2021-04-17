@@ -10,7 +10,6 @@ import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/pages/setting/local_build/build_app_bar.dart';
 import 'package:noodle/src/resources/pages/setting/local_build/build_setting_item.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
-import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 import 'local_build/build_setting_separator.dart';

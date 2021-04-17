@@ -4,7 +4,6 @@ import 'package:noodle/src/constants/global_variables.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/resources/pages/setting/setting.dart';
-import 'package:provider/provider.dart';
 
 class SharedAppBar extends StatefulWidget implements PreferredSizeWidget {
   SharedAppBar({required this.authBloc, required this.title});

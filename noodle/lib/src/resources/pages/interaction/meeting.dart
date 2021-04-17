@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/resources/pages/setting/setting.dart';
-import 'package:noodle/src/resources/pages/interaction/local_widget/video_player.dart';
 
 class MeetingScreen extends StatefulWidget {
   MeetingScreen({Key? key}) : super(key: key);
@@ -21,74 +18,92 @@ class _MeetingScreenState extends State<MeetingScreen> {
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
 
-    Widget buildMeetingUserInfo() {
-      return Container(
-          margin: EdgeInsets.only(top: screenSize.height / 1.2),
-          decoration: BoxDecoration(
-              color: Theme.of(context).accentColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(35), topRight: Radius.circular(35))),
-          child: Padding(
-              padding: EdgeInsets.only(right: 10, left: 10),
-              child: ListView(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    child: Text("user name",
-                        style: Theme.of(context).textTheme.headline3),
-                  ),
-                ],
-              )));
-    }
-
     return Scaffold(
-      body: Stack(
-        children: [
-          //video call
-          VideoApp(),
-          buildMeetingUserInfo(),
-          Align(
-            alignment: Alignment(.5, .5),
-            child: Column(
+        backgroundColor: Theme.of(context).accentColor,
+        body: SafeArea(
+          child: Stack(children: [
+            Container(color: Colors.green),
+            Column(
               children: [
-                IconButton(
-                    icon: FaIcon(FontAwesomeIcons.exclamationCircle,
-                        color: Colors.red),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Container()));
-                    }),
-                IconButton(
-                    icon: FaIcon(
-                      FontAwesomeIcons.heart,
-                      color: Colors.red,
+                // Top
+                Container(
+                    height: 100,
+                    color: Colors.yellow,
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle, color: Colors.blue),
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 30,
+                                  width: 200,
+                                  decoration: BoxDecoration(color: Colors.blue),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: 200,
+                                  decoration: BoxDecoration(color: Colors.blue),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Spacer(),
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.blue),
+                        ),
+                      ],
+                    )),
+                // Middle
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 140,
+                          height: 180,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.red),
+                          margin: EdgeInsets.only(left: 20, bottom: 20),
+                        )
+                      ],
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Container()));
-                    }),
-                IconButton(
-                    icon: FaIcon(
-                      FontAwesomeIcons.bitcoin,
-                      color: Colors.red,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Container()));
-                    }),
+                    Spacer(),
+                    Container(
+                      width: 90,
+                      color: Colors.blue,
+                      child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: List.generate(
+                              3,
+                              (index) => Container(
+                                  width: 60,
+                                  height: 60,
+                                  color: Colors.red,
+                                  margin: EdgeInsets.only(top: 20)))),
+                    )
+                  ],
+                ))
               ],
-            ),
-          ),
-        ],
-      ),
-    );
+            )
+          ]),
+        ));
   }
 }
