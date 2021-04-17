@@ -36,5 +36,5 @@ class MatchingState extends Equatable {
   final User? peer;
 
   @override
-  List<dynamic> get props => [status, peer?.id];
+  List<dynamic> get props => [status, peer];
 }

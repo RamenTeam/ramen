@@ -20,8 +20,10 @@ class HomeScreen extends StatelessWidget {
       listener: (context, state) {
         switch (state.status) {
           case MatchingStatus.MATCHING:
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => MeetingScreen()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MeetingScreen(peer: state.peer)));
             return;
           default:
             return;
