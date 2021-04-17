@@ -58,6 +58,10 @@ dependencies:
   dio: ^4.0.0
   #TODO NEED THIS TO FIX BUG!!!!
   ffi: ^1.0.0
+  # Dependencies for SNS authentication
+  firebase_core: ^0.4.0+9
+  firebase_auth: ^0.14.0+5
+  flutter_facebook_login: ^3.0.0
 
 dev_dependencies:
   #  flutter_launcher_icons: "^0.9.0"

@@ -16,6 +16,7 @@ import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
 import 'package:provider/provider.dart';
+import 'package:noodle/src/resources/pages/auth/authen_facebook.dart';
 
 class LoginForm extends StatelessWidget {
   @override
@@ -57,7 +58,14 @@ class LoginForm extends StatelessWidget {
                     color: Colors.white,
                     size: 14,
                   ),
-                  onPressCallback: () {}),
+                  onPressCallback: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder:
+                      (context) => FacebookAuthenRoute()),
+                    );
+                  },
+                  ),
               SizedBox(height: 4),
               SocialSubmitButton(
                   text: "Sign in with Google",
