@@ -8,7 +8,6 @@ import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/pages/navigation/home_navigation.dart';
 import 'package:noodle/src/resources/pages/navigation/login_navigation.dart';
 import 'package:noodle/src/resources/pages/splash/splash.dart';
-import 'package:noodle/src/resources/pages/interaction/meeting.dart';
 
 class AuthLanding extends StatelessWidget {
   @override
@@ -17,7 +16,7 @@ class AuthLanding extends StatelessWidget {
       builder: (context, state) {
         switch (state.status) {
           case AuthenticationStatus.AUTHENTICATED:
-            return MeetingScreen();
+            return HomeNavigation();
           case AuthenticationStatus.UNAUTHENTICATED:
             return LoginNavigation();
           default:
