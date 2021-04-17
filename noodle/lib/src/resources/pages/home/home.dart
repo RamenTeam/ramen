@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/resources/pages/home/local_build/build_banner.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
+import 'package:noodle/src/resources/pages/interaction/meeting.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -15,8 +16,16 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+class SecondRoute extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MeetingScreen();
+  }
+}
+
 class _HomeScreenState extends State<HomeScreen> {
   bool isFinding = false;
+
   void findPartner() {
     setState(() {
       isFinding = !isFinding;
