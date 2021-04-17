@@ -24,13 +24,36 @@ class _MeetingScreenState extends State<MeetingScreen> {
   Widget build(BuildContext context) {
     final controller = PageController(initialPage: 0);
 
+    final screenSize = MediaQuery.of(context).size;
+
     final pageView = PageView(
       controller: controller,
       scrollDirection: Axis.vertical,
       children: [
-        Container(color: Colors.green),
-        Container(color: Colors.cyanAccent),
-        Container(color: Colors.deepOrangeAccent),
+        Container(
+            color: Colors.green,
+            child: FittedBox(
+              child: Image.network(
+                "https://media.giphy.com/media/xT9IgoJNoU4ZSTD0Gs/giphy.gif",
+              ),
+              fit: BoxFit.cover,
+            )),
+        Container(
+            color: Colors.cyanAccent,
+            child: FittedBox(
+              child: Image.network(
+                "https://media.giphy.com/media/3o7aDc5eHYx1vCXjKE/giphy.gif",
+              ),
+              fit: BoxFit.cover,
+            )),
+        Container(
+            color: Colors.cyanAccent,
+            child: FittedBox(
+              child: Image.network(
+                "https://media.giphy.com/media/1otEs4D4BJgQ0/giphy.gif",
+              ),
+              fit: BoxFit.cover,
+            )),
       ],
     );
 
@@ -125,8 +148,14 @@ class _MiddleSection extends StatelessWidget {
         Container(
           width: 140,
           height: 180,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15), color: Colors.red),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: FittedBox(
+              child: Image.network(
+                  "https://media.giphy.com/media/nc1Xx0poE6PvNVSEVG/giphy.gif"),
+              fit: BoxFit.cover,
+            ),
+          ),
           margin: EdgeInsets.only(left: 20, bottom: 20),
         )
       ],
