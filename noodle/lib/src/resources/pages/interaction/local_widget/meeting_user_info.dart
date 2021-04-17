@@ -16,6 +16,9 @@ Widget buildMeetingUserInfo(BuildContext context, Size screenSize) {
                 height: 20,
               ),
               Container(
+                  // child: Image.network(user.avatarPath),
+                  ),
+              Container(
                 child: Text("user name",
                     style: Theme.of(context).textTheme.headline3),
               ),
