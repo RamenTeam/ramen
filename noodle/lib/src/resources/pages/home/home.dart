@@ -16,15 +16,10 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class SecondRoute extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MeetingScreen();
-  }
-}
-
 class _HomeScreenState extends State<HomeScreen> {
   bool isFinding = false;
+
+  bool isMatched = false;
 
   void findPartner() {
     setState(() {
@@ -83,6 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO make a function to switch to the MeetingScreen when there is a matched
+    // if (isMatched = true) return MeetingScreen();
     return Scaffold(
         appBar: SharedAppBar(
           title: 'Ramen',
