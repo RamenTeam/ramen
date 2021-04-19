@@ -52,21 +52,21 @@ class LoginForm extends StatelessWidget {
               buildDivider(text: "or", context: context),
               SizedBox(height: 20),
               SocialSubmitButton(
-                  text: "Sign in with Facebook",
-                  color: HexColor("#3b5999"),
-                  icon: FaIcon(
-                    FontAwesomeIcons.facebookF,
-                    color: Colors.white,
-                    size: 14,
-                  ),
-                  onPressCallback: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder:
-                      (context) => FacebookAuthenRoute()),
-                    );
-                  },
-                  ),
+                text: "Sign in with Facebook",
+                color: HexColor("#3b5999"),
+                icon: FaIcon(
+                  FontAwesomeIcons.facebookF,
+                  color: Colors.white,
+                  size: 14,
+                ),
+                onPressCallback: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FacebookAuthenRoute()),
+                  );
+                },
+              ),
               SizedBox(height: 4),
               SocialSubmitButton(
                   text: "Sign in with Google",
@@ -76,8 +76,8 @@ class LoginForm extends StatelessWidget {
                   onPressCallback: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder:
-                          (context) => GoogleAuthenRoute()),
+                      MaterialPageRoute(
+                          builder: (context) => GoogleAuthenRoute()),
                     );
                   }),
               SizedBox(

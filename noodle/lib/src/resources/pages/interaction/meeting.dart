@@ -156,6 +156,10 @@ class _MiddleSection extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: Colors.grey,
+          ),
           margin: EdgeInsets.only(left: 20, bottom: 20),
         )
       ],
