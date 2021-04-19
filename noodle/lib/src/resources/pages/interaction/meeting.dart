@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:noodle/src/core/bloc/matching/matching_bloc.dart';
+import 'package:noodle/src/core/bloc/matching/matching_state.dart';
 import 'package:noodle/src/core/models/user.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
@@ -76,51 +80,75 @@ class _MeetingScreenState extends State<MeetingScreen> {
 }
 
 class _TopSection extends StatelessWidget {
-  List<Widget> buildInfo() {
-    return [
-      // Avatar
-      Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
-      ),
-      // Name & Username
-      Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 30,
-            width: 200,
-            decoration: BoxDecoration(color: Colors.blue),
-          ),
-          Container(
-            height: 30,
-            width: 200,
-            decoration: BoxDecoration(color: Colors.blue),
-          )
-        ],
-      )
-    ];
-  }
-
-  Widget buildBackButton() {
-    return Container(
-      width: 60,
-      height: 60,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.blue),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 100,
-        color: Colors.yellow,
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Row(children: buildInfo()), Spacer(), buildBackButton()],
-        ));
+    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
+      List<Widget> buildInfo() {
+        return [
+          // Avatar
+          Container(
+            width: 60,
+            height: 60,
+            decoration:
+                BoxDecoration(shape: BoxShape.circle, color: Colors.grey),
+            child: ClipRRect(
+              child: Image.network(state.peer?.avatarPath as String),
+              borderRadius: BorderRadius.circular(50),
+            ),
+          ),
+          SizedBox(width: 10),
+          // Name & Username
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                height: 30,
+                width: 200,
+                child: Text(
+                  '${state.peer?.firstName as String} ${state.peer?.lastName as String}',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 21),
+                ),
+                alignment: Alignment.centerLeft,
+              ),
+              Container(
+                height: 30,
+                width: 200,
+                child: Text(
+                  '@${state.peer?.username as String}',
+                  style: TextStyle(color: Colors.white, fontSize: 15),
+                ),
+                alignment: Alignment.centerLeft,
+              )
+            ],
+          )
+        ];
+      }
+
+      Widget buildBackButton() {
+        return Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: Theme.of(context).primaryColor),
+            child: IconButton(
+                icon: FaIcon(FontAwesomeIcons.home),
+                onPressed: () {
+                  Navigator.pop(context);
+                }));
+      }
+
+      return Container(
+          height: 90,
+          color: Colors.black54,
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [Row(children: buildInfo()), Spacer(), buildBackButton()],
+          ));
+    });
   }
 }
 
