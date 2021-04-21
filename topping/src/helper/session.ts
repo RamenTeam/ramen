@@ -5,7 +5,7 @@ import { genMongoDBSessionStore } from "./mongodb";
 // import { initializeRedisStore } from "./redis";
 
 //FIXME Must change the graphql playground "credential" from "omit" to "include"
-const COOKIE_NAME = "a sweet bowl of ramen";
+const COOKIE_NAME = "noodle";
 
 // initializeRedisStore(session)
 export const sessionConfiguration = session({

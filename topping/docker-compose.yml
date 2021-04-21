@@ -3,28 +3,28 @@ version: "3.7"
 services:
   # We are currently not using Redis as a storage for session anymore
 
-  # redis:
-  #   container_name: "redis"
-  #   image: redis:alpine
-  #   command: ["redis-server", "--bind", "redis", "--port", "6379"]
-  #   volumes:
-  #     - logvolume01:/log/redis
-  #   networks:
-  #     - webnet
-  #   ports:
-  #     - "6379:6379"
-  #   expose:
-  #     - 6379
-
-  mongodb:
-    image: mongo
-    container_name: "mongodb"
+  redis:
+    container_name: "redis"
+    image: redis:alpine
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
+    volumes:
+      - logvolume01:/log/redis
+    networks:
+      - webnet
     ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_DATABASE: ramen
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+      - "6379:6379"
+    expose:
+      - 6379
+
+  # mongodb:
+  #   image: mongo
+  #   container_name: "mongodb"
+  #   ports:
+  #     - 27017:27017
+  #   environment:
+  #     MONGO_INITDB_DATABASE: ramen
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: admin
 
   db:
     image: postgres
@@ -43,7 +43,7 @@ services:
     image: "ramen/topping:1.0"
     depends_on:
       - db
-      - mongodb
+      - redis
     environment:
       NODE_ENV: staging
       DB_HOST: db

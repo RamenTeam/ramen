@@ -21,6 +21,8 @@ import { DEV_BASE_URL } from "./constants/global-variables";
 import { Connection } from "typeorm";
 import { genMongoDbClient } from "./helper/mongodb";
 import { MongoClient } from "mongodb";
+import { getCookieRoute } from "./helper/cookie";
+import * as cookieParser from "cookie-parser";
 
 export const startServer = async () => {
 	// MongoDB
@@ -71,6 +73,8 @@ export const startServer = async () => {
 	server.express.use(sessionConfiguration);
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
+	server.express.use(cookieParser());
+	getCookieRoute(server.express);
 
 	// CORS
 	const corsOptions = {

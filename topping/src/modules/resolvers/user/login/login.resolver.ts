@@ -70,7 +70,7 @@ class LoginResolver {
 		session.userId = user.id;
 		if (request?.sessionID) {
 			mongodb.collection(`session`).insertOne({
-				tag: `${USER_SESSION_ID_PREFIX}${user.id}`,
+				tag: `${USER_SESSION_ID_PREFIX}${session.userId}`,
 				[`${REDIS_SESSION_PREFIX}`]: session.id,
 			});
 		}
