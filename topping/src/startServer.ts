@@ -46,6 +46,7 @@ export const startServer = async () => {
 			break;
 		} catch (error) {
 			retries -= 1;
+			console.log(error);
 			console.log(`retries left: ${retries}`);
 			// wait 5 seconds before retry
 			await new Promise((res) => setTimeout(res, 5000));

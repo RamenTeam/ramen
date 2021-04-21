@@ -5,11 +5,13 @@ import {
 	PrimaryColumn,
 	BeforeInsert,
 	BaseEntity,
+	ManyToMany,
+	JoinTable,
+	RelationCount,
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { UserStatus } from "../shared/UserStatus.enum";
-import { env, EnvironmentType } from "../utils/environmentType";
 import { DEFAULT_AVATAR_PATH } from "../constants/global-variables";
 
 @ObjectType("UserSchema")
@@ -20,11 +22,11 @@ export class User extends BaseEntity {
 	id: string;
 
 	@Field(() => String!)
-	@Column("text", { unique: true })
+	@Column("varchar", { unique: true })
 	email: string;
 
 	@Field(() => String!)
-	@Column("text", { unique: true })
+	@Column("varchar", { unique: true, length: 30 })
 	username: string;
 
 	@Field(() => String)
@@ -50,7 +52,7 @@ export class User extends BaseEntity {
 	bio: string;
 
 	@Field(() => String!)
-	@Column("text", { unique: true })
+	@Column("varchar", { unique: true, length: 25 })
 	phoneNumber: string;
 
 	// @Authorized(UserRole.super_admin)
@@ -69,6 +71,25 @@ export class User extends BaseEntity {
 	@Field(() => UserStatus!)
 	@Column("text", { nullable: true, default: UserStatus.none })
 	status: UserStatus;
+
+	@Field(() => [User])
+	@ManyToMany((type) => User, (user) => user.following)
+	@JoinTable()
+	followers: User[];
+
+	@Field(() => [User])
+	@ManyToMany((type) => User, (user) => user.followers)
+	following: User[];
+
+	// FIXME deprecated
+	@Field(() => Number!)
+	@RelationCount((user: User) => user.followers)
+	followersCount: number;
+
+	// FIXME deprecated
+	@Field(() => Number!)
+	@RelationCount((user: User) => user.following)
+	followingCount: number;
 
 	// External
 	@Field(() => String!)

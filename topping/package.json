@@ -51,6 +51,7 @@
 		"ioredis": "^4.19.4",
 		"isomorphic-fetch": "^3.0.0",
 		"jest": "^26.6.3",
+		"logrocket": "^1.0.16",
 		"merge-graphql-schemas": "^1.7.8",
 		"mock-session": "0.0.5",
 		"mongodb": "^3.6.6",

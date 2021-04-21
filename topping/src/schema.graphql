@@ -18,6 +18,10 @@ type UserSchema {
   firstName: String!
   lastName: String!
   status: UserStatus!
+  followers: [UserSchema!]!
+  following: [UserSchema!]!
+  followersCount: Float!
+  followingCount: Float!
   name: String!
 }
 

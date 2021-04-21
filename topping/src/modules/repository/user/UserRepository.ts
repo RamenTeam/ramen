@@ -29,4 +29,11 @@ export class UserRepository extends Repository<User> {
 
 		return isInBlackList;
 	}
+
+	updateFollow(user: User) {
+		return (following: User) => {
+			user.following.push(following);
+			following.followers.push(user);
+		};
+	}
 }
