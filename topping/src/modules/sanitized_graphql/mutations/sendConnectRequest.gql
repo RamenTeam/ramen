@@ -1,0 +1,6 @@
+mutation sendConnectRequest($data: ConnectUserDto!){
+    sendConnectRequest(data: $data){
+        path
+        message
+    }
+}

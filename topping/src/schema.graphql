@@ -90,8 +90,8 @@ type ConnectionNotificationSchema {
   read: Boolean!
   label: String!
   createdAt: String!
-  from: String!
-  to: String!
+  from: UserSchema!
+  to: UserSchema!
   status: ConnectionStatusType!
 }
 

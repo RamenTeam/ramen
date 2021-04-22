@@ -61,8 +61,8 @@ class ConnectResolver {
 
 		const notification = await this.connectionNotificationRepository
 			.create({
-				from: user.id,
-				to: currentUser?.id,
+				from: user,
+				to: currentUser,
 				label: `${user.username} want to connect with you!`,
 			})
 			.save();

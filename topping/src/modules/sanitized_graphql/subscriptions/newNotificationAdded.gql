@@ -1,0 +1,50 @@
+subscription newNotificationAdded {
+	newNotificationAdded {
+		... on ConnectionNotificationSchema {
+			id
+			read
+			label
+			createdAt
+			from {
+				id
+				email
+				username
+				avatarPath
+				isVerified
+				isBanned
+				forgotPasswordLock
+				bio
+				phoneNumber
+				password
+				firstName
+				lastName
+				status
+				connectionsCount
+				name
+			}
+			to {
+				id
+				email
+				username
+				avatarPath
+				isVerified
+				isBanned
+				forgotPasswordLock
+				bio
+				phoneNumber
+				password
+				firstName
+				lastName
+				status
+				name
+			}
+			status
+		}
+		... on NotificationSchema {
+			id
+			read
+			label
+			createdAt
+		}
+	}
+}

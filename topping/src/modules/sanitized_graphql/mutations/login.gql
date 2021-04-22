@@ -1,0 +1,6 @@
+mutation login($data: LoginDto!){
+    login(data: $data){
+        path
+        message
+    }
+}

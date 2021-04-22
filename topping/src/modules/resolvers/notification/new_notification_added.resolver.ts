@@ -14,7 +14,7 @@ import { isAuthFnc } from "../../middleware/isAuth";
 //TODO Union Type here
 class NotificationResolver {
 	@InjectRepository(NotificationRepository)
-	private readonly notificationRepository: NotificationRepository<any>;
+	private readonly connectionNotificationRepository: NotificationRepository<ConnectionNotification>;
 
 	@Subscription(() => NotificationUnionType, {
 		topics: ({ context }) => {
@@ -31,12 +31,13 @@ class NotificationResolver {
 	async newNotificationAdded(@Root() notificationPayload: NotificationPayload) {
 		switch (notificationPayload.type) {
 			case NotificationType.NEW_CONNECTION:
-				let notification = await this.notificationRepository.findOne({
+				let notification = await this.connectionNotificationRepository.findOne({
 					where: {
 						id: notificationPayload.notificationId,
 					},
+					relations: ["from", "to"],
 				});
-				return notification as ConnectionNotification;
+				return notification;
 			default:
 				return null;
 		}
