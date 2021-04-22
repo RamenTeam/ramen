@@ -14,4 +14,5 @@ export enum CustomMessage {
 	userIsNotVerified = "Your account is not verified yet",
 	phoneNumberIsTaken = "Phone Number is taken",
 	expiredKeyError = "Key has expired",
+	hmmm___err = "Hmmmm...This doesn't seem right",
 }

@@ -4,13 +4,17 @@ import { logger } from "../../config/winston.config";
 import { GQLContext } from "../../utils/graphql-utils";
 
 export const isAuth: MiddlewareFn<GQLContext> = (
-	{ args, context: { session } },
+	{ context: { session } },
 	next
 ) => {
+	isAuthFnc(session);
+	return next();
+};
+
+export const isAuthFnc = (session) => {
 	logger.info(session);
-	if (!session.userId) {
+	if (!session?.userId) {
 		throw new GraphQLError("not authenticated");
 	}
 	console.log("authenticated");
-	return next();
 };

@@ -2,6 +2,7 @@ import { Request } from "express";
 import { Session } from "express-session";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
+import { ExecutionParams } from "subscriptions-transport-ws";
 
 declare module "express-session" {
 	export interface SessionData {
@@ -27,6 +28,7 @@ export type GQLContext = {
 	url: string;
 	redis: Redis;
 	mongodb: Db;
+	connection: ExecutionParams;
 };
 
 export class SubPayload {}
@@ -41,4 +43,5 @@ export interface SubscriptionFilter<
 	args: {
 		data: A;
 	};
+	context: GQLContext;
 }

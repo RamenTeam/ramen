@@ -7,7 +7,7 @@ enum ConnectionStatusType {
 }
 
 registerEnumType(ConnectionStatusType, {
-	name: "Type of connection status",
+	name: "ConnectionStatusType",
 	valuesConfig: {
 		PENDING: {
 			description: "PENDING",

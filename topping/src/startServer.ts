@@ -2,7 +2,7 @@ import "reflect-metadata";
 import "dotenv/config";
 import { GraphQLServer, Options } from "graphql-yoga";
 import { genSchema } from "./utils/genSchema";
-import { sessionConfiguration } from "./helper/session";
+import { sessionMiddleware } from "./helper/session";
 // import { REDIS } from "./helper/redis";
 // import { DEV_BASE_URL } from "./constants/global-variables";
 import { env, EnvironmentType } from "./utils/environmentType";
@@ -61,17 +61,28 @@ export const startServer = async () => {
 
 	const server = new GraphQLServer({
 		schema,
-		context: ({ request }: ContextParameters): Partial<GQLContext> => ({
+		context: ({
 			request,
-			// redis: new REDIS().server,
-			mongodb: mongoConn.db() as any,
-			session: request?.session,
-			url: request?.protocol + "://" + request?.get("host"),
-		}),
+			connection,
+		}: ContextParameters): Partial<GQLContext> => {
+			// #NOTE If the request is not http => no request => return back the websocket connection
+			console.log(connection?.context);
+			if (!request || !request.headers) {
+				return connection.context;
+			}
+
+			return {
+				request,
+				// redis: new REDIS().server,
+				mongodb: mongoConn.db() as any,
+				session: request?.session,
+				url: request?.protocol + "://" + request?.get("host"),
+			};
+		},
 	} as any);
 
-	// Middlewares
-	server.express.use(sessionConfiguration);
+	// Middleware
+	server.express.use(sessionMiddleware);
 	server.express.use(express.json());
 	server.express.use(express.urlencoded({ extended: true }));
 	server.express.use(cookieParser());
@@ -97,7 +108,18 @@ export const startServer = async () => {
 					port: env(EnvironmentType.TEST) ? 8080 : PORT,
 					formatError: formatValidationError,
 					subscriptions: {
-						onConnect: () => console.log("Subscription server connected!"),
+						// #NOTE Callback to wrap the returned data of WebSocket with Session Middleware
+						onConnect: (_, ws: any) => {
+							console.log("Subscription server connected!");
+							// Return back a promise with a response as the WebSocket request
+							let req = null;
+							sessionMiddleware(
+								ws.upgradeReq,
+								{} as any,
+								() => (req = ws.upgradeReq)
+							);
+							return req;
+						},
 						onDisconnect: () =>
 							console.log("Subscription server disconnected!"),
 					},
@@ -120,8 +142,6 @@ export const startServer = async () => {
 								DATABASE_URL: process.env.DATABASE_URL,
 								MONGODB_URI: process.env.MONGODB_URI,
 								MONGODB_IS_CONNECTED: mongoConn.isConnected(),
-								// REDIS_HOST: process.env.REDIS_HOST,
-								// REDIS_PORT: process.env.REDIS_PORT,
 						  }
 						: {
 								REST_API_URI: `${process.env.SERVER_URI}:${options?.port}/api`,

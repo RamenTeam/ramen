@@ -8,7 +8,7 @@ import { genMongoDBSessionStore } from "./mongodb";
 const COOKIE_NAME = "noodle";
 
 // initializeRedisStore(session)
-export const sessionConfiguration = session({
+export const sessionMiddleware = session({
 	name: COOKIE_NAME,
 	secret: process.env.SESSION_SECRET as string,
 	resave: false,

@@ -12,7 +12,7 @@ class GetUsersResolver {
 	@Query(() => [User], { nullable: true })
 	async getUsers() {
 		const users = await this.userRepository.find({
-			relations: ["followers", "following"],
+			relations: ["connections"],
 		});
 
 		return users;

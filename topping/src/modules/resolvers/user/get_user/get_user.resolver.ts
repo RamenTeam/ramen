@@ -18,6 +18,7 @@ class GetUserResolver {
 			where: {
 				id: userId,
 			},
+			relations: ["connections"],
 		});
 
 		return user;

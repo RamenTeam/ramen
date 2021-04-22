@@ -1,5 +1,6 @@
 import { createUnionType } from "type-graphql";
 import { ConnectionNotification } from "../entity/ConnectionNotification";
+import Notification from "../entity/Notification";
 
 const NotificationUnionType = createUnionType({
 	name: "ConversationUnion",

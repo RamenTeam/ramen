@@ -1,0 +1,119 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\HP\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+
+PATH: 
+  C:\Python38\Scripts\;C:\Python38\;C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Node.js;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;D:\Anaconda\Scripts;C:\Users\HP\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Anaconda3 (64-bit);C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Git;C:\Users\HP\AppData\Local\ngrok;C:\ProgramData\chocolatey\bin;C:\Users\HP\AppData\Local\Programs\Python\Python38-32;C:\xampp\php;C:\Users\HP\AppData\Local\Programs\Python\Python38-32\Scripts;C:\Program Files (x86)\Vim\vim82;C:\Users\HP\AppData\Local\Composer;C:\composer;C:\Program Files\PuTTY\;C:\Windows\System32;C:\Program Files\RedHat\java-14-openjdk-14.0.2-1\missioncontrol\;C:\Program Files\RedHat\java-14-openjdk-14.0.2-1\bin;D:\ProgramFiles\erl10.3\bin;C:\Program Files (x86)\MSBuild\14.0\Bin;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Redis\;D:\Programming Languages\flutter\bin;C:\Users\HP\AppData\Local\Android\Sdk;C:\Program Files\nodejs\;C:\Users\HP\AppData\Local\Microsoft\WindowsApps;C:\Users\HP\AppData\Local\atom\bin;C:\Program Files\heroku\bin;C:\Users\HP\AppData\Roaming\Composer\vendor\bin;C:\Program Files (x86)\Vim\vim82;D:\WebProgramming\Back-End Languages\PHP\PhpStorm 2020.1.2\bin;;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2020.1.2\bin;;D:\Package\WebStorm 2020.2.3\bin;;C:\Program Files (x86)\Nmap;D:\CLion\CLion 2020.3.2\bin;;D:\Microsoft VS Code\bin;C:\Users\HP\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  14.16.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: ENOSPC: no space left on device, write
+
+npm manifest: 
+  {
+  	"name": "ramen",
+  	"version": "0.0.1",
+  	"main": "dist/index",
+  	"typings": "dist/index",
+  	"description": "Awesome project developed with TypeORM.",
+  	"devDependencies": {
+  		"@types/bcrypt": "^3.0.0",
+  		"@types/connect-redis": "0.0.16",
+  		"@types/express-session": "^1.17.3",
+  		"@types/faker": "^5.1.7",
+  		"@types/graphql": "^14.5.0",
+  		"@types/ioredis": "^4.19.1",
+  		"@types/node": "^8.10.66",
+  		"@types/nodemailer": "^6.4.1",
+  		"ts-node-dev": "^1.1.1"
+  	},
+  	"dependencies": {
+  		"@types/body-parser": "^1.19.0",
+  		"@types/connect-mongodb-session": "^2.4.0",
+  		"@types/connect-pg-simple": "^4.2.2",
+  		"@types/express-winston": "^4.0.0",
+  		"@types/jest": "^26.0.20",
+  		"@types/mongodb": "^3.6.12",
+  		"@types/morgan": "^1.9.2",
+  		"@types/uuid": "^8.3.0",
+  		"@types/winston": "^2.4.4",
+  		"bcrypt": "^5.0.0",
+  		"body-parser": "^1.19.0",
+  		"class-validator": "^0.13.1",
+  		"connect-mongodb-session": "^2.4.1",
+  		"connect-pg-simple": "^6.2.1",
+  		"connect-redis": "^5.0.0",
+  		"cookie-parser": "^1.4.5",
+  		"core-js": "3.0.0-beta.11",
+  		"dotenv": "^8.2.0",
+  		"express": "^4.17.1",
+  		"express-session": "^1.17.1",
+  		"express-winston": "^4.1.0",
+  		"faker": "^5.4.0",
+  		"fetch-cookie": "^0.11.0",
+  		"graphql": "^15.3.0",
+  		"graphql-import": "^1.0.2",
+  		"graphql-redis-subscriptions": "^2.3.1",
+  		"graphql-request": "^3.4.0",
+  		"graphql-subscriptions": "^1.1.0",
+  		"graphql-tag": "^2.11.0",
+  		"graphql-tools": "^7.0.2",
+  		"graphql-yoga": "^1.18.3",
+  		"graphql-yup-middleware": "0.0.1",
+  		"ioredis": "^4.19.4",
+  		"isomorphic-fetch": "^3.0.0",
+  		"jest": "^26.6.3",
+  		"logrocket": "^1.0.16",
+  		"merge-graphql-schemas": "^1.7.8",
+  		"mock-session": "0.0.5",
+  		"mongodb": "^3.6.6",
+  		"morgan": "^1.10.0",
+  		"nodemailer": "^6.5.0",
+  		"nodemon": "^2.0.7",
+  		"pg": "^8.5.1",
+  		"reflect-metadata": "^0.1.13",
+  		"request-promise": "^4.2.6",
+  		"rimraf": "^3.0.2",
+  		"sofa-api": "^0.2.3",
+  		"subscriptions-transport-ws": "^0.9.18",
+  		"swagger-ui-express": "^4.1.6",
+  		"ts-jest": "^26.5.3",
+  		"ts-node": "^3.3.0",
+  		"type-graphql": "^1.1.1",
+  		"typedi": "^0.8.0",
+  		"typeorm": "^0.2.25",
+  		"typeorm-naming-strategies": "^2.0.0",
+  		"typeorm-typedi-extensions": "^0.4.0",
+  		"typescript": "^4.2.3",
+  		"uuid": "^7.0.0",
+  		"winston": "^3.3.3",
+  		"yup": "^0.32.8"
+  	},
+  	"scripts": {
+  		"start": "node dist/src/index.js",
+  		"dev": "concurrently \" SET NODE_ENV=development& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \" ",
+  		"dev:test": "concurrently \" SET NODE_ENV=test& ts-node-dev --respawn src/index.ts \" \" npm run gen-gql \"",
+  		"test": "jest --watch --runInBand",
+  		"build": "rimraf ./dist & tsc",
+  		"heroku-deploy": "npm run build & git push heroku master",
+  		"watch": "tsc -w",
+  		"gen-gql": "rimraf ./modules/graphql & gqlg --schemaFilePath ./src/schema.graphql --destDirPath ./src/modules/graphql --depthLimit 5",
+  		"gen-env": "npx gen-env-types .env -o src/types/env.d.ts -e ."
+  	},
+  	"resolutions": {
+  		"graphql": "^15.0.0"
+  	}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

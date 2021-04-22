@@ -1,0 +1,19 @@
+subscription newNotificationAdded{
+    newNotificationAdded{
+        ... on ConnectionNotificationSchema {
+            id
+            read
+            label
+            createdAt
+            from
+            to
+            status
+        }
+        ... on NotificationSchema {
+            id
+            read
+            label
+            createdAt
+        }
+    }
+}

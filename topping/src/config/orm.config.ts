@@ -12,7 +12,7 @@ export const genORMConnection = async (
 	const extendedOptions = {
 		...connectionOptions,
 		database: (connectionOptions.database +
-			(env(EnvironmentType.TEST) ? "-testing" : "")) as any,
+			(!env(EnvironmentType.TEST) ? "-testing" : "")) as any,
 		dropSchema: env(EnvironmentType.TEST),
 		namingStrategy: new SnakeNamingStrategy(),
 		logging,

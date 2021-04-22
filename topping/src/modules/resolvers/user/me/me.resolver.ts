@@ -15,6 +15,7 @@ class MeResolver {
 	async me(@Ctx() { session }: GQLContext) {
 		return await this.userRepository.findOne({
 			where: { id: session?.userId },
+			relations: ["connections"],
 		});
 	}
 }

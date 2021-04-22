@@ -1,11 +1,11 @@
 import {
 	Arg,
 	Resolver,
-	Query,
 	UseMiddleware,
 	PubSubEngine,
 	PubSub,
 	Ctx,
+	Mutation,
 } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { UserRepository } from "../../../repository/UserRepository";
@@ -28,12 +28,18 @@ class ConnectResolver {
 	private readonly connectionNotificationRepository: ConnectionNotificationRepository;
 
 	@UseMiddleware(isAuth)
-	@Query(() => ErrorMessage, { nullable: true })
+	@Mutation(() => ErrorMessage, { nullable: true })
 	async sendConnectRequest(
 		@Arg("data") { userId }: ConnectUserDto,
 		@Ctx() { session }: GQLContext,
 		@PubSub() pubSub: PubSubEngine
 	) {
+		if (userId == session.userId) {
+			return {
+				message: CustomMessage.hmmm___err,
+				path: "userId",
+			};
+		}
 		const user = await this.userRepository.findOne({
 			where: {
 				id: userId,
@@ -57,13 +63,16 @@ class ConnectResolver {
 			.create({
 				from: user.id,
 				to: currentUser?.id,
+				label: `${user.username} want to connect with you!`,
 			})
 			.save();
+
+		console.log(notification);
 
 		await pubSub
 			.publish(GLOBAL_TOPIC.NEW_NOTIFICATION_TOPIC, {
 				type: NotificationType.NEW_CONNECTION,
-				label: `${user.username} want to connect with you!`,
+				label: notification.label,
 				user: currentUser,
 				notificationId: notification.id,
 			} as NotificationPayload)

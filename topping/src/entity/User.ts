@@ -74,6 +74,7 @@ export class User extends BaseEntity {
 
 	@Field(() => [User])
 	@ManyToMany((type) => User, (user) => user.connections)
+	@JoinTable()
 	connections: User[];
 
 	// FIXME deprecated
