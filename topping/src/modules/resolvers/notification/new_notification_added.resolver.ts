@@ -18,7 +18,6 @@ class NotificationResolver {
 
 	@Subscription(() => NotificationUnionType, {
 		topics: ({ context }) => {
-			console.log(context.session);
 			isAuthFnc(context?.session);
 			return GLOBAL_TOPIC.NEW_NOTIFICATION_TOPIC;
 		},

@@ -66,9 +66,8 @@ export const startServer = async () => {
 			connection,
 		}: ContextParameters): Partial<GQLContext> => {
 			// #NOTE If the request is not http => no request => return back the websocket connection
-			console.log(connection?.context);
 			if (!request || !request.headers) {
-				return connection.context;
+				return connection.context.req;
 			}
 
 			return {
@@ -112,13 +111,11 @@ export const startServer = async () => {
 						onConnect: (_, ws: any) => {
 							console.log("Subscription server connected!");
 							// Return back a promise with a response as the WebSocket request
-							let req = null;
-							sessionMiddleware(
-								ws.upgradeReq,
-								{} as any,
-								() => (req = ws.upgradeReq)
+							return new Promise((res) =>
+								sessionMiddleware(ws.upgradeReq, {} as any, () => {
+									res({ req: ws.upgradeReq });
+								})
 							);
-							return req;
 						},
 						onDisconnect: () =>
 							console.log("Subscription server disconnected!"),
