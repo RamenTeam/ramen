@@ -6,26 +6,27 @@ import {
 	Column,
 	Entity,
 	PrimaryColumn,
+	TableInheritance,
 } from "typeorm";
-import { boolean } from "yup/lib/locale";
 
 @Entity("Notification")
 @ObjectType("NotificationSchema")
+@TableInheritance({ column: { type: "varchar", name: "type" } })
 class Notification extends BaseEntity {
 	@Field(() => ID)
 	@PrimaryColumn("uuid")
 	id: string;
 
-	@Field(() => boolean!)
+	@Field(() => Boolean!)
 	@Column("bool", { default: false })
-	read?: boolean;
+	read: boolean;
 
 	@Field(() => String!)
 	@Column("text")
 	label: string;
 
 	@Field(() => String)
-	@Column("string", { default: new Date().toISOString() })
+	@Column("text", { default: new Date().toISOString() })
 	createdAt?: string;
 
 	@BeforeInsert()

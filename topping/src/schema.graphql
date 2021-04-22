@@ -2,6 +2,7 @@ type Query {
   me: UserSchema
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
+  sendConnectRequest(data: ConnectUserDto!): ErrorMessage
 }
 
 type UserSchema {
@@ -18,10 +19,8 @@ type UserSchema {
   firstName: String!
   lastName: String!
   status: UserStatus!
-  followers: [UserSchema!]!
-  following: [UserSchema!]!
-  followersCount: Float!
-  followingCount: Float!
+  connections: [UserSchema!]!
+  connectionsCount: Float!
   name: String!
 }
 
@@ -38,17 +37,21 @@ input GetUserDto {
   userId: String!
 }
 
+type ErrorMessage {
+  path: String!
+  message: String!
+}
+
+input ConnectUserDto {
+  userId: String!
+}
+
 type Mutation {
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
   register(data: RegisterDto!): ErrorMessage
   sendForgotPasswordEmail(data: SendForgotPasswordDto!): ErrorMessage
   forgotPasswordChange(data: ForgotPasswordChangeDto!): ErrorMessage
-}
-
-type ErrorMessage {
-  path: String!
-  message: String!
 }
 
 input LoginDto {
@@ -74,4 +77,19 @@ input SendForgotPasswordDto {
 input ForgotPasswordChangeDto {
   key: String!
   newPassword: String!
+}
+
+type Subscription {
+  newNotificationAdded(data: NewNotificationAddedDto!): NotificationSchema
+}
+
+type NotificationSchema {
+  id: ID!
+  read: Boolean!
+  label: String!
+  createdAt: String!
+}
+
+input NewNotificationAddedDto {
+  userId: String!
 }

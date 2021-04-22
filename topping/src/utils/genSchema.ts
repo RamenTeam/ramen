@@ -6,6 +6,7 @@ import * as path from "path";
 import { customAuthChecker } from "./authChecker";
 import { ResolveTime } from "../modules/middleware";
 import * as User from "../modules/resolvers/user";
+import NotificationResolver from "../modules/resolvers/notification/new_notification_added.resolver";
 
 export const genSchema = async (): Promise<GraphQLSchema> => {
 	// const modulePath = "../modules/**/*.resolver.{ts,js}";
@@ -19,6 +20,8 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			User.MeResolver,
 			User.RegisterResolver,
 			User.ForgotPasswordResolver,
+			User.ConnectResolver,
+			NotificationResolver,
 		],
 		container: Container,
 		// pubSub: redisPubSub,

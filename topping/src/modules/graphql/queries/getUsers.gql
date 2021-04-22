@@ -13,7 +13,7 @@ query getUsers{
         firstName
         lastName
         status
-        followers{
+        connections{
             id
             email
             username
@@ -27,7 +27,7 @@ query getUsers{
             firstName
             lastName
             status
-            followers{
+            connections{
                 id
                 email
                 username
@@ -41,88 +41,13 @@ query getUsers{
                 firstName
                 lastName
                 status
-                following{
-                    id
-                    email
-                    username
-                    avatarPath
-                    isVerified
-                    isBanned
-                    forgotPasswordLock
-                    bio
-                    phoneNumber
-                    password
-                    firstName
-                    lastName
-                    status
-                    followers{
-                        id
-                        email
-                        username
-                        avatarPath
-                        isVerified
-                        isBanned
-                        forgotPasswordLock
-                        bio
-                        phoneNumber
-                        password
-                        firstName
-                        lastName
-                        status
-                        followersCount
-                        followingCount
-                        name
-                    }
-                    following{
-                        id
-                        email
-                        username
-                        avatarPath
-                        isVerified
-                        isBanned
-                        forgotPasswordLock
-                        bio
-                        phoneNumber
-                        password
-                        firstName
-                        lastName
-                        status
-                        followersCount
-                        followingCount
-                        name
-                    }
-                    followersCount
-                    followingCount
-                    name
-                }
-                followersCount
-                followingCount
+                connectionsCount
                 name
             }
-            followersCount
-            followingCount
+            connectionsCount
             name
         }
-        following{
-            id
-            email
-            username
-            avatarPath
-            isVerified
-            isBanned
-            forgotPasswordLock
-            bio
-            phoneNumber
-            password
-            firstName
-            lastName
-            status
-            followersCount
-            followingCount
-            name
-        }
-        followersCount
-        followingCount
+        connectionsCount
         name
     }
 }
