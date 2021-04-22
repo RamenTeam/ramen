@@ -1,0 +1,15 @@
+import { createUnionType } from "type-graphql";
+import { ConnectionNotification } from "../entity/ConnectionNotification";
+
+const NotificationUnionType = createUnionType({
+	name: "ConversationUnion",
+	types: () => [ConnectionNotification, Notification] as const,
+	resolveType: (value) => {
+		if ("from" in value || "to" in value || "status" in value) {
+			return ConnectionNotification;
+		}
+		return Notification;
+	},
+});
+
+export default NotificationUnionType;

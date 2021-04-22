@@ -2,7 +2,7 @@ import { Arg, Resolver, Mutation, UseMiddleware, Ctx } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { RegisterDto } from "./register.dto";
-import { UserRepository } from "../../../repository/user/UserRepository";
+import { UserRepository } from "../../../repository/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { yupValidateMiddleware } from "../../../middleware/yupValidate";
 import { CustomMessage } from "../../../../shared/CustomMessage.enum";

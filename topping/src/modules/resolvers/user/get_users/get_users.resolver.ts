@@ -1,6 +1,6 @@
 import { Resolver, Query, UseMiddleware } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { UserRepository } from "../../../repository/user/UserRepository";
+import { UserRepository } from "../../../repository/UserRepository";
 import { User } from "../../../../entity/User";
 
 @Resolver((of) => User)

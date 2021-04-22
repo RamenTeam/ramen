@@ -2,7 +2,7 @@ import { Arg, Resolver, Mutation, Ctx, UseMiddleware } from "type-graphql";
 import { User } from "../../../../entity/User";
 import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { LoginDto } from "./login.dto";
-import { UserRepository } from "../../../repository/user/UserRepository";
+import { UserRepository } from "../../../repository/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import * as bcrypt from "bcrypt";
 import { GQLContext } from "../../../../utils/graphql-utils";

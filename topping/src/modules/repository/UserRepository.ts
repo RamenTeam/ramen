@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from "typeorm";
-import { User } from "../../../entity/User";
-import { BlackList } from "../../../entity/BlackList";
+import { User } from "../../entity/User";
+import { BlackList } from "../../entity/BlackList";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -30,10 +30,10 @@ export class UserRepository extends Repository<User> {
 		return isInBlackList;
 	}
 
-	updateFollow(user: User) {
-		return (following: User) => {
-			user.following.push(following);
-			following.followers.push(user);
+	updateConnection(user: User) {
+		return (connector: User) => {
+			user.connections.push(connector);
+			connector.connections.push(user);
 		};
 	}
 }

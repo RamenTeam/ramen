@@ -6,7 +6,6 @@ import {
 	BeforeInsert,
 	BaseEntity,
 	ManyToMany,
-	JoinTable,
 	RelationCount,
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
@@ -73,23 +72,13 @@ export class User extends BaseEntity {
 	status: UserStatus;
 
 	@Field(() => [User])
-	@ManyToMany((type) => User, (user) => user.following)
-	@JoinTable()
-	followers: User[];
-
-	@Field(() => [User])
-	@ManyToMany((type) => User, (user) => user.followers)
-	following: User[];
+	@ManyToMany((type) => User, (user) => user.connections)
+	connections: User[];
 
 	// FIXME deprecated
 	@Field(() => Number!)
-	@RelationCount((user: User) => user.followers)
-	followersCount: number;
-
-	// FIXME deprecated
-	@Field(() => Number!)
-	@RelationCount((user: User) => user.following)
-	followingCount: number;
+	@RelationCount((user: User) => user.connections)
+	connectionsCount: number;
 
 	// External
 	@Field(() => String!)

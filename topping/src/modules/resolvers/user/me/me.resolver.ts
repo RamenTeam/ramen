@@ -1,6 +1,6 @@
 import { Resolver, Ctx, UseMiddleware, Query } from "type-graphql";
 import { User } from "../../../../entity/User";
-import { UserRepository } from "../../../repository/user/UserRepository";
+import { UserRepository } from "../../../repository/UserRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { isAuth } from "../../../middleware/isAuth";

@@ -28,3 +28,17 @@ export type GQLContext = {
 	redis: Redis;
 	mongodb: Db;
 };
+
+export class SubPayload {}
+
+export class SubArgument {}
+
+export interface SubscriptionFilter<
+	P extends SubPayload,
+	A extends SubArgument
+> {
+	payload: P;
+	args: {
+		data: A;
+	};
+}

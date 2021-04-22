@@ -1,6 +1,6 @@
 import { Arg, Resolver, Mutation, UseMiddleware, Ctx } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { UserRepository } from "../../../repository/user/UserRepository";
+import { UserRepository } from "../../../repository/UserRepository";
 import { User } from "../../../../entity/User";
 import { SendForgotPasswordDto } from "./send_forgot_password_email.dto";
 import { yupValidateMiddleware } from "../../../middleware";
