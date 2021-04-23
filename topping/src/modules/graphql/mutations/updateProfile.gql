@@ -1,4 +1,4 @@
-query updateProfile($data: UpdateProfileDto!){
+mutation updateProfile($data: UpdateProfileDto!){
     updateProfile(data: $data){
         path
         message

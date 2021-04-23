@@ -53,7 +53,6 @@ subscription newNotificationAdded{
                 connectionsCount
                 name
             }
-            userId
             read
             label
             createdAt
@@ -95,7 +94,6 @@ subscription newNotificationAdded{
         }
         ... on NotificationSchema {
             id
-            userId
             read
             label
             createdAt

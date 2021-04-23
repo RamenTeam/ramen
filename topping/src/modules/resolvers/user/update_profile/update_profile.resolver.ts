@@ -8,7 +8,7 @@ import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { isAuth } from "../../../middleware";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { GraphQLError } from "graphql";
-import { YUP_UPDATE_PROFILE } from "./update_profile.test";
+import { YUP_UPDATE_PROFILE } from "./update_profile.validate";
 import NodeMailerService from "../../../../helper/email";
 import { env, EnvironmentType } from "../../../../utils/environmentType";
 import * as bcrypt from "bcrypt";

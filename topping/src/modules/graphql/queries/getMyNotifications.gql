@@ -1,5 +1,5 @@
-query getNotifications{
-    getNotifications{
+query getMyNotifications{
+    getMyNotifications{
         ... on ConnectionNotificationSchema {
             id
             to{
