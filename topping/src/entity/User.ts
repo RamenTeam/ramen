@@ -29,7 +29,7 @@ export class User extends BaseEntity {
 	@Column("varchar", { unique: true, length: 30 })
 	username: string;
 
-	@Field(() => String)
+	@Field(() => String, { simple: true })
 	@Column("text", {
 		default: DEFAULT_AVATAR_PATH,
 	})
@@ -56,11 +56,11 @@ export class User extends BaseEntity {
 	phoneNumber: string;
 
 	// @Authorized(UserRole.super_admin)
-	@Field(() => String!)
+	@Field(() => String!, { simple: true })
 	@Column()
 	password: string;
 
-	@Field(() => String!)
+	@Field(() => String!, { simple: true })
 	@Column({ nullable: true })
 	firstName: string;
 
@@ -68,7 +68,7 @@ export class User extends BaseEntity {
 	@Column({ nullable: true })
 	lastName: string;
 
-	@Field(() => UserStatus!)
+	@Field(() => UserStatus!, { simple: true })
 	@Column("text", { nullable: true, default: UserStatus.none })
 	status: UserStatus;
 
@@ -78,12 +78,12 @@ export class User extends BaseEntity {
 	connections: User[];
 
 	// FIXME deprecated
-	@Field(() => Number!)
+	@Field(() => Number!, { simple: true })
 	@RelationCount((user: User) => user.connections)
 	connectionsCount: number;
 
 	// External
-	@Field(() => String!)
+	@Field(() => String!, { simple: true })
 	name(@Root() parent: User): string {
 		return `${parent.firstName} ${parent.lastName}`;
 	}

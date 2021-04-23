@@ -25,15 +25,15 @@ class Notification extends BaseEntity {
 	@JoinColumn()
 	to: User;
 
-	@Field(() => Boolean!)
+	@Field(() => Boolean!, { simple: true })
 	@Column("bool", { default: false })
 	read: boolean;
 
-	@Field(() => String!)
+	@Field(() => String!, { simple: true })
 	@Column("text")
 	label: string;
 
-	@Field(() => String)
+	@Field(() => String, { simple: true })
 	@Column("text", { default: new Date().toISOString() })
 	createdAt?: string;
 
