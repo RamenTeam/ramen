@@ -5,9 +5,12 @@ import {
 	BeforeInsert,
 	Column,
 	Entity,
+	JoinColumn,
+	OneToOne,
 	PrimaryColumn,
 	TableInheritance,
 } from "typeorm";
+import { User } from "./User";
 
 @Entity("Notification")
 @ObjectType("NotificationSchema")
@@ -16,6 +19,11 @@ class Notification extends BaseEntity {
 	@Field(() => ID)
 	@PrimaryColumn("uuid")
 	id: string;
+
+	@Field(() => User!)
+	@OneToOne((type) => User, { nullable: true })
+	@JoinColumn()
+	to: User;
 
 	@Field(() => Boolean!)
 	@Column("bool", { default: false })

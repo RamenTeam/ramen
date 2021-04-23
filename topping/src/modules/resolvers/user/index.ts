@@ -6,3 +6,4 @@ export { default as GetUserResolver } from "./get_user/get_user.resolver";
 export { default as GetUsersResolver } from "./get_users/get_users.resolver";
 export { default as ForgotPasswordResolver } from "./forgot_password/forgot_password.resolver";
 export { default as ConnectResolver } from "./connect/connect.resolver";
+export { default as UpdateProfileResolver } from "./update_profile/update_profile.resolver";

@@ -1,0 +1,6 @@
+query updateProfile($data: UpdateProfileDto!){
+    updateProfile(data: $data){
+        path
+        message
+    }
+}
