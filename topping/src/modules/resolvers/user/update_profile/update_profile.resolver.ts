@@ -9,6 +9,9 @@ import { isAuth } from "../../../middleware";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { GraphQLError } from "graphql";
 import { YUP_UPDATE_PROFILE } from "./update_profile.test";
+import NodeMailerService from "../../../../helper/email";
+import { env, EnvironmentType } from "../../../../utils/environmentType";
+import * as bcrypt from "bcrypt";
 
 @Resolver((of) => User)
 class UpdateProfileResolver {
@@ -19,23 +22,38 @@ class UpdateProfileResolver {
 	@Mutation(() => ErrorMessage, { nullable: true })
 	async updateProfile(
 		@Arg("data") data: UpdateProfileDto,
-		@Ctx() { session }: GQLContext
+		@Ctx() { session, mongodb }: GQLContext
 	) {
 		try {
 			let user = await this.userRepository.findOne({
 				where: { id: session.userId },
 			});
 
-			if (user) {
-				user = user as User;
-				user.bio = data.bio || user.bio;
-				user.avatarPath = data.avatarPath || user.avatarPath;
-				user.email = data.email || user.email;
-				user.firstName = data.firstName || user.firstName;
-				user.lastName = data.lastName || user.lastName;
-				user.username = data.username || user.username;
-				user.phoneNumber = data.phoneNumber || user.phoneNumber;
-				user.save();
+			user = user as User;
+			user.bio = data.bio || user.bio;
+			user.avatarPath = data.avatarPath || user.avatarPath;
+			user.email = data.email || user.email;
+			user.firstName = data.firstName || user.firstName;
+			user.lastName = data.lastName || user.lastName;
+			user.username = data.username || user.username;
+			user.phoneNumber = data.phoneNumber || user.phoneNumber;
+			user.password = (await bcrypt.hash(data.password, 10)) || user.password;
+			user.save();
+
+			if (data.email) {
+				const link = await new NodeMailerService().createConfirmedEmailLink(
+					env(EnvironmentType.PROD)
+						? process.env.PROD_SERVER_HOST
+						: (process.env.TEST_HOST as any),
+					user.id,
+					mongodb
+				);
+
+				await new NodeMailerService().sendEmail(
+					data.email,
+					"Ramen | Email Verification",
+					link
+				);
 			}
 
 			return null;
