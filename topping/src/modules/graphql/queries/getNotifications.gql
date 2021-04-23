@@ -1,5 +1,5 @@
-subscription newNotificationAdded{
-    newNotificationAdded{
+query getNotifications{
+    getNotifications{
         ... on ConnectionNotificationSchema {
             id
             to{

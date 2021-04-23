@@ -2,6 +2,8 @@ type Query {
   me: UserSchema
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
+  getNotifications: [ConversationUnion!]
+  getMyNotifications: [ConversationUnion!]
 }
 
 type UserSchema {
@@ -36,6 +38,37 @@ input GetUserDto {
   userId: String!
 }
 
+union ConversationUnion = ConnectionNotificationSchema | NotificationSchema
+
+type ConnectionNotificationSchema {
+  id: ID!
+  to: UserSchema!
+  read: Boolean!
+  label: String!
+  createdAt: String!
+  from: UserSchema!
+  status: ConnectionStatusType!
+}
+
+enum ConnectionStatusType {
+  """PENDING"""
+  PENDING
+
+  """ACCEPTED"""
+  ACCEPTED
+
+  """REJECTED"""
+  REJECTED
+}
+
+type NotificationSchema {
+  id: ID!
+  to: UserSchema!
+  read: Boolean!
+  label: String!
+  createdAt: String!
+}
+
 type Mutation {
   login(data: LoginDto!): ErrorMessage
   logout: Boolean
@@ -43,6 +76,7 @@ type Mutation {
   sendForgotPasswordEmail(data: SendForgotPasswordDto!): ErrorMessage
   forgotPasswordChange(data: ForgotPasswordChangeDto!): ErrorMessage
   sendConnectRequest(data: ConnectUserDto!): ErrorMessage
+  updateProfile(data: UpdateProfileDto!): ErrorMessage
 }
 
 type ErrorMessage {
@@ -79,36 +113,17 @@ input ConnectUserDto {
   userId: String!
 }
 
+input UpdateProfileDto {
+  firstName: String
+  lastName: String
+  username: String
+  email: String
+  bio: String
+  password: String
+  phoneNumber: String
+  avatarPath: String
+}
+
 type Subscription {
   newNotificationAdded: ConversationUnion
-}
-
-union ConversationUnion = ConnectionNotificationSchema | NotificationSchema
-
-type ConnectionNotificationSchema {
-  id: ID!
-  read: Boolean!
-  label: String!
-  createdAt: String!
-  from: UserSchema!
-  to: UserSchema!
-  status: ConnectionStatusType!
-}
-
-enum ConnectionStatusType {
-  """PENDING"""
-  PENDING
-
-  """ACCEPTED"""
-  ACCEPTED
-
-  """REJECTED"""
-  REJECTED
-}
-
-type NotificationSchema {
-  id: ID!
-  read: Boolean!
-  label: String!
-  createdAt: String!
 }

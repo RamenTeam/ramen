@@ -1,12 +1,11 @@
 import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import { Container } from "typedi";
-import * as path from "path";
 // import { redisPubSub } from "../helper/redis";
 import { customAuthChecker } from "./authChecker";
 import { ResolveTime } from "../modules/middleware";
 import * as User from "../modules/resolvers/user";
-import NotificationResolver from "../modules/resolvers/notification/new_notification_added.resolver";
+import * as Notification from "../modules/resolvers/notification";
 
 export const genSchema = async (): Promise<GraphQLSchema> => {
 	// const modulePath = "../modules/**/*.resolver.{ts,js}";
@@ -21,7 +20,10 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			User.RegisterResolver,
 			User.ForgotPasswordResolver,
 			User.ConnectResolver,
-			NotificationResolver,
+			User.UpdateProfileResolver,
+			Notification.GetNotificationsResolver,
+			Notification.GetMyNotificationsResolver,
+			Notification.NewNotificationAddedResolver,
 		],
 		container: Container,
 		// pubSub: redisPubSub,

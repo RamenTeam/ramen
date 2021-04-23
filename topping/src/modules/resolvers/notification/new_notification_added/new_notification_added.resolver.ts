@@ -1,18 +1,17 @@
 import { Root, Subscription, UseMiddleware } from "type-graphql";
-import { GLOBAL_TOPIC } from "../../../constants/global-topics";
+import { GLOBAL_TOPIC } from "../../../../constants/global-topics";
 import {
 	NotificationPayload,
 	NotificationType,
 	NotificationUnionType,
-} from "../../../models";
-import { SubscriptionFilter } from "../../../utils/graphql-utils";
-import { NotificationRepository } from "../../repository/NotificationRepository";
+} from "../../../../models";
+import { SubscriptionFilter } from "../../../../utils/graphql-utils";
+import { NotificationRepository } from "../../../repository/NotificationRepository";
 import { InjectRepository } from "typeorm-typedi-extensions";
-import { ConnectionNotification } from "../../../entity/ConnectionNotification";
-import { isAuthFnc } from "../../middleware/isAuth";
+import { ConnectionNotification } from "../../../../entity/ConnectionNotification";
+import { isAuthFnc } from "../../../middleware/isAuth";
 
-//TODO Union Type here
-class NotificationResolver {
+class NewNotificationAddedResolver {
 	@InjectRepository(NotificationRepository)
 	private readonly connectionNotificationRepository: NotificationRepository<ConnectionNotification>;
 
@@ -44,4 +43,4 @@ class NotificationResolver {
 	}
 }
 
-export default NotificationResolver;
+export default NewNotificationAddedResolver;

@@ -8,14 +8,9 @@ import { User } from "./User";
 @ChildEntity("ConnectionNotification")
 export class ConnectionNotification extends Notification {
 	@Field(() => User!)
-	@OneToOne((type) => User)
+	@OneToOne((type) => User, { nullable: true })
 	@JoinColumn()
 	from: User;
-
-	@Field(() => User!)
-	@OneToOne((type) => User)
-	@JoinColumn()
-	to: User;
 
 	@Field(() => ConnectionStatusType!)
 	@Column("text", { nullable: false, default: ConnectionStatusType.PENDING })
