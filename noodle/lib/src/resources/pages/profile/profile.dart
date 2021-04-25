@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
-import 'package:noodle/src/core/bloc/profile/profile_bloc.dart';
-import 'package:noodle/src/core/bloc/profile/profile_state.dart';
+import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_bloc.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_state.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-import 'package:noodle/src/resources/pages/profile/update_profile.dart';
+import 'package:noodle/src/resources/pages/update_profile/update_profile.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
 import 'package:provider/provider.dart';
 

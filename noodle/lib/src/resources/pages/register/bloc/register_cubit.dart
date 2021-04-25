@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:noodle/src/core/bloc/login/login_state.dart';
-import 'package:noodle/src/core/bloc/register/register_state.dart';
+import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
+import 'package:noodle/src/resources/pages/register/bloc/register_state.dart';
 import 'package:noodle/src/core/models/form/confirmed_password.dart';
 import 'package:noodle/src/core/models/form/email.dart';
 import 'package:noodle/src/core/models/form/name.dart';

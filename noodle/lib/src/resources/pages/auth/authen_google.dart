@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:noodle/src/resources/pages/auth/login.dart';
+import 'package:noodle/src/resources/pages/login/login.dart';
 //import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'dart:async';

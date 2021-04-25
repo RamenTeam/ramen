@@ -1,7 +1,7 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dart';
-import 'package:noodle/src/core/bloc/login_navigation/login_navigation_state.dart';
+import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_event.dart';
+import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_state.dart';
 
 class LoginNavigationBloc
     extends Bloc<LoginNavigationEvent, LoginNavigationState> {

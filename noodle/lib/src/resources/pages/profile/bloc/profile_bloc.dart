@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noodle/src/core/bloc/profile/profile_event.dart';
-import 'package:noodle/src/core/bloc/profile/profile_state.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_event.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_state.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 

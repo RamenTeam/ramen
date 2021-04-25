@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/core/bloc/home/home_cubit.dart';
-import 'package:noodle/src/core/bloc/profile/profile_bloc.dart';
-import 'package:noodle/src/core/bloc/tab_navigation/tab_navigation_cubit.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_bloc.dart';
+import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
@@ -35,9 +34,6 @@ class HomeNavigation extends StatelessWidget {
               userRepository:
                   Provider.of<UserRepository>(context, listen: false),
             ),
-          ),
-          BlocProvider<HomeCubit>(
-            create: (_) => HomeCubit(),
           ),
         ],
         child: BlocBuilder<TabNavigationCubit, int>(

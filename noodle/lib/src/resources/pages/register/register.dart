@@ -2,21 +2,20 @@ import 'package:flutter/material.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noodle/src/resources/pages/register/bloc/register_cubit.dart';
+import 'package:noodle/src/resources/pages/register/register_form.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
-import 'package:noodle/src/core/bloc/login/login_cubit.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
-import 'package:noodle/src/resources/pages/auth/local_widget/login_form.dart';
 
-///@chungquantin
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => LoginCubit(
+      create: (_) => RegisterCubit(
           Provider.of<AuthenticationRepository>(context, listen: false)),
-      child: LoginForm(),
+      child: RegisterForm(),
     );
   }
 }

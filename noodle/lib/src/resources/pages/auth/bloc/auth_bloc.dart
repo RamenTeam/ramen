@@ -2,8 +2,8 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noodle/src/core/bloc/auth/auth_event.dart';
-import 'package:noodle/src/core/bloc/auth/auth_state.dart';
+import 'package:noodle/src/resources/pages/auth/bloc/auth_event.dart';
+import 'package:noodle/src/resources/pages/auth/bloc/auth_state.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';

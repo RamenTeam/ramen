@@ -2,8 +2,8 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noodle/src/core/bloc/matching/matching_event.dart';
-import 'package:noodle/src/core/bloc/matching/matching_state.dart';
+import 'package:noodle/src/resources/pages/home/bloc/matching_event.dart';
+import 'package:noodle/src/resources/pages/home/bloc/matching_state.dart';
 import 'package:noodle/src/core/models/user.dart';
 
 class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
