@@ -43,7 +43,7 @@ export const startServer = async () => {
 		try {
 			conn = await genORMConnection();
 			await conn.runMigrations({
-				transaction: "all",
+				transaction: "none",
 			});
 			break;
 		} catch (error) {

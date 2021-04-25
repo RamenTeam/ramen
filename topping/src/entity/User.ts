@@ -22,7 +22,7 @@ export class User extends BaseEntity {
 	id: string;
 
 	@Field(() => String!)
-	@Column("varchar", { unique: true, nullable: true })
+	@Column("varchar", { unique: true })
 	email: string;
 
 	@Field(() => String!)

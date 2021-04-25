@@ -37,7 +37,9 @@ class UpdateProfileResolver {
 			user.lastName = data.lastName || user.lastName;
 			user.username = data.username || user.username;
 			user.phoneNumber = data.phoneNumber || user.phoneNumber;
-			user.password = (await bcrypt.hash(data.password, 10)) || user.password;
+			user.password = data.password
+				? await bcrypt.hash(data.password, 10)
+				: user.password;
 			user.save();
 
 			if (data.email) {
