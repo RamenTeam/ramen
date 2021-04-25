@@ -4,22 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
-import 'package:noodle/src/core/bloc/auth/auth_event.dart';
-import 'package:noodle/src/core/bloc/profile/profile_bloc.dart';
-import 'package:noodle/src/core/bloc/profile/profile_event.dart';
-import 'package:noodle/src/core/bloc/profile/profile_state.dart';
-import 'package:noodle/src/core/models/authentication_status.dart';
+import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_state.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/resources/pages/setting/setting.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
+import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
+import 'package:noodle/src/resources/pages/update_profile/update_profile_screen.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         final User? user = state.user;
         if (user == null) return _FetchingScreen();
@@ -106,21 +104,14 @@ class _ProfileInfoHeader extends StatelessWidget {
         '@' + user.username,
         style: Theme.of(context).textTheme.headline2,
       ),
-      trailing: ElevatedButton(
-        onPressed: () {},
-        child: Text("Connect", style: TextStyle(fontWeight: FontWeight.bold)),
-        style: ButtonStyle(
-          elevation: MaterialStateProperty.all<double>(0.0),
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          backgroundColor:
-              MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-              side: BorderSide(color: Theme.of(context).primaryColor),
-            ),
+      trailing: Wrap(
+        spacing: 5,
+        children: [
+          _ConnectButton(),
+          _UpdateProfileButton(
+            user: user,
           ),
-        ),
+        ],
       ),
     );
   }
@@ -139,6 +130,69 @@ class _BioSection extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 10),
             child: Text("Bio", style: Theme.of(context).textTheme.headline3)),
         subtitle: Text(bio, style: Theme.of(context).textTheme.bodyText1),
+      ),
+    );
+  }
+}
+
+class _ConnectButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        print("Connect");
+      },
+      child: Icon(Icons.person_add),
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all<double>(0.0),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+            side: BorderSide(color: Theme.of(context).primaryColor),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _UpdateProfileButton extends StatelessWidget {
+  _UpdateProfileButton({
+    required this.user,
+  });
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        print("Update");
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext c) {
+          return UpdateProfileScreen(
+            profileCubit: Provider.of<ProfileCubit>(context, listen: false),
+            updateProfileCubit: UpdateProfileCubit(
+              userRepository:
+                  Provider.of<UserRepository>(context, listen: false),
+            ),
+          );
+        }));
+      },
+      child: Icon(Icons.edit),
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all<double>(0.0),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+            side: BorderSide(color: Theme.of(context).primaryColor),
+          ),
+        ),
       ),
     );
   }

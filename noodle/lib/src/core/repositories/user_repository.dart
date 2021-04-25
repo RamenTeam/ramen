@@ -4,8 +4,11 @@ import 'dart:async';
 import 'package:graphql/client.dart';
 import 'package:noodle/src/constants/global_variables.dart';
 import 'package:noodle/src/core/config/graphql_client.dart';
+import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
+import 'package:noodle/src/core/schema/mutation_option.dart';
+import 'package:noodle/src/core/schema/mutations/update_profile.mutation.dart';
 import 'package:noodle/src/core/schema/queries/me.query.dart';
 import 'package:noodle/src/core/schema/query_option.dart';
 
@@ -43,5 +46,37 @@ class UserRepository {
     PersistentStorage.setUser(user);
 
     return user;
+  }
+
+  Future<RamenApiResponse?> updateProfile({
+    required String firstName,
+    required String lastName,
+    required String bio,
+  }) async {
+    GraphQLClient client = await getClient();
+    final QueryResult res = await client.mutate(
+        getMutationOptions(schema: getUpdateProfileMutation, variables: {
+      "data": {
+        "firstName": firstName,
+        "lastName": lastName,
+        "bio": bio,
+      }
+    }));
+
+    if (res.hasException) {
+      print(res.exception.toString());
+      return null;
+    }
+
+    if (res.isLoading) {
+      print("Loading...");
+    }
+
+    dynamic data = res.data['updateProfile'];
+
+    if (data == null) return null;
+    print(data);
+    RamenApiResponse ramenRes = RamenApiResponse.fromJson(data);
+    return ramenRes;
   }
 }
