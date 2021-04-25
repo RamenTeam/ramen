@@ -109,6 +109,7 @@ export const startServer = async () => {
 					port: env(EnvironmentType.TEST) ? 8080 : PORT,
 					formatError: formatValidationError,
 					subscriptions: {
+						path: "/subscription",
 						// #NOTE Callback to wrap the returned data of WebSocket with Session Middleware
 						onConnect: (_, ws: any) => {
 							console.log("Subscription server connected!");

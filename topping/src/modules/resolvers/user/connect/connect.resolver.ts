@@ -59,21 +59,36 @@ class ConnectResolver {
 			},
 		});
 
+		const isExist = await this.connectionNotificationRepository.findOne({
+			where: {
+				from: {
+					id: currentUser?.id,
+				},
+				to: {
+					id: user.id,
+				},
+			},
+		});
+		if (isExist) {
+			return {
+				path: "sendConnectRequest",
+				message: CustomMessage.connectionRequestIsSended,
+			};
+		}
+
 		const notification = await this.connectionNotificationRepository
 			.create({
-				from: user,
-				to: currentUser,
+				from: currentUser,
+				to: user,
 				label: `${user.username} want to connect with you!`,
 			})
 			.save();
-
-		console.log(notification);
 
 		await pubSub
 			.publish(GLOBAL_TOPIC.NEW_NOTIFICATION_TOPIC, {
 				type: NotificationType.NEW_CONNECTION,
 				label: notification.label,
-				user: currentUser,
+				user: user,
 				notificationId: notification.id,
 			} as NotificationPayload)
 			.catch((err) => {

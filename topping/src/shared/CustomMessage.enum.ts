@@ -15,4 +15,5 @@ export enum CustomMessage {
 	phoneNumberIsTaken = "Phone Number is taken",
 	expiredKeyError = "Key has expired",
 	hmmm___err = "Hmmmm...This doesn't seem right",
+	connectionRequestIsSended = "Your request has been sent already!",
 }

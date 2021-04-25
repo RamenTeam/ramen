@@ -23,8 +23,10 @@ class NewNotificationAddedResolver {
 		filter: ({
 			payload,
 			context,
-		}: SubscriptionFilter<NotificationPayload, any>) =>
-			context.session.userId === payload.user.id,
+		}: SubscriptionFilter<NotificationPayload, any>) => {
+			console.log(payload, context.session);
+			return context.session.userId === payload.user.id;
+		},
 		nullable: true,
 	})
 	async newNotificationAdded(@Root() notificationPayload: NotificationPayload) {
