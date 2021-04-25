@@ -14,7 +14,7 @@ import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dar
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
-import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
+import 'file:///E:/Users/Admin/Documents/GitHub/ramen/noodle/lib/src/resources/shared/submit_button.dart';
 import 'package:provider/provider.dart';
 import 'package:noodle/src/resources/pages/auth/authen_facebook.dart';
 import 'package:noodle/src/resources/pages/auth/authen_google.dart';

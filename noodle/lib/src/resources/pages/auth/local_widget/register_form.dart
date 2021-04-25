@@ -8,9 +8,9 @@ import 'package:noodle/src/core/bloc/login_navigation/login_navigation_event.dar
 import 'package:noodle/src/core/bloc/register/register_cubit.dart';
 import 'package:noodle/src/core/bloc/register/register_state.dart';
 import 'package:noodle/src/resources/pages/auth/local_build/build_divider.dart';
-import 'package:noodle/src/resources/pages/auth/local_widget/form_input.dart';
+import 'file:///E:/Users/Admin/Documents/GitHub/ramen/noodle/lib/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/pages/auth/local_widget/social_submit_button.dart';
-import 'package:noodle/src/resources/pages/auth/local_widget/submit_button.dart';
+import 'file:///E:/Users/Admin/Documents/GitHub/ramen/noodle/lib/src/resources/shared/submit_button.dart';
 import 'package:provider/provider.dart';
 import 'package:formz/formz.dart';
 
@@ -231,7 +231,7 @@ class _PasswordInput extends StatelessWidget {
         return Container(
             margin: EdgeInsets.only(bottom: state.password.invalid ? 10 : 0),
             child: FormInput(
-                isObscured: true,
+                obscureText: true,
                 onChangedCallback: (value) => Provider.of<RegisterCubit>(
                       context,
                       listen: false,
@@ -254,7 +254,7 @@ class _ConfirmedPasswordInput extends StatelessWidget {
           previous.confirmedPassword != current.confirmedPassword,
       builder: (context, state) {
         return FormInput(
-            isObscured: true,
+            obscureText: true,
             onChangedCallback: (value) =>
                 Provider.of<RegisterCubit>(context, listen: false)
                     .confirmedPasswordChanged(value),

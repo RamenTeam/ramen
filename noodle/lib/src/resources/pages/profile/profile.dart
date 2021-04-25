@@ -4,15 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/bloc/auth/auth_bloc.dart';
-import 'package:noodle/src/core/bloc/auth/auth_event.dart';
 import 'package:noodle/src/core/bloc/profile/profile_bloc.dart';
-import 'package:noodle/src/core/bloc/profile/profile_event.dart';
 import 'package:noodle/src/core/bloc/profile/profile_state.dart';
-import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/resources/pages/setting/setting.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
+import 'package:noodle/src/resources/pages/profile/update_profile.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
 import 'package:provider/provider.dart';
 
@@ -106,21 +103,14 @@ class _ProfileInfoHeader extends StatelessWidget {
         '@' + user.username,
         style: Theme.of(context).textTheme.headline2,
       ),
-      trailing: ElevatedButton(
-        onPressed: () {},
-        child: Text("Connect", style: TextStyle(fontWeight: FontWeight.bold)),
-        style: ButtonStyle(
-          elevation: MaterialStateProperty.all<double>(0.0),
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-          backgroundColor:
-              MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(50),
-              side: BorderSide(color: Theme.of(context).primaryColor),
-            ),
+      trailing: Wrap(
+        spacing: 5,
+        children: [
+          _ConnectButton(),
+          _UpdateProfileButton(
+            user: user,
           ),
-        ),
+        ],
       ),
     );
   }
@@ -139,6 +129,67 @@ class _BioSection extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 10),
             child: Text("Bio", style: Theme.of(context).textTheme.headline3)),
         subtitle: Text(bio, style: Theme.of(context).textTheme.bodyText1),
+      ),
+    );
+  }
+}
+
+class _ConnectButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        print("Connect");
+      },
+      child: Icon(Icons.person_add),
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all<double>(0.0),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+            side: BorderSide(color: Theme.of(context).primaryColor),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _UpdateProfileButton extends StatelessWidget {
+  _UpdateProfileButton({
+    required this.user,
+  });
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        print("Update");
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) {
+          return UpdateProfileScreen(
+              user: user,
+              userRepository:
+                  Provider.of<UserRepository>(context, listen: false));
+        }));
+      },
+      child: Icon(Icons.edit),
+      style: ButtonStyle(
+        elevation: MaterialStateProperty.all<double>(0.0),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor:
+            MaterialStateProperty.all<Color>(Theme.of(context).primaryColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+            side: BorderSide(color: Theme.of(context).primaryColor),
+          ),
+        ),
       ),
     );
   }
