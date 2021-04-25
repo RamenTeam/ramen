@@ -27,7 +27,20 @@ class User extends Equatable {
   final UserStatus status = UserStatus.Online;
 
   @override
-  List<Object> get props => [id];
+  List<Object> get props => [
+        id,
+        email,
+        username,
+        bio,
+        avatarPath,
+        phoneNumber,
+        firstName,
+        lastName,
+        isVerified,
+        isBanned,
+        forgotPasswordLock,
+        status,
+      ];
 
   static const empty = null;
 
