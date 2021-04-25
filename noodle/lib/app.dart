@@ -7,7 +7,7 @@ import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_bloc
 import 'package:noodle/src/resources/pages/home/bloc/matching_bloc.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-import 'package:noodle/src/resources/pages/landing/auth_landing.dart';
+import 'package:noodle/src/resources/pages/auth/auth_landing.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:noodle/src/resources/theme/theme.dart';

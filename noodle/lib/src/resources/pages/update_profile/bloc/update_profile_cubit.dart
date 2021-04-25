@@ -10,9 +10,10 @@ import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {
-  UpdateProfileCubit(this._userRepository) : super(UpdateProfileState());
+  UpdateProfileCubit({required this.userRepository})
+      : super(UpdateProfileState());
 
-  final UserRepository _userRepository;
+  final UserRepository userRepository;
 
   void firstNameChanged(String value) {
     final firstName = Name.dirty(value);
@@ -55,7 +56,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     print("Calling update profile to server");
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      RamenApiResponse? response = await _userRepository.updateProfile(
+      RamenApiResponse? response = await userRepository.updateProfile(
         firstName: state.firstName.value,
         lastName: state.lastName.value,
         bio: state.bio.value,

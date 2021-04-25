@@ -5,18 +5,19 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/profile_bloc.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/profile_state.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-import 'package:noodle/src/resources/pages/update_profile/update_profile.dart';
+import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
+import 'package:noodle/src/resources/pages/update_profile/update_profile_screen.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         final User? user = state.user;
         if (user == null) return _FetchingScreen();
@@ -170,12 +171,14 @@ class _UpdateProfileButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         print("Update");
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext c) {
           return UpdateProfileScreen(
-              user: user,
+            profileCubit: Provider.of<ProfileCubit>(context, listen: false),
+            updateProfileCubit: UpdateProfileCubit(
               userRepository:
-                  Provider.of<UserRepository>(context, listen: false));
+                  Provider.of<UserRepository>(context, listen: false),
+            ),
+          );
         }));
       },
       child: Icon(Icons.edit),
