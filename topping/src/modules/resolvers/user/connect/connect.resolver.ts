@@ -80,7 +80,7 @@ class ConnectResolver {
 			.create({
 				from: currentUser,
 				to: user,
-				label: `${user.username} want to connect with you!`,
+				label: `${currentUser?.username} want to connect with you!`,
 			})
 			.save();
 

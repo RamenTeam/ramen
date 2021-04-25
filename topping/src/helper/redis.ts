@@ -1,7 +1,7 @@
 import * as Redis from "ioredis";
 import * as connectRedis from "connect-redis";
 import { REDIS_SESSION_PREFIX } from "../constants/global-variables";
-import { RedisPubSub } from "graphql-redis-subscriptions";
+// import { RedisPubSub } from "graphql-redis-subscriptions";
 import { EnvironmentType } from "../utils/environmentType";
 import "dotenv/config";
 
@@ -20,14 +20,15 @@ export class REDIS {
 	public client = new Redis(this.config);
 }
 
-export const redisPubSub = new RedisPubSub({
-	connection: {
-		host: isProduction || isStaging ? process.env.REDIS_HOST : "127.0.0.1",
-		port: parseInt(process.env.REDIS_PORT as any) || 6379,
-	},
-	publisher: new REDIS().server,
-	subscriber: new REDIS().client,
-});
+// ! This might be used in the future but not right now
+// export const redisPubSub = new RedisPubSub({
+// 	connection: {
+// 		host: isProduction || isStaging ? process.env.REDIS_HOST : "127.0.0.1",
+// 		port: parseInt(process.env.REDIS_PORT as any) || 6379,
+// 	},
+// 	publisher: new REDIS().server,
+// 	subscriber: new REDIS().client,
+// });
 
 export const initializeRedisStore = (session: any): connectRedis.RedisStore => {
 	const RedisStore = connectRedis(session);

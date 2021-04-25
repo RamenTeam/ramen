@@ -1,8 +1,6 @@
 import * as connectMongoDbSession from "connect-mongodb-session";
 import { MongoClient } from "mongodb";
-// import { MongoosePubSub } from "graphql-mongoose-subscriptions";
 import { MongoClientOptions } from "mongodb";
-import * as mongoose from "mongoose";
 
 const url =
 	(process.env.MONGODB_URI as string) || "mongodb://localhost:27017/ramen";
@@ -33,10 +31,3 @@ export function genMongoDbClient() {
 
 	return client;
 }
-
-// export function genMongoosePubSub() {
-// 	mongoose.connect(url, options);
-// 	const pubsub = new MongoosePubSub();
-
-// 	return pubsub;
-// }
