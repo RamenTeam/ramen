@@ -6,6 +6,7 @@ import { customAuthChecker } from "./authChecker";
 import { ResolveTime } from "../modules/middleware";
 import * as User from "../modules/resolvers/user";
 import * as Notification from "../modules/resolvers/notification";
+// import { genMongoosePubSub } from "../helper/mongodb";
 
 export const genSchema = async (): Promise<GraphQLSchema> => {
 	// const modulePath = "../modules/**/*.resolver.{ts,js}";
@@ -26,7 +27,7 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			Notification.NewNotificationAddedResolver,
 		],
 		container: Container,
-		// pubSub: redisPubSub,
+		// pubSub: genMongoosePubSub(),
 		authChecker: customAuthChecker,
 		globalMiddlewares: [ResolveTime],
 	});

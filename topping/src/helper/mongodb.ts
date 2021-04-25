@@ -1,13 +1,22 @@
 import * as connectMongoDbSession from "connect-mongodb-session";
 import { MongoClient } from "mongodb";
-import { env, EnvironmentType } from "../utils/environmentType";
+// import { MongoosePubSub } from "graphql-mongoose-subscriptions";
+import { MongoClientOptions } from "mongodb";
+import * as mongoose from "mongoose";
+
+const url =
+	(process.env.MONGODB_URI as string) || "mongodb://localhost:27017/ramen";
+
+const options: MongoClientOptions = {
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+};
 
 export function genMongoDBSessionStore(session: any) {
 	const MongoStore = connectMongoDbSession(session);
 
 	const store = new MongoStore({
-		uri:
-			(process.env.MONGODB_URI as string) || "mongodb://localhost:27017/ramen",
+		uri: url,
 		collection: "session",
 		expires: 1000 * 60 * 60 * 24 * 7,
 	});
@@ -20,13 +29,14 @@ export function genMongoDBSessionStore(session: any) {
 }
 
 export function genMongoDbClient() {
-	const uri =
-		(process.env.MONGODB_URI as string) || "mongodb://localhost:27017/ramen";
-
-	const client = new MongoClient(uri, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	});
+	const client = new MongoClient(url, options);
 
 	return client;
 }
+
+// export function genMongoosePubSub() {
+// 	mongoose.connect(url, options);
+// 	const pubsub = new MongoosePubSub();
+
+// 	return pubsub;
+// }
