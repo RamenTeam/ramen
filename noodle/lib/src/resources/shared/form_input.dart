@@ -4,7 +4,6 @@ class FormInput extends StatelessWidget {
   final void Function(String)? onChangedCallback;
   final String labelText;
   final String? errorText;
-  final String inputKey;
   final bool obscureText;
   final TextInputType textInputType;
   final TextAlignVertical textAlignVertical;
@@ -15,7 +14,6 @@ class FormInput extends StatelessWidget {
     required this.onChangedCallback,
     required this.labelText,
     required this.errorText,
-    required this.inputKey,
     this.obscureText = false,
     this.textInputType = TextInputType.text,
     this.textAlignVertical = TextAlignVertical.center,
@@ -27,7 +25,6 @@ class FormInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      key: Key(this.inputKey),
       onChanged: onChangedCallback,
       style: TextStyle(
         color: Theme.of(context).textTheme.headline1?.color,

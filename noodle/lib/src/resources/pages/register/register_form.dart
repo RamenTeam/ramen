@@ -119,17 +119,18 @@ class _FirstNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.firstName != current.firstName,
       builder: (context, state) {
         return Container(
-            margin: EdgeInsets.only(
-                bottom:
-                    state.firstName.invalid || state.lastName.invalid ? 10 : 0),
-            child: FormInput(
-                onChangedCallback: (value) => Provider.of<RegisterCubit>(
-                      context,
-                      listen: false,
-                    ).firstNameChanged(value),
-                labelText: 'First name',
-                errorText: state.firstName.invalid ? 'Invalid name' : null,
-                inputKey: 'registerForm_firstNameInput_textField'));
+          margin: EdgeInsets.only(
+              bottom:
+                  state.firstName.invalid || state.lastName.invalid ? 10 : 0),
+          child: FormInput(
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+              context,
+              listen: false,
+            ).firstNameChanged(value),
+            labelText: 'First name',
+            errorText: state.firstName.invalid ? 'Invalid name' : null,
+          ),
+        );
       },
     );
   }
@@ -142,16 +143,17 @@ class _LastNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.lastName != current.lastName,
       builder: (context, state) {
         return Container(
-            margin: EdgeInsets.only(
-                bottom:
-                    state.firstName.invalid || state.lastName.invalid ? 10 : 0),
-            child: FormInput(
-                onChangedCallback: (value) =>
-                    Provider.of<RegisterCubit>(context, listen: false)
-                        .lastNameChanged(value),
-                labelText: 'Last name',
-                errorText: state.lastName.invalid ? 'Invalid name' : null,
-                inputKey: 'registerForm_lastNameInput_textField'));
+          margin: EdgeInsets.only(
+              bottom:
+                  state.firstName.invalid || state.lastName.invalid ? 10 : 0),
+          child: FormInput(
+            onChangedCallback: (value) =>
+                Provider.of<RegisterCubit>(context, listen: false)
+                    .lastNameChanged(value),
+            labelText: 'Last name',
+            errorText: state.lastName.invalid ? 'Invalid name' : null,
+          ),
+        );
       },
     );
   }
@@ -164,15 +166,16 @@ class _UsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return Container(
-            margin: EdgeInsets.only(bottom: state.username.invalid ? 10 : 0),
-            child: FormInput(
-                onChangedCallback: (value) => Provider.of<RegisterCubit>(
-                      context,
-                      listen: false,
-                    ).usernameChanged(value),
-                labelText: "Username",
-                errorText: state.username.invalid ? "Invalid username" : null,
-                inputKey: "'registerForm_usernameInput_textField'"));
+          margin: EdgeInsets.only(bottom: state.username.invalid ? 10 : 0),
+          child: FormInput(
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+              context,
+              listen: false,
+            ).usernameChanged(value),
+            labelText: "Username",
+            errorText: state.username.invalid ? "Invalid username" : null,
+          ),
+        );
       },
     );
   }
@@ -185,15 +188,17 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return Container(
-            margin: EdgeInsets.only(bottom: state.email.invalid ? 10 : 0),
-            child: FormInput(
-                onChangedCallback: (value) => Provider.of<RegisterCubit>(
-                      context,
-                      listen: false,
-                    ).emailChanged(value),
-                labelText: 'Email',
-                errorText: state.email.invalid ? 'Invalid email' : null,
-                inputKey: 'registerForm_emailInput_textField'));
+          margin: EdgeInsets.only(bottom: state.email.invalid ? 10 : 0),
+          child: FormInput(
+            textInputType: TextInputType.emailAddress,
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+              context,
+              listen: false,
+            ).emailChanged(value),
+            labelText: 'Email',
+            errorText: state.email.invalid ? 'Invalid email' : null,
+          ),
+        );
       },
     );
   }
@@ -207,16 +212,18 @@ class _PhoneNumberInput extends StatelessWidget {
           previous.phoneNumber != current.phoneNumber,
       builder: (context, state) {
         return Container(
-            margin: EdgeInsets.only(bottom: state.phoneNumber.invalid ? 10 : 0),
-            child: FormInput(
-                onChangedCallback: (value) => Provider.of<RegisterCubit>(
-                      context,
-                      listen: false,
-                    ).phoneNumberChanged(value),
-                labelText: 'Phone number',
-                errorText:
-                    state.phoneNumber.invalid ? 'Invalid phone number' : null,
-                inputKey: 'registerForm_phoneNumberInput_textField'));
+          margin: EdgeInsets.only(bottom: state.phoneNumber.invalid ? 10 : 0),
+          child: FormInput(
+            textInputType: TextInputType.phone,
+            onChangedCallback: (value) => Provider.of<RegisterCubit>(
+              context,
+              listen: false,
+            ).phoneNumberChanged(value),
+            labelText: 'Phone number',
+            errorText:
+                state.phoneNumber.invalid ? 'Invalid phone number' : null,
+          ),
+        );
       },
     );
   }
@@ -229,18 +236,18 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return Container(
-            margin: EdgeInsets.only(bottom: state.password.invalid ? 10 : 0),
-            child: FormInput(
-                obscureText: true,
-                onChangedCallback: (value) => Provider.of<RegisterCubit>(
-                      context,
-                      listen: false,
-                    ).passwordChanged(value),
-                labelText: 'Password',
-                errorText: state.password.invalid
-                    ? 'Password must have at least 6 characters'
-                    : null,
-                inputKey: 'registerForm_passwordInput_textField'));
+          margin: EdgeInsets.only(bottom: state.password.invalid ? 10 : 0),
+          child: FormInput(
+              obscureText: true,
+              onChangedCallback: (value) => Provider.of<RegisterCubit>(
+                    context,
+                    listen: false,
+                  ).passwordChanged(value),
+              labelText: 'Password',
+              errorText: state.password.invalid
+                  ? 'Password must have at least 6 characters'
+                  : null),
+        );
       },
     );
   }
@@ -254,15 +261,14 @@ class _ConfirmedPasswordInput extends StatelessWidget {
           previous.confirmedPassword != current.confirmedPassword,
       builder: (context, state) {
         return FormInput(
-            obscureText: true,
-            onChangedCallback: (value) =>
-                Provider.of<RegisterCubit>(context, listen: false)
-                    .confirmedPasswordChanged(value),
-            labelText: 'Confirmed password',
-            errorText: state.confirmedPassword.invalid
-                ? 'Passwords do not match'
-                : null,
-            inputKey: 'registerForm_confirmedPasswordInput_textField');
+          obscureText: true,
+          onChangedCallback: (value) =>
+              Provider.of<RegisterCubit>(context, listen: false)
+                  .confirmedPasswordChanged(value),
+          labelText: 'Confirmed password',
+          errorText:
+              state.confirmedPassword.invalid ? 'Passwords do not match' : null,
+        );
       },
     );
   }

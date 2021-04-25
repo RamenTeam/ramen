@@ -148,12 +148,12 @@ class _FirstNameInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
             child: FormInput(
-                controller: controller,
-                onChangedCallback: (value) =>
-                    updateProfileCubit.firstNameChanged(value),
-                labelText: 'First name',
-                errorText: state.firstName.invalid ? 'Invalid name' : null,
-                inputKey: 'registerForm_firstNameInput_textField'));
+          controller: controller,
+          onChangedCallback: (value) =>
+              updateProfileCubit.firstNameChanged(value),
+          labelText: 'First name',
+          errorText: state.firstName.invalid ? 'Invalid name' : null,
+        ));
       },
     );
   }
@@ -175,12 +175,12 @@ class _LastNameInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
             child: FormInput(
-                controller: controller,
-                onChangedCallback: (value) =>
-                    updateProfileCubit.lastNameChanged(value),
-                labelText: 'Last name',
-                errorText: state.lastName.invalid ? 'Invalid name' : null,
-                inputKey: 'registerForm_lastNameInput_textField'));
+          controller: controller,
+          onChangedCallback: (value) =>
+              updateProfileCubit.lastNameChanged(value),
+          labelText: 'Last name',
+          errorText: state.lastName.invalid ? 'Invalid name' : null,
+        ));
       },
     );
   }
@@ -208,7 +208,6 @@ class _BioInput extends StatelessWidget {
             errorText: state.bio.invalid ? 'Maximum 500 characters' : null,
             textInputType: TextInputType.multiline,
             textAlignVertical: TextAlignVertical.top,
-            inputKey: 'registerForm_lastNameInput_textField',
             lines: 3,
           ),
         );

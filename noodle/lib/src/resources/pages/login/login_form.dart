@@ -13,6 +13,7 @@ import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_bloc
 import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_event.dart';
 import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/shared/build_divider.dart';
+import 'package:noodle/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/shared/social_submit_button.dart';
 import 'package:noodle/src/resources/shared/submit_button.dart';
 import 'package:provider/provider.dart';
@@ -127,32 +128,17 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return Container(
-            margin: EdgeInsets.only(bottom: state.email.invalid ? 10 : 0),
-            child: TextField(
-              key: const Key('loginForm_emailInput_textField'),
-              style: TextStyle(
-                color: Theme.of(context).textTheme.headline1?.color,
-              ),
-              onChanged: (value) => Provider.of<LoginCubit>(
-                context,
-                listen: false,
-              ).emailChanged(value),
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                labelStyle: TextStyle(color: Theme.of(context).highlightColor),
-                helperText: '',
-                focusColor: Theme.of(context).textTheme.headline1?.color,
-                errorText: state.email.invalid ? 'Invalid email' : null,
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).highlightColor, width: 0.6),
-                ),
-                contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-            ));
+          margin: EdgeInsets.only(bottom: state.email.invalid ? 10 : 0),
+          child: FormInput(
+            textInputType: TextInputType.emailAddress,
+            onChangedCallback: (value) => Provider.of<LoginCubit>(
+              context,
+              listen: false,
+            ).emailChanged(value),
+            labelText: 'Email',
+            errorText: state.email.invalid ? 'Invalid email' : null,
+          ),
+        );
       },
     );
   }
@@ -164,28 +150,18 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
-          key: const Key('loginForm_passwordInput_textField'),
-          style: TextStyle(
-            color: Theme.of(context).textTheme.headline1?.color,
-          ),
-          onChanged: (value) => Provider.of<LoginCubit>(
-            context,
-            listen: false,
-          ).passwordChanged(value),
-          obscureText: true,
-          decoration: InputDecoration(
-            focusColor: Theme.of(context).textTheme.headline1?.color,
+        return Container(
+          margin: EdgeInsets.only(bottom: state.password.invalid ? 10 : 0),
+          child: FormInput(
+            obscureText: true,
+            onChangedCallback: (value) => Provider.of<LoginCubit>(
+              context,
+              listen: false,
+            ).passwordChanged(value),
             labelText: 'Password',
-            labelStyle: TextStyle(color: Theme.of(context).highlightColor),
-            helperText: '',
-            errorText: state.password.invalid ? 'Invalid password' : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).highlightColor, width: 0.6),
-            ),
-            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            errorText: state.password.invalid
+                ? 'Password must have at least 6 characters'
+                : null,
           ),
         );
       },
