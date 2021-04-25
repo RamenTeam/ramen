@@ -1,0 +1,4 @@
+- Update resolver with field resolver
+- Add dataloader for batching and optimizing performance
+- Rabbitmq
+- caching if necessary

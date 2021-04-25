@@ -1,8 +1,10 @@
+import DataLoader = require("dataloader");
 import { Request } from "express";
 import { Session } from "express-session";
 import { Redis } from "ioredis";
 import { Db } from "mongodb";
 import { ExecutionParams } from "subscriptions-transport-ws";
+import { userLoader } from "../loaders/UserLoader";
 
 declare module "express-session" {
 	export interface SessionData {
@@ -29,6 +31,9 @@ export type GQLContext = {
 	redis: Redis;
 	mongodb: Db;
 	connection: ExecutionParams;
+	loaders: {
+		userLoader: ReturnType<typeof userLoader>;
+	};
 };
 
 export class SubPayload {}

@@ -23,6 +23,7 @@ import { genMongoDbClient } from "./helper/mongodb";
 import { MongoClient } from "mongodb";
 import { getCookieRoute } from "./helper/cookie";
 import * as cookieParser from "cookie-parser";
+import { userLoader } from "./loaders/UserLoader";
 
 export const startServer = async () => {
 	// MongoDB
@@ -75,6 +76,9 @@ export const startServer = async () => {
 			return {
 				request,
 				// redis: new REDIS().server,
+				loaders: {
+					userLoader: userLoader(),
+				},
 				mongodb: mongoConn.db() as any,
 				session: request?.session,
 				url: request?.protocol + "://" + request?.get("host"),
