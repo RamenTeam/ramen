@@ -104,9 +104,9 @@ class _Avatar extends StatelessWidget {
       cubit: updateProfileCubit,
       builder: (context, state) {
         return GestureDetector(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(200),
-            child: state.image,
+          child: CircleAvatar(
+            radius: 150,
+            backgroundImage: state.image.image,
           ),
           onTap: () {
             getImage();
