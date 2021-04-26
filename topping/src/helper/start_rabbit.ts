@@ -1,59 +1,42 @@
-import * as amqp from "amqplib/callback_api";
+import amqp, { Connection } from "amqplib";
+
+const RABBIT_URI = process.env.RABBITMQ_URL || "amqp://localhost";
+const QUEUE_ID = process.env.QUEUE_ID || "";
+const rabbit = "🐇";
 
 const retryInterval = 5000;
 
-export type VoiceSendDirection = "recv" | "send";
+const reconnectRabbit = (handler) =>
+	setTimeout(async () => await startRabbit(handler), retryInterval);
 
-export interface HandlerDataMap {
-	"hello-world": { roomId: string; peerId: string };
-}
+export const startRabbit = async (handler) => {
+	console.log(`${rabbit} - Trying to connect to: `, RABBIT_URI);
+	let conn: Connection;
+	try {
+		conn = await amqp.connect(RABBIT_URI);
+	} catch (error) {
+		console.log(`${rabbit} - Unable to connect to RabbitMQ: `, error);
+		reconnectRabbit(handler);
+		return;
+	}
+	conn.on("close", async (err: Error) => {
+		console.error(`${rabbit} - Rabbit connection closed with error: `, err);
+		reconnectRabbit(handler);
+		return;
+	});
 
-export type HandlerMap = {
-	[Key in keyof HandlerDataMap]: (
-		d: HandlerDataMap[Key],
-		uid: string,
-		send: <Key extends keyof OutgoingMessageDataMap>(
-			obj: OutgoingMessage<Key>
-		) => void,
-		errBack: () => void
-	) => void;
-};
+	const id = QUEUE_ID;
+	console.log(`${rabbit} - Rabbit connected ` + id);
 
-type OutgoingMessageDataMap = {} & {
-	[Key in SendTrackDoneOperationName]: {
-		error?: string;
-		id?: string;
-		roomId: string;
-	};
-} &
-	{
-		[Key in ConnectTransportDoneOperationName]: {
-			error?: string;
-			roomId: string;
-		};
-	};
+	const ch = await conn.createChannel();
 
-type OutgoingMessage<Key extends keyof OutgoingMessageDataMap> = {
-	op: Key;
-	d: OutgoingMessageDataMap[Key];
-} & ({ uid: string } | { rid: string });
+	const helloWorldQueue = "hello_world_queue" + id;
 
-interface IncomingChannelMessageData<Key extends keyof HandlerMap> {
-	op: Key;
-	d: HandlerDataMap[Key];
-	uid: string;
-}
+	await Promise.all([ch.assertQueue(helloWorldQueue)]);
 
-export let send = <Key extends keyof OutgoingMessageDataMap>(
-	_obj: OutgoingMessage<Key>
-) => {};
+	const msg = "hello world";
 
-type SendTrackDoneOperationName = `@send-track-${VoiceSendDirection}-done`;
-type ConnectTransportDoneOperationName = `@connect-transport-${VoiceSendDirection}-done`;
+	ch.sendToQueue(helloWorldQueue, Buffer.from(msg));
 
-export const startRabbit = async (handler: HandlerMap) => {
-	console.log(
-		"trying to connect to: ",
-		process.env.RABBITMQ_URL || "amqp://localhost"
-	);
+	console.log(" [x] Sent %s", msg);
 };
