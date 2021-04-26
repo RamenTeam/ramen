@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
 import 'package:noodle/src/resources/shared/backable_app_bar.dart';
@@ -11,24 +10,24 @@ import 'package:noodle/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/shared/submit_button.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
-  final ProfileCubit profileCubit;
+  final UserCubit userCubit;
   final UpdateProfileCubit updateProfileCubit;
 
   UpdateProfileScreen(
-      {required this.profileCubit, required this.updateProfileCubit});
+      {required this.userCubit, required this.updateProfileCubit});
 
   @override
   Widget build(BuildContext context) {
     void updateProfile() async {
       await updateProfileCubit.updateProfile();
       print("Profile updated on server");
-      await profileCubit.fetchUser();
+      await userCubit.fetchUser();
       print("Profile fetched to client");
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Update profile succesfully!")));
     }
 
-    User? user = profileCubit.getUser();
+    User? user = userCubit.getUser();
     if (user == null) {
       Navigator.pop(context);
       return Container();
@@ -38,7 +37,7 @@ class UpdateProfileScreen extends StatelessWidget {
     updateProfileCubit.bioChanged(user.bio);
     updateProfileCubit.avatarPathChanged(user.avatarPath);
     return Scaffold(
-        appBar: backableAppBar(context: context, title: "Update profile"),
+        appBar: BackableAppBar(title: "Update profile"),
         backgroundColor: Theme.of(context).accentColor,
         body: Center(
           child: Padding(

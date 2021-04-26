@@ -54,7 +54,7 @@ class _SettingScreenState extends State<SettingScreen> {
     }
 
     return Scaffold(
-      appBar: backableAppBar(context: context,title: "Settings"),
+      appBar: BackableAppBar(title: "Settings"),
       backgroundColor: Theme.of(context).accentColor,
       body: ListView(children: [
         buildSettingArea([

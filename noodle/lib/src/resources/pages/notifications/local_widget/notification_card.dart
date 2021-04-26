@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 class NotificationCard extends StatelessWidget {

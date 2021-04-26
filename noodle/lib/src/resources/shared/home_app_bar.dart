@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/constants/global_variables.dart';
-import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
+import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/setting/setting.dart';
 
-class SharedAppBar extends StatefulWidget implements PreferredSizeWidget {
-  SharedAppBar({required this.authBloc, required this.title});
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  HomeAppBar(
+      {required this.authBloc, required this.userCubit, required this.title});
 
   final AuthenticationBloc authBloc;
+  final UserCubit userCubit;
 
   @override
   Size get preferredSize => const Size.fromHeight(60);
@@ -16,41 +18,21 @@ class SharedAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
 
   @override
-  _SharedAppBarState createState() => _SharedAppBarState();
-}
-
-class _SharedAppBarState extends State<SharedAppBar> {
-  String userAvatarPath =
-      "https://xaydunghoanghung.com/wp-content/uploads/2020/11/JaZBMzV14fzRI4vBWG8jymplSUGSGgimkqtJakOV.jpeg";
-
-  _getAvatarPath() async {
-    final pref = await getSharedPref();
-    setState(() {
-      userAvatarPath = pref.getString(USER_AVATAR_PATH_KEY);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getAvatarPath();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final User? user = userCubit.getUser();
     return AppBar(
       iconTheme: Theme.of(context).appBarTheme.iconTheme,
       backgroundColor: Theme.of(context).accentColor,
       centerTitle: true,
-      title: Text(widget.title,
-          style: Theme.of(context).appBarTheme.titleTextStyle),
+      title: Text(title, style: Theme.of(context).appBarTheme.titleTextStyle),
       elevation: 0,
       leading: GestureDetector(
         child: Container(
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(shape: BoxShape.circle),
           child: CircleAvatar(
-            backgroundImage: NetworkImage(userAvatarPath),
+            backgroundImage: NetworkImage(
+                user == null ? User.defaultAvatarPath : user.avatarPath),
           ),
         ),
       ),
@@ -64,7 +46,7 @@ class _SharedAppBarState extends State<SharedAppBar> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => SettingScreen(
-                            authBloc: widget.authBloc,
+                            authBloc: authBloc,
                           )));
             })
       ],
