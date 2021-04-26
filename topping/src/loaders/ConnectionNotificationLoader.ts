@@ -24,6 +24,8 @@ const batchConnectionNotifications: BatchConnectionNotifications = async (
 		return [];
 	}
 
+	console.log(connectionNotificationsByToId);
+
 	const connectionNotificationMap: {
 		[key: string]: ConnectionNotification;
 	} = {};
@@ -37,5 +39,5 @@ const batchConnectionNotifications: BatchConnectionNotifications = async (
 
 export const connectionNotificationLoader = () =>
 	new DataLoader<string, ConnectionNotification[]>(
-		(keys) => batchConnectionNotifications([...keys]) as any
+		batchConnectionNotifications as any
 	);
