@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-dynamic buildAppBar(context) {
+AppBar backableAppBar({required BuildContext context, required String title}) {
   return AppBar(
     automaticallyImplyLeading: false,
     title: Row(
@@ -28,7 +28,7 @@ dynamic buildAppBar(context) {
         Spacer(),
         Container(
             child: Text(
-              "Setting",
+              title,
               style: Theme.of(context).appBarTheme.titleTextStyle,
             ),
             margin: EdgeInsets.only(right: 50)),

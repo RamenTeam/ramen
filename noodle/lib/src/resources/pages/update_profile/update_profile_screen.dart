@@ -12,6 +12,7 @@ import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cu
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/resources/shared/backable_app_bar.dart';
 import 'package:noodle/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/shared/submit_button.dart';
 
@@ -21,17 +22,6 @@ class UpdateProfileScreen extends StatelessWidget {
 
   UpdateProfileScreen(
       {required this.profileCubit, required this.updateProfileCubit});
-
-  final ImagePicker picker = ImagePicker();
-
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      print(pickedFile.path);
-    } else {
-      print("No image selected");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,32 +44,15 @@ class UpdateProfileScreen extends StatelessWidget {
     updateProfileCubit.bioChanged(user.bio);
     updateProfileCubit.avatarPathChanged(user.avatarPath);
     return Scaffold(
-        appBar: _AppBar(context),
+        appBar: backableAppBar(context: context,title: "Update profile"),
         backgroundColor: Theme.of(context).accentColor,
         body: Center(
           child: Padding(
             child: ListView(
               children: [
+                SizedBox(height: 15),
+                _Avatar(updateProfileCubit: updateProfileCubit),
                 SizedBox(height: 25),
-                Text(
-                  'Update your profile',
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.headline1?.color),
-                ),
-                SizedBox(height: 15),
-                GestureDetector(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(200),
-                    child: Image.network(user.avatarPath),
-                  ),
-                  onTap: () {
-                    getImage();
-                    print("Avatar tapped");
-                  },
-                ),
-                SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -115,46 +88,41 @@ class UpdateProfileScreen extends StatelessWidget {
   }
 }
 
-AppBar _AppBar(BuildContext context) {
-  return AppBar(
-    automaticallyImplyLeading: false,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Row(
-          children: [
-            Icon(
-              Icons.arrow_back_ios_outlined,
-              color: Theme.of(context).primaryColor,
-            ),
-            GestureDetector(
-              onTap: () => {Navigator.pop(context)},
-              child: Text(
-                "Back",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-            )
-          ],
-        ),
-        Spacer(),
-        Container(
-            child: Text(
-              "Update profile",
-              style: Theme.of(context).appBarTheme.titleTextStyle,
-            ),
-            margin: EdgeInsets.only(right: 50)),
-        Spacer(),
-        Container()
-      ],
-    ),
-    centerTitle: true,
-    elevation: 0,
-    backgroundColor: Colors.transparent,
-  );
+class _Avatar extends StatelessWidget {
+  _Avatar({required this.updateProfileCubit});
+
+  final UpdateProfileCubit updateProfileCubit;
+
+  final ImagePicker picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      updateProfileCubit.newAvatarFilePathChanged(pickedFile.path);
+      print(pickedFile.path);
+    } else {
+      print("No image selected");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
+      cubit: updateProfileCubit,
+      builder: (context, state) {
+        return GestureDetector(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(200),
+            child: state.image,
+          ),
+          onTap: () {
+            getImage();
+            print("Avatar tapped");
+          },
+        );
+      },
+    );
+  }
 }
 
 class _FirstNameInput extends StatelessWidget {

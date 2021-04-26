@@ -57,6 +57,12 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     ));
   }
 
+  void newAvatarFilePathChanged(String value) {
+    emit(state.copyWith(
+      newAvatarFilePath: value,
+    ));
+  }
+
   Future<void> updateProfile() async {
     if (!state.status.isValidated) return;
     print("Calling update profile to server");
@@ -66,6 +72,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
         firstName: state.firstName.value,
         lastName: state.lastName.value,
         bio: state.bio.value,
+        avatarPath: state.avatarPath,
       );
 
       // Update successful

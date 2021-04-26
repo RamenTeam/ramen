@@ -52,6 +52,7 @@ class UserRepository {
     required String firstName,
     required String lastName,
     required String bio,
+    required String avatarPath,
   }) async {
     GraphQLClient client = await getClient();
     final QueryResult res = await client.mutate(
@@ -60,6 +61,7 @@ class UserRepository {
         "firstName": firstName,
         "lastName": lastName,
         "bio": bio,
+        "avatarPath": avatarPath,
       }
     }));
 
