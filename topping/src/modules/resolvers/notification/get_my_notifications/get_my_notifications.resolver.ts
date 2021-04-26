@@ -1,11 +1,4 @@
-import {
-	Resolver,
-	Query,
-	UseMiddleware,
-	Ctx,
-	FieldResolver,
-	Root,
-} from "type-graphql";
+import { Resolver, Query, UseMiddleware, Ctx } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import Notification from "../../../../entity/Notification";
 import { ConnectionNotification } from "../../../../entity/ConnectionNotification";
@@ -13,16 +6,11 @@ import { NotificationRepository } from "../../../repository/NotificationReposito
 import { NotificationUnionType } from "../../../../models";
 import { isAuth } from "../../../middleware";
 import { GQLContext } from "../../../../utils/graphql-utils";
-import { User } from "../../../../entity/User";
-import { UserRepository } from "../../../repository/UserRepository";
 
 @Resolver((of) => Notification)
 class GetMyNotificationsResolver {
 	@InjectRepository(ConnectionNotification)
 	private readonly connectionNotificationRepository: NotificationRepository<ConnectionNotification>;
-
-	@InjectRepository(User)
-	private readonly userRepository: UserRepository;
 
 	@UseMiddleware(isAuth)
 	@Query(() => [NotificationUnionType]!, { nullable: true })

@@ -18,8 +18,6 @@ class GetNotificationsResolver {
 			}
 		);
 
-		console.log(connectionNotifications);
-
 		return [...connectionNotifications];
 	}
 }
