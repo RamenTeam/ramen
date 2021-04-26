@@ -1,11 +1,28 @@
 import { startServer } from "./startServer";
 import { Container } from "typedi";
 import * as typeorm from "typeorm";
-import * as LogRocket from "logrocket";
+import { sentryInit } from "./helper/sentry";
+import * as Sentry from "@sentry/node";
 
 console.log("Server boots up!");
 
-LogRocket.init("xmvgpi/ramen");
+sentryInit();
+
+const transaction = Sentry.startTransaction({
+	op: "Ramen",
+	name: "My First Test Ramen Transaction",
+});
+
 typeorm.useContainer(Container);
 
-startServer().catch((err) => console.log(err));
+const main = async () => {
+	try {
+		await startServer();
+	} catch (err) {
+		console.log(err);
+		Sentry.captureException(err);
+	} finally {
+		transaction.finish();
+	}
+};
+setTimeout(main, 99);
