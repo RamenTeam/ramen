@@ -8,8 +8,7 @@ class FormInput extends StatelessWidget {
   final TextInputType textInputType;
   final TextAlignVertical textAlignVertical;
   final int lines;
-  final TextEditingController? controller;
-
+  final String initialValue;
   FormInput({
     required this.onChangedCallback,
     required this.labelText,
@@ -18,13 +17,13 @@ class FormInput extends StatelessWidget {
     this.textInputType = TextInputType.text,
     this.textAlignVertical = TextAlignVertical.center,
     this.lines = 1,
-    this.controller,
+    this.initialValue = '',
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
+    return TextFormField(
+      initialValue: initialValue,
       onChanged: onChangedCallback,
       style: TextStyle(
         color: Theme.of(context).textTheme.headline1?.color,

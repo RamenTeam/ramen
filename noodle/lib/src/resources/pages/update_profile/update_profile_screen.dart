@@ -44,7 +44,7 @@ class UpdateProfileScreen extends StatelessWidget {
     updateProfileCubit.bioChanged(user.bio);
     updateProfileCubit.avatarPathChanged(user.avatarPath);
     return Scaffold(
-        appBar: backableAppBar(context: context,title: "Update profile"),
+        appBar: backableAppBar(context: context, title: "Update profile"),
         backgroundColor: Theme.of(context).accentColor,
         body: Center(
           child: Padding(
@@ -126,13 +126,11 @@ class _Avatar extends StatelessWidget {
 }
 
 class _FirstNameInput extends StatelessWidget {
-  _FirstNameInput({initialValue = '', required this.updateProfileCubit}) {
-    controller.text = initialValue;
-  }
+  _FirstNameInput(
+      {required this.initialValue, required this.updateProfileCubit});
 
+  final String initialValue;
   final UpdateProfileCubit updateProfileCubit;
-
-  TextEditingController controller = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +140,7 @@ class _FirstNameInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
             child: FormInput(
-          controller: controller,
+          initialValue: initialValue,
           onChangedCallback: (value) =>
               updateProfileCubit.firstNameChanged(value),
           labelText: 'First name',
@@ -154,11 +152,10 @@ class _FirstNameInput extends StatelessWidget {
 }
 
 class _LastNameInput extends StatelessWidget {
-  _LastNameInput({initialValue = '', required this.updateProfileCubit}) {
-    controller.text = initialValue;
-  }
+  _LastNameInput(
+      {required this.initialValue, required this.updateProfileCubit});
 
-  TextEditingController controller = new TextEditingController();
+  final String initialValue;
   final UpdateProfileCubit updateProfileCubit;
 
   @override
@@ -169,7 +166,7 @@ class _LastNameInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
             child: FormInput(
-          controller: controller,
+          initialValue: initialValue,
           onChangedCallback: (value) =>
               updateProfileCubit.lastNameChanged(value),
           labelText: 'Last name',
@@ -181,11 +178,9 @@ class _LastNameInput extends StatelessWidget {
 }
 
 class _BioInput extends StatelessWidget {
-  _BioInput({initialValue = '', required this.updateProfileCubit}) {
-    controller.text = initialValue;
-  }
+  _BioInput({required this.initialValue, required this.updateProfileCubit});
 
-  TextEditingController controller = new TextEditingController();
+  final String initialValue;
   final UpdateProfileCubit updateProfileCubit;
 
   @override
@@ -196,7 +191,7 @@ class _BioInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
           child: FormInput(
-            controller: controller,
+            initialValue: initialValue,
             onChangedCallback: (value) => updateProfileCubit.bioChanged(value),
             labelText: 'Bio',
             errorText: state.bio.invalid ? 'Maximum 500 characters' : null,
