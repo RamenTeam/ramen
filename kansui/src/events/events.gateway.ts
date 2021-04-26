@@ -38,7 +38,7 @@ export class EventsGateway
 
   constructor(private readonly service: EventsService) {}
 
-  afterInit(server: Server) {
+  afterInit({ server }: { server: Server }) {
     this.logger.log(`Init socket server ${server.path?.()}`);
   }
 
