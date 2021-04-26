@@ -8,15 +8,16 @@ import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
 import 'package:provider/provider.dart';
+import 'package:noodle/src/resources/pages/notifications/notifications.dart';
 
 class HomeNavigation extends StatelessWidget {
   Widget currentTab(int tabIndex) {
     switch (tabIndex) {
       case 0:
         return HomeScreen();
-/*      case 1:
-        return MeetingScreen();*/
       case 1:
+        return ViewNotifications();
+      case 2:
         return ProfileScreen();
       default:
         return Container();
@@ -71,10 +72,10 @@ class _HomeBottomNavigationBar extends StatelessWidget {
           icon: FaIcon(FontAwesomeIcons.globeAsia),
           label: "Home",
         ),
-        /*       BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.userAstronaut),
-          label: 'Meeting',
-        ),*/
+        BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.bell),
+          label: 'Notifications',
+        ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.userAstronaut),
           label: 'Profile',
