@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
@@ -19,7 +20,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User? user = userCubit.getUser();
     return AppBar(
       iconTheme: Theme.of(context).appBarTheme.iconTheme,
       backgroundColor: Theme.of(context).accentColor,
@@ -28,13 +28,16 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       leading: GestureDetector(
         child: Container(
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(shape: BoxShape.circle),
-          child: CircleAvatar(
-            backgroundImage: NetworkImage(
-                user == null ? User.defaultAvatarPath : user.avatarPath),
-          ),
-        ),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(shape: BoxShape.circle),
+            child: BlocBuilder<UserCubit, User>(
+              cubit: userCubit,
+              builder: (context, state) {
+                return CircleAvatar(
+                  backgroundImage: NetworkImage(state.avatarPath),
+                );
+              },
+            )),
       ),
       actions: [
         IconButton(
