@@ -1,6 +1,7 @@
 import 'dart:developer';
-import 'package:flutter/material.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:noodle/src/resources/pages/login/login.dart';
 //import 'package:noodle/src/resources/pages/home/home.dart';

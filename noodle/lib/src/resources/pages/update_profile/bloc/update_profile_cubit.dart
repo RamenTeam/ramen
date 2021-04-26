@@ -1,14 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:noodle/src/core/repositories/fire_storage_repository.dart';
-import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
-import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
 import 'package:noodle/src/core/models/form/bio.dart';
-import 'package:noodle/src/core/models/form/email.dart';
 import 'package:noodle/src/core/models/form/name.dart';
-import 'package:noodle/src/core/models/form/password.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
+import 'package:noodle/src/core/repositories/fire_storage_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
+import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   UpdateProfileCubit({required this.userRepository})

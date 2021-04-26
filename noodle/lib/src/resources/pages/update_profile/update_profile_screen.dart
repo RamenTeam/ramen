@@ -1,17 +1,11 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
-import 'package:noodle/src/resources/pages/register/bloc/register_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
-import 'package:noodle/src/core/models/ramen_api_response.dart';
-import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/shared/backable_app_bar.dart';
 import 'package:noodle/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/shared/submit_button.dart';

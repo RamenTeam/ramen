@@ -2,13 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/profile_state.dart';
-import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/update_profile_screen.dart';
 import 'package:noodle/src/resources/shared/app_bar.dart';

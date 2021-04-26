@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:noodle/src/resources/pages/login/login.dart';
 //import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'dart:async';
+import 'package:noodle/src/resources/pages/login/login.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   scopes: <String>[

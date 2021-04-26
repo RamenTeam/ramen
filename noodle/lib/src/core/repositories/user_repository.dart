@@ -2,7 +2,6 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:graphql/client.dart';
-import 'package:noodle/src/constants/global_variables.dart';
 import 'package:noodle/src/core/config/graphql_client.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
