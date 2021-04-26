@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'package:noodle/src/core/repositories/fire_storage_repository.dart';
 import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
 import 'package:noodle/src/core/models/form/bio.dart';
@@ -66,6 +67,13 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   Future<void> updateProfile() async {
     if (!state.status.isValidated) return;
     print("Calling update profile to server");
+    if (state.newAvatarFilePath.isNotEmpty) {
+      String url =
+          await FireStorageService.uploadAvatar(state.newAvatarFilePath);
+      emit(state.copyWith(
+        avatarPath: url,
+      ));
+    }
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
       RamenApiResponse? response = await userRepository.updateProfile(

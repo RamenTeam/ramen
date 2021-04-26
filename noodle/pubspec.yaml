@@ -59,7 +59,7 @@ dependencies:
   #TODO NEED THIS TO FIX BUG!!!!
   ffi: ^1.0.0
   # Dependencies for SNS authentication
-  firebase_core: ^0.4.0+9
+  firebase_core:
   firebase_auth: ^0.14.0+5
   flutter_facebook_login: ^3.0.0
   google_sign_in: ^4.5.3
@@ -68,6 +68,8 @@ dependencies:
   firebase_messaging: ^5.0.2
   # avatar change
   image_picker: ^0.7.4
+  firebase_storage:
+  uuid: 3.0.4
 
 
 dev_dependencies:

@@ -24,7 +24,6 @@ class UpdateProfileState extends Equatable {
     else
       image = Image.network(avatarPath);
   }
-
   final Name firstName;
   final Name lastName;
   final Bio bio;
@@ -36,8 +35,16 @@ class UpdateProfileState extends Equatable {
   final bool success;
 
   @override
-  List<Object> get props =>
-      [firstName, lastName, bio, avatarPath, newAvatarFilePath, status, responseMessage, success];
+  List<Object> get props => [
+        firstName,
+        lastName,
+        bio,
+        avatarPath,
+        newAvatarFilePath,
+        status,
+        responseMessage,
+        success
+      ];
 
   UpdateProfileState copyWith({
     Name? firstName,
