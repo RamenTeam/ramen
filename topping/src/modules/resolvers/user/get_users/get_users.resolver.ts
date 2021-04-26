@@ -1,7 +1,16 @@
-import { Resolver, Query, UseMiddleware } from "type-graphql";
+import {
+	Resolver,
+	Query,
+	UseMiddleware,
+	FieldResolver,
+	Root,
+	Ctx,
+} from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import { UserRepository } from "../../../repository/UserRepository";
 import { User } from "../../../../entity/User";
+import { Loader } from "type-graphql-dataloader";
+import { GQLContext } from "../../../../utils/graphql-utils";
 
 @Resolver((of) => User)
 class GetUsersResolver {
@@ -14,7 +23,6 @@ class GetUsersResolver {
 		const users = await this.userRepository.find({
 			relations: ["connections"],
 		});
-
 		return users;
 	}
 }

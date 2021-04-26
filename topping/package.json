@@ -70,6 +70,7 @@
 		"ts-jest": "^26.5.3",
 		"ts-node": "^3.3.0",
 		"type-graphql": "^1.1.1",
+		"type-graphql-dataloader": "^0.3.7",
 		"typedi": "^0.8.0",
 		"typeorm": "^0.2.25",
 		"typeorm-naming-strategies": "^2.0.0",

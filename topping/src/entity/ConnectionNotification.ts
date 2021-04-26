@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import { ChildEntity, Column, JoinColumn, OneToOne } from "typeorm";
+import { ChildEntity, Column, JoinColumn, ManyToOne, OneToOne } from "typeorm";
 import ConnectionStatusType from "../models/connection_status_type";
 import Notification from "./Notification";
 import { User } from "./User";
@@ -8,8 +8,9 @@ import { User } from "./User";
 @ChildEntity("ConnectionNotification")
 export class ConnectionNotification extends Notification {
 	@Field(() => User!)
-	@OneToOne((type) => User, { nullable: true })
-	@JoinColumn()
+	@ManyToOne(() => User, (user) => user.connectionNotificationSent, {
+		nullable: true,
+	})
 	from: User;
 
 	@Field(() => ConnectionStatusType!)

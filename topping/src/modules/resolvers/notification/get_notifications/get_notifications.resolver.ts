@@ -1,4 +1,4 @@
-import { Resolver, Query } from "type-graphql";
+import { Resolver, Query, FieldResolver, Root } from "type-graphql";
 import { InjectRepository } from "typeorm-typedi-extensions";
 import Notification from "../../../../entity/Notification";
 import { ConnectionNotification } from "../../../../entity/ConnectionNotification";
@@ -17,6 +17,8 @@ class GetNotificationsResolver {
 				relations: ["from", "to"],
 			}
 		);
+
+		console.log(connectionNotifications);
 
 		return [...connectionNotifications];
 	}

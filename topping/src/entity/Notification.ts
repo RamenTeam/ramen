@@ -5,8 +5,7 @@ import {
 	BeforeInsert,
 	Column,
 	Entity,
-	JoinColumn,
-	OneToOne,
+	ManyToOne,
 	PrimaryColumn,
 	TableInheritance,
 } from "typeorm";
@@ -21,8 +20,9 @@ class Notification extends BaseEntity {
 	id: string;
 
 	@Field(() => User!)
-	@OneToOne((type) => User, { nullable: true })
-	@JoinColumn()
+	@ManyToOne(() => User, (user) => user.connectionNotificationReceived, {
+		nullable: true,
+	})
 	to: User;
 
 	@Field(() => Boolean!, { simple: true })

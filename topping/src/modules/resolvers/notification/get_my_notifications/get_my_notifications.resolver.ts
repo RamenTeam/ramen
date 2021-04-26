@@ -14,17 +14,12 @@ class GetMyNotificationsResolver {
 
 	@UseMiddleware(isAuth)
 	@Query(() => [NotificationUnionType]!, { nullable: true })
-	async getMyNotifications(@Ctx() { session }: GQLContext) {
-		let connectionNotifications = await this.connectionNotificationRepository.find(
-			{
-				where: {
-					to: {
-						id: session.userId,
-					},
-				},
-				relations: ["from", "to"],
-			}
+	async getMyNotifications(@Ctx() { session, loaders }: GQLContext) {
+		let connectionNotifications = await loaders.connectionNotificationLoader.load(
+			session?.userId as string
 		);
+
+		console.log(connectionNotifications);
 
 		return [...connectionNotifications];
 	}

@@ -8,11 +8,14 @@ import {
 	ManyToMany,
 	RelationCount,
 	JoinTable,
+	OneToMany,
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
 import { UserStatus } from "../shared/UserStatus.enum";
 import { DEFAULT_AVATAR_PATH } from "../constants/global-variables";
+import { ConnectionNotification } from "./ConnectionNotification";
+import Notification from "./Notification";
 
 @ObjectType("UserSchema")
 @Entity("User")
@@ -81,6 +84,12 @@ export class User extends BaseEntity {
 	@Field(() => Number!, { simple: true })
 	@RelationCount((user: User) => user.connections)
 	connectionsCount: number;
+
+	@OneToMany(() => ConnectionNotification, (conn) => conn.from)
+	connectionNotificationSent: ConnectionNotification[];
+
+	@OneToMany(() => Notification, (conn) => conn.to)
+	connectionNotificationReceived: Notification[];
 
 	// External
 	@Field(() => String!, { simple: true })
