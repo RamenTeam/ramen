@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
 import 'package:noodle/src/resources/pages/register/bloc/register_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
@@ -16,8 +19,19 @@ class UpdateProfileScreen extends StatelessWidget {
   final ProfileCubit profileCubit;
   final UpdateProfileCubit updateProfileCubit;
 
-  const UpdateProfileScreen(
+  UpdateProfileScreen(
       {required this.profileCubit, required this.updateProfileCubit});
+
+  final ImagePicker picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    if (pickedFile != null) {
+      print(pickedFile.path);
+    } else {
+      print("No image selected");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +52,7 @@ class UpdateProfileScreen extends StatelessWidget {
     updateProfileCubit.firstNameChanged(user.firstName);
     updateProfileCubit.lastNameChanged(user.lastName);
     updateProfileCubit.bioChanged(user.bio);
+    updateProfileCubit.avatarPathChanged(user.avatarPath);
     return Scaffold(
         appBar: _AppBar(context),
         backgroundColor: Theme.of(context).accentColor,
@@ -52,6 +67,17 @@ class UpdateProfileScreen extends StatelessWidget {
                       fontSize: 17,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).textTheme.headline1?.color),
+                ),
+                SizedBox(height: 15),
+                GestureDetector(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(200),
+                    child: Image.network(user.avatarPath),
+                  ),
+                  onTap: () {
+                    getImage();
+                    print("Avatar tapped");
+                  },
                 ),
                 SizedBox(height: 15),
                 Row(
