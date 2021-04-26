@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///E:/Users/Admin/Documents/GitHub/ramen/noodle/lib/src/resources/shared/submit_button.dart';
+import 'package:noodle/src/resources/shared/submit_button.dart';
 
 class SocialSubmitButton extends StatelessWidget {
   final String text;
