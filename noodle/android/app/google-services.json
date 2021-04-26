@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "1069817965403",
-    "project_id": "ramen-application",
-    "storage_bucket": "ramen-application.appspot.com"
+    "project_number": "992537882148",
+    "project_id": "ramen-379b7",
+    "storage_bucket": "ramen-379b7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1069817965403:android:16b06000ad8a48e15bc87e",
+        "mobilesdk_app_id": "1:992537882148:android:eaf73fce0c99f57e9bb2b1",
         "android_client_info": {
           "package_name": "team5.ramen"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1069817965403-1ogiri921o6n3a38rb9ibml5t3fk6o0f.apps.googleusercontent.com",
+          "client_id": "992537882148-geate99kd3s41mlq335lb5f41q9pumo5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCrLrx4OLSzLQmVvJiAy1Cq1MW6GUZ70pc"
+          "current_key": "AIzaSyCUA-pF95lguLKUFjd-E4F4EXlu7AK1_RQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1069817965403-1ogiri921o6n3a38rb9ibml5t3fk6o0f.apps.googleusercontent.com",
+              "client_id": "992537882148-geate99kd3s41mlq335lb5f41q9pumo5.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

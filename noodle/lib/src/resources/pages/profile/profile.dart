@@ -25,11 +25,9 @@ class ProfileScreen extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                  child: Container(
-                child: Image.network(
-                  user.avatarPath,
-                ),
-              )),
+                  child: Image.network(
+                    user.avatarPath,
+                  )),
               _InfoSection(user: user),
               Container(
                   height: 60,
