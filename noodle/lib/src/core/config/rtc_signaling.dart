@@ -36,5 +36,20 @@ class RTCSignaling {
     print('🚀 Connect to $url');
   }
 
-  void onMessage(tag, message) async {}
+  void onMessage(tag, message) async {
+    switch (tag) {
+      case CLIENT_ID_EVENT:
+        print("CLIENT_ID_EVENT 🔔");
+        break;
+      case ANSWER_EVENT:
+        print("ANSWER_EVENT 🔔");
+        break;
+      case OFFER_EVENT:
+        print("OFFER_EVENT 🔔");
+        break;
+      case ICE_CANDIDATE_EVENT:
+        print("ICE_CANDIDATE_EVENT 🔔");
+        break;
+    }
+  }
 }
