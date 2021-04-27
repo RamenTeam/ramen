@@ -2,6 +2,7 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching_event.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching_state.dart';
@@ -10,6 +11,8 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
   MatchingBloc() : super(const MatchingState.idling());
 
   late StreamSubscription<MatchingStatus> _matchingStatusSubscription;
+
+  RTCSignaling? _signaling;
 
   @override
   Stream<MatchingState?> mapEventToState(
@@ -62,20 +65,31 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
   }
 
   Future<User?> getPeer() async {
+    User mockData = User(
+        id: "123",
+        email: "email@net.com",
+        username: "Tin Chung",
+        bio: "Hello World",
+        phoneNumber: "123123123",
+        firstName: "Tin",
+        lastName: "Chung",
+        avatarPath:
+            "https://th.bing.com/th/id/OIP.xzIfQQCZiBpvccxSZUsOSAHaHa?pid=ImgDet&rs=1");
+
     User? _user;
     if (_user != null) return _user;
     return Future.delayed(
-      const Duration(milliseconds: 3000),
-      () => _user = User(
-          id: "123",
-          email: "email@net.com",
-          username: "Tin Chung",
-          bio: "Hello World",
-          phoneNumber: "123123123",
-          firstName: "Tin",
-          lastName: "Chung",
-          avatarPath:
-              "https://th.bing.com/th/id/OIP.xzIfQQCZiBpvccxSZUsOSAHaHa?pid=ImgDet&rs=1"),
-    );
+        const Duration(milliseconds: 3000), () => _user = null);
+  }
+
+  void _connect() async {
+    String serverIP = await _searchForIp();
+    if (_signaling == null) {
+      _signaling = RTCSignaling(serverIP)..connect();
+    }
+  }
+
+  Future<String> _searchForIp() async {
+    return "";
   }
 }
