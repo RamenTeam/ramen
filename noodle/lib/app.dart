@@ -1,19 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
-import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_bloc.dart';
-import 'package:noodle/src/resources/pages/home/bloc/matching_bloc.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
+import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/pages/auth/auth_landing.dart';
-import 'package:flutter/material.dart';
-//import 'package:noodle/src/core/models/push_notification.dart';
-
-// import 'package:noodle/src/resources/theme/theme.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:hexcolor/hexcolor.dart';
+import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/home/bloc/matching_bloc.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:provider/provider.dart';
 

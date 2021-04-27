@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
-import 'package:noodle/src/resources/pages/register/bloc/register_cubit.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
-import 'package:noodle/src/core/models/ramen_api_response.dart';
-import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/resources/shared/backable_app_bar.dart';
 import 'package:noodle/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/shared/submit_button.dart';
 
 class UpdateProfileScreen extends StatelessWidget {
-  final ProfileCubit profileCubit;
+  final UserCubit userCubit;
   final UpdateProfileCubit updateProfileCubit;
 
-  const UpdateProfileScreen(
-      {required this.profileCubit, required this.updateProfileCubit});
+  UpdateProfileScreen(
+      {required this.userCubit, required this.updateProfileCubit});
 
   @override
   Widget build(BuildContext context) {
     void updateProfile() async {
       await updateProfileCubit.updateProfile();
       print("Profile updated on server");
-      await profileCubit.fetchUser();
+      await userCubit.fetchUser();
       print("Profile fetched to client");
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Update profile succesfully!")));
     }
 
-    User? user = profileCubit.getUser();
+    User? user = userCubit.getUser();
     if (user == null) {
       Navigator.pop(context);
       return Container();
@@ -38,22 +35,17 @@ class UpdateProfileScreen extends StatelessWidget {
     updateProfileCubit.firstNameChanged(user.firstName);
     updateProfileCubit.lastNameChanged(user.lastName);
     updateProfileCubit.bioChanged(user.bio);
+    updateProfileCubit.avatarPathChanged(user.avatarPath);
     return Scaffold(
-        appBar: _AppBar(context),
+        appBar: BackableAppBar(title: "Update profile"),
         backgroundColor: Theme.of(context).accentColor,
         body: Center(
           child: Padding(
             child: ListView(
               children: [
-                SizedBox(height: 25),
-                Text(
-                  'Update your profile',
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).textTheme.headline1?.color),
-                ),
                 SizedBox(height: 15),
+                _Avatar(updateProfileCubit: updateProfileCubit),
+                SizedBox(height: 25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -89,56 +81,49 @@ class UpdateProfileScreen extends StatelessWidget {
   }
 }
 
-AppBar _AppBar(BuildContext context) {
-  return AppBar(
-    automaticallyImplyLeading: false,
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Row(
-          children: [
-            Icon(
-              Icons.arrow_back_ios_outlined,
-              color: Theme.of(context).primaryColor,
-            ),
-            GestureDetector(
-              onTap: () => {Navigator.pop(context)},
-              child: Text(
-                "Back",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Theme.of(context).primaryColor,
-                ),
-              ),
-            )
-          ],
-        ),
-        Spacer(),
-        Container(
-            child: Text(
-              "Update profile",
-              style: Theme.of(context).appBarTheme.titleTextStyle,
-            ),
-            margin: EdgeInsets.only(right: 50)),
-        Spacer(),
-        Container()
-      ],
-    ),
-    centerTitle: true,
-    elevation: 0,
-    backgroundColor: Colors.transparent,
-  );
-}
-
-class _FirstNameInput extends StatelessWidget {
-  _FirstNameInput({initialValue = '', required this.updateProfileCubit}) {
-    controller.text = initialValue;
-  }
+class _Avatar extends StatelessWidget {
+  _Avatar({required this.updateProfileCubit});
 
   final UpdateProfileCubit updateProfileCubit;
 
-  TextEditingController controller = new TextEditingController();
+  final ImagePicker picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      updateProfileCubit.newAvatarFilePathChanged(pickedFile.path);
+      print(pickedFile.path);
+    } else {
+      print("No image selected");
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
+      cubit: updateProfileCubit,
+      builder: (context, state) {
+        return GestureDetector(
+          child: CircleAvatar(
+            radius: 150,
+            backgroundImage: state.image.image,
+          ),
+          onTap: () {
+            getImage();
+            print("Avatar tapped");
+          },
+        );
+      },
+    );
+  }
+}
+
+class _FirstNameInput extends StatelessWidget {
+  _FirstNameInput(
+      {required this.initialValue, required this.updateProfileCubit});
+
+  final String initialValue;
+  final UpdateProfileCubit updateProfileCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +133,7 @@ class _FirstNameInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
             child: FormInput(
-          controller: controller,
+          initialValue: initialValue,
           onChangedCallback: (value) =>
               updateProfileCubit.firstNameChanged(value),
           labelText: 'First name',
@@ -160,11 +145,10 @@ class _FirstNameInput extends StatelessWidget {
 }
 
 class _LastNameInput extends StatelessWidget {
-  _LastNameInput({initialValue = '', required this.updateProfileCubit}) {
-    controller.text = initialValue;
-  }
+  _LastNameInput(
+      {required this.initialValue, required this.updateProfileCubit});
 
-  TextEditingController controller = new TextEditingController();
+  final String initialValue;
   final UpdateProfileCubit updateProfileCubit;
 
   @override
@@ -175,7 +159,7 @@ class _LastNameInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
             child: FormInput(
-          controller: controller,
+          initialValue: initialValue,
           onChangedCallback: (value) =>
               updateProfileCubit.lastNameChanged(value),
           labelText: 'Last name',
@@ -187,11 +171,9 @@ class _LastNameInput extends StatelessWidget {
 }
 
 class _BioInput extends StatelessWidget {
-  _BioInput({initialValue = '', required this.updateProfileCubit}) {
-    controller.text = initialValue;
-  }
+  _BioInput({required this.initialValue, required this.updateProfileCubit});
 
-  TextEditingController controller = new TextEditingController();
+  final String initialValue;
   final UpdateProfileCubit updateProfileCubit;
 
   @override
@@ -202,7 +184,7 @@ class _BioInput extends StatelessWidget {
       builder: (context, state) {
         return Container(
           child: FormInput(
-            controller: controller,
+            initialValue: initialValue,
             onChangedCallback: (value) => updateProfileCubit.bioChanged(value),
             labelText: 'Bio',
             errorText: state.bio.invalid ? 'Maximum 500 characters' : null,

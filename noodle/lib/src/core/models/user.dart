@@ -43,6 +43,8 @@ class User extends Equatable {
       ];
 
   static const empty = null;
+  static String defaultAvatarPath =
+      "https://xaydunghoanghung.com/wp-content/uploads/2020/11/JaZBMzV14fzRI4vBWG8jymplSUGSGgimkqtJakOV.jpeg";
 
   static User mock() {
     return new User(

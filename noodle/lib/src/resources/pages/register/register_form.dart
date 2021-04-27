@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:formz/formz.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_event.dart';
@@ -12,7 +13,6 @@ import 'package:noodle/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/shared/social_submit_button.dart';
 import 'package:noodle/src/resources/shared/submit_button.dart';
 import 'package:provider/provider.dart';
-import 'package:formz/formz.dart';
 
 class RegisterForm extends StatelessWidget {
   @override

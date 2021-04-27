@@ -1,22 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/profile_state.dart';
 
-class ProfileCubit extends Cubit<ProfileState> {
+class UserCubit extends Cubit<User?> {
   final UserRepository userRepository;
 
-  ProfileCubit({required this.userRepository})
-      : super(ProfileState(user: null)) {
-    fetchUser();
-  }
+  UserCubit({required this.userRepository}) : super(null);
 
   User? getUser() {
-    return state.user;
+    return state;
   }
 
   Future<void> fetchUser() async {
     User? user = await userRepository.getUser();
-    emit(ProfileState(user: user));
+    emit(user);
   }
 }

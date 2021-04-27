@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
+import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
+import 'package:noodle/src/resources/pages/notifications/notifications.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -13,9 +14,9 @@ class HomeNavigation extends StatelessWidget {
     switch (tabIndex) {
       case 0:
         return HomeScreen();
-/*      case 1:
-        return MeetingScreen();*/
       case 1:
+        return ViewNotifications();
+      case 2:
         return ProfileScreen();
       default:
         return Container();
@@ -29,11 +30,11 @@ class HomeNavigation extends StatelessWidget {
           BlocProvider<TabNavigationCubit>(
             create: (_) => TabNavigationCubit(initialTabIndex: 0),
           ),
-          BlocProvider<ProfileCubit>(
-            create: (_) => ProfileCubit(
+          BlocProvider<UserCubit>(
+            create: (_) => UserCubit(
               userRepository:
                   Provider.of<UserRepository>(context, listen: false),
-            ),
+            )..fetchUser(),
           ),
         ],
         child: BlocBuilder<TabNavigationCubit, int>(
@@ -67,10 +68,10 @@ class _HomeBottomNavigationBar extends StatelessWidget {
           icon: FaIcon(FontAwesomeIcons.globeAsia),
           label: "Home",
         ),
-        /*       BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.userAstronaut),
-          label: 'Meeting',
-        ),*/
+        BottomNavigationBarItem(
+          icon: FaIcon(FontAwesomeIcons.bell),
+          label: 'Notifications',
+        ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.userAstronaut),
           label: 'Profile',

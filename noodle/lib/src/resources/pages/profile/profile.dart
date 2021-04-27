@@ -2,39 +2,36 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/profile_cubit.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/profile_state.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/update_profile_screen.dart';
-import 'package:noodle/src/resources/shared/app_bar.dart';
+import 'package:noodle/src/resources/shared/home_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<UserCubit, User>(
       builder: (context, state) {
-        final User? user = state.user;
+        final User? user = state;
         if (user == null) return _FetchingScreen();
         return Container(
           child: Stack(
             children: [
               Container(
-                  child: Container(
-                child: Image.network(
-                  user.avatarPath,
-                ),
+                  child: Image.network(
+                user.avatarPath,
               )),
               _InfoSection(user: user),
               Container(
                   height: 60,
-                  child: SharedAppBar(
+                  child: HomeAppBar(
                     title: "Profile",
+                    userCubit: Provider.of<UserCubit>(context, listen: false),
                     authBloc:
                         Provider.of<AuthenticationBloc>(context, listen: false),
                   ))
@@ -173,7 +170,7 @@ class _UpdateProfileButton extends StatelessWidget {
         print("Update");
         Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext c) {
           return UpdateProfileScreen(
-            profileCubit: Provider.of<ProfileCubit>(context, listen: false),
+            userCubit: Provider.of<UserCubit>(context, listen: false),
             updateProfileCubit: UpdateProfileCubit(
               userRepository:
                   Provider.of<UserRepository>(context, listen: false),

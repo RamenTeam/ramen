@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching_bloc.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching_event.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching_state.dart';
 import 'package:noodle/src/resources/pages/interaction/meeting.dart';
-import 'package:noodle/src/resources/shared/app_bar.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
+import 'package:noodle/src/resources/shared/home_app_bar.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -33,9 +33,10 @@ class HomeScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-          appBar: SharedAppBar(
+          appBar: HomeAppBar(
             authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
             title: 'Ramen',
+            userCubit: Provider.of<UserCubit>(context, listen: false),
           ),
           backgroundColor: Theme.of(context).accentColor,
           body: _HomeScreenBody()),

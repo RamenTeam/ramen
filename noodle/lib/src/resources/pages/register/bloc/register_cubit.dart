@@ -1,7 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
-import 'package:noodle/src/resources/pages/register/bloc/register_state.dart';
 import 'package:noodle/src/core/models/form/confirmed_password.dart';
 import 'package:noodle/src/core/models/form/email.dart';
 import 'package:noodle/src/core/models/form/name.dart';
@@ -10,6 +8,7 @@ import 'package:noodle/src/core/models/form/phone_number.dart';
 import 'package:noodle/src/core/models/form/username.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/resources/pages/register/bloc/register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit(this._authenticationRepository)

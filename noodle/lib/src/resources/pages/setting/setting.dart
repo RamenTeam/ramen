@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_event.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_state.dart';
-import 'package:noodle/src/core/models/authentication_status.dart';
-import 'package:noodle/src/resources/pages/setting/local_build/build_app_bar.dart';
 import 'package:noodle/src/resources/pages/setting/local_build/build_setting_item.dart';
+import 'package:noodle/src/resources/shared/backable_app_bar.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 
 import 'local_build/build_setting_separator.dart';
@@ -54,7 +54,7 @@ class _SettingScreenState extends State<SettingScreen> {
     }
 
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: BackableAppBar(title: "Settings"),
       backgroundColor: Theme.of(context).accentColor,
       body: ListView(children: [
         buildSettingArea([

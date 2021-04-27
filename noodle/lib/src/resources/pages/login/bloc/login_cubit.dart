@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
 import 'package:noodle/src/core/models/form/email.dart';
 import 'package:noodle/src/core/models/form/password.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this._authenticationRepository) : super(const LoginState());

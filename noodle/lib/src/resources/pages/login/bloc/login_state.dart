@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:noodle/src/core/models/form/email.dart';
 import 'package:noodle/src/core/models/form/password.dart';
-import 'package:noodle/src/core/models/ramen_api_response.dart';
 
 class LoginState extends Equatable {
   const LoginState(
