@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -57,9 +58,11 @@ class HomeNavigation extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class _HomeBottomNavigationBar extends StatelessWidget {
   _HomeBottomNavigationBar({required this.tabIndex});
-
+  int _numberOfNotification =
+      99; //TODO: set a limit < 100 so when there is more than 100 notification, the number will be 99+
   final int tabIndex;
 
   @override
@@ -73,7 +76,11 @@ class _HomeBottomNavigationBar extends StatelessWidget {
           label: "Home",
         ),
         BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.bell),
+          icon: Badge(
+            badgeContent: Text(
+                '$_numberOfNotification'), //TODO: fetch the number of unread notifcation
+            child: FaIcon(FontAwesomeIcons.bell),
+          ),
           label: 'Notifications',
         ),
         BottomNavigationBarItem(
