@@ -4,8 +4,8 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/resources/pages/home/bloc/matching_event.dart';
-import 'package:noodle/src/resources/pages/home/bloc/matching_state.dart';
+import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/matching/matching_event.dart';
+import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/matching/matching_state.dart';
 
 class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
   MatchingBloc() : super(const MatchingState.idling());

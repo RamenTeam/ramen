@@ -3,9 +3,9 @@ import 'dart:async';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
-import 'package:noodle/src/resources/pages/home/bloc/signaling_event.dart';
-import 'package:noodle/src/resources/pages/home/bloc/signaling_state.dart';
-import 'package:noodle/src/resources/pages/home/bloc/signaling_status.dart';
+import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_event.dart';
+import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_state.dart';
+import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_status.dart';
 
 class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
   SignalingBloc() : super(SignalingState.unknown());
@@ -19,7 +19,7 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
     SignalingEvent event,
   ) async* {
     if (event is SignalingStatusChanged) {
-      yield* _mapMatchingStatusChangedToState(event);
+      yield* _mapSignalingStatusChangedToState(event);
       print(state.props);
       yield state;
     }
@@ -31,7 +31,7 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
     return super.close();
   }
 
-  Stream<SignalingState> _mapMatchingStatusChangedToState(
+  Stream<SignalingState> _mapSignalingStatusChangedToState(
     SignalingStatusChanged event,
   ) async* {
     print(event.status);
@@ -45,6 +45,12 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
       case SignalingStatus.CallStateNew:
         break;
       case SignalingStatus.CallStateRinging:
+        break;
+      case SignalingStatus.ConnectionOpen:
+        break;
+      case SignalingStatus.ConnectionClosed:
+        break;
+      case SignalingStatus.ConnectionError:
         break;
       default:
         yield const SignalingState.unknown();
