@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:noodle/src/utils/logger.dart';
 import 'package:pretty_json/pretty_json.dart';
 import 'package:sdp_transform/sdp_transform.dart';
 import 'package:logger/logger.dart';
@@ -91,7 +90,7 @@ class RTCSandBox {
     RTCSessionDescription description =
         await _peerConnection.createOffer({"offerToReceiveVideo": 1});
     var session = parse(description.sdp as String);
-    log(json.encode(session));
+    print(json.encode(session));
     _offer = true;
     _peerConnection.setLocalDescription(description);
   }
