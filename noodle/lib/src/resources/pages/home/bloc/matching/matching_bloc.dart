@@ -3,9 +3,10 @@ import 'dart:async';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
+import 'package:noodle/src/core/models/matching_status.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/matching/matching_event.dart';
-import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/matching/matching_state.dart';
+import 'package:noodle/src/resources/pages/home/bloc/matching/matching_event.dart';
+import 'package:noodle/src/resources/pages/home/bloc/matching/matching_state.dart';
 
 class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
   MatchingBloc() : super(const MatchingState.idling());

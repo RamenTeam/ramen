@@ -7,8 +7,9 @@ import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/pages/auth/auth_landing.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
-import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/matching/matching_bloc.dart';
+import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
+import 'package:noodle/src/temp/rtc_temp/call_screen.dart';
 import 'package:provider/provider.dart';
 
 class RamenApp extends StatelessWidget {
@@ -17,6 +18,11 @@ class RamenApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
+
+    // TODO Change this to route to development screen
+    bool isDevelopedRoute = true;
+    Widget developedRoute = CallScreen();
+
     return MaterialApp(
       title: "Ramen",
       debugShowCheckedModeBanner: false,
@@ -36,7 +42,7 @@ class RamenApp extends StatelessWidget {
           ),
           BlocProvider<MatchingBloc>(create: (_) => MatchingBloc())
         ],
-        child: AuthLanding(),
+        child: isDevelopedRoute ? developedRoute : AuthLanding(),
       ),
     );
   }

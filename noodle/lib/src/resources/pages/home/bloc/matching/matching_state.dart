@@ -1,15 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:noodle/src/core/models/matching_status.dart';
 import 'package:noodle/src/core/models/user.dart';
-
-enum MatchingStatus {
-  IDLE,
-  FINDING,
-  MATCHING,
-  ABORTING,
-  DONE,
-  PEER_REQUEST,
-  PEER_NOT_FOUND
-}
 
 class MatchingState extends Equatable {
   const MatchingState._({
