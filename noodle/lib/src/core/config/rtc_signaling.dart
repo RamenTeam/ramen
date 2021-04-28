@@ -52,4 +52,20 @@ class RTCSignaling {
         break;
     }
   }
+
+  _send(event, data) {
+    _socket.send(event, data);
+  }
+
+  emitOfferEvent(peerId, description) {
+    _send(OFFER_EVENT, {'peerId': peerId, 'description': description});
+  }
+
+  emitAnswerEvent(description) {
+    _send(ANSWER_EVENT, {'description': description});
+  }
+
+  emitIceCandidateEvent(isHost, candidate) {
+    _send(ICE_CANDIDATE_EVENT, {'isHost': isHost, 'candidate': candidate});
+  }
 }

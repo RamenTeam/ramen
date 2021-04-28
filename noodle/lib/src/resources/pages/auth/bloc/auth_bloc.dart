@@ -6,6 +6,7 @@ import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_event.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_state.dart';
@@ -70,8 +71,24 @@ class AuthenticationBloc
         return res == null
             ? AuthenticationState.unauthenticated()
             : AuthenticationState.unknown();
+      case AuthenticationStatus.FETCHING_MOCK_USER:
+        final user = await _getMockUser();
+        return user != null
+            ? AuthenticationState.authenticated(user)
+            : AuthenticationState.unauthenticated();
       default:
         return const AuthenticationState.unknown();
+    }
+  }
+
+  Future<User?> _getMockUser() async {
+    try {
+      final user = await _userRepository
+          .getUserById("493d951c-a7e3-422b-83d3-667d434849f0");
+      await PersistentStorage.setUser(user!);
+      return user;
+    } on Exception {
+      return null;
     }
   }
 

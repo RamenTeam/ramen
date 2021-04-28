@@ -2,10 +2,13 @@ const String getUsersQuery = r'''
 query{
   getUsers{
     id
-    email
-    username
+    firstName,
+    lastName,
+    username,
+    email,
+    phoneNumber,
+    avatarPath,
     bio
-    phoneNumber
   }
 }
 ''';

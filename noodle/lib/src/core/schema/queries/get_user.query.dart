@@ -2,10 +2,13 @@ const String getUserQuery = r'''
 query GetUser($data : GetUserDto!){
   getUser(data : $data){
     id
-    email
-    username
+    firstName,
+    lastName,
+    username,
+    email,
+    phoneNumber,
+    avatarPath,
     bio
-    phoneNumber
   }
 }
 ''';

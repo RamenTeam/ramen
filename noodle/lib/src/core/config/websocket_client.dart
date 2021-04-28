@@ -9,7 +9,7 @@ const ICE_CANDIDATE_EVENT = 'ice-candidate-event';
 
 class RamenWebSocket {
   final String url;
-  late IO.Socket socket;
+  IO.Socket? socket;
   late OnOpenCallback onOpen;
   late OnMessageCallback onMessage;
   late OnCloseCallback onClose;
@@ -22,30 +22,30 @@ class RamenWebSocket {
         'transports': ['websocket']
       });
 
-      socket.on('connect', (_) {
+      socket!.on('connect', (_) {
         print('connected');
         onOpen();
       });
 
-      socket.on('exception', (e) => print('Exception: $e'));
+      socket!.on('exception', (e) => print('Exception: $e'));
 
-      socket.on('connect_error', (e) => print('Connect error: $e'));
+      socket!.on('connect_error', (e) => print('Connect error: $e'));
 
-      socket.on('disconnect', (e) {
+      socket!.on('disconnect', (e) {
         print('disconnect');
         onClose(0, e);
       });
 
-      socket.on('fromServer', (_) => print(_));
+      socket!.on('fromServer', (_) => print(_));
 
       // TODO !important logic
-      socket.on(CLIENT_ID_EVENT, (data) => onMessage(CLIENT_ID_EVENT, data));
+      socket!.on(CLIENT_ID_EVENT, (data) => onMessage(CLIENT_ID_EVENT, data));
 
-      socket.on(ANSWER_EVENT, (data) => onMessage(ANSWER_EVENT, data));
+      socket!.on(ANSWER_EVENT, (data) => onMessage(ANSWER_EVENT, data));
 
-      socket.on(OFFER_EVENT, (data) => onMessage(OFFER_EVENT, data));
+      socket!.on(OFFER_EVENT, (data) => onMessage(OFFER_EVENT, data));
 
-      socket.on(
+      socket!.on(
           ICE_CANDIDATE_EVENT, (data) => onMessage(ICE_CANDIDATE_EVENT, data));
     } catch (e) {
       this.onClose(500, e.toString());
@@ -53,11 +53,13 @@ class RamenWebSocket {
   }
 
   send(event, data) {
-    socket.emit(event, data);
-    print('send: $event - $data');
+    if (socket != null) {
+      socket!.emit(event, data);
+      print('send: $event - $data');
+    }
   }
 
   close() {
-    socket.close();
+    socket!.close();
   }
 }
