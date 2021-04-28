@@ -11,6 +11,8 @@ class CallScreen extends StatefulWidget {
 class _CallScreenState extends State<CallScreen> {
   RTCSandBox _rtcSandBox = new RTCSandBox();
 
+  final sdpController = TextEditingController();
+
   @override
   void dispose() {
     _rtcSandBox.dispose();
@@ -20,10 +22,85 @@ class _CallScreenState extends State<CallScreen> {
   @override
   void initState() {
     _rtcSandBox.initRenderer();
-    _rtcSandBox.getUserMedia();
+
+    _rtcSandBox.createPC().then((pc) => _rtcSandBox.setPeerConnection(pc));
 
     super.initState();
   }
+
+  SizedBox _videoRenderers() => SizedBox(
+        height: 200,
+        child: Row(
+          children: [
+            Flexible(
+                child: Container(
+              key: Key("local"),
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(color: Colors.black),
+              child: RTCVideoView(_rtcSandBox.localRenderer),
+            )),
+            Flexible(
+                child: Container(
+              key: Key("local"),
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(color: Colors.black),
+              child: RTCVideoView(_rtcSandBox.remoteRenderer),
+            ))
+          ],
+        ),
+      );
+
+  Row _offerAndAnswerButtons() => Row(
+        children: [
+          RaisedButton(
+            onPressed: _rtcSandBox.offer,
+            child: Text("Offer"),
+            color: Colors.amber,
+          ),
+          RaisedButton(
+            onPressed: _rtcSandBox.answer,
+            child: Text("Answer"),
+            color: Colors.blue,
+          ),
+        ],
+      );
+
+  Padding _sdpCandidateTF() => Padding(
+        padding: EdgeInsets.all(15),
+        child: TextField(
+          controller: sdpController,
+          keyboardType: TextInputType.multiline,
+          maxLines: 5,
+          maxLength: TextField.noMaxLength,
+        ),
+      );
+
+  Row _sdpCandidateButtons() => Row(
+        children: [
+          RaisedButton(
+              onPressed: () =>
+                  _rtcSandBox.setRemoteDescription(sdpController.text),
+              child: Text("SetRemoteDesc."),
+              color: Colors.amber),
+          RaisedButton(
+              onPressed: () => _rtcSandBox.setCandidate(sdpController.text),
+              child: Text("Set Candidate."),
+              color: Colors.blue),
+        ],
+      );
+
+  RaisedButton _disposeButton() => RaisedButton(
+      onPressed: dispose, child: Text("Dispose"), color: Colors.red);
+
+  RaisedButton _reconnectButton() => RaisedButton(
+      onPressed: initState, child: Text("Reconnect"), color: Colors.green);
+
+  RaisedButton _clearSdpControllerButton() => RaisedButton(
+      onPressed: () {
+        sdpController.clear();
+      },
+      child: Text("Clear text field"),
+      color: Colors.grey);
 
   @override
   Widget build(BuildContext context) {
@@ -32,13 +109,16 @@ class _CallScreenState extends State<CallScreen> {
         title: Text("Call Screen"),
       ),
       body: Container(
-        decoration: BoxDecoration(color: Colors.grey),
-        child: new RTCVideoView(
-          _rtcSandBox.localRenderer,
-          objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-          filterQuality: FilterQuality.medium,
-        ),
-      ),
+          child: ListView(
+        children: [
+          _videoRenderers(),
+          _offerAndAnswerButtons(),
+          _sdpCandidateTF(),
+          _sdpCandidateButtons(),
+          _disposeButton(),
+          _clearSdpControllerButton()
+        ],
+      )),
     );
   }
 }

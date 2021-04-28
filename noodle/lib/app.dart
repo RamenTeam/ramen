@@ -20,7 +20,7 @@ class RamenApp extends StatelessWidget {
     ]);
 
     // TODO Change this to route to development screen
-    bool isDevelopedRoute = true;
+    bool isDevelopedRoute = false;
     Widget developedRoute = CallScreen();
 
     return MaterialApp(
