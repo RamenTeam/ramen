@@ -1,0 +1,9 @@
+enum MatchingStatus {
+  IDLE,
+  FINDING,
+  MATCHING,
+  ABORTING,
+  DONE,
+  PEER_REQUEST,
+  PEER_NOT_FOUND
+}
