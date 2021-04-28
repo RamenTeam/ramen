@@ -5,6 +5,7 @@ import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:provider/provider.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
