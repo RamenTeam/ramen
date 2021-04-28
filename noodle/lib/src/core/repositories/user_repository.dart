@@ -34,6 +34,8 @@ class UserRepository {
 
     if (data == null) return null;
 
+    print(data);
+
     User user = User(
       email: data["email"],
       username: data["username"],
