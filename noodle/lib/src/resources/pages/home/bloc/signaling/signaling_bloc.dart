@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_event.dart';
 import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_state.dart';
-import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_status.dart';
+import 'package:noodle/src/core/models/signaling_status.dart';
 
 class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
   SignalingBloc() : super(SignalingState.unknown());

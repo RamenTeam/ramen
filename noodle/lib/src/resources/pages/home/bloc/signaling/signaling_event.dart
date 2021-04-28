@@ -1,7 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:equatable/equatable.dart';
-import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/matching/matching_state.dart';
-import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_status.dart';
+import 'package:noodle/src/core/models/signaling_status.dart';
 
 abstract class SignalingEvent extends Equatable {
   SignalingEvent();

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'file:///D:/Projects/ramen/noodle/lib/src/resources/pages/home/bloc/signaling/signaling_status.dart';
+import 'package:noodle/src/core/models/signaling_status.dart';
 
 class SignalingState extends Equatable {
   const SignalingState._({

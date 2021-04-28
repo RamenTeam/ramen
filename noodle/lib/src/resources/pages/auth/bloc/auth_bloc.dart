@@ -70,8 +70,23 @@ class AuthenticationBloc
         return res == null
             ? AuthenticationState.unauthenticated()
             : AuthenticationState.unknown();
+      case AuthenticationStatus.FETCHING_MOCK_USER:
+        final user = await _getMockUser();
+        return user != null
+            ? AuthenticationState.authenticated(user)
+            : AuthenticationState.unauthenticated();
       default:
         return const AuthenticationState.unknown();
+    }
+  }
+
+  Future<User?> _getMockUser() async {
+    try {
+      final user = await _userRepository
+          .getUserById("493d951c-a7e3-422b-83d3-667d434849f0");
+      return user;
+    } on Exception {
+      return null;
     }
   }
 
