@@ -29,7 +29,7 @@ class AuthenticationRepository {
   AuthenticationRepository();
 
   Stream<AuthenticationStatus> get status async* {
-    yield AuthenticationStatus.FETCHING_MOCK_USER;
+    yield AuthenticationStatus.FETCHING_CURRENT_USER;
     yield* _controller.stream;
   }
 

@@ -7,7 +7,7 @@ import 'package:sdp_transform/sdp_transform.dart';
 import 'package:logger/logger.dart';
 
 class RTCSandBox {
-  bool _offer = true;
+  bool _offer = false;
   late RTCPeerConnection _peerConnection;
   late MediaStream _localStream;
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
@@ -92,7 +92,7 @@ class RTCSandBox {
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = true;
-    _peerConnection.setLocalDescription(description);
+    await _peerConnection.setLocalDescription(description);
   }
 
   /// #TODO create offer
@@ -107,7 +107,7 @@ class RTCSandBox {
     var session = parse(description.sdp as String);
     new Logger().log(Level.info, json.encode(session));
     _offer = false;
-    _peerConnection.setLocalDescription(description);
+    await _peerConnection.setLocalDescription(description);
   }
 
   /// #TODO setRemoteDescription
@@ -147,6 +147,10 @@ class RTCSandBox {
 
   get remoteRenderer {
     return this._remoteRenderer;
+  }
+
+  Map<String, dynamic> getState() {
+    return {"_offer": _offer};
   }
 
   void setPeerConnection(RTCPeerConnection pc) {

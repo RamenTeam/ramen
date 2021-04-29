@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
+import 'package:logger/logger.dart';
 import 'package:noodle/src/temp/rtc_temp/rtc_sandbox.dart';
 
 class CallScreen extends StatefulWidget {
@@ -37,14 +38,20 @@ class _CallScreenState extends State<CallScreen> {
               key: Key("local"),
               margin: EdgeInsets.all(5),
               decoration: BoxDecoration(color: Colors.black),
-              child: RTCVideoView(_rtcSandBox.localRenderer),
+              child: RTCVideoView(
+                _rtcSandBox.localRenderer,
+                mirror: true,
+              ),
             )),
             Flexible(
                 child: Container(
-              key: Key("local"),
+              key: Key("remote"),
               margin: EdgeInsets.all(5),
               decoration: BoxDecoration(color: Colors.black),
-              child: RTCVideoView(_rtcSandBox.remoteRenderer),
+              child: RTCVideoView(
+                _rtcSandBox.remoteRenderer,
+                mirror: true,
+              ),
             ))
           ],
         ),
@@ -102,6 +109,13 @@ class _CallScreenState extends State<CallScreen> {
       child: Text("Clear text field"),
       color: Colors.grey);
 
+  RaisedButton _getStateButton() => RaisedButton(
+      onPressed: () {
+        new Logger().log(Level.info, _rtcSandBox.getState().toString());
+      },
+      child: Text("Get State"),
+      color: Colors.indigoAccent);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +130,8 @@ class _CallScreenState extends State<CallScreen> {
           _sdpCandidateTF(),
           _sdpCandidateButtons(),
           _disposeButton(),
-          _clearSdpControllerButton()
+          _clearSdpControllerButton(),
+          _getStateButton()
         ],
       )),
     );

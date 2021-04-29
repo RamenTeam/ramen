@@ -48,6 +48,7 @@ class LoginForm extends StatelessWidget {
               _EmailInput(),
               _PasswordInput(),
               _LoginErrorText(),
+              SizedBox(height: 15),
               _SignInButton(),
               SizedBox(height: 20),
               buildDivider(text: "or", context: context),
@@ -68,7 +69,7 @@ class LoginForm extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 4),
+              SizedBox(height: 10),
               SocialSubmitButton(
                   text: "Sign in with Google",
                   color: HexColor("#dd4b39"),
@@ -128,7 +129,7 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(bottom: state.email.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
             textInputType: TextInputType.emailAddress,
             onChangedCallback: (value) => Provider.of<LoginCubit>(
@@ -151,7 +152,7 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(bottom: state.password.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
             obscureText: true,
             onChangedCallback: (value) => Provider.of<LoginCubit>(

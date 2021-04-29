@@ -65,7 +65,7 @@ class RegisterForm extends StatelessWidget {
                     size: 14,
                   ),
                   onPressCallback: () {}),
-              SizedBox(height: 4),
+              SizedBox(height: 10),
               SocialSubmitButton(
                   text: "Sign up with Google",
                   color: HexColor("#dd4b39"),
@@ -119,9 +119,7 @@ class _FirstNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.firstName != current.firstName,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(
-              bottom:
-                  state.firstName.invalid || state.lastName.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
             onChangedCallback: (value) => Provider.of<RegisterCubit>(
               context,
@@ -143,9 +141,7 @@ class _LastNameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.lastName != current.lastName,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(
-              bottom:
-                  state.firstName.invalid || state.lastName.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
             onChangedCallback: (value) =>
                 Provider.of<RegisterCubit>(context, listen: false)
@@ -166,7 +162,7 @@ class _UsernameInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(bottom: state.username.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
             onChangedCallback: (value) => Provider.of<RegisterCubit>(
               context,
@@ -188,7 +184,7 @@ class _EmailInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(bottom: state.email.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
             textInputType: TextInputType.emailAddress,
             onChangedCallback: (value) => Provider.of<RegisterCubit>(
@@ -212,7 +208,7 @@ class _PhoneNumberInput extends StatelessWidget {
           previous.phoneNumber != current.phoneNumber,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(bottom: state.phoneNumber.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
             textInputType: TextInputType.phone,
             onChangedCallback: (value) => Provider.of<RegisterCubit>(
@@ -236,7 +232,7 @@ class _PasswordInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return Container(
-          margin: EdgeInsets.only(bottom: state.password.invalid ? 10 : 0),
+          margin: EdgeInsets.only(bottom: 10),
           child: FormInput(
               obscureText: true,
               onChangedCallback: (value) => Provider.of<RegisterCubit>(
