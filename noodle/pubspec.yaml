@@ -82,8 +82,7 @@ dependencies:
   socket_io_client: ^0.9.9
   flutter_webrtc:
   sdp_transform: ^0.3.0
-
-
+  badges: ^1.2.0
 
 dev_dependencies:
   #  flutter_launcher_icons: "^0.9.0"
