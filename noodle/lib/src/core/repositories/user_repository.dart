@@ -36,16 +36,28 @@ class UserRepository {
 
     print(data);
 
+    List<Map<String, dynamic>> connectionsJson = data["connections"];
+
+    List<User> connections = connectionsJson
+        .map((user) => User(
+              id: user['id'],
+              username: user['username'],
+              firstName: user['firstName'],
+              lastName: user['lastName'],
+              avatarPath: user['avatarPath'],
+            ))
+        .toList();
+
     User user = User(
-      email: data["email"],
-      username: data["username"],
-      id: data["id"],
-      bio: data["bio"],
-      phoneNumber: data["phoneNumber"],
-      firstName: data["firstName"],
-      lastName: data["lastName"],
-      avatarPath: data["avatarPath"],
-    );
+        id: data["id"],
+        firstName: data["firstName"],
+        lastName: data["lastName"],
+        username: data["username"],
+        email: data["email"],
+        phoneNumber: data["phoneNumber"],
+        bio: data["bio"],
+        avatarPath: data["avatarPath"],
+        connections: connections);
 
     return user;
   }

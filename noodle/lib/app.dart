@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
@@ -20,9 +21,7 @@ class RamenApp extends StatelessWidget {
     ]);
 
     // TODO Change this to route to development screen
-    bool isDevelopedRoute = true;
-    Widget developedRoute = CallScreen();
-
+    bool isDevelopedRoute = false;
     return MaterialApp(
       title: "Ramen",
       debugShowCheckedModeBanner: false,
@@ -35,14 +34,17 @@ class RamenApp extends StatelessWidget {
                   Provider.of<AuthenticationRepository>(context, listen: false),
               userRepository:
                   Provider.of<UserRepository>(context, listen: false),
-            ),
+            )..loginWithUsernameAndPassword(
+                email: "khaitruong209@gmail.com",
+                password: "123456",
+              ), // Auto login for testing, please comment this on production
           ),
           BlocProvider<LoginNavigationBloc>(
             create: (_) => LoginNavigationBloc(),
           ),
           BlocProvider<MatchingBloc>(create: (_) => MatchingBloc())
         ],
-        child: isDevelopedRoute ? developedRoute : AuthLanding(),
+        child: isDevelopedRoute ? CallScreen() : AuthLanding(),
       ),
     );
   }

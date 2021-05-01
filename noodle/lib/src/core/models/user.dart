@@ -4,13 +4,14 @@ import 'package:noodle/src/core/models/user_status.dart';
 class User extends Equatable {
   const User({
     required this.id,
-    required this.email,
-    required this.username,
-    required this.bio,
-    required this.phoneNumber,
-    required this.firstName,
-    required this.lastName,
-    required this.avatarPath,
+    this.username = "",
+    this.bio = "",
+    this.avatarPath = defaultAvatarPath,
+    this.firstName = "",
+    this.lastName = "",
+    this.email = "",
+    this.connections = const [],
+    this.phoneNumber = "",
   });
 
   final String id;
@@ -21,6 +22,7 @@ class User extends Equatable {
   final String phoneNumber;
   final String firstName;
   final String lastName;
+  final List<User> connections;
   final bool isVerified = true;
   final bool isBanned = false;
   final bool forgotPasswordLock = false;
@@ -36,6 +38,7 @@ class User extends Equatable {
         phoneNumber,
         firstName,
         lastName,
+        connections,
         isVerified,
         isBanned,
         forgotPasswordLock,
@@ -43,7 +46,7 @@ class User extends Equatable {
       ];
 
   static const empty = null;
-  static String defaultAvatarPath =
+  static const String defaultAvatarPath =
       "https://xaydunghoanghung.com/wp-content/uploads/2020/11/JaZBMzV14fzRI4vBWG8jymplSUGSGgimkqtJakOV.jpeg";
 
   static User mock() {

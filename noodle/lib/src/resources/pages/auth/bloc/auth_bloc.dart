@@ -71,24 +71,8 @@ class AuthenticationBloc
         return res == null
             ? AuthenticationState.unauthenticated()
             : AuthenticationState.unknown();
-      case AuthenticationStatus.FETCHING_MOCK_USER:
-        final user = await _getMockUser();
-        return user != null
-            ? AuthenticationState.authenticated(user)
-            : AuthenticationState.unauthenticated();
       default:
         return const AuthenticationState.unknown();
-    }
-  }
-
-  Future<User?> _getMockUser() async {
-    try {
-      final user = await _userRepository
-          .getUserById("493d951c-a7e3-422b-83d3-667d434849f0");
-      await PersistentStorage.setUser(user!);
-      return user;
-    } on Exception {
-      return null;
     }
   }
 
@@ -109,21 +93,11 @@ class AuthenticationBloc
     }
   }
 
-  Future<RamenApiResponse?> register({
-    required username,
-    required email,
-    required password,
-    required firstName,
-    required lastName,
-    required phoneNumber,
+  Future<RamenApiResponse?> loginWithUsernameAndPassword({
+    required String email,
+    required String password,
   }) async {
-    return _authenticationRepository.register(
-      username: username,
-      email: email,
-      password: password,
-      phoneNumber: phoneNumber,
-      firstName: firstName,
-      lastName: lastName,
-    );
+    return await _authenticationRepository.logInWithEmailAndPassword(
+        email: email, password: password);
   }
 }

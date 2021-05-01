@@ -7,6 +7,13 @@ query GetCurrentUser{
     username,
     email,
     phoneNumber,
+    connections{
+      id,
+      firstName,
+      lastName,
+      username,
+      avatarPath
+    }
     avatarPath,
     bio
   }
