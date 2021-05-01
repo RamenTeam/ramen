@@ -1,14 +1,12 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-import 'package:noodle/src/resources/pages/connection_list/connection_list_screen.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/connection_list/connection_list_screen.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/update_profile_screen.dart';
@@ -22,22 +20,19 @@ class ProfileScreen extends StatelessWidget {
       builder: (context, state) {
         final User? user = state;
         if (user == null) return _FetchingScreen();
-        return Container(
-          child: Stack(
+        return Scaffold(
+          appBar: HomeAppBar(
+            title: "Profile",
+            userCubit: Provider.of<UserCubit>(context, listen: false),
+            authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
+          ),
+          body: Stack(
             children: [
               Container(
                   child: Image.network(
                 user.avatarPath,
               )),
               _InfoSection(user: user),
-              Container(
-                  height: 60,
-                  child: HomeAppBar(
-                    title: "Profile",
-                    userCubit: Provider.of<UserCubit>(context, listen: false),
-                    authBloc:
-                        Provider.of<AuthenticationBloc>(context, listen: false),
-                  ))
             ],
           ),
         );
@@ -149,13 +144,11 @@ class _ViewConnectionsButton extends StatelessWidget {
             .push(MaterialPageRoute(builder: (BuildContext context) {
           return ConnectionListScreen(
             // Mock
-
             // users: [
             //   User.mock,
-            //   User.mock,
-            //   User.mock,
+            //   User.mock1,
+            //   User.mock2,
             // ],
-
             // Reality
             users: users,
           );
@@ -191,7 +184,7 @@ class _UpdateProfileButton extends StatelessWidget {
       onPressed: () {
         print("Update");
         Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
+            .push(MaterialPageRoute(builder: (BuildContext c) {
           return UpdateProfileScreen(
             userCubit: Provider.of<UserCubit>(context, listen: false),
             updateProfileCubit: UpdateProfileCubit(

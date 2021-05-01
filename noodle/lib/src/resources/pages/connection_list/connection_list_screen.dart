@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
-import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
-import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_state.dart';
+import 'package:noodle/src/resources/pages/profile/other_profile.dart';
 import 'package:noodle/src/resources/shared/backable_app_bar.dart';
-import 'package:noodle/src/resources/shared/form_input.dart';
-import 'package:noodle/src/resources/shared/submit_button.dart';
 
 class ConnectionListScreen extends StatelessWidget {
   ConnectionListScreen({required this.users});
@@ -36,7 +30,12 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext c) {
+          return OtherProfileScreen(user: user);
+        }));
+      },
       //TODO: when the user tap
       leading: CircleAvatar(
         radius: 30,

@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter_webrtc/flutter_webrtc.dart';
-import 'package:pretty_json/pretty_json.dart';
-import 'package:sdp_transform/sdp_transform.dart';
 import 'package:logger/logger.dart';
+import 'package:sdp_transform/sdp_transform.dart';
 
 class RTCSandBox {
   bool _offer = false;

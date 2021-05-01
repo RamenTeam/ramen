@@ -6,7 +6,6 @@ import 'package:noodle/src/core/models/authentication_status.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
-import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_event.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_state.dart';

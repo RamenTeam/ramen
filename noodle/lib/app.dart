@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/pages/auth/auth_landing.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart';
+import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:noodle/src/temp/rtc_temp/call_screen.dart';
 import 'package:provider/provider.dart';
