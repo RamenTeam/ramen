@@ -1,9 +1,11 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/connection_list/connection_list_screen.dart';
@@ -154,7 +156,14 @@ class _ViewConnectionsButton extends StatelessWidget {
           );
         }));
       },
-      child: Icon(Icons.people_alt_rounded),
+      child: Wrap(
+        spacing: 5,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Icon(Icons.people_alt_rounded),
+          Text(users.length.toString()),
+        ],
+      ),
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0.0),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -183,8 +192,7 @@ class _UpdateProfileButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         print("Update");
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext c) {
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext c) {
           return UpdateProfileScreen(
             userCubit: Provider.of<UserCubit>(context, listen: false),
             updateProfileCubit: UpdateProfileCubit(
