@@ -1,9 +1,12 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
+import 'package:noodle/src/resources/pages/connection_list/connection_list_screen.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
@@ -104,7 +107,7 @@ class _ProfileInfoHeader extends StatelessWidget {
       trailing: Wrap(
         spacing: 5,
         children: [
-          _ConnectButton(),
+          _ViewConnectionsButton(),
           _UpdateProfileButton(
             user: user,
           ),
@@ -132,14 +135,18 @@ class _BioSection extends StatelessWidget {
   }
 }
 
-class _ConnectButton extends StatelessWidget {
+class _ViewConnectionsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
         print("Connect");
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) {
+          return ConnectionListScreen();
+        }));
       },
-      child: Icon(Icons.person_add),
+      child: Icon(Icons.people_alt_rounded),
       style: ButtonStyle(
         elevation: MaterialStateProperty.all<double>(0.0),
         foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -168,7 +175,8 @@ class _UpdateProfileButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         print("Update");
-        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext c) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) {
           return UpdateProfileScreen(
             userCubit: Provider.of<UserCubit>(context, listen: false),
             updateProfileCubit: UpdateProfileCubit(
