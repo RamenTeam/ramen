@@ -10,6 +10,10 @@ import 'package:noodle/src/resources/shared/form_input.dart';
 import 'package:noodle/src/resources/shared/submit_button.dart';
 
 class ConnectionListScreen extends StatelessWidget {
+  ConnectionListScreen({required this.users});
+
+  final List<User> users;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,10 +21,7 @@ class ConnectionListScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).accentColor,
       body: ListView(
         children: [
-          _Card(user: User.mock()),
-          _Card(user: User.mock()),
-          _Card(user: User.mock()),
-          _Card(user: User.mock()),
+          for (User user in users) _Card(user: user),
         ],
       ),
     );

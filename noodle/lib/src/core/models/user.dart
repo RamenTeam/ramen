@@ -29,7 +29,8 @@ class User extends Equatable {
   final UserStatus status = UserStatus.Online;
 
   @override
-  List<Object> get props => [
+  List<Object> get props =>
+      [
         id,
         email,
         username,
@@ -49,15 +50,13 @@ class User extends Equatable {
   static const String defaultAvatarPath =
       "https://xaydunghoanghung.com/wp-content/uploads/2020/11/JaZBMzV14fzRI4vBWG8jymplSUGSGgimkqtJakOV.jpeg";
 
-  static User mock() {
-    return new User(
-        id: "s3818074",
-        email: "khaitruong922",
-        username: "khaitruong922",
-        bio: "Hello Flutter!",
-        phoneNumber: "0908321238",
-        firstName: 'Khai',
-        lastName: 'Truong',
-        avatarPath: "https://imgur.com/UHQMGr8.png");
-  }
+  static const User mock = User(
+      id: "s3818074",
+      email: "khaitruong922",
+      username: "khaitruong922",
+      bio: "Hello Flutter!",
+      phoneNumber: "0908321238",
+      firstName: 'Khai',
+      lastName: 'Truong',
+      avatarPath: "https://imgur.com/UHQMGr8.png");
 }

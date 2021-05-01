@@ -107,7 +107,7 @@ class _ProfileInfoHeader extends StatelessWidget {
       trailing: Wrap(
         spacing: 5,
         children: [
-          _ViewConnectionsButton(),
+          _ViewConnectionsButton(users: user.connections),
           _UpdateProfileButton(
             user: user,
           ),
@@ -136,6 +136,10 @@ class _BioSection extends StatelessWidget {
 }
 
 class _ViewConnectionsButton extends StatelessWidget {
+  _ViewConnectionsButton({required this.users});
+
+  final List<User> users;
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -143,7 +147,18 @@ class _ViewConnectionsButton extends StatelessWidget {
         print("Connect");
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
-          return ConnectionListScreen();
+          return ConnectionListScreen(
+            // Mock
+
+            // users: [
+            //   User.mock,
+            //   User.mock,
+            //   User.mock,
+            // ],
+
+            // Reality
+            users: users,
+          );
         }));
       },
       child: Icon(Icons.people_alt_rounded),

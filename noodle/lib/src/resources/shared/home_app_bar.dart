@@ -30,11 +30,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(shape: BoxShape.circle),
-            child: BlocBuilder<UserCubit, User>(
+            child: BlocBuilder<UserCubit, User?>(
               cubit: userCubit,
               builder: (context, state) {
                 return CircleAvatar(
-                  backgroundImage: NetworkImage(state.avatarPath),
+                  backgroundImage: NetworkImage(state == null
+                      ? User.defaultAvatarPath
+                      : state.avatarPath),
                 );
               },
             )),

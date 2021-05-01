@@ -18,11 +18,11 @@ class NotificationScreen extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: <Widget>[
-            _Card(user: User.mock()),
-            _Card(user: User.mock()),
-            _Card(user: User.mock()),
-            _Card(user: User.mock()),
-            _Card(user: User.mock()),
+            _Card(user: User.mock),
+            _Card(user: User.mock),
+            _Card(user: User.mock),
+            _Card(user: User.mock),
+            _Card(user: User.mock),
           ],
         ),
       ),
