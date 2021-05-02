@@ -8,9 +8,11 @@ import {
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
+  WsResponse,
 } from '@nestjs/websockets';
 import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
+import * as _ from 'lodash';
 
 const CLIENT_ID_EVENT = 'client-id-event';
 const OFFER_EVENT = 'offer-event';
@@ -28,20 +30,21 @@ const ICE_CANDIDATE_EVENT = 'ice-candidate-event';
  * TODO end conversation
  * -> back to a normal state as waiting and sending another offer
  */
-@WebSocketGateway(80, { namespace: 'events', transports: ['websocket'] })
+@WebSocketGateway({ transports: ['websocket'] })
 export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
-  server: Server | undefined;
+  server: Server;
 
   private logger: Logger = new Logger('AppGateway');
 
   constructor(private readonly service: EventsService) {}
 
   afterInit({ server }: { server: Server }) {
-    this.logger.log(`Init socket server ${server.path?.()}`);
+    this.logger.log(`Init socket server ${server?.path?.()}`);
   }
 
+  // ! CLIENT_ID_EVENT
   /**
    * Whenever a client connects to a websocket server
    * TODO Click on the "Find chat partner button"
@@ -50,11 +53,14 @@ export class EventsGateway
    * @chungquantin
    */
   handleConnection(client: Socket, ...args: any[]) {
-    this.logger.log(`Client connected: ${client.id}`);
+    console.log(`Client connected: ${client.id}`);
 
     this.service.addClient(client);
 
-    console.log(this.service.clientList);
+    console.log('Client list: ', {
+      Keys: _.keys(this.service.clientList),
+      Length: _.size(this.service.clientList),
+    });
 
     client.emit(CLIENT_ID_EVENT, client.id);
   }
@@ -71,77 +77,85 @@ export class EventsGateway
 
     this.service.removeClient(client);
 
+    console.log('Client list: ', {
+      Keys: _.keys(this.service.clientList),
+      Length: _.size(this.service.clientList),
+    });
+
     this.service.removeRoom(client);
   }
 
-  /**
-   * Click on a find chat partner -> connected -> offer
-   * TODO Sending an offer to all user in a lobby to find a matched conversation
-   */
-  @SubscribeMessage(OFFER_EVENT)
-  async onOfferEvent(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { peerId: string; description: any },
-  ): Promise<number> {
-    console.log(data);
+  // // ! OFFER EVENT
+  // /**
+  //  * Click on a find chat partner -> connected -> offer
+  //  * TODO Sending an offer to all user in a lobby to find a matched conversation
+  //  */
+  // @SubscribeMessage(OFFER_EVENT)
+  // async onOfferEvent(
+  //   @ConnectedSocket() client: Socket,
+  //   @MessageBody() data: { peerId: string; description: any },
+  // ): Promise<number> {
+  //   console.log(data);
 
-    this.service.addRoom(client, data.peerId);
+  //   this.service.addRoom(client, data.peerId);
 
-    const peer = this.service.findClient(data.peerId);
+  //   const peer = this.service.findClient(data.peerId);
 
-    if (peer) {
-      peer.emit(OFFER_EVENT, data.description);
-    } else {
-      console.log('onOfferEvent: Peer does not found');
-    }
-    return 0;
-  }
+  //   if (peer) {
+  //     peer.emit(OFFER_EVENT, data.description);
+  //   } else {
+  //     console.log('onOfferEvent: Peer does not found');
+  //   }
+  //   return 0;
+  // }
 
-  /**
-   * Receive an offer -> sending an answer to host -> emit ANSWER_EVENT
-   * TODO MediaDevice like camera is turned on and connected
-   */
-  @SubscribeMessage(ANSWER_EVENT)
-  async onAnswerEvent(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { description: any },
-  ): Promise<number> {
-    console.log(data);
+  // // ! ANSWER_EVENT
+  // /**
+  //  * Receive an offer -> sending an answer to host -> emit ANSWER_EVENT
+  //  * TODO MediaDevice like camera is turned on and connected
+  //  */
+  // @SubscribeMessage(ANSWER_EVENT)
+  // async onAnswerEvent(
+  //   @ConnectedSocket() client: Socket,
+  //   @MessageBody() data: { description: any },
+  // ): Promise<number> {
+  //   console.log(data);
 
-    const hostId = this.service.findHostId(client.id);
+  //   const hostId = this.service.findHostId(client.id);
 
-    const host = this.service.findClient(hostId);
+  //   const host = this.service.findClient(hostId);
 
-    if (host) {
-      host.emit(ANSWER_EVENT, data.description);
-    } else {
-      console.log('onAnswerEvent: Host does not found');
-    }
-    return 0;
-  }
+  //   if (host) {
+  //     host.emit(ANSWER_EVENT, data.description);
+  //   } else {
+  //     console.log('onAnswerEvent: Host does not found');
+  //   }
+  //   return 0;
+  // }
 
-  @SubscribeMessage(ICE_CANDIDATE_EVENT)
-  async onIceCandidateEvent(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { isHost: boolean; candidate: any },
-  ): Promise<number> {
-    console.log(data);
+  // // ! ICE_CANDIDATE_EVENT
+  // @SubscribeMessage(ICE_CANDIDATE_EVENT)
+  // async onIceCandidateEvent(
+  //   @ConnectedSocket() client: Socket,
+  //   @MessageBody() data: { isHost: boolean; candidate: any },
+  // ): Promise<number> {
+  //   console.log(data);
 
-    let clientId;
+  //   let clientId;
 
-    if (data.isHost) {
-      clientId = this.service.findPeerId(client.id);
-    } else {
-      clientId = this.service.findHostId(client.id);
-    }
+  //   if (data.isHost) {
+  //     clientId = this.service.findPeerId(client.id);
+  //   } else {
+  //     clientId = this.service.findHostId(client.id);
+  //   }
 
-    const peer = this.service.findClient(clientId);
+  //   const peer = this.service.findClient(clientId);
 
-    if (peer) {
-      peer.emit(ICE_CANDIDATE_EVENT, data.candidate);
-    } else {
-      console.log('onIceCandidateEvent: Peer does not found');
-    }
-    return 0;
-  }
+  //   if (peer) {
+  //     peer.emit(ICE_CANDIDATE_EVENT, data.candidate);
+  //   } else {
+  //     console.log('onIceCandidateEvent: Peer does not found');
+  //   }
+  //   return 0;
+  // }
 }

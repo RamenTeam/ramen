@@ -6,8 +6,7 @@ dotenv.config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT, () => {
-    console.log(`🚀 Kansui server is running on port ${process.env.PORT}`);
-  });
+  await app.listen(process.env.PORT);
+  console.log(`🚀 Kansui is running on port ${await app.getUrl()}`);
 }
 bootstrap();

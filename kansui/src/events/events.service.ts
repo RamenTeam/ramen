@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Socket } from 'socket.io';
+
+interface ClientList {
+  [key: string]: Socket;
+}
 @Injectable()
 export class EventsService {
-  public clientList: any = {};
+  public clientList: ClientList = {};
   public roomList: any = [];
 
   findClient(clientId: string) {
