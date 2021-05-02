@@ -1,39 +1,52 @@
+import 'package:noodle/src/constants/os.dart';
 import 'package:noodle/src/core/config/websocket_client.dart';
 import 'package:noodle/src/core/utils/device_info.dart';
 
 class RTCSignaling {
-  late RamenWebSocket _socket;
+  RamenWebSocket? _socket;
 
-  final String _host;
+  final String host;
 
-  final dynamic _port = 3000;
+  final dynamic port;
 
-  RTCSignaling(this._host);
+  RTCSignaling({required this.host, required this.port});
+
+  void disconnect() async {
+    if (_socket != null) {
+      await _socket?.disconnect();
+    } else {
+      print("You must connect to server first!");
+    }
+  }
 
   void connect() async {
-    String url = 'http://$_host:$_port';
+    String url = 'http://$host:$port';
     _socket = new RamenWebSocket(url: url);
     print("Ramen WebSocket is connecting...");
-    await _socket.connect();
 
-    _socket.onOpen = () {
+    _socket?.onOpen = () {
       print("[🔫 TRIGGERED_EVENT] onOpen");
-      print({'name': DeviceInfo.label, 'user_agent': DeviceInfo.userAgent});
+      if (!isWeb) {
+        print({'name': DeviceInfo.label, 'user_agent': DeviceInfo.userAgent});
+      }
       // TODO Handling signaling_state_changed !
     };
 
-    _socket.onMessage = (tag, message) {
+    _socket?.onMessage = (tag, message) {
       print('Received data: $tag - $message');
       this.onMessage(tag, message);
     };
 
-    _socket.onClose = (int code, String reason) {
+    _socket?.onClose = (int code, String reason) {
       print("[🔫 TRIGGERED_EVENT] onClose");
       print('Closed by server [$code => $reason]!');
+      _socket = null;
       // TODO Handling signaling_state_changed !
     };
 
     print('🚀 Connect to $url');
+
+    await _socket?.connect();
   }
 
   void onMessage(tag, message) async {
@@ -54,7 +67,7 @@ class RTCSignaling {
   }
 
   _send(event, data) {
-    _socket.send(event, data);
+    _socket?.send(event, data);
   }
 
   emitOfferEvent(peerId, description) {

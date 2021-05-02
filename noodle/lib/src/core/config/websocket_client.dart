@@ -22,6 +22,9 @@ class RamenWebSocket {
         'transports': ['websocket']
       });
 
+      if (socket!.connected) {
+        print("⚠ Client is connected already!!!!");
+      }
       socket!.on('connect', (_) {
         print('connected');
         onOpen();
@@ -47,6 +50,8 @@ class RamenWebSocket {
 
       socket!.on(
           ICE_CANDIDATE_EVENT, (data) => onMessage(ICE_CANDIDATE_EVENT, data));
+
+      socket?.connect();
     } catch (e) {
       this.onClose(500, e.toString());
     }
@@ -60,6 +65,16 @@ class RamenWebSocket {
   }
 
   close() {
-    socket!.close();
+    socket!.dispose();
+  }
+
+  reconnect() {
+    socket!
+      ..disconnect()
+      ..connect();
+  }
+
+  disconnect() {
+    socket!.dispose();
   }
 }

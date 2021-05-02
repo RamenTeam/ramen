@@ -86,7 +86,7 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
   void _connect() async {
     String serverIP = await _searchForIp();
     if (_signaling == null) {
-      _signaling = RTCSignaling(serverIP)..connect();
+      _signaling = RTCSignaling(host: serverIP, port: 3000)..connect();
     }
   }
 
