@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { EventsModule } from './events/events.module';
+import { NiboshiModule } from './niboshi/niboshi.module';
 
 @Module({
-  imports: [EventsModule],
+  imports: [NiboshiModule],
   providers: [],
 })
 export class AppModule {}
