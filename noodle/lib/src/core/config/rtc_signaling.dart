@@ -68,6 +68,7 @@ class RTCSignaling {
       case MATCHMAKING_EVENT:
         print("MATCHMAKING_EVENT 🔔");
         dynamic data = message["data"];
+        PersistentStorage.setRTCRoom(data["host"], data["peer"]);
         if (data["peer"] == null) {
           return;
         }
@@ -80,18 +81,32 @@ class RTCSignaling {
         dynamic data = message["data"];
         rtcPeerToPeer.setRemoteDescription(data["description"], "offer");
         String description = await rtcPeerToPeer.answer();
-        emitAnswerEvent(data["host"], description);
+        emitAnswerEvent(pref.get(RTC_HOST_ID), description);
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          dynamic retryInterval = 0;
+          while (retryInterval < 5) {
+            dynamic candidate = pref.get(RTC_CANDIDATE);
+            if (candidate != null) {
+              emitIceCandidateEvent(false, candidate);
+              break;
+            } else {
+              print("Cannot find candidate");
+              retryInterval += 1;
+            }
+          }
+        });
         break;
       // #3
       case ANSWER_EVENT:
         print("ANSWER_EVENT 🔔");
         dynamic data = message["data"];
         rtcPeerToPeer.setRemoteDescription(data["description"], "answer");
-        // TODO Set Ice Candidate
         break;
       // #4
       case ICE_CANDIDATE_EVENT:
         print("ICE_CANDIDATE_EVENT 🔔");
+        dynamic data = message["data"];
+        rtcPeerToPeer.setCandidate(data["candidate"]);
         break;
     }
   }

@@ -11,3 +11,4 @@ const String USER_ID_KEY = "User:id";
 const String RTC_CLIENT_ID = "rtc:client-id";
 const String RTC_PEER_ID = "rtc:peer-id";
 const String RTC_HOST_ID = "rtc:host-id";
+const String RTC_CANDIDATE = "rtc:candidate";

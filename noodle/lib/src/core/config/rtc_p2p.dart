@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:logger/logger.dart';
+import 'package:noodle/src/constants/global_variables.dart';
+import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:sdp_transform/sdp_transform.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RTCPeerToPeer {
   bool _offer = false;
@@ -17,6 +20,7 @@ class RTCPeerToPeer {
   }
 
   Future<RTCPeerConnection> createPC() async {
+    SharedPreferences pref = await getSharedPref();
     Map<String, dynamic> configuration = {
       "iceServers": [
         {"url": "stun:stun.l.google.com:19302"}
@@ -41,6 +45,15 @@ class RTCPeerToPeer {
 
     pc.onIceCandidate = (e) {
       if (e.candidate != null) {
+        if (pref.getString(RTC_CANDIDATE) == null) {
+          pref.setString(
+              RTC_CANDIDATE,
+              json.encode({
+                'candidate': e.candidate.toString(),
+                'sdpMid': e.sdpMid.toString(),
+                'sdpMlineIndex': e.sdpMlineIndex
+              }));
+        }
         print(json.encode({
           'candidate': e.candidate.toString(),
           'sdpMid': e.sdpMid.toString(),
@@ -119,7 +132,7 @@ class RTCPeerToPeer {
     String sdp = write(session, null);
     RTCSessionDescription description = new RTCSessionDescription(sdp, type);
 
-    // new Logger().log(Level.info, json.encode(description.toMap()));
+    new Logger().log(Level.info, json.encode(description.toMap()));
 
     await _peerConnection.setRemoteDescription(description);
   }
