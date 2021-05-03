@@ -121,7 +121,8 @@ class RTCSignaling {
       // #4
       case ICE_CANDIDATE_EVENT:
         print("ICE_CANDIDATE_EVENT 🔔");
-        dynamic data = message["data"];
+        dynamic data = message["candidate"];
+        print(data["candidate"]);
         rtcPeerToPeer.setCandidate(data["candidate"]);
         break;
     }

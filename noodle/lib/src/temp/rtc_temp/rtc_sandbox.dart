@@ -131,6 +131,8 @@ class RTCSandBox {
     new Logger().log(Level.info, session['candidate']);
     dynamic candidate = new RTCIceCandidate(
         session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
+    new Logger().log(Level.wtf, candidate);
+    // FIXME IceCandidateConnection is not handled
     await _peerConnection.addCandidate(candidate);
   }
 
