@@ -71,6 +71,19 @@ class RTCPeerToPeer {
       _remoteRenderer.srcObject = stream;
     };
 
+    // WORKAROUND FOR WEBRTC CHROME BUG
+    bool negotiating = false;
+    pc.onRenegotiationNeeded = () {
+      try {
+        // ignore: unrelated_type_equality_checks
+        if (negotiating || pc.signalingState != "stable") return;
+        negotiating = true;
+        /* Your async/await-using code goes here */
+      } finally {
+        negotiating = false;
+      }
+    };
+
     return pc;
   }
 
@@ -90,33 +103,27 @@ class RTCPeerToPeer {
     return stream;
   }
 
-  /// #TODO create offer
-  /// #1 peer connection create connection with options -> description
-  /// #2 get the session from the created description
-  /// #3 set the state as [offer = true]
-  /// #4 setLocalDescription for the peer connection
   Future<String> offer() async {
+    // Step 1: caller creates offer
     RTCSessionDescription description =
         await _peerConnection.createOffer({"offerToReceiveVideo": 1});
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = true;
+    // Step 2: caller sets localDescription
     await _peerConnection.setLocalDescription(description);
     return json.encode(session);
   }
 
-  /// #TODO create offer
-  /// #1 peer connection create connection with options -> description
-  //  #2 get the session from the created description
-  //  #3 set the state as [offer = false]
-  //  #4 setLocalDescription for the peer connection
   Future<String> answer() async {
+    // Step 5: callee creates answer
     RTCSessionDescription description =
         await _peerConnection.createAnswer({"offerToReceiveVideo": 1});
 
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = false;
+    // Step 6: callee sets local description
     await _peerConnection.setLocalDescription(description);
     return json.encode(session);
   }
@@ -136,6 +143,8 @@ class RTCPeerToPeer {
 
     await _peerConnection.setRemoteDescription(description);
   }
+
+  get signalingState => _peerConnection.signalingState;
 
   void setCandidate(String jsonString) async {
     dynamic session = jsonDecode(jsonString);
@@ -165,5 +174,9 @@ class RTCPeerToPeer {
 
   void setPeerConnection(RTCPeerConnection pc) {
     _peerConnection = pc;
+  }
+
+  RTCPeerConnection get peerConnection {
+    return this._peerConnection;
   }
 }

@@ -55,6 +55,14 @@ class RTCSignaling {
     await _socket?.connect();
   }
 
+  Future<bool> _isServerIdentity(
+      {required dynamic data, required String type}) async {
+    SharedPreferences pref = await getSharedPref();
+
+    return pref.get(RTC_CLIENT_ID) != null &&
+        pref.get(RTC_CLIENT_ID) == data["host"];
+  }
+
   void onMessage(tag, message) async {
     SharedPreferences pref = await getSharedPref();
     switch (tag) {
@@ -72,15 +80,22 @@ class RTCSignaling {
         if (data["peer"] == null) {
           return;
         }
-        String description = await rtcPeerToPeer.offer();
-        emitOfferEvent(data["peer"], description);
+        if (await _isServerIdentity(data: data, type: "host")) {
+          String description = await rtcPeerToPeer.offer();
+          // Step 3: caller sends the description to the callee
+          emitOfferEvent(data["peer"], description);
+        }
         break;
       // #2
       case OFFER_EVENT:
         print("OFFER_EVENT 🔔");
         dynamic data = message["data"];
+        // Step 4: callee receives the offer sets remote description
         rtcPeerToPeer.setRemoteDescription(data["description"], "offer");
-        String description = await rtcPeerToPeer.answer();
+        print(await rtcPeerToPeer.peerConnection.getLocalDescription());
+        String description = await rtcPeerToPeer
+            .answer(); // FIXME Error: InvalidStateError: Failed to execute 'createAnswer' on 'RTCPeerConnection': PeerConnection cannot create an answer in a state other than have-remote-offer or have-local-pranswer.
+        // Step 7: callee send the description to caller
         emitAnswerEvent(pref.get(RTC_HOST_ID), description);
         Future.delayed(const Duration(milliseconds: 1000), () {
           dynamic retryInterval = 0;
@@ -100,6 +115,7 @@ class RTCSignaling {
       case ANSWER_EVENT:
         print("ANSWER_EVENT 🔔");
         dynamic data = message["data"];
+        // Step 8: caller receives the answer and sets remote description
         rtcPeerToPeer.setRemoteDescription(data["description"], "answer");
         break;
       // #4
