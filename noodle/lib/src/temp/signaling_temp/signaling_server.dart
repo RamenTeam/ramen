@@ -8,8 +8,6 @@ class MockSignalingServer {
   RTCSandBox _rtcSandBox = new RTCSandBox();
 
   connect() {
-    _rtcSandBox.initRenderer();
-    _rtcSandBox.createPC().then((pc) => _rtcSandBox.setPeerConnection(pc));
     rtcSignaling.connect();
   }
 
@@ -19,7 +17,6 @@ class MockSignalingServer {
 
   offer() async {
     String description = await _rtcSandBox.offer();
-    rtcSignaling.emitOfferEvent(description);
   }
 
   answer() {}
