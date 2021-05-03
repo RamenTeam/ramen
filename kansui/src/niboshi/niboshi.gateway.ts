@@ -1,11 +1,8 @@
 import { NiboshiService } from './niboshi.service';
 import {
-  ConnectedSocket,
-  MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
-  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
@@ -14,10 +11,9 @@ import { Server, Socket } from 'socket.io';
 import * as _ from 'lodash';
 
 const CLIENT_ID_EVENT = 'client-id-event';
-const OFFER_EVENT = 'offer-event';
-const ANSWER_EVENT = 'answer-event';
-const ICE_CANDIDATE_EVENT = 'ice-candidate-event';
-const MATCHMAKING_EVENT = 'match-making-event';
+const MATCHMAKING_EVENT = 'matchmaking-event';
+
+const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
 @WebSocketGateway({ transports: ['websocket'] })
 export class NiboshiGateway
@@ -33,89 +29,70 @@ export class NiboshiGateway
     this.logger.log(`Init socket server ${server?.path?.()}`);
   }
 
-  handleConnection(client: Socket, ...args: any[]) {
+  async handleConnection(client: Socket, ...args: any[]) {
     console.log(`Client connected: ${client.id}`);
 
+    client.emit(CLIENT_ID_EVENT, { data: { clientId: client.id } });
+
     this.service.addClient(client);
+    let roomList = this.service.roomList;
+    let clientKeys = _.keys(this.service.clientList);
 
-    console.log('Client list: ', {
-      Keys: _.keys(this.service.clientList),
-      Length: _.size(this.service.clientList),
-    });
+    if (roomList.length > 0) {
+      // ! There's room opened
+      let clientKeysExceptMe = _.clone(clientKeys);
+      let randomClient = _.sample(
+        clientKeysExceptMe.filter((key) => key !== client.id),
+      );
+      console.log(randomClient, roomList);
+      let randomRoom = this.service.findRoom(randomClient);
+      randomRoom.peer = client.id;
+      console.log('Room found! Wait for signal from host...');
+    } else {
+      // ! Create your own room and wait
+      this.service.addRoom(client, null);
+      let retryInterval = 0;
+      while (retryInterval < 5) {
+        let myRoom = this.service.findRoom(client.id);
+        console.log(myRoom);
+        if (myRoom.peer !== null) {
+          console.log('Someone joins my room');
 
-    client.emit(CLIENT_ID_EVENT, client.id);
+          let peer = this.service.findClient(myRoom.peer);
+
+          console.log(myRoom);
+          peer.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
+          client.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
+          break;
+        }
+
+        await timer(3000);
+        if (retryInterval == 4) {
+          console.log("There's no one here!");
+          client.emit(MATCHMAKING_EVENT, { data: { peerId: null } });
+        } else {
+          console.log('Keep waiting...');
+          console.log('Server Info: ', {
+            client: clientKeys,
+            room: this.service.roomList,
+            numberOfClient: clientKeys.length,
+          });
+        }
+        retryInterval++;
+      }
+    }
   }
 
   handleDisconnect(client: Socket) {
     this.logger.log(`Client disconnected: ${client.id}`);
 
-    this.service.removeClient(client);
-    this.service.removeOffer(client);
-    this.service.removeAnswer(client);
+    this.service.removeClient(client.id);
+    // this.service.removeAvailableClient(client.id);
+    this.service.removeRoom(client);
 
-    console.log('Client list: ', {
-      Keys: _.keys(this.service.clientList),
-      Length: _.size(this.service.clientList),
+    console.log('Server Info: ', {
+      client: _.keys(this.service.clientList),
+      numberOfClient: _.size(this.service.clientList),
     });
-  }
-
-  // ! OFFER_EVENT
-  @SubscribeMessage(OFFER_EVENT)
-  async onOfferEvent(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { description: any },
-  ): Promise<number> {
-    if (_.isEmpty(this.service.offerList)) {
-      this.service.addOffer(client, data.description);
-      console.log('Offer List: ', {
-        Offers: this.service.offerList,
-        Length: _.size(this.service.offerList),
-      });
-    } else {
-      console.log('AnswerEvent');
-    }
-
-    return 0;
-  }
-  // ! ANSWER_EVENT
-  @SubscribeMessage(ANSWER_EVENT)
-  async onAnswerEvent(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { description: any },
-  ): Promise<number> {
-    return 0;
-  }
-
-  // ! ICE_CANDIDATE_EVENT
-  @SubscribeMessage(ICE_CANDIDATE_EVENT)
-  async onIceCandidateEvent(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { isHost: boolean; candidate: any },
-  ): Promise<number> {
-    return 0;
-  }
-
-  // ! GENERAL
-  @SubscribeMessage(MATCHMAKING_EVENT)
-  async onMatchmakingEvent(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { description },
-  ) {
-    // If there's no one offering
-    if (_.isEmpty(this.service.offerList)) {
-      console.log('[...] Offer');
-      this.service.removeOffer(client);
-      // Add the offer with a description
-      this.service.addOffer(client, data.description);
-      console.log('Offer List: ', {
-        Offers: this.service.offerList,
-        Length: _.size(this.service.offerList),
-      });
-    } else {
-      console.log('[...] Answer');
-      this.service.removeAnswer(client);
-
-      // Find a random offer from offer list
-    }
   }
 }

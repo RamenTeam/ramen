@@ -4,28 +4,25 @@ import { Socket } from 'socket.io';
 type ClientList = {
   [key: string]: Socket;
 };
+
 type Candidate = {
   candidate: string;
   sdpMid: string;
   sdpMlineIndex: number;
 };
 
-type OfferList = {
-  [key: string]: string;
-};
-
-type AnswerList = {
-  [key: string]: string;
+type Room = {
+  host: string;
+  peer: string;
 };
 
 @Injectable()
 export class NiboshiService {
   public clientList: ClientList = {};
-  public offerList: OfferList = {};
-  public answerList: AnswerList = {};
+  public availableClientList: ClientList = {};
+  public roomList: Room[] = [];
 
   // ! CLIENT
-
   findClient(clientId: string) {
     return this.clientList[clientId];
   }
@@ -34,35 +31,45 @@ export class NiboshiService {
     this.clientList[client.id] = client;
   }
 
-  removeClient(client: Socket) {
-    delete this.clientList[client.id];
+  removeClient(clientId: string) {
+    delete this.clientList[clientId];
   }
 
-  // ! ANSWER
-
-  findAnswer(clientId: string) {
-    return this.answerList[clientId];
+  // ! AVAILABLE CLIENT
+  findAvailableClient(clientId: string) {
+    return this.availableClientList[clientId];
   }
 
-  addAnswer(client: Socket, description: string) {
-    this.answerList[client.id] = description;
+  addAvailableClient(client: Socket) {
+    this.availableClientList[client.id] = client;
   }
 
-  removeAnswer(client: Socket) {
-    delete this.answerList[client.id];
+  removeAvailableClient(clientId: string) {
+    delete this.availableClientList[clientId];
   }
 
-  // ! OFFER
-
-  findOffer(clientId: string) {
-    return this.offerList[clientId];
+  // ! ROOM
+  addRoom(client: Socket, peerId: string) {
+    this.roomList.push({ host: client.id, peer: peerId });
   }
-
-  addOffer(client: Socket, description: string) {
-    this.offerList[client.id] = description;
+  removeRoom(client: Socket) {
+    for (let i = 0; i < this.roomList.length; i++) {
+      if (
+        this.roomList[i].host == client.id ||
+        this.roomList[i].peer == client.id
+      ) {
+        this.roomList.splice(i, 1);
+      }
+    }
   }
-
-  removeOffer(client: Socket) {
-    delete this.offerList[client.id];
+  findRoom(clientId: string) {
+    for (let i = 0; i < this.roomList.length; i++) {
+      if (
+        this.roomList[i].host == clientId ||
+        this.roomList[i].peer == clientId
+      ) {
+        return this.roomList[i];
+      }
+    }
   }
 }

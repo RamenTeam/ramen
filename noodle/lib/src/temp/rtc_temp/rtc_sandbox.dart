@@ -84,13 +84,14 @@ class RTCSandBox {
   /// #2 get the session from the created description
   /// #3 set the state as [offer = true]
   /// #4 setLocalDescription for the peer connection
-  void offer() async {
+  Future<String> offer() async {
     RTCSessionDescription description =
         await _peerConnection.createOffer({"offerToReceiveVideo": 1});
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = true;
     await _peerConnection.setLocalDescription(description);
+    return json.encode(session);
   }
 
   /// #TODO create offer

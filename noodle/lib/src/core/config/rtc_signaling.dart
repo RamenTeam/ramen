@@ -63,6 +63,9 @@ class RTCSignaling {
       case ICE_CANDIDATE_EVENT:
         print("ICE_CANDIDATE_EVENT 🔔");
         break;
+      case MATCHMAKING_EVENT:
+        print("MATCHING_MAKING_EVENT 🔔");
+        break;
     }
   }
 
@@ -70,8 +73,8 @@ class RTCSignaling {
     _socket?.send(event, data);
   }
 
-  emitOfferEvent(peerId, description) {
-    _send(OFFER_EVENT, {'peerId': peerId, 'description': description});
+  emitOfferEvent(description) {
+    _send(OFFER_EVENT, {'description': description});
   }
 
   emitAnswerEvent(description) {

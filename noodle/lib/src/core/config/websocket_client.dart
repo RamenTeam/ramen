@@ -6,6 +6,7 @@ const CLIENT_ID_EVENT = 'client-id-event';
 const OFFER_EVENT = 'offer-event';
 const ANSWER_EVENT = 'answer-event';
 const ICE_CANDIDATE_EVENT = 'ice-candidate-event';
+const MATCHMAKING_EVENT = "matchmaking-event";
 
 class RamenWebSocket {
   final String url;
@@ -50,6 +51,9 @@ class RamenWebSocket {
 
       socket!.on(
           ICE_CANDIDATE_EVENT, (data) => onMessage(ICE_CANDIDATE_EVENT, data));
+
+      socket!
+          .on(MATCHMAKING_EVENT, (data) => onMessage(MATCHMAKING_EVENT, data));
 
       socket?.connect();
     } catch (e) {

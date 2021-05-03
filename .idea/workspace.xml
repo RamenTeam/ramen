@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="88ddf78d-1f25-4735-8f8c-d3c87ed722b3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.gateway.ts" beforeDir="false" afterPath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.gateway.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/noodle/lib/src/core/config/rtc_signaling.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/core/config/rtc_signaling.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/noodle/lib/src/core/config/websocket_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/core/config/websocket_client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/noodle/lib/src/temp/rtc_temp/rtc_sandbox.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/temp/rtc_temp/rtc_sandbox.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signal_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signal_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signaling_server.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signaling_server.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topping/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/topping/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topping/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/topping/src/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/topping/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/topping/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1s1EIrl0vnbzxWSQZ3C7HkLcbCj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="dart.analysis.tool.window.visible" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="88ddf78d-1f25-4735-8f8c-d3c87ed722b3" name="Default Changelist" comment="" />
+      <created>1620031618711</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1620031618711</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="394" y="107" key="#Plugins" timestamp="1620031786969">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="394" y="107" key="#Plugins/0.0.1536.864@0.0.1536.864" timestamp="1620031786969" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1620031688275">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1620031688275" />
+  </component>
+</project>

@@ -10,10 +10,6 @@ class SignalScreen extends StatefulWidget {
 class _SignalScreenState extends State<SignalScreen> {
   MockSignalingServer _signalingServer = new MockSignalingServer();
 
-  _offer() {}
-
-  _answer() {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +21,7 @@ class _SignalScreenState extends State<SignalScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             RaisedButton(
-              onPressed: _offer,
+              onPressed: _signalingServer.offer,
               child: Text(
                 "offer",
                 style: TextStyle(color: Colors.white),
@@ -33,7 +29,7 @@ class _SignalScreenState extends State<SignalScreen> {
               color: Colors.red,
             ),
             RaisedButton(
-              onPressed: _answer,
+              onPressed: _signalingServer.answer,
               child: Text(
                 "answer",
                 style: TextStyle(color: Colors.white),
