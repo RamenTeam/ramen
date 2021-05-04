@@ -44,15 +44,17 @@ export class NiboshiGateway
     let roomList = this.service.roomList;
     let clientKeys = _.keys(this.service.clientList);
 
+    // TODO Find room with no peer
+
     if (roomList.length > 0) {
       // ! There's room opened
       let clientKeysExceptMe = _.clone(clientKeys);
       let randomClient = _.sample(
         clientKeysExceptMe.filter((key) => key !== client.id),
       );
-      console.log(randomClient, roomList);
       let randomRoom = this.service.findRoom(randomClient);
       randomRoom.peer = client.id;
+      console.log(randomClient, roomList);
       console.log('Room found! Wait for signal from host...');
     } else {
       // ! Create your own room and wait
@@ -110,7 +112,8 @@ export class NiboshiGateway
     @MessageBody() data: { peerId: string; description: any },
   ): Promise<number> {
     console.log('OFFER_EVENT 🔔');
-    console.log('data: ', data);
+    // console.log('data: ', data);
+    console.log(data.peerId);
 
     const peer = this.service.findClient(data.peerId);
 
@@ -128,14 +131,43 @@ export class NiboshiGateway
     @MessageBody() data: { hostId: string; description: any },
   ): Promise<number> {
     console.log('ANSWER_EVENT 🔔');
-    console.log('data: ', data);
+    // console.log('data: ', data);
 
     const host = this.service.findClient(data.hostId);
+    console.log(data.hostId);
 
     if (host) {
       host.emit(ANSWER_EVENT, { data: { description: data.description } });
     } else {
       console.log('onAnswerEvent: Host does not found');
+    }
+    return 0;
+  }
+
+  // ! ICE_CANDIDATE_EVENT
+  @SubscribeMessage(ICE_CANDIDATE_EVENT)
+  async onIceCandidateEvent(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { isHost: boolean; candidate: any },
+  ): Promise<number> {
+    // console.log(data);
+
+    let clientId;
+    console.log(this.service.roomList);
+    if (data.isHost) {
+      clientId = this.service.findPeerId(client.id);
+    } else {
+      clientId = this.service.findHostId(client.id);
+    }
+
+    const peer = this.service.findClient(clientId);
+
+    console.log('ICE PEER: ', peer?.id);
+
+    if (peer) {
+      peer.emit(ICE_CANDIDATE_EVENT, { data: { candidate: data.candidate } });
+    } else {
+      console.log('onIceCandidateEvent: Peer does not found');
     }
     return 0;
   }

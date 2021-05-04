@@ -72,4 +72,20 @@ export class NiboshiService {
       }
     }
   }
+
+  findPeerId(hostId: string) {
+    for (let i = 0; i < this.roomList.length; i++) {
+      if (this.roomList[i].host == hostId) {
+        return this.roomList[i].peer;
+      }
+    }
+  }
+
+  findHostId(peerId: string) {
+    for (let i = 0; i < this.roomList.length; i++) {
+      if (this.roomList[i].peer == peerId) {
+        return this.roomList[i].host;
+      }
+    }
+  }
 }
