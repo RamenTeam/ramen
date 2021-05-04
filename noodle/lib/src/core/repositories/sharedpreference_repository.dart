@@ -19,4 +19,17 @@ class PersistentStorage {
     pref.setString(USER_PHONE_NUMBER_KEY, user.phoneNumber);
     pref.setString(USER_BIO_KEY, user.bio);
   }
+
+  static setRTCClient(String clientId) async {
+    SharedPreferences pref = await getSharedPref();
+
+    pref.setString(RTC_CLIENT_ID, clientId);
+  }
+
+  static setRTCRoom(String hostId, String peerId) async {
+    SharedPreferences pref = await getSharedPref();
+
+    pref.setString(RTC_HOST_ID, hostId);
+    pref.setString(RTC_PEER_ID, hostId);
+  }
 }

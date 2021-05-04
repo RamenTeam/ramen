@@ -2,6 +2,7 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/matching_status.dart';
 import 'package:noodle/src/core/models/user.dart';
@@ -52,6 +53,7 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
         yield const MatchingState.matching(User.empty);
         break;
       case MatchingStatus.PEER_REQUEST: // TODO Temporarily
+        _connect();
         User? peer = await getPeer();
         yield peer == null
             ? MatchingState.notFound()
@@ -83,14 +85,19 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
         const Duration(milliseconds: 3000), () => _user = null);
   }
 
-  void _connect() async {
-    String serverIP = await _searchForIp();
-    if (_signaling == null) {
-      _signaling = RTCSignaling(serverIP)..connect();
-    }
+  _connect() async {
+    rtcPeerToPeer.initRenderer();
+    rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
+    rtcSignaling.connect();
   }
 
-  Future<String> _searchForIp() async {
-    return "";
+  _disconnect() {
+    rtcSignaling.disconnect();
   }
+
+  _offer() async {
+    String description = await rtcPeerToPeer.offer();
+  }
+
+  _answer() {}
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/resources/pages/home/bloc/signaling/signaling_event.dart';
@@ -55,16 +56,5 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
       default:
         yield const SignalingState.unknown();
     }
-  }
-
-  void _connect() async {
-    String serverIP = await _searchForIp();
-    if (_signaling == null) {
-      _signaling = RTCSignaling(serverIP)..connect();
-    }
-  }
-
-  Future<String> _searchForIp() async {
-    return "";
   }
 }

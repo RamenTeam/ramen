@@ -10,6 +10,7 @@ import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart
 import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:noodle/src/temp/rtc_temp/call_screen.dart';
+import 'package:noodle/src/temp/signaling_temp/signal_screen.dart';
 import 'package:provider/provider.dart';
 
 class RamenApp extends StatelessWidget {
@@ -20,7 +21,8 @@ class RamenApp extends StatelessWidget {
     ]);
 
     // TODO Change this to route to development screen
-    bool isDevelopedRoute = false;
+    bool isDevelopedRoute = true;
+    Widget developedRoute = SignalScreen();
     return MaterialApp(
       title: "Ramen",
       debugShowCheckedModeBanner: false,
@@ -40,7 +42,7 @@ class RamenApp extends StatelessWidget {
           ),
           BlocProvider<MatchingBloc>(create: (_) => MatchingBloc())
         ],
-        child: isDevelopedRoute ? CallScreen() : AuthLanding(),
+        child: isDevelopedRoute ? developedRoute : AuthLanding(),
       ),
     );
   }
