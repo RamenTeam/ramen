@@ -53,7 +53,6 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
         yield const MatchingState.matching(User.empty);
         break;
       case MatchingStatus.PEER_REQUEST: // TODO Temporarily
-        _connect();
         User? peer = await getPeer();
         yield peer == null
             ? MatchingState.notFound()
@@ -90,14 +89,4 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
     rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
     rtcSignaling.connect();
   }
-
-  _disconnect() {
-    rtcSignaling.disconnect();
-  }
-
-  _offer() async {
-    String description = await rtcPeerToPeer.offer();
-  }
-
-  _answer() {}
 }

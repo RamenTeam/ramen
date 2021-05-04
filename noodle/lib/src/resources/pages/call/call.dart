@@ -1,22 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:noodle/src/core/config/rtc.dart';
+import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart';
-import 'package:noodle/src/resources/pages/home/bloc/matching/matching_state.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 class CallScreen extends StatefulWidget {
-  CallScreen({Key? key, required this.peer}) : super(key: key);
-
-  final User? peer;
+  CallScreen({Key? key}) : super(key: key);
 
   static Route route({required User peer}) {
-    return MaterialPageRoute<void>(
-        builder: (_) => CallScreen(
-              peer: peer,
-            ));
+    return MaterialPageRoute<void>(builder: (_) => CallScreen());
   }
 
   @override
@@ -24,48 +19,37 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
+  final RTCSignaling rtcSignaling =
+      new RTCSignaling(host: "127.0.0.1", port: 3000);
+
+  @override
+  void dispose() {
+    rtcPeerToPeer.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    rtcPeerToPeer.initRenderer();
+
+    rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(initialPage: 0);
-
-    final screenSize = MediaQuery.of(context).size;
-
-    final pageView = PageView(
-      controller: controller,
-      scrollDirection: Axis.vertical,
-      children: [
-        Container(
-            color: Colors.green,
-            child: FittedBox(
-              child: Image.network(
-                "https://media.giphy.com/media/xT9IgoJNoU4ZSTD0Gs/giphy.gif",
-              ),
-              fit: BoxFit.cover,
-            )),
-        Container(
-            color: Colors.cyanAccent,
-            child: FittedBox(
-              child: Image.network(
-                "https://media.giphy.com/media/3o7aDc5eHYx1vCXjKE/giphy.gif",
-              ),
-              fit: BoxFit.cover,
-            )),
-        Container(
-            color: Colors.cyanAccent,
-            child: FittedBox(
-              child: Image.network(
-                "https://media.giphy.com/media/1otEs4D4BJgQ0/giphy.gif",
-              ),
-              fit: BoxFit.cover,
-            )),
-      ],
-    );
-
     return Scaffold(
         backgroundColor: Theme.of(context).accentColor,
         body: SafeArea(
           child: Stack(children: [
-            pageView,
+            Container(
+              key: Key("remote"),
+              child: RTCVideoView(
+                rtcPeerToPeer.remoteRenderer,
+                mirror: true,
+              ),
+            ),
             Column(
               children: [
                 // Top
@@ -82,73 +66,84 @@ class _CallScreenState extends State<CallScreen> {
 class _TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MatchingBloc, MatchingState>(builder: (context, state) {
-      List<Widget> buildInfo() {
-        return [
-          // Avatar
-          Container(
-            width: 60,
-            height: 60,
-            decoration:
-                BoxDecoration(shape: BoxShape.circle, color: Colors.grey),
-            child: ClipRRect(
-              child: Image.network(state.peer?.avatarPath as String),
-              borderRadius: BorderRadius.circular(50),
-            ),
+    User? peer; //TODO
+    List<Widget> buildInfo() {
+      return [
+        // Avatar
+        Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey),
+          child: ClipRRect(
+            child: Image.network(
+                "https://th.bing.com/th/id/OIP.xzIfQQCZiBpvccxSZUsOSAHaHa?pid=ImgDet&rs=1"),
+            borderRadius: BorderRadius.circular(50),
           ),
-          SizedBox(width: 10),
-          // Name & Username
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 30,
-                width: 200,
-                child: Text(
-                  '${state.peer?.firstName as String} ${state.peer?.lastName as String}',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 21),
-                ),
-                alignment: Alignment.centerLeft,
+        ),
+        SizedBox(width: 10),
+        // Name & Username
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              height: 30,
+              width: 200,
+              child: Text(
+                'Tin Chung',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 21),
               ),
-              Container(
-                height: 30,
-                width: 200,
-                child: Text(
-                  '@${state.peer?.username as String}',
-                  style: TextStyle(color: Colors.white, fontSize: 15),
-                ),
-                alignment: Alignment.centerLeft,
-              )
-            ],
-          )
-        ];
-      }
+              alignment: Alignment.centerLeft,
+            ),
+            Container(
+              height: 30,
+              width: 200,
+              child: Text(
+                '@tinchung',
+                style: TextStyle(color: Colors.white, fontSize: 15),
+              ),
+              alignment: Alignment.centerLeft,
+            )
+          ],
+        )
+      ];
+    }
 
-      Widget buildBackButton() {
-        return Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: Theme.of(context).primaryColor),
-            child: IconButton(
-                icon: FaIcon(FontAwesomeIcons.home),
-                onPressed: () {
-                  Navigator.pop(context);
-                }));
-      }
-
+    Widget buildBackButton() {
       return Container(
-          height: 90,
-          color: Colors.black54,
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Row(children: buildInfo()), Spacer(), buildBackButton()],
-          ));
-    });
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: Theme.of(context).primaryColor),
+          child: IconButton(
+              icon: FaIcon(FontAwesomeIcons.home),
+              onPressed: () {
+                Navigator.pop(context);
+              }));
+    }
+
+    return Container(
+        height: 90,
+        color: Colors.black54,
+        padding: EdgeInsets.symmetric(horizontal: 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+                children: peer == null
+                    ? [
+                        Text(
+                          "Finding...",
+                          style: Theme.of(context).textTheme.headline1,
+                        )
+                      ]
+                    : buildInfo()),
+            Spacer(),
+            buildBackButton()
+          ],
+        ));
   }
 }
 
@@ -174,14 +169,15 @@ class _MiddleSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
-          width: 140,
-          height: 180,
+          key: Key("local"),
+          width: 150,
+          height: 230,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(15),
-            child: FittedBox(
-              child: Image.network(
-                  "https://media.giphy.com/media/nc1Xx0poE6PvNVSEVG/giphy.gif"),
-              fit: BoxFit.cover,
+            child: RTCVideoView(
+              rtcPeerToPeer.localRenderer,
+              mirror: true,
+              objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
             ),
           ),
           decoration: BoxDecoration(
@@ -199,7 +195,9 @@ class _MiddleSection extends StatelessWidget {
     return Expanded(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [buildCamera(), Spacer(), buildInteractionButtons()],
+      children: [
+        buildCamera(), Spacer(), //buildInteractionButtons()
+      ],
     ));
   }
 }
