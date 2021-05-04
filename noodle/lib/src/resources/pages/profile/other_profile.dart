@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/shared/backable_app_bar.dart';
+import 'package:provider/provider.dart';
 
 class OtherProfileScreen extends StatelessWidget {
   final User user;
+  final UserRepository userRepository;
 
-  const OtherProfileScreen({required this.user});
+  const OtherProfileScreen({required this.user, required this.userRepository});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,10 @@ class OtherProfileScreen extends StatelessWidget {
               child: Image.network(
             user.avatarPath,
           )),
-          _InfoSection(user: user),
+          Provider<UserRepository>(
+            create: (_) => userRepository,
+            child: _InfoSection(user: user),
+          )
         ],
       ),
     );
@@ -78,7 +85,9 @@ class _ProfileInfoHeader extends StatelessWidget {
       trailing: Wrap(
         spacing: 5,
         children: [
-          _ConnectButton(user: user),
+          _ConnectButton(
+            user: user,
+          ),
         ],
       ),
     );
@@ -110,9 +119,20 @@ class _ConnectButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void sendConnectRequest() async {
+      print("Sending connect request to " + user.username);
+      ErrorMessage? err =
+          await Provider.of<UserRepository>(context, listen: false)
+              .sendConnectRequest(id: user.id);
+      String message = "Send connect request successfully!";
+      if (err != null) message = err.message;
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+    }
+
     return ElevatedButton(
       onPressed: () {
-        print("Sending friend request to " + user.username);
+        sendConnectRequest();
       },
       child: Icon(Icons.person_add),
       style: ButtonStyle(

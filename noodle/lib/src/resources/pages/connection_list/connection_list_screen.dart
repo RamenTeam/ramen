@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/profile/other_profile.dart';
 import 'package:noodle/src/resources/shared/backable_app_bar.dart';
 
 class ConnectionListScreen extends StatelessWidget {
-  ConnectionListScreen({required this.users});
+  ConnectionListScreen({required this.users, required this.userRepository});
 
   final List<User> users;
+  final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,14 @@ class ConnectionListScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).accentColor,
       body: ListView(
         children: [
-          for (User user in users) _Card(user: user),
+          for (User user in users)
+            _Card(
+              user: user,
+              userRepository: userRepository,
+            ),
+          // _Card(user:User.mock, userRepository: userRepository,),
+          // _Card(user:User.mock1, userRepository: userRepository,),
+          // _Card(user:User.mock2, userRepository: userRepository,),
         ],
       ),
     );
@@ -23,17 +32,20 @@ class ConnectionListScreen extends StatelessWidget {
 }
 
 class _Card extends StatelessWidget {
-  _Card({required this.user});
+  _Card({required this.user, required this.userRepository});
 
   final User user;
+  final UserRepository userRepository;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext c) {
-          return OtherProfileScreen(user: user);
+        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext c) {
+          return OtherProfileScreen(
+            user: user,
+            userRepository: userRepository,
+          );
         }));
       },
       //TODO: when the user tap

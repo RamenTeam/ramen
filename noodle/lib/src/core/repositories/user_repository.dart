@@ -7,6 +7,7 @@ import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/schema/mutation_option.dart';
+import 'package:noodle/src/core/schema/mutations/send_connect_request.dart';
 import 'package:noodle/src/core/schema/mutations/update_profile.mutation.dart';
 import 'package:noodle/src/core/schema/queries/me.query.dart';
 import 'package:noodle/src/core/schema/query_option.dart';
@@ -67,8 +68,8 @@ class UserRepository {
     required String avatarPath,
   }) async {
     GraphQLClient client = await getClient();
-    final QueryResult res = await client.mutate(
-        getMutationOptions(schema: updateProfileMutation, variables: {
+    final QueryResult res = await client
+        .mutate(getMutationOptions(schema: updateProfileMutation, variables: {
       "data": {
         "firstName": firstName,
         "lastName": lastName,
@@ -82,11 +83,33 @@ class UserRepository {
       return null;
     }
 
-    if (res.isLoading) {
-      print("Loading...");
+    dynamic errJson = res.data['updateProfile'];
+
+    if (errJson == null) return null;
+    print(errJson);
+    ErrorMessage err = ErrorMessage(
+      message: errJson['message'],
+      path: errJson['path'],
+    );
+    return err;
+  }
+
+  Future<ErrorMessage?> sendConnectRequest({
+    required String id,
+  }) async {
+    GraphQLClient client = await getClient();
+    final QueryResult res = await client.mutate(
+        getMutationOptions(schema: sendConnectRequestMutation, variables: {
+      "data": {
+        "userId": id,
+      }
+    }));
+    if (res.hasException) {
+      print(res.exception.toString());
+      return null;
     }
 
-    dynamic errJson = res.data['updateProfile'];
+    dynamic errJson = res.data['sendConnectRequest'];
 
     if (errJson == null) return null;
     print(errJson);
