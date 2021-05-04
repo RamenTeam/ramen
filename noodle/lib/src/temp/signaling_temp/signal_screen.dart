@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:noodle/src/core/config/rtc.dart';
-import 'package:noodle/src/core/config/rtc_p2p.dart';
 import 'package:noodle/src/temp/signaling_temp/signaling_server.dart';
 
 class SignalScreen extends StatefulWidget {

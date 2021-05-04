@@ -31,14 +31,14 @@ class LoginCubit extends Cubit<LoginState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      RamenApiResponse? response =
+      ErrorMessage? err =
           await _authenticationRepository.logInWithEmailAndPassword(
         email: state.email.value,
         password: state.password.value,
       );
 
       // Login successful
-      if (response == null) {
+      if (err == null) {
         emit(state.copyWith(
           status: FormzStatus.submissionSuccess,
           responseMessage: "",
@@ -48,7 +48,7 @@ class LoginCubit extends Cubit<LoginState> {
         // Login failed
         emit(state.copyWith(
           status: FormzStatus.submissionSuccess,
-          responseMessage: response.message,
+          responseMessage: err.message,
           success: false,
         ));
       }

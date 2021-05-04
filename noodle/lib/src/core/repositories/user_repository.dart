@@ -7,62 +7,13 @@ import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/schema/mutation_option.dart';
+import 'package:noodle/src/core/schema/mutations/send_connect_request.dart';
 import 'package:noodle/src/core/schema/mutations/update_profile.mutation.dart';
-import 'package:noodle/src/core/schema/queries/get_user.query.dart';
 import 'package:noodle/src/core/schema/queries/me.query.dart';
 import 'package:noodle/src/core/schema/query_option.dart';
 
 class UserRepository {
-  Future<User?> getUserById(String id) async {
-    GraphQLClient client = await getClient();
-
-    final QueryResult res =
-        await client.query(getQueryOptions(schema: getUserQuery, variables: {
-      "data": {"userId": id}
-    }));
-
-    if (res.hasException) {
-      print(res.exception.toString());
-      return null;
-    }
-
-    if (res.isLoading) {
-      print("Loading...");
-    }
-
-    dynamic data = res.data['getUser'];
-
-    if (data == null) return null;
-
-    print(data);
-
-    List<Map<String, dynamic>> connectionsJson = data["connections"];
-
-    List<User> connections = connectionsJson
-        .map((user) => User(
-              id: user['id'],
-              username: user['username'],
-              firstName: user['firstName'],
-              lastName: user['lastName'],
-              avatarPath: user['avatarPath'],
-            ))
-        .toList();
-
-    User user = User(
-        id: data["id"],
-        firstName: data["firstName"],
-        lastName: data["lastName"],
-        username: data["username"],
-        email: data["email"],
-        phoneNumber: data["phoneNumber"],
-        bio: data["bio"],
-        avatarPath: data["avatarPath"],
-        connections: connections);
-
-    return user;
-  }
-
-  Future<User?> getUser() async {
+  Future<User?> getCurrentUser() async {
     GraphQLClient client = await getClient();
 
     final QueryResult res =
@@ -81,15 +32,28 @@ class UserRepository {
 
     if (data == null) return null;
 
+    List<dynamic> connectionsJson = data["connections"];
+    print(connectionsJson);
+    List<User> connections = connectionsJson
+        .map((user) => User(
+              id: user['id'],
+              username: user['username'],
+              name: user['name'],
+              avatarPath: user['avatarPath'],
+            ))
+        .toList();
+
     User user = User(
-      email: data["email"],
-      username: data["username"],
       id: data["id"],
-      bio: data["bio"],
-      phoneNumber: data["phoneNumber"],
+      name: data["name"],
       firstName: data["firstName"],
       lastName: data["lastName"],
+      username: data["username"],
+      email: data["email"],
+      phoneNumber: data["phoneNumber"],
+      bio: data["bio"],
       avatarPath: data["avatarPath"],
+      connections: connections,
     );
 
     PersistentStorage.setUser(user);
@@ -97,15 +61,15 @@ class UserRepository {
     return user;
   }
 
-  Future<RamenApiResponse?> updateProfile({
+  Future<ErrorMessage?> updateProfile({
     required String firstName,
     required String lastName,
     required String bio,
     required String avatarPath,
   }) async {
     GraphQLClient client = await getClient();
-    final QueryResult res = await client.mutate(
-        getMutationOptions(schema: getUpdateProfileMutation, variables: {
+    final QueryResult res = await client
+        .mutate(getMutationOptions(schema: updateProfileMutation, variables: {
       "data": {
         "firstName": firstName,
         "lastName": lastName,
@@ -119,15 +83,40 @@ class UserRepository {
       return null;
     }
 
-    if (res.isLoading) {
-      print("Loading...");
+    dynamic errJson = res.data['updateProfile'];
+
+    if (errJson == null) return null;
+    print(errJson);
+    ErrorMessage err = ErrorMessage(
+      message: errJson['message'],
+      path: errJson['path'],
+    );
+    return err;
+  }
+
+  Future<ErrorMessage?> sendConnectRequest({
+    required String id,
+  }) async {
+    GraphQLClient client = await getClient();
+    final QueryResult res = await client.mutate(
+        getMutationOptions(schema: sendConnectRequestMutation, variables: {
+      "data": {
+        "userId": id,
+      }
+    }));
+    if (res.hasException) {
+      print(res.exception.toString());
+      return null;
     }
 
-    dynamic data = res.data['updateProfile'];
+    dynamic errJson = res.data['sendConnectRequest'];
 
-    if (data == null) return null;
-    print(data);
-    RamenApiResponse ramenRes = RamenApiResponse.fromJson(data);
-    return ramenRes;
+    if (errJson == null) return null;
+    print(errJson);
+    ErrorMessage err = ErrorMessage(
+      message: errJson['message'],
+      path: errJson['path'],
+    );
+    return err;
   }
 }

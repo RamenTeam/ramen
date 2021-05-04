@@ -1,4 +1,4 @@
-const String getLogoutMutation = r'''
+const String logoutMutation = r'''
 mutation Logout{
   logout
 }

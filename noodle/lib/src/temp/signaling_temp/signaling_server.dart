@@ -1,6 +1,5 @@
 import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
-import 'package:noodle/src/temp/rtc_temp/rtc_sandbox.dart';
 
 class MockSignalingServer {
   final RTCSignaling rtcSignaling =

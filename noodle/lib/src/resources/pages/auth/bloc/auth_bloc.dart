@@ -77,14 +77,14 @@ class AuthenticationBloc
 
   FutureOr<User?> _tryGetUser() async {
     try {
-      final user = await _userRepository.getUser();
+      final user = await _userRepository.getCurrentUser();
       return user;
     } on Exception {
       return null;
     }
   }
 
-  FutureOr<RamenApiResponse?> _logout() async {
+  FutureOr<ErrorMessage?> _logout() async {
     try {
       return await _authenticationRepository.logout();
     } on Exception {
@@ -92,7 +92,7 @@ class AuthenticationBloc
     }
   }
 
-  Future<RamenApiResponse?> loginWithUsernameAndPassword({
+  Future<ErrorMessage?> loginWithUsernameAndPassword({
     required String email,
     required String password,
   }) async {

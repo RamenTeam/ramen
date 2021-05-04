@@ -141,7 +141,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      RamenApiResponse? response = await _authenticationRepository.register(
+      ErrorMessage? err = await _authenticationRepository.register(
         firstName: state.firstName.value,
         lastName: state.lastName.value,
         username: state.username.value,
@@ -150,7 +150,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         password: state.password.value,
       );
       // Register successful
-      if (response == null) {
+      if (err == null) {
         emit(state.copyWith(
           status: FormzStatus.submissionSuccess,
           responseMessage: "",
@@ -160,7 +160,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         // Register failed
         emit(state.copyWith(
           status: FormzStatus.submissionFailure,
-          responseMessage: response.message,
+          responseMessage: err.message,
           success: false,
         ));
       }

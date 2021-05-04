@@ -12,7 +12,7 @@ class UserCubit extends Cubit<User?> {
   }
 
   Future<void> fetchUser() async {
-    User? user = await userRepository.getUser();
+    User? user = await userRepository.getCurrentUser();
     emit(user);
   }
 }

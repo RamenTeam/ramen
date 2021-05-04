@@ -1,4 +1,3 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,7 +93,7 @@ class _ProfileInfoHeader extends StatelessWidget {
     return ListTile(
       leading: FlutterLogo(),
       title: Text(
-        user.firstName + ' ' + user.lastName,
+        user.name,
         style: Theme.of(context).textTheme.headline1,
       ),
       subtitle: Text(
@@ -153,6 +152,7 @@ class _ViewConnectionsButton extends StatelessWidget {
             // ],
             // Reality
             users: users,
+            userRepository: Provider.of<UserRepository>(context, listen: false),
           );
         }));
       },
