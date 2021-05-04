@@ -93,16 +93,22 @@ class RTCSignaling {
         // Step 4: callee receives the offer sets remote description
         rtcPeerToPeer.setRemoteDescription(data["description"], "offer");
         print(await rtcPeerToPeer.peerConnection.getLocalDescription());
-        String description = await rtcPeerToPeer
-            .answer(); // FIXME Error: InvalidStateError: Failed to execute 'createAnswer' on 'RTCPeerConnection': PeerConnection cannot create an answer in a state other than have-remote-offer or have-local-pranswer.
+        String description = await rtcPeerToPeer.answer();
         // Step 7: callee send the description to caller
         emitAnswerEvent(pref.get(RTC_HOST_ID), description);
+        break;
+      // #3
+      case ANSWER_EVENT:
+        print("ANSWER_EVENT 🔔");
+        dynamic data = message["data"];
+        // Step 8: caller receives the answer and sets remote description
+        rtcPeerToPeer.setRemoteDescription(data["description"], "answer");
         Future.delayed(const Duration(milliseconds: 1000), () {
           dynamic retryInterval = 0;
           while (retryInterval < 5) {
             dynamic candidate = pref.get(RTC_CANDIDATE);
             if (candidate != null) {
-              emitIceCandidateEvent(false, candidate);
+              emitIceCandidateEvent(true, candidate);
               break;
             } else {
               print("Cannot find candidate");
@@ -111,17 +117,10 @@ class RTCSignaling {
           }
         });
         break;
-      // #3
-      case ANSWER_EVENT:
-        print("ANSWER_EVENT 🔔");
-        dynamic data = message["data"];
-        // Step 8: caller receives the answer and sets remote description
-        rtcPeerToPeer.setRemoteDescription(data["description"], "answer");
-        break;
       // #4
       case ICE_CANDIDATE_EVENT:
         print("ICE_CANDIDATE_EVENT 🔔");
-        dynamic data = message["candidate"];
+        dynamic data = message["data"];
         print(data["candidate"]);
         rtcPeerToPeer.setCandidate(data["candidate"]);
         break;

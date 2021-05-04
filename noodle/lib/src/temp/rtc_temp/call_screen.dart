@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:logger/logger.dart';
+import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/temp/rtc_temp/rtc_sandbox.dart';
 
 class CallScreen extends StatefulWidget {
@@ -10,21 +11,21 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
-  RTCSandBox _rtcSandBox = new RTCSandBox();
+  // RTCSandBox _rtcSandBox = new RTCSandBox();
 
   final sdpController = TextEditingController();
 
   @override
   void dispose() {
-    _rtcSandBox.dispose();
+    rtcPeerToPeer.dispose();
     super.dispose();
   }
 
   @override
   void initState() {
-    _rtcSandBox.initRenderer();
+    rtcPeerToPeer.initRenderer();
 
-    _rtcSandBox.createPC().then((pc) => _rtcSandBox.setPeerConnection(pc));
+    rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
 
     super.initState();
   }
@@ -39,7 +40,7 @@ class _CallScreenState extends State<CallScreen> {
               margin: EdgeInsets.all(5),
               decoration: BoxDecoration(color: Colors.black),
               child: RTCVideoView(
-                _rtcSandBox.localRenderer,
+                rtcPeerToPeer.localRenderer,
                 mirror: true,
               ),
             )),
@@ -49,7 +50,7 @@ class _CallScreenState extends State<CallScreen> {
               margin: EdgeInsets.all(5),
               decoration: BoxDecoration(color: Colors.black),
               child: RTCVideoView(
-                _rtcSandBox.remoteRenderer,
+                rtcPeerToPeer.remoteRenderer,
                 mirror: true,
               ),
             ))
@@ -60,12 +61,12 @@ class _CallScreenState extends State<CallScreen> {
   Row _offerAndAnswerButtons() => Row(
         children: [
           RaisedButton(
-            onPressed: _rtcSandBox.offer,
+            onPressed: rtcPeerToPeer.offer,
             child: Text("Offer"),
             color: Colors.amber,
           ),
           RaisedButton(
-            onPressed: _rtcSandBox.answer,
+            onPressed: rtcPeerToPeer.answer,
             child: Text("Answer"),
             color: Colors.blue,
           ),
@@ -86,11 +87,11 @@ class _CallScreenState extends State<CallScreen> {
         children: [
           RaisedButton(
               onPressed: () =>
-                  _rtcSandBox.setRemoteDescription(sdpController.text),
+                  rtcPeerToPeer.setRemoteDescription(sdpController.text, null),
               child: Text("SetRemoteDesc."),
               color: Colors.amber),
           RaisedButton(
-              onPressed: () => _rtcSandBox.setCandidate(sdpController.text),
+              onPressed: () => rtcPeerToPeer.setCandidate(sdpController.text),
               child: Text("Set Candidate."),
               color: Colors.blue),
         ],
@@ -111,7 +112,7 @@ class _CallScreenState extends State<CallScreen> {
 
   RaisedButton _getStateButton() => RaisedButton(
       onPressed: () {
-        new Logger().log(Level.info, _rtcSandBox.getState().toString());
+        new Logger().log(Level.info, rtcPeerToPeer.getState().toString());
       },
       child: Text("Get State"),
       color: Colors.indigoAccent);

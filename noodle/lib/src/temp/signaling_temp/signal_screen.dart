@@ -58,6 +58,21 @@ class _SignalScreenState extends State<SignalScreen> {
         ),
       );
 
+  RaisedButton _clearSdpControllerButton() => RaisedButton(
+      onPressed: () {
+        sdpController.clear();
+      },
+      child: Text("Clear text field"),
+      color: Colors.grey);
+  Padding _sdpCandidateTF() => Padding(
+        padding: EdgeInsets.all(15),
+        child: TextField(
+          controller: sdpController,
+          keyboardType: TextInputType.multiline,
+          maxLines: 5,
+          maxLength: TextField.noMaxLength,
+        ),
+      );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,22 +84,17 @@ class _SignalScreenState extends State<SignalScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _videoRenderers(),
+            _sdpCandidateTF(),
             RaisedButton(
-              onPressed: _signalingServer.offer,
+              onPressed: () =>
+                  _signalingServer.setCandidate(sdpController.text),
               child: Text(
-                "offer",
+                "set candidate",
                 style: TextStyle(color: Colors.white),
               ),
               color: Colors.red,
             ),
-            RaisedButton(
-              onPressed: _signalingServer.answer,
-              child: Text(
-                "answer",
-                style: TextStyle(color: Colors.white),
-              ),
-              color: Colors.blue,
-            ),
+            _clearSdpControllerButton(),
             RaisedButton(
               onPressed: _signalingServer.connect,
               child: Text(

@@ -9,8 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RTCPeerToPeer {
   bool _offer = false;
-  late RTCPeerConnection _peerConnection;
-  late MediaStream _localStream;
+  RTCPeerConnection? _peerConnection;
+  MediaStream? _localStream;
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
 
@@ -41,10 +41,11 @@ class RTCPeerToPeer {
         await createPeerConnection(configuration, offerSdpConstraints);
 
     // Add a local stream to peer connection
-    pc.addStream(_localStream);
+    pc.addStream(_localStream!);
 
     pc.onIceCandidate = (e) {
       if (e.candidate != null) {
+        print("🌲🌲🌲 onIceCandidate");
         if (pref.getString(RTC_CANDIDATE) == null) {
           pref.setString(
               RTC_CANDIDATE,
@@ -63,10 +64,15 @@ class RTCPeerToPeer {
     };
 
     pc.onIceConnectionState = (e) {
-      new Logger().log(Level.verbose, e);
+      print('🌲🌲🌲 onIceConnectionState $e');
+      if (e == RTCIceConnectionState.RTCIceConnectionStateClosed ||
+          e == RTCIceConnectionState.RTCIceConnectionStateFailed) {
+        bye();
+      }
     };
 
     pc.onAddStream = (stream) {
+      print("🌲🌲🌲 onAddStream");
       new Logger().log(Level.verbose, 'Add Stream: ${stream.id}');
       _remoteRenderer.srcObject = stream;
     };
@@ -74,6 +80,7 @@ class RTCPeerToPeer {
     // WORKAROUND FOR WEBRTC CHROME BUG
     bool negotiating = false;
     pc.onRenegotiationNeeded = () {
+      print("🌲🌲🌲 onRenegotiationNeeded");
       try {
         // ignore: unrelated_type_equality_checks
         if (negotiating || pc.signalingState != "stable") return;
@@ -106,25 +113,25 @@ class RTCPeerToPeer {
   Future<String> offer() async {
     // Step 1: caller creates offer
     RTCSessionDescription description =
-        await _peerConnection.createOffer({"offerToReceiveVideo": 1});
+        await _peerConnection!.createOffer({"offerToReceiveVideo": 1});
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = true;
     // Step 2: caller sets localDescription
-    await _peerConnection.setLocalDescription(description);
+    await _peerConnection!.setLocalDescription(description);
     return json.encode(session);
   }
 
   Future<String> answer() async {
     // Step 5: callee creates answer
     RTCSessionDescription description =
-        await _peerConnection.createAnswer({"offerToReceiveVideo": 1});
+        await _peerConnection!.createAnswer({"offerToReceiveVideo": 1});
 
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = false;
     // Step 6: callee sets local description
-    await _peerConnection.setLocalDescription(description);
+    await _peerConnection!.setLocalDescription(description);
     return json.encode(session);
   }
 
@@ -133,25 +140,36 @@ class RTCPeerToPeer {
   /// #2 rewrite the sdp with the decoded session
   /// #3 create a description with the sdp, type as [answer/offer]
   /// #4 setRemoteDescription for the peer connection
-  void setRemoteDescription(String jsonString, String type) async {
+  void setRemoteDescription(String jsonString, String? type) async {
     dynamic session = await jsonDecode('$jsonString');
 
     String sdp = write(session, null);
-    RTCSessionDescription description = new RTCSessionDescription(sdp, type);
+    RTCSessionDescription description = new RTCSessionDescription(
+        sdp, type == null ? (_offer ? "answer" : "offer") : type);
 
     new Logger().log(Level.info, json.encode(description.toMap()));
 
-    await _peerConnection.setRemoteDescription(description);
+    await _peerConnection!.setRemoteDescription(description);
   }
 
-  get signalingState => _peerConnection.signalingState;
+  get signalingState => _peerConnection!.signalingState;
 
   void setCandidate(String jsonString) async {
     dynamic session = jsonDecode(jsonString);
     new Logger().log(Level.info, session['candidate']);
     dynamic candidate = new RTCIceCandidate(
         session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
-    await _peerConnection.addCandidate(candidate);
+    new Logger().log(Level.info, candidate);
+    await _peerConnection!.addCandidate(candidate);
+  }
+
+  void bye() {
+    if (_localStream != null) {
+      _localStream!.dispose();
+      _localStream = null;
+    }
+
+    peerConnection.close();
   }
 
   void dispose() {
@@ -177,6 +195,6 @@ class RTCPeerToPeer {
   }
 
   RTCPeerConnection get peerConnection {
-    return this._peerConnection;
+    return this._peerConnection!;
   }
 }
