@@ -84,7 +84,7 @@ class AuthenticationBloc
     }
   }
 
-  FutureOr<RamenApiResponse?> _logout() async {
+  FutureOr<ErrorMessage?> _logout() async {
     try {
       return await _authenticationRepository.logout();
     } on Exception {
@@ -92,7 +92,7 @@ class AuthenticationBloc
     }
   }
 
-  Future<RamenApiResponse?> loginWithUsernameAndPassword({
+  Future<ErrorMessage?> loginWithUsernameAndPassword({
     required String email,
     required String password,
   }) async {

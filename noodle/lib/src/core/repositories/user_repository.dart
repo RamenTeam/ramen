@@ -60,7 +60,7 @@ class UserRepository {
     return user;
   }
 
-  Future<RamenApiResponse?> updateProfile({
+  Future<ErrorMessage?> updateProfile({
     required String firstName,
     required String lastName,
     required String bio,
@@ -86,11 +86,14 @@ class UserRepository {
       print("Loading...");
     }
 
-    dynamic data = res.data['updateProfile'];
+    dynamic errJson = res.data['updateProfile'];
 
-    if (data == null) return null;
-    print(data);
-    RamenApiResponse ramenRes = RamenApiResponse.fromJson(data);
-    return ramenRes;
+    if (errJson == null) return null;
+    print(errJson);
+    ErrorMessage err = ErrorMessage(
+      message: errJson['message'],
+      path: errJson['path'],
+    );
+    return err;
   }
 }

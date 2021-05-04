@@ -36,7 +36,7 @@ class AuthenticationRepository {
   /// Creates a new user with the provided [email] and [password].
   ///
   /// Throws a [SignUpFailure] if an exception occurs.
-  Future<RamenApiResponse?> register({
+  Future<ErrorMessage?> register({
     required username,
     required password,
     required email,
@@ -60,7 +60,7 @@ class AuthenticationRepository {
 
     if (res.hasException) {
       print(res.exception.toString());
-      return RamenApiResponse(
+      return ErrorMessage(
         path: 'flutter_error',
         message: res.exception.toString(),
       );
@@ -74,13 +74,13 @@ class AuthenticationRepository {
 
     if (responseData == null) return null;
 
-    return RamenApiResponse(
+    return ErrorMessage(
       message: responseData['message'],
       path: responseData['path'],
     );
   }
 
-  Future<RamenApiResponse?> logInWithEmailAndPassword({
+  Future<ErrorMessage?> logInWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -96,7 +96,7 @@ class AuthenticationRepository {
 
     if (res.hasException) {
       print(res.exception.toString());
-      return RamenApiResponse(
+      return ErrorMessage(
         path: 'flutter_error',
         message: res.exception.toString(),
       );
@@ -110,20 +110,20 @@ class AuthenticationRepository {
 
     if (responseData == null) return null;
 
-    return RamenApiResponse(
+    return ErrorMessage(
       message: responseData['message'],
       path: responseData['path'],
     );
   }
 
-  Future<RamenApiResponse?> logout() async {
+  Future<ErrorMessage?> logout() async {
     GraphQLClient client = await getClient();
     final QueryResult res =
         await client.mutate(getMutationOptions(schema: logoutMutation));
 
     if (res.hasException) {
       print(res.exception.toString());
-      return RamenApiResponse(
+      return ErrorMessage(
         path: 'logout',
         message: "unauthenticated",
       );

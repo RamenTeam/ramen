@@ -73,7 +73,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
     }
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      RamenApiResponse? response = await userRepository.updateProfile(
+      ErrorMessage? err = await userRepository.updateProfile(
         firstName: state.firstName.value,
         lastName: state.lastName.value,
         bio: state.bio.value,
@@ -81,7 +81,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
       );
 
       // Update successful
-      if (response == null) {
+      if (err == null) {
         emit(state.copyWith(
           status: FormzStatus.submissionSuccess,
           responseMessage: "",
@@ -91,7 +91,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
         // Login failed
         emit(state.copyWith(
           status: FormzStatus.submissionSuccess,
-          responseMessage: response.message,
+          responseMessage: err.message,
           success: false,
         ));
       }
