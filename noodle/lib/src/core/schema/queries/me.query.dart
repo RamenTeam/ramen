@@ -1,16 +1,16 @@
 const String meQuery = r"""
-query GetCurrentUser{
+query {
   me{
     id
     firstName,
     lastName,
+    name,
     username,
     email,
     phoneNumber,
     connections{
       id,
-      firstName,
-      lastName,
+      name,
       username,
       avatarPath
     }

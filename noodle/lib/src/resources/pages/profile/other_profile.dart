@@ -68,7 +68,7 @@ class _ProfileInfoHeader extends StatelessWidget {
     return ListTile(
       leading: FlutterLogo(),
       title: Text(
-        user.firstName + ' ' + user.lastName,
+        user.name,
         style: Theme.of(context).textTheme.headline1,
       ),
       subtitle: Text(

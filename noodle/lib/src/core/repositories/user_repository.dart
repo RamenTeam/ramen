@@ -8,61 +8,11 @@ import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/schema/mutation_option.dart';
 import 'package:noodle/src/core/schema/mutations/update_profile.mutation.dart';
-import 'package:noodle/src/core/schema/queries/get_user.query.dart';
 import 'package:noodle/src/core/schema/queries/me.query.dart';
 import 'package:noodle/src/core/schema/query_option.dart';
 
 class UserRepository {
-  Future<User?> getUserById(String id) async {
-    GraphQLClient client = await getClient();
-
-    final QueryResult res =
-        await client.query(getQueryOptions(schema: getUserQuery, variables: {
-      "data": {"userId": id}
-    }));
-
-    if (res.hasException) {
-      print(res.exception.toString());
-      return null;
-    }
-
-    if (res.isLoading) {
-      print("Loading...");
-    }
-
-    dynamic data = res.data['getUser'];
-
-    if (data == null) return null;
-
-    print(data);
-
-    List<Map<String, dynamic>> connectionsJson = data["connections"];
-
-    List<User> connections = connectionsJson
-        .map((user) => User(
-              id: user['id'],
-              username: user['username'],
-              firstName: user['firstName'],
-              lastName: user['lastName'],
-              avatarPath: user['avatarPath'],
-            ))
-        .toList();
-
-    User user = User(
-        id: data["id"],
-        firstName: data["firstName"],
-        lastName: data["lastName"],
-        username: data["username"],
-        email: data["email"],
-        phoneNumber: data["phoneNumber"],
-        bio: data["bio"],
-        avatarPath: data["avatarPath"],
-        connections: connections);
-
-    return user;
-  }
-
-  Future<User?> getUser() async {
+  Future<User?> getCurrentUser() async {
     GraphQLClient client = await getClient();
 
     final QueryResult res =
@@ -81,15 +31,28 @@ class UserRepository {
 
     if (data == null) return null;
 
+    List<dynamic> connectionsJson = data["connections"];
+    print(connectionsJson);
+    List<User> connections = connectionsJson
+        .map((user) => User(
+              id: user['id'],
+              username: user['username'],
+              name: user['name'],
+              avatarPath: user['avatarPath'],
+            ))
+        .toList();
+
     User user = User(
-      email: data["email"],
-      username: data["username"],
       id: data["id"],
-      bio: data["bio"],
-      phoneNumber: data["phoneNumber"],
+      name: data["name"],
       firstName: data["firstName"],
       lastName: data["lastName"],
+      username: data["username"],
+      email: data["email"],
+      phoneNumber: data["phoneNumber"],
+      bio: data["bio"],
       avatarPath: data["avatarPath"],
+      connections: connections,
     );
 
     PersistentStorage.setUser(user);
@@ -105,7 +68,7 @@ class UserRepository {
   }) async {
     GraphQLClient client = await getClient();
     final QueryResult res = await client.mutate(
-        getMutationOptions(schema: getUpdateProfileMutation, variables: {
+        getMutationOptions(schema: updateProfileMutation, variables: {
       "data": {
         "firstName": firstName,
         "lastName": lastName,

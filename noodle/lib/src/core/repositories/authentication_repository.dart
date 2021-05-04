@@ -47,7 +47,7 @@ class AuthenticationRepository {
     GraphQLClient client = await getClient();
 
     final QueryResult res = await client
-        .mutate(getMutationOptions(schema: getRegisterMutation, variables: {
+        .mutate(getMutationOptions(schema: registerMutation, variables: {
       "data": {
         "username": username,
         "password": password,
@@ -87,7 +87,7 @@ class AuthenticationRepository {
     GraphQLClient client = await getClient();
 
     final QueryResult res = await client
-        .mutate(getMutationOptions(schema: getLoginMutation, variables: {
+        .mutate(getMutationOptions(schema: loginMutation, variables: {
       "data": {
         "email": email,
         "password": password,
@@ -119,7 +119,7 @@ class AuthenticationRepository {
   Future<RamenApiResponse?> logout() async {
     GraphQLClient client = await getClient();
     final QueryResult res =
-        await client.mutate(getMutationOptions(schema: getLogoutMutation));
+        await client.mutate(getMutationOptions(schema: logoutMutation));
 
     if (res.hasException) {
       print(res.exception.toString());

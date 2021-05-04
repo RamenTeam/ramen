@@ -7,6 +7,7 @@ class User extends Equatable {
     this.username = "",
     this.bio = "",
     this.avatarPath = defaultAvatarPath,
+    this.name = "",
     this.firstName = "",
     this.lastName = "",
     this.email = "",
@@ -20,6 +21,7 @@ class User extends Equatable {
   final String bio;
   final String avatarPath;
   final String phoneNumber;
+  final String name;
   final String firstName;
   final String lastName;
   final List<User> connections;
@@ -36,6 +38,7 @@ class User extends Equatable {
         bio,
         avatarPath,
         phoneNumber,
+        name,
         firstName,
         lastName,
         connections,
@@ -57,6 +60,7 @@ class User extends Equatable {
     phoneNumber: "0908321238",
     firstName: 'Khai',
     lastName: 'Truong',
+    name: 'Khai Truong',
     avatarPath: "https://imgur.com/UHQMGr8.png",
   );
   static const User mock1 = User(
@@ -67,6 +71,7 @@ class User extends Equatable {
     phoneNumber: "0908321236",
     firstName: 'Tin',
     lastName: 'Chung',
+    name: 'Tin Chung',
     avatarPath:
         "https://cdn.inprnt.com/thumbs/26/d5/26d5806851b003ee5c68858487f6a5e5.jpg?response-cache-control=max-age=2628000",
   );
@@ -78,6 +83,7 @@ class User extends Equatable {
     phoneNumber: "0908321237",
     firstName: 'Tin',
     lastName: 'Huynh',
+    name: 'Tin Huynh',
     avatarPath:
         "https://cdn.inprnt.com/thumbs/26/d5/26d5806851b003ee5c68858487f6a5e5.jpg?response-cache-control=max-age=2628000",
   );

@@ -77,7 +77,7 @@ class AuthenticationBloc
 
   FutureOr<User?> _tryGetUser() async {
     try {
-      final user = await _userRepository.getUser();
+      final user = await _userRepository.getCurrentUser();
       return user;
     } on Exception {
       return null;
