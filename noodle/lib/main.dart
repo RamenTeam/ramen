@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noodle/app.dart';
 import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/core/repositories/notification_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -22,6 +23,9 @@ void main() {
         ),
         Provider<UserRepository>(
           create: (_) => UserRepository(),
+        ),
+        Provider<NotificationRepository>(
+          create: (_) => NotificationRepository(),
         ),
       ],
       child: RamenApp(),

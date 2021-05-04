@@ -2,7 +2,6 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/resources/pages/home/bloc/signaling/signaling_event.dart';

@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noodle/src/core/models/connect_notification.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/shared/home_app_bar.dart';
+import 'package:noodle/src/utils/time.dart';
 import 'package:provider/provider.dart';
+
+import 'bloc/notification_state.dart';
 
 class NotificationScreen extends StatelessWidget {
   @override
@@ -15,29 +21,28 @@ class NotificationScreen extends StatelessWidget {
         userCubit: Provider.of<UserCubit>(context, listen: false),
       ),
       backgroundColor: Theme.of(context).accentColor,
-      body: SafeArea(
-        child: ListView(
-          children: <Widget>[
-            _Card(user: User.mock),
-            _Card(user: User.mock),
-            _Card(user: User.mock),
-            _Card(user: User.mock),
-            _Card(user: User.mock),
-          ],
-        ),
-      ),
+      body: SafeArea(child: BlocBuilder<NotificationCubit, NotificationState>(
+        builder: (context, state) {
+          return ListView(
+            children: [
+              for (var notification in state.notifications)
+                _Card(notification: notification),
+            ],
+          );
+        },
+      )),
     );
   }
 }
 
 class _Card extends StatelessWidget {
-  _Card({required this.user});
+  _Card({required this.notification});
 
-  final User user;
-  String _timestamp = "1m";
+  final ConnectionNotification notification;
 
   @override
   Widget build(BuildContext context) {
+    User user = notification.from;
     return ListTile(
         onTap: () {},
         //TODO: when the user tap, a function will call to mark notification as read
@@ -78,7 +83,7 @@ class _Card extends StatelessWidget {
           ],
         ),
         trailing: Text(
-          _timestamp,
+          formatTime(notification.createdAt),
           style: TextStyle(color: Theme.of(context).textTheme.bodyText1!.color),
         ));
   }

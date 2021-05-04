@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:logger/logger.dart';
 import 'package:noodle/src/core/config/rtc.dart';
-import 'package:noodle/src/temp/rtc_temp/rtc_sandbox.dart';
 
 class CallScreen extends StatefulWidget {
   @override

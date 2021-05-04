@@ -2,9 +2,11 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:noodle/src/core/repositories/notification_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
+import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
 import 'package:noodle/src/resources/pages/notifications/notification_screen.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
@@ -37,6 +39,12 @@ class HomeNavigation extends StatelessWidget {
                   Provider.of<UserRepository>(context, listen: false),
             )..fetchUser(),
           ),
+          BlocProvider<NotificationCubit>(
+            create: (_) => NotificationCubit(
+                notificationRepository:
+                    Provider.of<NotificationRepository>(context, listen: false))
+              ..fetchNotifications(),
+          ),
         ],
         child: BlocBuilder<TabNavigationCubit, int>(
           builder: (builder, tabIndex) {
@@ -57,6 +65,7 @@ class HomeNavigation extends StatelessWidget {
 // ignore: must_be_immutable
 class _HomeBottomNavigationBar extends StatelessWidget {
   _HomeBottomNavigationBar({required this.tabIndex});
+
   int _numberOfNotification =
       99; //TODO: set a limit < 100 so when there is more than 100 notification, the number will be 99+
   final int tabIndex;
@@ -73,8 +82,8 @@ class _HomeBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Badge(
-            badgeContent: Text(
-                '$_numberOfNotification'), //TODO: fetch the number of unread notifcation
+            badgeContent: Text('$_numberOfNotification'),
+            //TODO: fetch the number of unread notifcation
             child: FaIcon(FontAwesomeIcons.bell),
           ),
           label: 'Notifications',
