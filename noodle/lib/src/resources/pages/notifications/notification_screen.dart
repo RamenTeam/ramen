@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noodle/src/core/models/connect_notification.dart';
 import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/core/schema/subscription_option.dart';
+import 'package:noodle/src/core/schema/subscriptions/new_notification_added.subscription.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
@@ -21,16 +24,19 @@ class NotificationScreen extends StatelessWidget {
         userCubit: Provider.of<UserCubit>(context, listen: false),
       ),
       backgroundColor: Theme.of(context).accentColor,
-      body: SafeArea(child: BlocBuilder<NotificationCubit, NotificationState>(
-        builder: (context, state) {
-          return ListView(
-            children: [
-              for (var notification in state.notifications)
-                _Card(notification: notification),
-            ],
-          );
-        },
-      )),
+      body: SafeArea(
+        child: BlocBuilder<NotificationCubit, NotificationState>(
+          builder: (context, state) {
+            return ListView(
+              children: [
+                // Items
+                for (var notification in state.notifications)
+                  _Card(notification: notification),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }

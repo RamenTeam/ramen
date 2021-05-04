@@ -11,6 +11,10 @@ class NotificationCubit extends Cubit<NotificationState> {
   List<ConnectionNotification> getNotifications() {
     return state.notifications;
   }
+  void addNotification(ConnectionNotification notification){
+    state.notifications.add(notification);
+    emit(state);
+  }
 
   Future<void> fetchNotifications() async {
     List<ConnectionNotification> notifications =
