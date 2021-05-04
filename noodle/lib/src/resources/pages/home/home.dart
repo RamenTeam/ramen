@@ -5,10 +5,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/models/matching_status.dart';
 import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/resources/pages/call/call.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_event.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_state.dart';
-import 'package:noodle/src/resources/pages/interaction/meeting.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/shared/home_app_bar.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
@@ -22,10 +22,10 @@ class HomeScreen extends StatelessWidget {
         switch (state.status) {
           case MatchingStatus.MATCHING:
             Navigator.of(context).push(
-              MaterialPageRoute<MeetingScreen>(
+              MaterialPageRoute<CallScreen>(
                 builder: (_) => BlocProvider.value(
                     value: BlocProvider.of<MatchingBloc>(context),
-                    child: MeetingScreen(peer: state.peer)),
+                    child: CallScreen(peer: state.peer)),
               ),
             );
             return;

@@ -43,15 +43,13 @@ export class NiboshiGateway
     this.service.addClient(client);
     let roomList = this.service.roomList;
     let clientKeys = _.keys(this.service.clientList);
+    let availableRooms = _.clone(roomList).filter((room) => room.peer == null);
+    console.log(availableRooms);
 
-    // TODO Find room with no peer
-
-    if (roomList.length > 0) {
+    if (availableRooms.length > 0) {
       // ! There's room opened
-      let clientKeysExceptMe = _.clone(clientKeys);
-      let randomClient = _.sample(
-        clientKeysExceptMe.filter((key) => key !== client.id),
-      );
+      let availableClientKeys = _.clone(availableRooms).map(({ host }) => host);
+      let randomClient = _.sample(availableClientKeys);
       let randomRoom = this.service.findRoom(randomClient);
       randomRoom.peer = client.id;
       console.log(randomClient, roomList);

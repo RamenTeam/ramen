@@ -7,23 +7,23 @@ import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_state.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
-class MeetingScreen extends StatefulWidget {
-  MeetingScreen({Key? key, required this.peer}) : super(key: key);
+class CallScreen extends StatefulWidget {
+  CallScreen({Key? key, required this.peer}) : super(key: key);
 
   final User? peer;
 
   static Route route({required User peer}) {
     return MaterialPageRoute<void>(
-        builder: (_) => MeetingScreen(
+        builder: (_) => CallScreen(
               peer: peer,
             ));
   }
 
   @override
-  _MeetingScreenState createState() => _MeetingScreenState();
+  _CallScreenState createState() => _CallScreenState();
 }
 
-class _MeetingScreenState extends State<MeetingScreen> {
+class _CallScreenState extends State<CallScreen> {
   @override
   Widget build(BuildContext context) {
     final controller = PageController(initialPage: 0);
