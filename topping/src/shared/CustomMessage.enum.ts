@@ -18,4 +18,6 @@ export enum CustomMessage {
 	connectionRequestIsSended = "Your request has been sent already!",
 	connectionRequestIsNotExist = "Sorry, we can not found the request",
 	connectionRequestAuthorized = "This is not your connection request",
+	connectionRequestIsDuplicated = "This request is bidirectionally duplicated",
+	connectionDoesExist = "This connection has been already established",
 }

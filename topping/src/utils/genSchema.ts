@@ -23,6 +23,7 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			User.UpdateProfileResolver,
 			User.AcceptConnectionRequestResolver,
 			User.RejectConnectionRequestResolver,
+			User.GetConnectionRequestResolver,
 			Notification.GetNotificationsResolver,
 			Notification.GetMyNotificationsResolver,
 			Notification.NewNotificationAddedResolver,

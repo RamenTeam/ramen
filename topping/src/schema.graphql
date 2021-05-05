@@ -2,6 +2,7 @@ type Query {
   me: UserSchema
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
+  getConnectionRequest(data: GetConnectionRequestDto!): ConnectionNotificationSchema
   getNotifications: [ConversationUnion!]
   getMyNotifications: [ConversationUnion!]
 }
@@ -38,8 +39,6 @@ input GetUserDto {
   userId: String!
 }
 
-union ConversationUnion = ConnectionNotificationSchema | NotificationSchema
-
 type ConnectionNotificationSchema {
   id: ID!
   to: UserSchema!
@@ -60,6 +59,12 @@ enum ConnectionStatusType {
   """REJECTED"""
   REJECTED
 }
+
+input GetConnectionRequestDto {
+  userId: String!
+}
+
+union ConversationUnion = ConnectionNotificationSchema | NotificationSchema
 
 type NotificationSchema {
   id: ID!

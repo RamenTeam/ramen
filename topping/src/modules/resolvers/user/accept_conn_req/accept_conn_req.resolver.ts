@@ -70,6 +70,22 @@ class AcceptConnectionRequestResolver {
 
 		await this.connectionNotificationRepository.delete({
 			id: connectionNotification.id,
+			from: {
+				id: from.id,
+			},
+			to: {
+				id: to.id,
+			},
+		});
+
+		await this.connectionNotificationRepository.delete({
+			id: connectionNotification.id,
+			from: {
+				id: to.id,
+			},
+			to: {
+				id: from.id,
+			},
 		});
 
 		return null;
