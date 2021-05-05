@@ -83,17 +83,17 @@ class _SignalScreenState extends State<SignalScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _videoRenderers(),
-            _sdpCandidateTF(),
-            RaisedButton(
-              onPressed: () =>
-                  _signalingServer.setCandidate(sdpController.text),
-              child: Text(
-                "set candidate",
-                style: TextStyle(color: Colors.white),
-              ),
-              color: Colors.red,
-            ),
-            _clearSdpControllerButton(),
+            // _sdpCandidateTF(),
+            // RaisedButton(
+            //   onPressed: () =>
+            //       _signalingServer.setCandidate(sdpController.text),
+            //   child: Text(
+            //     "set candidate",
+            //     style: TextStyle(color: Colors.white),
+            //   ),
+            //   color: Colors.red,
+            // ),
+            // _clearSdpControllerButton(),
             RaisedButton(
               onPressed: _signalingServer.connect,
               child: Text(

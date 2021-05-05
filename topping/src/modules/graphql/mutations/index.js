@@ -8,3 +8,5 @@ module.exports.sendForgotPasswordEmail = fs.readFileSync(path.join(__dirname, 's
 module.exports.forgotPasswordChange = fs.readFileSync(path.join(__dirname, 'forgotPasswordChange.gql'), 'utf8');
 module.exports.sendConnectRequest = fs.readFileSync(path.join(__dirname, 'sendConnectRequest.gql'), 'utf8');
 module.exports.updateProfile = fs.readFileSync(path.join(__dirname, 'updateProfile.gql'), 'utf8');
+module.exports.acceptConnectionRequest = fs.readFileSync(path.join(__dirname, 'acceptConnectionRequest.gql'), 'utf8');
+module.exports.rejectConnectionRequest = fs.readFileSync(path.join(__dirname, 'rejectConnectionRequest.gql'), 'utf8');

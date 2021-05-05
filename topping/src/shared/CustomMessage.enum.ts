@@ -16,4 +16,6 @@ export enum CustomMessage {
 	expiredKeyError = "Key has expired",
 	hmmm___err = "Hmmmm...This doesn't seem right",
 	connectionRequestIsSended = "Your request has been sent already!",
+	connectionRequestIsNotExist = "Sorry, we can not found the request",
+	connectionRequestAuthorized = "This is not your connection request",
 }

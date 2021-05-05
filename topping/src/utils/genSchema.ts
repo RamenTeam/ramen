@@ -21,6 +21,8 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			User.ForgotPasswordResolver,
 			User.ConnectResolver,
 			User.UpdateProfileResolver,
+			User.AcceptConnectionRequestResolver,
+			User.RejectConnectionRequestResolver,
 			Notification.GetNotificationsResolver,
 			Notification.GetMyNotificationsResolver,
 			Notification.NewNotificationAddedResolver,

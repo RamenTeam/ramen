@@ -20,7 +20,7 @@ class RamenApp extends StatelessWidget {
     ]);
 
     // TODO Change this to route to development screen
-    bool isDevelopedRoute = false;
+    bool isDevelopedRoute = true;
     Widget developedRoute = SignalScreen();
     return MaterialApp(
       title: "Ramen",
@@ -41,7 +41,7 @@ class RamenApp extends StatelessWidget {
           ),
           BlocProvider<MatchingBloc>(create: (_) => MatchingBloc())
         ],
-        child: AuthLanding(),
+        child: isDevelopedRoute ? developedRoute : AuthLanding(),
       ),
     );
   }
