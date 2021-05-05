@@ -4,6 +4,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:logger/logger.dart';
 import 'package:noodle/src/constants/global_variables.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
+import 'package:noodle/src/resources/pages/home/bloc/matching/matching_state.dart';
 import 'package:sdp_transform/sdp_transform.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +14,7 @@ class RTCPeerToPeer {
   MediaStream? _localStream;
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
+  bool isFrontCamera = true;
 
   initRenderer() {
     _localRenderer.initialize();
@@ -170,6 +172,18 @@ class RTCPeerToPeer {
     }
 
     peerConnection.close();
+  }
+
+  void switchCamera() async {
+    //TODO need to fix
+    if (_localStream != null) {
+      // ignore: deprecated_member_use
+      bool value = await _localStream!.getVideoTracks()[0].switchCamera();
+      while (value == this.isFrontCamera)
+        // ignore: deprecated_member_use
+        value = await _localStream!.getVideoTracks()[0].switchCamera();
+      this.isFrontCamera = value;
+    }
   }
 
   void dispose() {

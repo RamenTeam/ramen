@@ -42,21 +42,16 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
         yield const MatchingState.aborting(User.empty);
         break;
       case MatchingStatus.FINDING: // TODO Temporarily
-        /* Need to cancel the asynchronous function when being IDLE */
-        add(MatchingStatusChanged(MatchingStatus.PEER_REQUEST));
         yield MatchingState.finding();
         break;
-      case MatchingStatus.DONE: // TODO Temporarily
-        yield const MatchingState.idling();
-        break;
       case MatchingStatus.MATCHING: // TODO Temporarily
-        yield const MatchingState.matching(User.empty);
+        yield MatchingState.matching(User.empty);
         break;
-      case MatchingStatus.PEER_REQUEST: // TODO Temporarily
-        User? peer = await getPeer();
-        yield peer == null
-            ? MatchingState.notFound()
-            : MatchingState.matching(peer);
+      case MatchingStatus.DISCONNECTED:
+        yield MatchingState.unknown();
+        break;
+      case MatchingStatus.NO_PEER_FOUND:
+        yield MatchingState.notFound();
         break;
       case MatchingStatus.IDLE:
         yield MatchingState.idling();
@@ -82,11 +77,5 @@ class MatchingBloc extends Bloc<MatchingEvent, MatchingState> {
     if (_user != null) return _user;
     return Future.delayed(
         const Duration(milliseconds: 3000), () => _user = null);
-  }
-
-  _connect() async {
-    rtcPeerToPeer.initRenderer();
-    rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
-    rtcSignaling.connect();
   }
 }

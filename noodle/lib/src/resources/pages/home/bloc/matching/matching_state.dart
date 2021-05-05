@@ -20,8 +20,7 @@ class MatchingState extends Equatable {
 
   const MatchingState.idling() : this._(status: MatchingStatus.IDLE);
 
-  const MatchingState.notFound()
-      : this._(status: MatchingStatus.PEER_NOT_FOUND);
+  const MatchingState.notFound() : this._(status: MatchingStatus.NO_PEER_FOUND);
 
   final MatchingStatus status;
   final User? peer;

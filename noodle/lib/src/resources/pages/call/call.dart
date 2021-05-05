@@ -163,19 +163,19 @@ class _TopSection extends StatelessWidget {
 }
 
 class _MiddleSection extends StatelessWidget {
-  Widget buildInteractionButtons() {
+  Widget buildInteractionButtons(BuildContext context) {
     return Container(
       width: 90,
-      color: Colors.blue,
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(
-              3,
-              (index) => Container(
-                  width: 60,
-                  height: 60,
-                  color: Colors.red,
-                  margin: EdgeInsets.only(top: 20)))),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle, color: Theme.of(context).primaryColor),
+            child: IconButton(
+                icon: FaIcon(FontAwesomeIcons.camera),
+                onPressed: rtcPeerToPeer.switchCamera))
+      ]),
     );
   }
 
@@ -210,9 +210,7 @@ class _MiddleSection extends StatelessWidget {
     return Expanded(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        buildCamera(), Spacer(), //buildInteractionButtons()
-      ],
+      children: [buildCamera(), Spacer(), buildInteractionButtons(context)],
     ));
   }
 }
