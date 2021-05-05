@@ -6,7 +6,6 @@ import { ErrorMessage } from "../../../../shared/ErrorMessage.type";
 import { GQLContext } from "../../../../utils/graphql-utils";
 import { isAuth } from "../../../middleware";
 import { ConnectionNotificationRepository } from "../../../repository/ConnectionNotificationRepository";
-import { UserRepository } from "../../../repository/UserRepository";
 import { RejectConnectionRequest } from "./reject_conn_req.dto";
 
 @Resolver((of) => User)
