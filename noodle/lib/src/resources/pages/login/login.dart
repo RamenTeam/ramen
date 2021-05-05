@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/login/bloc/login_cubit.dart';
 import 'package:noodle/src/resources/pages/login/login_form.dart';
 // ignore: import_of_legacy_library_into_null_safe
@@ -13,7 +13,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => LoginCubit(
-          Provider.of<AuthenticationRepository>(context, listen: false)),
+          userRepository: Provider.of<UserRepository>(context, listen: false)),
       child: LoginForm(),
     );
   }

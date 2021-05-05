@@ -6,12 +6,14 @@ import 'package:noodle/src/resources/pages/notifications/bloc/notification_state
 class NotificationCubit extends Cubit<NotificationState> {
   final NotificationRepository notificationRepository;
 
-  NotificationCubit({required this.notificationRepository}) : super(NotificationState(notifications: []));
+  NotificationCubit({required this.notificationRepository})
+      : super(NotificationState(notifications: []));
 
   List<ConnectionNotification> getNotifications() {
     return state.notifications;
   }
-  void addNotification(ConnectionNotification notification){
+
+  void addNotification(ConnectionNotification notification) {
     state.notifications.add(notification);
     emit(state);
   }

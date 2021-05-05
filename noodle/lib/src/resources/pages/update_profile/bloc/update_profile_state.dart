@@ -24,6 +24,7 @@ class UpdateProfileState extends Equatable {
     else
       image = Image.network(avatarPath);
   }
+
   final Name firstName;
   final Name lastName;
   final Bio bio;

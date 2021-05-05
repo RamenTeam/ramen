@@ -3,13 +3,13 @@ import 'package:formz/formz.dart';
 import 'package:noodle/src/core/models/form/email.dart';
 import 'package:noodle/src/core/models/form/password.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
-import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._authenticationRepository) : super(const LoginState());
+  LoginCubit({required this.userRepository}) : super(const LoginState());
 
-  final AuthenticationRepository _authenticationRepository;
+  final UserRepository userRepository;
 
   void emailChanged(String value) {
     final email = Email.dirty(value);
@@ -31,8 +31,7 @@ class LoginCubit extends Cubit<LoginState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      ErrorMessage? err =
-          await _authenticationRepository.logInWithEmailAndPassword(
+      ErrorMessage? err = await userRepository.logInWithEmailAndPassword(
         email: state.email.value,
         password: state.password.value,
       );

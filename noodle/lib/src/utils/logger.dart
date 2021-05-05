@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 
 class SupremeLogger extends Logger {
   final String className;
+
   SupremeLogger(this.className);
 
   @override

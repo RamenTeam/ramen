@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/repositories/notification_repository.dart';
-import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
 import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
 import 'package:noodle/src/resources/pages/notifications/notification_screen.dart';
-import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -32,12 +30,6 @@ class HomeNavigation extends StatelessWidget {
         providers: [
           BlocProvider<TabNavigationCubit>(
             create: (_) => TabNavigationCubit(initialTabIndex: 0),
-          ),
-          BlocProvider<UserCubit>(
-            create: (_) => UserCubit(
-              userRepository:
-                  Provider.of<UserRepository>(context, listen: false),
-            )..fetchUser(),
           ),
           BlocProvider<NotificationCubit>(
             create: (_) => NotificationCubit(

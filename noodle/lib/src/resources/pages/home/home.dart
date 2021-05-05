@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/models/matching_status.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_event.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_state.dart';
@@ -35,9 +35,9 @@ class HomeScreen extends StatelessWidget {
       },
       child: Scaffold(
           appBar: HomeAppBar(
-            authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
             title: 'Ramen',
             userCubit: Provider.of<UserCubit>(context, listen: false),
+            userRepository: Provider.of<UserRepository>(context, listen: false),
           ),
           backgroundColor: Theme.of(context).accentColor,
           body: _HomeScreenBody()),

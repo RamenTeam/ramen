@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/setting/setting.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   HomeAppBar(
-      {required this.authBloc, required this.userCubit, required this.title});
+      {required this.userRepository,
+      required this.userCubit,
+      required this.title});
 
-  final AuthenticationBloc authBloc;
+  final UserRepository userRepository;
   final UserCubit userCubit;
 
   @override
@@ -43,17 +45,20 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-            icon: FaIcon(
-              FontAwesomeIcons.cog,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SettingScreen(
-                            authBloc: authBloc,
-                          )));
-            })
+          icon: FaIcon(
+            FontAwesomeIcons.cog,
+          ),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SettingScreen(
+                  userCubit: userCubit,
+                ),
+              ),
+            );
+          },
+        ),
       ],
     );
   }
