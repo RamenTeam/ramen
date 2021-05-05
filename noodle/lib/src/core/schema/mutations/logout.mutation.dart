@@ -1,5 +1,5 @@
 const String logoutMutation = r'''
-mutation Logout{
+mutation{
   logout
 }
 ''';

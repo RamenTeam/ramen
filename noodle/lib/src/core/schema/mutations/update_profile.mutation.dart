@@ -1,5 +1,5 @@
 const String updateProfileMutation = r'''
-mutation updateProfile($data: UpdateProfileDto!)
+mutation($data: UpdateProfileDto!)
 { 
   updateProfile(data: $data){ 
     path 
