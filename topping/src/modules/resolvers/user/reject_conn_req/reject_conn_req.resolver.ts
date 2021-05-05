@@ -25,6 +25,7 @@ class RejectConnectionRequestResolver {
 				where: {
 					id: connectionId,
 				},
+				relations: ["to"],
 			}
 		);
 		if (connectionNotification?.to.id !== session.userId) {
