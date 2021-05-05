@@ -52,7 +52,7 @@ class _Card extends StatelessWidget {
     Future<void> acceptConnectionRequest() async {
       ErrorMessage? err =
           await Provider.of<ConnectionRepository>(context, listen: false)
-              .acceptConnectionRequest(id: user.id);
+              .acceptConnectionRequest(id: notification.id);
       String message = "You are now connected with " + user.name + "!";
       if (err != null) {
         message = err.message;
@@ -70,7 +70,7 @@ class _Card extends StatelessWidget {
     Future<void> rejectConnectionRequest() async {
       ErrorMessage? err =
           await Provider.of<ConnectionRepository>(context, listen: false)
-              .rejectConnectionRequest(id: user.id);
+              .rejectConnectionRequest(id: notification.id);
       String message = "Connection request with " + user.name + " declined!";
       if (err != null) {
         message = err.message;

@@ -54,7 +54,7 @@ class _Card extends StatelessWidget {
         backgroundImage: Image.network(user.avatarPath).image,
       ),
       title: Text(
-        user.firstName + " " + user.lastName,
+        user.name,
         style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
       ),
       subtitle: Text(
