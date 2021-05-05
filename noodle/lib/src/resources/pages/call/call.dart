@@ -22,18 +22,25 @@ class _CallScreenState extends State<CallScreen> {
   final RTCSignaling rtcSignaling =
       new RTCSignaling(host: "127.0.0.1", port: 3000);
 
-  @override
-  void dispose() {
-    rtcPeerToPeer.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
+  onStartHandler() {
     rtcPeerToPeer.initRenderer();
 
     rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
 
+    print("🔔🔔🔔 Starting...");
+
+    rtcSignaling.connect();
+  }
+
+  onEndHandler() {
+    print("🔔🔔🔔 Ending...");
+    rtcSignaling.disconnect();
+    rtcPeerToPeer.bye();
+  }
+
+  @override
+  void initState() {
+    onStartHandler();
     super.initState();
   }
 
@@ -48,12 +55,15 @@ class _CallScreenState extends State<CallScreen> {
               child: RTCVideoView(
                 rtcPeerToPeer.remoteRenderer,
                 mirror: true,
+                objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
               ),
             ),
             Column(
               children: [
                 // Top
-                _TopSection(),
+                _TopSection(
+                  onEndHandler: onEndHandler,
+                ),
                 // Middle
                 _MiddleSection()
               ],
@@ -64,6 +74,10 @@ class _CallScreenState extends State<CallScreen> {
 }
 
 class _TopSection extends StatelessWidget {
+  _TopSection({required this.onEndHandler});
+
+  final dynamic onEndHandler;
+
   @override
   Widget build(BuildContext context) {
     User? peer; //TODO
@@ -120,6 +134,7 @@ class _TopSection extends StatelessWidget {
           child: IconButton(
               icon: FaIcon(FontAwesomeIcons.home),
               onPressed: () {
+                onEndHandler();
                 Navigator.pop(context);
               }));
     }

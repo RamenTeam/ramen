@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/auth/auth_landing.dart';
 import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart';
+import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
@@ -19,8 +20,8 @@ class RamenApp extends StatelessWidget {
     ]);
 
     // TODO Change this to route to development screen
-    bool isDevelopedRoute = false;
-    Widget developedRoute = SignalScreen();
+    bool isDevelopedRoute = true;
+    Widget developedRoute = HomeScreen();
     return MaterialApp(
       title: "Ramen",
       debugShowCheckedModeBanner: false,
