@@ -6,4 +6,3 @@ mutation($data: ConnectUserDto!){
   }
 }
 ''';
-

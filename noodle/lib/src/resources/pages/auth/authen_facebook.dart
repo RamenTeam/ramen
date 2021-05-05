@@ -44,7 +44,8 @@ class _FacebookAuthenRouteState extends State<FacebookAuthenRoute> {
       // For debugging only
       log('Logged out successfully!');
       // Redirect back to log in screen once user is signed out
-      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginScreen()));
     });
   }
 
@@ -74,32 +75,32 @@ class _FacebookAuthenRouteState extends State<FacebookAuthenRoute> {
       body: Center(
         child: _isLoggedIn
             ? Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(_message,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)
-            ),
-            SizedBox(height: 12.0),
-            ElevatedButton(
-              onPressed: () {
-                _logout();
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.yellow),
-              child: Text(
-                  'Logout',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(_message,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
+                  SizedBox(height: 12.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      _logout();
+                    },
+                    style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                    child: Text('Logout',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black)),
+                  ),
+                ],
+              )
+            : ElevatedButton(
+                onPressed: () {
+                  _loginWithFacebook();
+                },
+                style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                child: Text('Tap to continue with Facebook',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black)),
               ),
-            ),
-          ],
-        ): ElevatedButton(
-          onPressed: () {
-            _loginWithFacebook();
-          },
-          style: ElevatedButton.styleFrom(primary: Colors.yellow),
-          child: Text(
-              'Tap to continue with Facebook',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-        ),
       ),
     );
   }

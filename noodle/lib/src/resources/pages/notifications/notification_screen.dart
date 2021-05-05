@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noodle/src/core/models/connect_notification.dart';
+import 'package:noodle/src/core/models/ramen_api_response.dart';
 import 'package:noodle/src/core/models/user.dart';
-import 'package:noodle/src/core/schema/subscription_option.dart';
-import 'package:noodle/src/core/schema/subscriptions/new_notification_added.subscription.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
+import 'package:noodle/src/core/repositories/connection_repository.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/shared/home_app_bar.dart';
@@ -19,9 +18,9 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomeAppBar(
-        authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
         title: 'Notifications',
         userCubit: Provider.of<UserCubit>(context, listen: false),
+        userRepository: Provider.of<UserRepository>(context, listen: false),
       ),
       backgroundColor: Theme.of(context).accentColor,
       body: SafeArea(
@@ -49,6 +48,39 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user = notification.from;
+
+    Future<void> acceptConnectionRequest() async {
+      ErrorMessage? err =
+          await Provider.of<ConnectionRepository>(context, listen: false)
+              .acceptConnectionRequest(id: user.id);
+      String message = "You are now connected with " + user.name + "!";
+      if (err != null) {
+        message = err.message;
+      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+      await Provider.of<NotificationCubit>(context, listen: false)
+          .fetchNotifications();
+      // Re-fetch user data after connection accepted
+      if (err == null) {
+        await Provider.of<UserCubit>(context, listen: false).fetchUser();
+      }
+    }
+
+    Future<void> rejectConnectionRequest() async {
+      ErrorMessage? err =
+          await Provider.of<ConnectionRepository>(context, listen: false)
+              .rejectConnectionRequest(id: user.id);
+      String message = "Connection request with " + user.name + " declined!";
+      if (err != null) {
+        message = err.message;
+      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(message)));
+      await Provider.of<NotificationCubit>(context, listen: false)
+          .fetchNotifications();
+    }
+
     return ListTile(
         onTap: () {},
         //TODO: when the user tap, a function will call to mark notification as read
@@ -62,7 +94,9 @@ class _Card extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  acceptConnectionRequest();
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                         Theme.of(context).primaryColor)),
@@ -75,7 +109,9 @@ class _Card extends StatelessWidget {
             const SizedBox(width: 8),
 
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  rejectConnectionRequest();
+                },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(
                         Theme.of(context).secondaryHeaderColor)),

@@ -23,7 +23,6 @@ class _GoogleAuthenRouteState extends State<GoogleAuthenRoute> {
   String _message = '';
   bool _isLoggedIn = false;
 
-
   Future _loginWithGoogle() async {
     try {
       await _googleSignIn.signIn();
@@ -45,7 +44,8 @@ class _GoogleAuthenRouteState extends State<GoogleAuthenRoute> {
     // For debugging only
     log('Logged out successfully! Redirecting user to log in screen');
     // Redirect back to log in screen once user is signed out
-     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   // Check if the user is logged in
@@ -74,39 +74,40 @@ class _GoogleAuthenRouteState extends State<GoogleAuthenRoute> {
     _checkLoginStatus();
   }
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-          backgroundColor: Colors.black,
-          body: Center(
-            child: _isLoggedIn
-            ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(_message,
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)
-                ),
-                SizedBox(height: 12.0),
-                ElevatedButton(
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: _isLoggedIn
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(_message,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.white)),
+                    SizedBox(height: 12.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        _logout();
+                      },
+                      style: ElevatedButton.styleFrom(primary: Colors.yellow),
+                      child: Text('Logout',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                    ),
+                  ],
+                )
+              : ElevatedButton(
                   onPressed: () {
-                    _logout();
+                    _loginWithGoogle();
                   },
                   style: ElevatedButton.styleFrom(primary: Colors.yellow),
-                  child: Text(
-                      'Logout',
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)
-                  ),
+                  child: Text('Tap to continue with Google',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black)),
                 ),
-              ],
-            ): ElevatedButton(
-              onPressed: () {
-                _loginWithGoogle();
-              },
-              style: ElevatedButton.styleFrom(primary: Colors.yellow),
-              child: Text(
-                  'Tap to continue with Google',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black)),
-            ),
-          ));
-    }
+        ));
   }
+}

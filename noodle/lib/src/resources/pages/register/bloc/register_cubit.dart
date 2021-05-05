@@ -7,15 +7,13 @@ import 'package:noodle/src/core/models/form/password.dart';
 import 'package:noodle/src/core/models/form/phone_number.dart';
 import 'package:noodle/src/core/models/form/username.dart';
 import 'package:noodle/src/core/models/ramen_api_response.dart';
-import 'package:noodle/src/core/repositories/authentication_repository.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/register/bloc/register_state.dart';
 
 class RegisterCubit extends Cubit<RegisterState> {
-  RegisterCubit(this._authenticationRepository)
-      : assert(_authenticationRepository != null),
-        super(const RegisterState());
+  RegisterCubit({required this.userRepository}) : super(const RegisterState());
 
-  final AuthenticationRepository _authenticationRepository;
+  final UserRepository userRepository;
 
   void firstNameChanged(String value) {
     final firstName = Name.dirty(value);
@@ -141,7 +139,7 @@ class RegisterCubit extends Cubit<RegisterState> {
     if (!state.status.isValidated) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
-      ErrorMessage? err = await _authenticationRepository.register(
+      ErrorMessage? err = await userRepository.register(
         firstName: state.firstName.value,
         lastName: state.lastName.value,
         username: state.username.value,

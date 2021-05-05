@@ -63,6 +63,7 @@ class _SignalScreenState extends State<SignalScreen> {
       },
       child: Text("Clear text field"),
       color: Colors.grey);
+
   Padding _sdpCandidateTF() => Padding(
         padding: EdgeInsets.all(15),
         child: TextField(
@@ -72,6 +73,7 @@ class _SignalScreenState extends State<SignalScreen> {
           maxLength: TextField.noMaxLength,
         ),
       );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

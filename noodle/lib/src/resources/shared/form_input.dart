@@ -9,6 +9,7 @@ class FormInput extends StatelessWidget {
   final TextAlignVertical textAlignVertical;
   final int lines;
   final String initialValue;
+
   FormInput({
     required this.onChangedCallback,
     required this.labelText,

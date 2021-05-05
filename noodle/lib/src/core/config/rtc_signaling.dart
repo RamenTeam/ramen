@@ -1,4 +1,3 @@
-
 import 'package:noodle/src/constants/global_variables.dart';
 import 'package:noodle/src/constants/os.dart';
 import 'package:noodle/src/core/config/rtc.dart';

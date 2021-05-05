@@ -9,6 +9,7 @@ class PushNotificationDemo extends StatelessWidget {
     );
   }
 }
+
 class PushNotification extends StatefulWidget {
   @override
   _PushNotificationState createState() => _PushNotificationState();
@@ -57,19 +58,18 @@ class _PushNotificationState extends State<PushNotification> {
         print("onMessage: $message");
         showDialog(
           context: context,
-          builder: (context) =>
-              AlertDialog(
-                content: ListTile(
-                  title: Text(message['notification']['title']),
-                  subtitle: Text(message['notification']['body']),
-                ),
-                actions: <Widget>[
-                  ElevatedButton(
-                    child: Text('Ok'),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                child: Text('Ok'),
+                onPressed: () => Navigator.of(context).pop(),
               ),
+            ],
+          ),
         );
       },
       // onLaunch is executed when the app is closed

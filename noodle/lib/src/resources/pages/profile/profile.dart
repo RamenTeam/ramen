@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
 import 'package:noodle/src/resources/pages/connection_list/connection_list_screen.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
@@ -25,7 +23,7 @@ class ProfileScreen extends StatelessWidget {
           appBar: HomeAppBar(
             title: "Profile",
             userCubit: Provider.of<UserCubit>(context, listen: false),
-            authBloc: Provider.of<AuthenticationBloc>(context, listen: false),
+            userRepository: Provider.of<UserRepository>(context, listen: false),
           ),
           body: Stack(
             children: [

@@ -29,7 +29,7 @@ class NotificationRepository {
       return ConnectionNotification(
         id: n['id'],
         from: fromUser,
-         createdAt: n['createdAt'],
+        createdAt: n['createdAt'],
         label: n['label'],
       );
     }).toList();

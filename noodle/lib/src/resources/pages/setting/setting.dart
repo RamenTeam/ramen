@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:noodle/src/core/models/authentication_status.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_bloc.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_event.dart';
-import 'package:noodle/src/resources/pages/auth/bloc/auth_state.dart';
+import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/pages/setting/local_build/build_setting_item.dart';
 import 'package:noodle/src/resources/shared/backable_app_bar.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
@@ -15,9 +13,9 @@ import 'package:noodle/src/resources/theme/theme.dart';
 import 'local_build/build_setting_separator.dart';
 
 class SettingScreen extends StatefulWidget {
-  SettingScreen({required this.authBloc});
+  SettingScreen({required this.userCubit});
 
-  final AuthenticationBloc authBloc;
+  final UserCubit userCubit;
 
   @override
   _SettingScreenState createState() => _SettingScreenState();
@@ -145,8 +143,7 @@ class _SettingScreenState extends State<SettingScreen> {
           buildSettingItem(
               context: context,
               onTapEvent: () {
-                widget.authBloc.add(AuthenticationStatusChanged(
-                    AuthenticationStatus.LOGOUT_REQUESTED));
+                widget.userCubit.logout();
               },
               leftChildren: [
                 Text(
@@ -164,11 +161,10 @@ class _SettingScreenState extends State<SettingScreen> {
                 )
               ]),
         ]),
-        BlocListener<AuthenticationBloc, AuthenticationState>(
-          cubit: widget.authBloc,
-          listener: (context, state) => {
-            if (state.status == AuthenticationStatus.UNAUTHENTICATED)
-              {Navigator.pop(context)}
+        BlocListener<UserCubit, User?>(
+          cubit: widget.userCubit,
+          listener: (context, state) {
+            if (state == null) Navigator.pop(context);
           },
           child: Container(),
         ),

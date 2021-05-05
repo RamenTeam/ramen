@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class BasicRoute extends PageRouteBuilder {
   final Widget page;
+
   BasicRoute({required this.page})
       : super(pageBuilder: (context, animation, secondaryAnimation) => page);
 }
