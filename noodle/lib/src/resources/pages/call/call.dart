@@ -10,6 +10,7 @@ import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_bloc.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_event.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_state.dart';
+import 'package:noodle/src/resources/shared/timer.dart';
 import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
@@ -89,7 +90,7 @@ class _CallScreenState extends State<CallScreen> {
       backgroundColor: Theme.of(context).accentColor,
       body: SafeArea(
         child: Stack(children: [
-          // ...remoteChildren,
+          ...remoteChildren,
           buildRemoteCamera(),
           Column(
             children: [
@@ -98,7 +99,10 @@ class _CallScreenState extends State<CallScreen> {
                 onEndHandler: onEndHandler,
               ),
               // Middle
-              _MiddleSection()
+              _MiddleSection(
+                onEndHandler: onEndHandler,
+                onStartHandler: onStartHandler,
+              )
             ],
           )
         ]),
@@ -108,20 +112,30 @@ class _CallScreenState extends State<CallScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<SignalingBloc, SignalingState>(
         builder: (context, state) {
+      List<Widget> remoteChildren;
       switch (state.status) {
         case SignalingStatus.FINDING:
-          return buildScaffold([
+          remoteChildren = [
             Center(
-                child: SpinKitCircle(
-              color: Theme.of(context).primaryColor,
-              size: 50.0,
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TimeCounter(),
+                SizedBox(height: 20),
+                SpinKitCircle(
+                  color: Theme.of(context).primaryColor,
+                  size: 50.0,
+                )
+              ],
             )),
-          ]);
-        case SignalingStatus.MATCHING:
-          return buildScaffold([]);
+          ];
+          break;
         default:
-          return Container();
+          remoteChildren = [];
+          break;
       }
+
+      return buildScaffold(remoteChildren);
     });
   }
 }
@@ -192,42 +206,96 @@ class _TopSection extends StatelessWidget {
               }));
     }
 
-    return Container(
+    Container buildFrame(List<Widget> listenedWidgets) => Container(
         height: 90,
         color: Colors.black54,
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-                children: peer == null
-                    ? [
-                        Text(
-                          "Finding...",
-                          style: Theme.of(context).textTheme.headline1,
-                        )
-                      ]
-                    : buildInfo()),
+            Row(children: listenedWidgets),
             Spacer(),
             buildBackButton()
           ],
         ));
+
+    return BlocBuilder<SignalingBloc, SignalingState>(
+        builder: (context, state) {
+      List<Widget> listenedWidgets;
+      switch (state.status) {
+        case SignalingStatus.NO_PEER_FOUND:
+          listenedWidgets = [
+            Text(
+              "No one online 😅",
+              style: Theme.of(context).textTheme.headline1,
+            )
+          ];
+          break;
+        case SignalingStatus.FINDING:
+          listenedWidgets = [
+            Text(
+              "Finding chat partner...",
+              style: Theme.of(context).textTheme.headline1,
+            )
+          ];
+          break;
+        case SignalingStatus.MATCHING:
+          listenedWidgets = buildInfo();
+          break;
+        default:
+          listenedWidgets = [
+            Text(
+              "Lobby",
+              style: Theme.of(context).textTheme.headline1,
+            )
+          ];
+          break;
+      }
+      return buildFrame(listenedWidgets);
+    });
   }
 }
 
 class _MiddleSection extends StatelessWidget {
+  final dynamic onEndHandler;
+  final dynamic onStartHandler;
+
+  _MiddleSection({required this.onEndHandler, required this.onStartHandler});
+  Container button(
+          {required BuildContext context,
+          required Color color,
+          required void Function()? onPressHandler,
+          required dynamic icon}) =>
+      Container(
+          width: 50,
+          height: 50,
+          margin: EdgeInsets.only(bottom: 20),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+          child: IconButton(icon: icon, onPressed: onPressHandler));
   Widget buildInteractionButtons(BuildContext context) {
     return Container(
       width: 90,
       child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle, color: Theme.of(context).primaryColor),
-            child: IconButton(
-                icon: FaIcon(FontAwesomeIcons.camera),
-                onPressed: rtcPeerToPeer.switchCamera))
+        button(
+            context: context,
+            color: Colors.lightGreen,
+            onPressHandler: () {
+              //TODO send connect request
+            },
+            icon: FaIcon(FontAwesomeIcons.handPeace)),
+        button(
+            context: context,
+            color: Theme.of(context).primaryColor,
+            onPressHandler: rtcPeerToPeer.switchCamera,
+            icon: FaIcon(FontAwesomeIcons.camera)),
+        button(
+            context: context,
+            color: Colors.redAccent,
+            onPressHandler: () {
+              onEndHandler();
+              onStartHandler();
+            },
+            icon: FaIcon(FontAwesomeIcons.times)),
       ]),
     );
   }
@@ -260,10 +328,23 @@ class _MiddleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [buildCamera(), Spacer(), buildInteractionButtons(context)],
-    ));
+    Expanded buildMiddle({required List<Widget> widgets}) => Expanded(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [buildCamera(), Spacer(), ...widgets],
+        ));
+    return BlocBuilder<SignalingBloc, SignalingState>(
+        builder: (context, state) {
+      List<Widget> widgets;
+      switch (state.status) {
+        case SignalingStatus.MATCHING:
+          widgets = [buildInteractionButtons(context)];
+          break;
+        default:
+          widgets = [];
+          break;
+      }
+      return buildMiddle(widgets: widgets);
+    });
   }
 }
