@@ -43,7 +43,9 @@ export class NiboshiGateway
     this.service.addClient(client);
     let roomList = this.service.roomList;
     let clientKeys = _.keys(this.service.clientList);
-    let availableRooms = _.clone(roomList).filter((room) => room.peer == null);
+    let availableRooms = _.clone(roomList).filter(
+      (room) => room.peer == null && room.host !== client.id,
+    );
     console.log(availableRooms);
 
     if (availableRooms.length > 0) {

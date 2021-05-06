@@ -4,6 +4,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
+import 'package:noodle/src/core/models/matching_status.dart';
 import 'package:noodle/src/core/models/user.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
@@ -28,6 +29,29 @@ class _CallScreenState extends State<CallScreen> {
     rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
 
     print("🔔🔔🔔 Starting...");
+
+    rtcSignaling.onStateChange = (MatchingStatus status) {
+      switch (status) {
+        case MatchingStatus.MATCHING:
+          print("🔔🔔🔔 MATCHING");
+          break;
+        case MatchingStatus.FINDING:
+          print("🔔🔔🔔 MATCHING");
+          break;
+        case MatchingStatus.DISCONNECTED:
+          print("🔔🔔🔔 MATCHING");
+          break;
+        case MatchingStatus.ABORTING:
+          print("🔔🔔🔔 MATCHING");
+          break;
+        case MatchingStatus.IDLE:
+          print("🔔🔔🔔 MATCHING");
+          break;
+        case MatchingStatus.NO_PEER_FOUND:
+          print("🔔🔔🔔 MATCHING");
+          break;
+      }
+    };
 
     rtcSignaling.connect();
   }
