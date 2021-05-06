@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:logger/logger.dart';
 import 'package:noodle/src/constants/global_variables.dart';
+import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:sdp_transform/sdp_transform.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+typedef void SignalingStateCallback(SignalingStatus state);
 
 class RTCPeerToPeer {
   bool _offer = false;
@@ -13,6 +16,7 @@ class RTCPeerToPeer {
   MediaStream? _localStream;
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
+  SignalingStateCallback? onStateChange;
   bool isFrontCamera = true;
 
   initRenderer() {
@@ -66,6 +70,9 @@ class RTCPeerToPeer {
 
     pc.onIceConnectionState = (e) {
       print('🌲🌲🌲 onIceConnectionState $e');
+      if (e == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
+        this.onStateChange!(SignalingStatus.RECONNECTING);
+      }
       if (e == RTCIceConnectionState.RTCIceConnectionStateClosed ||
           e == RTCIceConnectionState.RTCIceConnectionStateFailed) {
         bye();

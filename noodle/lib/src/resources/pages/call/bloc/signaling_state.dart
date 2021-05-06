@@ -12,9 +12,6 @@ class SignalingState extends Equatable {
 
   const SignalingState.finding() : this._(status: SignalingStatus.FINDING);
 
-  const SignalingState.aborting(User peer)
-      : this._(status: SignalingStatus.ABORTING, peer: peer);
-
   const SignalingState.matching(User peer)
       : this._(status: SignalingStatus.MATCHING, peer: peer);
 

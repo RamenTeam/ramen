@@ -39,10 +39,6 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
     SharedPreferences _pref = await getSharedPref();
     print(event.status);
     switch (event.status) {
-      case SignalingStatus.ABORTING:
-        print("🎐🎐🎐 ABORTING");
-        yield const SignalingState.aborting(User.empty);
-        break;
       case SignalingStatus.FINDING:
         print("🎐🎐🎐 FINDING");
         yield SignalingState.finding();

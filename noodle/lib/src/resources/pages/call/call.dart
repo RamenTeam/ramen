@@ -31,7 +31,8 @@ class _CallScreenState extends State<CallScreen> {
 
     rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
 
-    rtcSignaling.onStateChange = (SignalingStatus status) {
+    rtcSignaling.onStateChange =
+        rtcPeerToPeer.onStateChange = (SignalingStatus status) {
       switch (status) {
         case SignalingStatus.MATCHING:
           Provider.of<SignalingBloc>(context, listen: false)
@@ -42,12 +43,9 @@ class _CallScreenState extends State<CallScreen> {
               .add(SignalingStatusChanged(SignalingStatus.FINDING));
           break;
         case SignalingStatus.DISCONNECTED:
+          onEndHandler();
           Provider.of<SignalingBloc>(context, listen: false)
               .add(SignalingStatusChanged(SignalingStatus.DISCONNECTED));
-          break;
-        case SignalingStatus.ABORTING:
-          Provider.of<SignalingBloc>(context, listen: false)
-              .add(SignalingStatusChanged(SignalingStatus.ABORTING));
           break;
         case SignalingStatus.IDLE:
           Provider.of<SignalingBloc>(context, listen: false)
@@ -56,6 +54,9 @@ class _CallScreenState extends State<CallScreen> {
         case SignalingStatus.NO_PEER_FOUND:
           Provider.of<SignalingBloc>(context, listen: false)
               .add(SignalingStatusChanged(SignalingStatus.NO_PEER_FOUND));
+          break;
+        case SignalingStatus.RECONNECTING:
+          onReconnectHandler();
           break;
       }
     };
@@ -67,6 +68,14 @@ class _CallScreenState extends State<CallScreen> {
     print("🔔🔔🔔 Ending...");
     rtcSignaling.disconnect();
     rtcPeerToPeer.deactivate();
+  }
+
+  onReconnectHandler() {
+    print("🔔🔔🔔 Reconnecting...");
+    rtcSignaling.onStateChange!(SignalingStatus.DISCONNECTED);
+    Future.delayed(Duration(seconds: 2), () {
+      onStartHandler();
+    });
   }
 
   @override
@@ -207,7 +216,7 @@ class _TopSection extends StatelessWidget {
           child: IconButton(
               icon: FaIcon(FontAwesomeIcons.home),
               onPressed: () {
-                onEndHandler();
+                rtcSignaling.onStateChange!(SignalingStatus.DISCONNECTED);
                 Navigator.pop(context);
               }));
     }
@@ -297,12 +306,7 @@ class _MiddleSection extends StatelessWidget {
         button(
             context: context,
             color: Colors.redAccent,
-            onPressHandler: () {
-              onEndHandler();
-              Future.delayed(Duration(seconds: 2), () {
-                onStartHandler();
-              });
-            },
+            onPressHandler: () {},
             icon: FaIcon(FontAwesomeIcons.times)),
       ]),
     );
