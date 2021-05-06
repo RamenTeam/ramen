@@ -2,17 +2,16 @@ import 'package:noodle/src/constants/global_variables.dart';
 import 'package:noodle/src/constants/os.dart';
 import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/core/config/websocket_client.dart';
-import 'package:noodle/src/core/models/matching_status.dart';
+import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/utils/device_info.dart';
-import 'package:noodle/src/resources/pages/home/bloc/matching/matching_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-typedef void SignalingStateCallback(MatchingStatus state);
+typedef void SignalingStateCallback(SignalingStatus state);
 
 class RTCSignaling {
   RamenWebSocket? _socket;
-  late SignalingStateCallback onStateChange;
+  SignalingStateCallback? onStateChange;
 
   final String host;
 
@@ -35,7 +34,7 @@ class RTCSignaling {
 
     _socket?.onOpen = () {
       print("[🔫 TRIGGERED_EVENT] onOpen");
-      this.onStateChange(MatchingStatus.IDLE);
+      this.onStateChange!(SignalingStatus.IDLE);
       if (!isWeb) {
         print({'name': DeviceInfo.label, 'user_agent': DeviceInfo.userAgent});
       }
@@ -51,7 +50,7 @@ class RTCSignaling {
       print("[🔫 TRIGGERED_EVENT] onClose");
       print('Closed by server [$code => $reason]!');
       _socket = null;
-      this.onStateChange(MatchingStatus.DISCONNECTED);
+      this.onStateChange!(SignalingStatus.DISCONNECTED);
       // TODO Handling signaling_state_changed !
     };
 
@@ -74,14 +73,14 @@ class RTCSignaling {
       // #0
       case CLIENT_ID_EVENT:
         print("CLIENT_ID_EVENT 🔔");
-        this.onStateChange(MatchingStatus.FINDING);
+        this.onStateChange!(SignalingStatus.FINDING);
         dynamic data = message["data"];
         PersistentStorage.setRTCClient(data["clientId"]);
         break;
       // #1
       case MATCHMAKING_EVENT:
         print("MATCHMAKING_EVENT 🔔");
-        this.onStateChange(MatchingStatus.MATCHING);
+        this.onStateChange!(SignalingStatus.MATCHING);
         dynamic data = message["data"];
         PersistentStorage.setRTCRoom(data["host"], data["peer"]);
         if (data["peer"] == null) {

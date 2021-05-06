@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/auth/auth_landing.dart';
-import 'package:noodle/src/resources/pages/home/bloc/matching/matching_bloc.dart';
+import 'package:noodle/src/resources/pages/call/bloc/signaling_bloc.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
@@ -37,7 +37,7 @@ class RamenApp extends StatelessWidget {
           BlocProvider<LoginNavigationBloc>(
             create: (_) => LoginNavigationBloc(),
           ),
-          BlocProvider<MatchingBloc>(create: (_) => MatchingBloc())
+          BlocProvider<SignalingBloc>(create: (_) => SignalingBloc())
         ],
         child: isDevelopedRoute ? developedRoute : AuthLanding(),
       ),

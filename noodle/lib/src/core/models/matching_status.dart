@@ -1,8 +1,0 @@
-enum MatchingStatus {
-  IDLE,
-  FINDING,
-  MATCHING,
-  ABORTING,
-  DISCONNECTED,
-  NO_PEER_FOUND
-}

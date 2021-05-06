@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/config/rtc.dart';
-import 'package:noodle/src/core/config/rtc_signaling.dart';
-import 'package:noodle/src/core/models/matching_status.dart';
+import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/resources/pages/call/bloc/signaling_bloc.dart';
+import 'package:noodle/src/resources/pages/call/bloc/signaling_event.dart';
+import 'package:noodle/src/resources/pages/call/bloc/signaling_state.dart';
+import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 class CallScreen extends StatefulWidget {
@@ -20,9 +25,6 @@ class CallScreen extends StatefulWidget {
 }
 
 class _CallScreenState extends State<CallScreen> {
-  final RTCSignaling rtcSignaling =
-      new RTCSignaling(host: "127.0.0.1", port: 3000);
-
   onStartHandler() {
     rtcPeerToPeer.initRenderer();
 
@@ -30,25 +32,31 @@ class _CallScreenState extends State<CallScreen> {
 
     print("🔔🔔🔔 Starting...");
 
-    rtcSignaling.onStateChange = (MatchingStatus status) {
+    rtcSignaling.onStateChange = (SignalingStatus status) {
       switch (status) {
-        case MatchingStatus.MATCHING:
-          print("🔔🔔🔔 MATCHING");
+        case SignalingStatus.MATCHING:
+          Provider.of<SignalingBloc>(context, listen: false)
+              .add(SignalingStatusChanged(SignalingStatus.MATCHING));
           break;
-        case MatchingStatus.FINDING:
-          print("🔔🔔🔔 MATCHING");
+        case SignalingStatus.FINDING:
+          Provider.of<SignalingBloc>(context, listen: false)
+              .add(SignalingStatusChanged(SignalingStatus.FINDING));
           break;
-        case MatchingStatus.DISCONNECTED:
-          print("🔔🔔🔔 MATCHING");
+        case SignalingStatus.DISCONNECTED:
+          Provider.of<SignalingBloc>(context, listen: false)
+              .add(SignalingStatusChanged(SignalingStatus.DISCONNECTED));
           break;
-        case MatchingStatus.ABORTING:
-          print("🔔🔔🔔 MATCHING");
+        case SignalingStatus.ABORTING:
+          Provider.of<SignalingBloc>(context, listen: false)
+              .add(SignalingStatusChanged(SignalingStatus.ABORTING));
           break;
-        case MatchingStatus.IDLE:
-          print("🔔🔔🔔 MATCHING");
+        case SignalingStatus.IDLE:
+          Provider.of<SignalingBloc>(context, listen: false)
+              .add(SignalingStatusChanged(SignalingStatus.IDLE));
           break;
-        case MatchingStatus.NO_PEER_FOUND:
-          print("🔔🔔🔔 MATCHING");
+        case SignalingStatus.NO_PEER_FOUND:
+          Provider.of<SignalingBloc>(context, listen: false)
+              .add(SignalingStatusChanged(SignalingStatus.NO_PEER_FOUND));
           break;
       }
     };
@@ -68,32 +76,53 @@ class _CallScreenState extends State<CallScreen> {
     super.initState();
   }
 
+  Container buildRemoteCamera() => Container(
+        key: Key("remote"),
+        child: RTCVideoView(
+          rtcPeerToPeer.remoteRenderer,
+          mirror: true,
+          objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
+        ),
+      );
+
+  Scaffold buildScaffold(List<Widget> remoteChildren) => Scaffold(
+      backgroundColor: Theme.of(context).accentColor,
+      body: SafeArea(
+        child: Stack(children: [
+          // ...remoteChildren,
+          buildRemoteCamera(),
+          Column(
+            children: [
+              // Top
+              _TopSection(
+                onEndHandler: onEndHandler,
+              ),
+              // Middle
+              _MiddleSection()
+            ],
+          )
+        ]),
+      ));
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Theme.of(context).accentColor,
-        body: SafeArea(
-          child: Stack(children: [
-            Container(
-              key: Key("remote"),
-              child: RTCVideoView(
-                rtcPeerToPeer.remoteRenderer,
-                mirror: true,
-                objectFit: RTCVideoViewObjectFit.RTCVideoViewObjectFitCover,
-              ),
-            ),
-            Column(
-              children: [
-                // Top
-                _TopSection(
-                  onEndHandler: onEndHandler,
-                ),
-                // Middle
-                _MiddleSection()
-              ],
-            )
-          ]),
-        ));
+    return BlocBuilder<SignalingBloc, SignalingState>(
+        builder: (context, state) {
+      switch (state.status) {
+        case SignalingStatus.FINDING:
+          return buildScaffold([
+            Center(
+                child: SpinKitCircle(
+              color: Theme.of(context).primaryColor,
+              size: 50.0,
+            )),
+          ]);
+        case SignalingStatus.MATCHING:
+          return buildScaffold([]);
+        default:
+          return Container();
+      }
+    });
   }
 }
 

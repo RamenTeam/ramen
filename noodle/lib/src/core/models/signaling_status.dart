@@ -1,11 +1,8 @@
 enum SignalingStatus {
-  Unknown,
-  CallStateNew,
-  CallStateBye,
-  CallStateInvite,
-  CallStateConnected,
-  CallStateRinging,
-  ConnectionClosed,
-  ConnectionError,
-  ConnectionOpen
+  IDLE,
+  FINDING,
+  MATCHING,
+  ABORTING,
+  DISCONNECTED,
+  NO_PEER_FOUND
 }
