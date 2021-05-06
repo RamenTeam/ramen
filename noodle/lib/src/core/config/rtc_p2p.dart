@@ -20,18 +20,18 @@ class RTCPeerToPeer {
     _remoteRenderer.initialize();
   }
 
+  // SDP: Session Description Protocol
+  final Map<String, dynamic> offerSdpConstraints = {
+    "mandatory": {"OfferToReceiveAudio": true, "OfferToReceiveVideo": true},
+    "optional": []
+  };
+
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
     Map<String, dynamic> configuration = {
       "iceServers": [
         {"url": "stun:stun.l.google.com:19302"}
       ]
-    };
-
-    // SDP: Session Description Protocol
-    final Map<String, dynamic> offerSdpConstraints = {
-      "mandatory": {"OfferToReceiveAudio": true, "OfferToReceiveVideo": true},
-      "optional": []
     };
 
     // Get local user media
@@ -114,7 +114,7 @@ class RTCPeerToPeer {
   Future<String> offer() async {
     // Step 1: caller creates offer
     RTCSessionDescription description =
-        await _peerConnection!.createOffer({"offerToReceiveVideo": 1});
+        await _peerConnection!.createOffer(offerSdpConstraints);
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = true;
@@ -126,7 +126,7 @@ class RTCPeerToPeer {
   Future<String> answer() async {
     // Step 5: callee creates answer
     RTCSessionDescription description =
-        await _peerConnection!.createAnswer({"offerToReceiveVideo": 1});
+        await _peerConnection!.createAnswer(offerSdpConstraints);
 
     var session = parse(description.sdp as String);
     print(json.encode(session));
@@ -171,6 +171,17 @@ class RTCPeerToPeer {
     }
 
     peerConnection.close();
+  }
+
+  void deactivate() {
+    // _localRenderer.dispose();
+    // _remoteRenderer.dispose();
+    _localStream?.dispose();
+    _localStream = null;
+    _peerConnection?.close();
+    _peerConnection?.dispose();
+    _localRenderer.srcObject = null;
+    _remoteRenderer.srcObject = null;
   }
 
   void switchCamera() async {

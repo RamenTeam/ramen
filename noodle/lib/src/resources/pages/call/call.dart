@@ -31,8 +31,6 @@ class _CallScreenState extends State<CallScreen> {
 
     rtcPeerToPeer.createPC().then((pc) => rtcPeerToPeer.setPeerConnection(pc));
 
-    print("🔔🔔🔔 Starting...");
-
     rtcSignaling.onStateChange = (SignalingStatus status) {
       switch (status) {
         case SignalingStatus.MATCHING:
@@ -68,11 +66,19 @@ class _CallScreenState extends State<CallScreen> {
   onEndHandler() {
     print("🔔🔔🔔 Ending...");
     rtcSignaling.disconnect();
-    rtcPeerToPeer.bye();
+    rtcPeerToPeer.deactivate();
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    rtcPeerToPeer.deactivate();
+    super.deactivate();
   }
 
   @override
   void initState() {
+    print("🔔🔔🔔 Starting...");
     onStartHandler();
     super.initState();
   }
@@ -293,7 +299,9 @@ class _MiddleSection extends StatelessWidget {
             color: Colors.redAccent,
             onPressHandler: () {
               onEndHandler();
-              onStartHandler();
+              Future.delayed(Duration(seconds: 2), () {
+                onStartHandler();
+              });
             },
             icon: FaIcon(FontAwesomeIcons.times)),
       ]),

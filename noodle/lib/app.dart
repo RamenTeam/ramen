@@ -20,7 +20,7 @@ class RamenApp extends StatelessWidget {
     ]);
 
     // TODO Change this to route to development screen
-    bool isDevelopedRoute = false;
+    bool isDevelopedRoute = true;
     Widget developedRoute = HomeScreen();
     return MaterialApp(
       title: "Ramen",

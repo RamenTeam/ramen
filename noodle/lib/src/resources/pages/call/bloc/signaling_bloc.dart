@@ -2,11 +2,14 @@ import 'dart:async';
 
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:noodle/src/constants/global_variables.dart';
 import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/models/user.dart';
+import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_event.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
   SignalingBloc() : super(const SignalingState.idling());
@@ -33,6 +36,7 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
   Stream<SignalingState> _mapSignalingStatusChangedToState(
     SignalingStatusChanged event,
   ) async* {
+    SharedPreferences _pref = await getSharedPref();
     print(event.status);
     switch (event.status) {
       case SignalingStatus.ABORTING:
@@ -49,6 +53,10 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
         break;
       case SignalingStatus.DISCONNECTED:
         print("🎐🎐🎐 DISCONNECTED");
+        _pref.remove(RTC_CLIENT_ID);
+        _pref.remove(RTC_CANDIDATE);
+        _pref.remove(RTC_HOST_ID);
+        _pref.remove(RTC_PEER_ID);
         yield SignalingState.unknown();
         break;
       case SignalingStatus.NO_PEER_FOUND:
