@@ -58,6 +58,7 @@ class HomeNavigation extends StatelessWidget {
 // ignore: must_be_immutable
 class _HomeBottomNavigationBar extends StatelessWidget {
   _HomeBottomNavigationBar({required this.tabIndex});
+
   final int tabIndex;
 
   @override
@@ -72,8 +73,8 @@ class _HomeBottomNavigationBar extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Badge(
-            badgeContent: BlocBuilder<NotificationCubit,NotificationState>(
-              builder: (context,state){
+            badgeContent: BlocBuilder<NotificationCubit, NotificationState>(
+              builder: (context, state) {
                 return Text(state.notifications.length.toString());
               },
             ),
@@ -90,6 +91,9 @@ class _HomeBottomNavigationBar extends StatelessWidget {
       onTap: (tabIndex) {
         Provider.of<TabNavigationCubit>(context, listen: false)
             .switchTab(tabIndex);
+        if (tabIndex == 1)
+          Provider.of<NotificationCubit>(context, listen: false)
+              .fetchNotifications();
       },
     );
   }
