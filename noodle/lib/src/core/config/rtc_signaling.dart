@@ -17,7 +17,9 @@ class RTCSignaling {
 
   final dynamic port;
 
-  RTCSignaling({required this.host, required this.port});
+  final bool isProd;
+
+  RTCSignaling({required this.host, required this.port, required this.isProd});
 
   void disconnect() async {
     if (_socket != null) {
@@ -28,7 +30,7 @@ class RTCSignaling {
   }
 
   void connect() async {
-    String url = 'http://$host:$port';
+    String url = isProd ? "https://$host" : 'http://$host:$port';
     _socket = new RamenWebSocket(url: url);
     print("Ramen WebSocket is connecting...");
 

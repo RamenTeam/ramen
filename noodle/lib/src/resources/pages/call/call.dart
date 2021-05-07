@@ -73,7 +73,7 @@ class _CallScreenState extends State<CallScreen> {
   onReconnectHandler() {
     print("🔔🔔🔔 Reconnecting...");
     rtcSignaling.onStateChange!(SignalingStatus.DISCONNECTED);
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 1), () {
       onStartHandler();
     });
   }
@@ -306,7 +306,8 @@ class _MiddleSection extends StatelessWidget {
         button(
             context: context,
             color: Colors.redAccent,
-            onPressHandler: () {},
+            onPressHandler: () =>
+                rtcSignaling.onStateChange!(SignalingStatus.RECONNECTING),
             icon: FaIcon(FontAwesomeIcons.times)),
       ]),
     );
