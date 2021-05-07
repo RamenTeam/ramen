@@ -60,22 +60,26 @@ export class NiboshiGateway
       // ! Create your own room and wait
       this.service.addRoom(client, null);
       let retryInterval = 0;
-      while (retryInterval < 5) {
+      let retryLimit = 40;
+      while (retryInterval < retryLimit) {
+        // 120
         let myRoom = this.service.findRoom(client.id);
         console.log(myRoom);
-        if (myRoom.peer !== null) {
-          console.log('Someone joins my room');
+        if (myRoom) {
+          if (myRoom.peer) {
+            console.log('Someone joins my room');
 
-          let peer = this.service.findClient(myRoom.peer);
+            let peer = this.service.findClient(myRoom.peer);
 
-          console.log(myRoom);
-          peer.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
-          client.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
-          break;
-        }
+            console.log(myRoom);
+            peer.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
+            client.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
+            break;
+          }
+        } else break;
 
         await timer(3000);
-        if (retryInterval == 4) {
+        if (retryInterval == retryLimit) {
           console.log("There's no one here!");
           this.service.removeClient(client.id);
           this.service.removeRoom(client);
