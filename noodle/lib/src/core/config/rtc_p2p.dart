@@ -19,7 +19,6 @@ class RTCPeerToPeer {
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   SignalingStateCallback? onStateChange;
-  var _remoteCandidates = [];
   var _turnCredential;
   bool isFrontCamera = true;
 
@@ -49,9 +48,9 @@ class RTCPeerToPeer {
         _iceServers = {
           'iceServers': [
             {
-              'url': "turn:numb.viagenie.ca",
-              'username': "webrtc@live.com",
-              'credential': "muazkh"
+              'url': "turn:littleramen.tk:443",
+              'username': "admin",
+              'credential': "admin"
             },
           ]
         };
