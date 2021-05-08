@@ -43,6 +43,7 @@ class RTCPeerToPeer {
     SharedPreferences pref = await getSharedPref();
 
     if (_turnCredential == null) {
+      print("📞📞📞 SET TURN CREDENTIAL");
       try {
         // _turnCredential = await getTurnCredential(URL, port, isProd);
         _iceServers = {

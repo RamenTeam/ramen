@@ -37,9 +37,9 @@ class RTCSignaling {
     _socket?.onOpen = () {
       print("[🔫 TRIGGERED_EVENT] onOpen");
       this.onStateChange!(SignalingStatus.IDLE);
-      if (!isWeb) {
-        print({'name': DeviceInfo.label, 'user_agent': DeviceInfo.userAgent});
-      }
+      // if (!isWeb) {
+      //   print({'name': DeviceInfo.label, 'user_agent': DeviceInfo.userAgent});
+      // }
       // TODO Handling signaling_state_changed !
     };
 
