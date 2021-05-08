@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:logger/logger.dart';
 import 'package:noodle/src/constants/global_variables.dart';
+import 'package:noodle/src/core/config/rtc.dart';
+import 'package:noodle/src/core/config/turn.dart';
 import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:sdp_transform/sdp_transform.dart';
@@ -17,6 +19,8 @@ class RTCPeerToPeer {
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   SignalingStateCallback? onStateChange;
+  var _remoteCandidates = [];
+  var _turnCredential;
   bool isFrontCamera = true;
 
   initRenderer() {
@@ -30,20 +34,38 @@ class RTCPeerToPeer {
     "optional": []
   };
 
+  Map<String, dynamic> _iceServers = {
+    'iceServers': [
+      {'url': 'stun:stun.l.google.com:19302'},
+    ]
+  };
+
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
-    Map<String, dynamic> configuration = {
-      "iceServers": [
-        {"url": "stun:stun.l.google.com:19302"}
-      ]
-    };
+
+    if (_turnCredential == null) {
+      try {
+        // _turnCredential = await getTurnCredential(URL, port, isProd);
+        _iceServers = {
+          'iceServers': [
+            {
+              'url': "turn:numb.viagenie.ca",
+              'username': "webrtc@live.com",
+              'credential': "muazkh"
+            },
+          ]
+        };
+      } catch (e) {
+        print("Error: Turn Server Credential");
+      }
+    }
 
     // Get local user media
     _localStream = await getUserMedia();
 
     // Create a peer connection
     RTCPeerConnection pc =
-        await createPeerConnection(configuration, offerSdpConstraints);
+        await createPeerConnection(_iceServers, offerSdpConstraints);
 
     // Add a local stream to peer connection
     pc.addStream(_localStream!);
