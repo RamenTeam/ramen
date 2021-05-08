@@ -100,7 +100,6 @@ class RTCSignaling {
         dynamic data = message["data"];
         // Step 4: callee receives the offer sets remote description
         rtcPeerToPeer.setRemoteDescription(data["description"], "offer");
-        print(await rtcPeerToPeer.peerConnection.getLocalDescription());
         String description = await rtcPeerToPeer.answer();
         // Step 7: callee send the description to caller
         emitAnswerEvent(pref.get(RTC_HOST_ID), description);
