@@ -191,7 +191,10 @@ class UserRepository {
 
     dynamic responseData = res.data['login'];
 
-    if (responseData == null) return null;
+    if (responseData == null) {
+      return null;
+    }
+    ;
 
     return ErrorMessage(
       message: responseData['message'],
