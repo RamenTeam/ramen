@@ -25,7 +25,7 @@ class RamenWebSocket {
     try {
       socket = IO.io(url, <String, dynamic>{
         'transports': ['websocket'],
-        // 'query': "userId=${pref.get(USER_ID_KEY) ?? null}"
+        'query': "userId=${pref.get(USER_ID_KEY) ?? null}"
       });
 
       if (socket!.connected) {

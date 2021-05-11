@@ -42,23 +42,24 @@ class RTCPeerToPeer {
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
 
-    // if (_turnCredential == null) {
-    //   print("📞📞📞 SET TURN CREDENTIAL");
-    //   try {
-    //     // _turnCredential = await getTurnCredential(URL, port, isProd);
-    //     _iceServers = {
-    //       'iceServers': [
-    //         {
-    //           'url': "turn:littleramen.tk:443",
-    //           'username': "admin",
-    //           'credential': "admin"
-    //         },
-    //       ]
-    //     };
-    //   } catch (e) {
-    //     print("Error: Turn Server Credential");
-    //   }
-    // }
+    if (_turnCredential == null) {
+      print("📞📞📞 SET TURN CREDENTIAL");
+      try {
+        // _turnCredential = await getTurnCredential(URL, port, isProd);
+        _iceServers = {
+          'iceServers': [
+            {'url': 'stun:stun.l.google.com:19302'},
+            {
+              'url': "turn:littleramen.tk:443",
+              'username': "admin",
+              'credential': "admin"
+            },
+          ]
+        };
+      } catch (e) {
+        print("Error: Turn Server Credential");
+      }
+    }
 
     // Get local user media
     _localStream = await getUserMedia();
