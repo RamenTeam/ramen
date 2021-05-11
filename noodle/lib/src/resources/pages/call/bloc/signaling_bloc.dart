@@ -7,6 +7,7 @@ import 'package:noodle/src/core/config/rtc_signaling.dart';
 import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
+import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_event.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_state.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
   SignalingBloc() : super(const SignalingState.idling());
 
+  final UserRepository userRepository = new UserRepository();
   late StreamSubscription<SignalingStatus> _signalingStatusSubscription;
 
   @override
@@ -45,7 +47,14 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
         break;
       case SignalingStatus.MATCHING:
         print("🎐🎐🎐 MATCHING");
-        yield SignalingState.matching(User.empty);
+        print("User: ");
+        User? user = await getPeer();
+        print(user);
+        if (user == null) {
+          yield SignalingState.matching(User.empty);
+        } else {
+          yield SignalingState.matching(user);
+        }
         break;
       case SignalingStatus.DISCONNECTED:
         print("🎐🎐🎐 DISCONNECTED");
@@ -69,20 +78,20 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
   }
 
   Future<User?> getPeer() async {
+    SharedPreferences pref = await getSharedPref();
     User mockData = User(
         id: "123",
-        email: "email@net.com",
-        username: "Tin Chung",
+        username: "anonymous",
         bio: "Hello World",
-        phoneNumber: "123123123",
-        firstName: "Tin",
-        lastName: "Chung",
-        avatarPath:
-            "https://th.bing.com/th/id/OIP.xzIfQQCZiBpvccxSZUsOSAHaHa?pid=ImgDet&rs=1");
+        phoneNumber: "666666",
+        firstName: "Anonymous",
+        lastName: "Guy",
+        avatarPath: "https://avatarfiles.alphacoders.com/853/85389.jpg");
 
-    User? _user;
-    if (_user != null) return _user;
-    return Future.delayed(
-        const Duration(milliseconds: 3000), () => _user = null);
+    if (pref.get(RTC_PEER_ID) != null) {
+      User? _user = await userRepository.getUserById(pref.get(RTC_PEER_ID));
+      if (_user != null) return _user;
+    }
+    return mockData;
   }
 }

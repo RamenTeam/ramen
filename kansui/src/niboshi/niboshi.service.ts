@@ -5,6 +5,10 @@ type ClientList = {
   [key: string]: Socket;
 };
 
+type UserIdList = {
+  [key: string]: String;
+};
+
 type Candidate = {
   candidate: string;
   sdpMid: string;
@@ -20,6 +24,7 @@ type Room = {
 export class NiboshiService {
   public clientList: ClientList = {};
   public availableClientList: ClientList = {};
+  public userIdList: UserIdList = {};
   public roomList: Room[] = [];
 
   // ! CLIENT
@@ -33,6 +38,18 @@ export class NiboshiService {
 
   removeClient(clientId: string) {
     delete this.clientList[clientId];
+  }
+  // ! USER_ID
+  findUserId(clientId: string) {
+    return this.userIdList[clientId];
+  }
+
+  addUserId(client: Socket, userId: String) {
+    this.userIdList[client.id] = userId;
+  }
+
+  removeUserId(clientId: string) {
+    delete this.userIdList[clientId];
   }
 
   // ! AVAILABLE CLIENT

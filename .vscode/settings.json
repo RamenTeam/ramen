@@ -1,4 +1,7 @@
 {
 	"dart.flutterAdditionalArgs": ["--no-sound-null-safety"],
-	"dart.vmAdditionalArgs": ["--no-sound-null-safety"]
+	"dart.vmAdditionalArgs": [
+		"--no-sound-null-safety"
+	],
+	"compile-hero.disable-compile-files-on-did-save-code": true
 }

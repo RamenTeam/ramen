@@ -82,12 +82,13 @@ class RTCSignaling {
       // #1
       case MATCHMAKING_EVENT:
         print("MATCHMAKING_EVENT 🔔");
-        this.onStateChange!(SignalingStatus.MATCHING);
         dynamic data = message["data"];
         PersistentStorage.setRTCRoom(data["host"], data["peer"]);
+        pref.setString(RTC_PEER_USER_ID, data["peerUserId"]);
         if (data["peer"] == null) {
           return;
         }
+        this.onStateChange!(SignalingStatus.MATCHING);
         if (await _isServerIdentity(data: data, type: "host")) {
           String description = await rtcPeerToPeer.offer();
           // Step 3: caller sends the description to the callee
@@ -100,9 +101,11 @@ class RTCSignaling {
         dynamic data = message["data"];
         // Step 4: callee receives the offer sets remote description
         rtcPeerToPeer.setRemoteDescription(data["description"], "offer");
-        String description = await rtcPeerToPeer.answer();
-        // Step 7: callee send the description to caller
-        emitAnswerEvent(pref.get(RTC_HOST_ID), description);
+        Future.delayed(const Duration(milliseconds: 400), () async {
+          String description = await rtcPeerToPeer.answer();
+          // Step 7: callee send the description to caller
+          emitAnswerEvent(pref.get(RTC_HOST_ID), description);
+        });
         break;
       // #3
       case ANSWER_EVENT:

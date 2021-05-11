@@ -1,4 +1,7 @@
+import 'package:noodle/src/constants/global_variables.dart';
+import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/utils/rtc_type.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -18,9 +21,11 @@ class RamenWebSocket {
   RamenWebSocket({required this.url});
 
   connect() async {
+    SharedPreferences pref = await getSharedPref();
     try {
       socket = IO.io(url, <String, dynamic>{
-        'transports': ['websocket']
+        'transports': ['websocket'],
+        'query': "userId=${pref.get(USER_ID_KEY) ?? null}"
       });
 
       if (socket!.connected) {

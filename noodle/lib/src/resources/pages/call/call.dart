@@ -162,8 +162,7 @@ class _TopSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User? peer; //TODO
-    List<Widget> buildInfo() {
+    List<Widget> buildInfo(User? peer) {
       return [
         // Avatar
         Container(
@@ -171,8 +170,9 @@ class _TopSection extends StatelessWidget {
           height: 60,
           decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey),
           child: ClipRRect(
-            child: Image.network(
-                "https://th.bing.com/th/id/OIP.xzIfQQCZiBpvccxSZUsOSAHaHa?pid=ImgDet&rs=1"),
+            child: Image.network(peer != null
+                ? peer.avatarPath
+                : "https://avatarfiles.alphacoders.com/853/85389.jpg"),
             borderRadius: BorderRadius.circular(50),
           ),
         ),
@@ -185,7 +185,7 @@ class _TopSection extends StatelessWidget {
               height: 30,
               width: 200,
               child: Text(
-                'Tin Chung',
+                peer != null ? peer.name : "Anonymous",
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -197,7 +197,7 @@ class _TopSection extends StatelessWidget {
               height: 30,
               width: 200,
               child: Text(
-                '@tinchung',
+                peer != null ? peer.username : "@anonymous",
                 style: TextStyle(color: Colors.white, fontSize: 15),
               ),
               alignment: Alignment.centerLeft,
@@ -255,7 +255,7 @@ class _TopSection extends StatelessWidget {
           ];
           break;
         case SignalingStatus.MATCHING:
-          listenedWidgets = buildInfo();
+          listenedWidgets = buildInfo(state.peer);
           break;
         default:
           listenedWidgets = [

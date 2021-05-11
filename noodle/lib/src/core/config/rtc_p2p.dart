@@ -48,6 +48,7 @@ class RTCPeerToPeer {
         // _turnCredential = await getTurnCredential(URL, port, isProd);
         _iceServers = {
           'iceServers': [
+            {'url': 'stun:stun.l.google.com:19302'},
             {
               'url': "turn:littleramen.tk:443",
               'username': "admin",
