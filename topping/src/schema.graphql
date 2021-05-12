@@ -3,8 +3,10 @@ type Query {
   getUser(data: GetUserDto!): UserSchema
   getUsers: [UserSchema!]
   getConnectionRequest(data: GetConnectionRequestDto!): ConnectionNotificationSchema
-  getNotifications: [ConversationUnion!]
-  getMyNotifications: [ConversationUnion!]
+  getNotifications: [NotificationUnion!]
+  getMyNotifications: [NotificationUnion!]
+  getConversation(data: GetConversationDto!): ConversationUnion
+  getConversations: [ConversationUnion!]!
 }
 
 type UserSchema {
@@ -22,6 +24,8 @@ type UserSchema {
   lastName: String!
   status: UserStatus!
   connections: [UserSchema!]!
+  conversations: [ConversationSchema!]!
+  conversationsCount: Float!
   connectionsCount: Float!
   name: String!
 }
@@ -33,6 +37,21 @@ enum UserStatus {
   busy
   none
   silence
+}
+
+type ConversationSchema {
+  id: ID!
+  createdAt: String!
+  participants: [UserSchema!]!
+  messages: [MessageSchema!]!
+}
+
+type MessageSchema {
+  id: ID!
+  sender: UserSchema
+  message: String!
+  unread: Boolean!
+  createdAt: String!
 }
 
 input GetUserDto {
@@ -64,7 +83,7 @@ input GetConnectionRequestDto {
   userId: String!
 }
 
-union ConversationUnion = ConnectionNotificationSchema | NotificationSchema
+union NotificationUnion = ConnectionNotificationSchema | NotificationSchema
 
 type NotificationSchema {
   id: ID!
@@ -72,6 +91,19 @@ type NotificationSchema {
   read: Boolean!
   label: String!
   createdAt: String!
+}
+
+union ConversationUnion = DirectConversationSchema
+
+type DirectConversationSchema {
+  id: ID!
+  createdAt: String!
+  participants: [UserSchema!]!
+  messages: [MessageSchema!]!
+}
+
+input GetConversationDto {
+  conversationId: String!
 }
 
 type Mutation {
@@ -84,6 +116,8 @@ type Mutation {
   updateProfile(data: UpdateProfileDto!): ErrorMessage
   acceptConnectionRequest(data: AcceptConnectionRequestDto!): ErrorMessage
   rejectConnectionRequest(data: RejectConnectionRequest!): ErrorMessage
+  sendMessage(data: SendMessageDto!): ErrorMessage
+  createDirectConversation(data: CreateDirectConversationDto!): ErrorMessage
 }
 
 type ErrorMessage {
@@ -139,6 +173,20 @@ input RejectConnectionRequest {
   connectionId: String!
 }
 
+input SendMessageDto {
+  conversationId: String!
+  message: String!
+}
+
+input CreateDirectConversationDto {
+  toId: String!
+}
+
 type Subscription {
-  newNotificationAdded: ConversationUnion
+  newNotificationAdded: NotificationUnion
+  newMessageSended(data: NewMessageSendedDto!): MessageSchema
+}
+
+input NewMessageSendedDto {
+  conversationId: String!
 }

@@ -9,6 +9,7 @@ import {
 	RelationCount,
 	JoinTable,
 	OneToMany,
+	JoinColumn,
 } from "typeorm";
 import { v4 as uuidv4 } from "uuid";
 import * as bcrypt from "bcrypt";
@@ -16,6 +17,7 @@ import { UserStatus } from "../shared/UserStatus.enum";
 import { DEFAULT_AVATAR_PATH } from "../constants/global-variables";
 import { ConnectionNotification } from "./ConnectionNotification";
 import Notification from "./Notification";
+import { Conversation } from "./Conversation";
 
 @ObjectType("UserSchema")
 @Entity("User")
@@ -79,6 +81,17 @@ export class User extends BaseEntity {
 	@ManyToMany((type) => User, (user) => user.connections)
 	@JoinTable()
 	connections: User[];
+
+	@Field(() => [Conversation])
+	@ManyToMany(() => Conversation, (conversation) => conversation.participants, {
+		onDelete: "CASCADE",
+	})
+	@JoinColumn()
+	conversations: Conversation[];
+
+	@Field(() => Number!, { simple: true })
+	@RelationCount((user: User) => user.conversations)
+	conversationsCount: number;
 
 	// FIXME deprecated
 	@Field(() => Number!, { simple: true })

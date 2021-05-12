@@ -6,6 +6,8 @@ import { customAuthChecker } from "./authChecker";
 import { ResolveTime } from "../modules/middleware";
 import * as User from "../modules/resolvers/user";
 import * as Notification from "../modules/resolvers/notification";
+import * as Chat from "../modules/resolvers/chat";
+import * as Conversation from "../modules/resolvers/conversation";
 
 export const genSchema = async (): Promise<GraphQLSchema> => {
 	// const modulePath = "../modules/**/*.resolver.{ts,js}";
@@ -24,6 +26,11 @@ export const genSchema = async (): Promise<GraphQLSchema> => {
 			User.AcceptConnectionRequestResolver,
 			User.RejectConnectionRequestResolver,
 			User.GetConnectionRequestResolver,
+			Chat.NewMessageSendedResolver,
+			Chat.SendMessageResolver,
+			Conversation.GetConversation,
+			Conversation.GetConversations,
+			Conversation.CreateDirectConversation,
 			Notification.GetNotificationsResolver,
 			Notification.GetMyNotificationsResolver,
 			Notification.NewNotificationAddedResolver,

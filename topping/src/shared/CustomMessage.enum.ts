@@ -11,6 +11,7 @@ export enum CustomMessage {
 	userHasLoggedIn = "You have already logged in",
 	usernameIsTaken = "Username has been taken already",
 	userIsBanned = "Your account is banned",
+	userIsNotInYourConnection = "This user is not in your connection",
 	userIsNotVerified = "Your account is not verified yet",
 	phoneNumberIsTaken = "Phone Number is taken",
 	expiredKeyError = "Key has expired",

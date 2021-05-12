@@ -1,6 +1,7 @@
 import { EntityRepository, Repository } from "typeorm";
 import { User } from "../../entity/User";
 import { BlackList } from "../../entity/BlackList";
+import { Conversation } from "../../entity/Conversation";
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -35,5 +36,9 @@ export class UserRepository extends Repository<User> {
 			user.connections.push(connector);
 			connector.connections.push(user);
 		};
+	}
+
+	async findUserAndUpdateConversation(user: User, conversation: Conversation) {
+		user?.conversations.push(conversation);
 	}
 }

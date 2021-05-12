@@ -10,7 +10,7 @@ import { ConnectionNotificationRepository } from "../../../repository/Connection
 
 @Resolver((of) => Notification)
 class GetConnectionRequestResolver {
-	@InjectRepository(ConnectionNotification)
+	@InjectRepository(ConnectionNotificationRepository)
 	private readonly connectionNotificationRepository: ConnectionNotificationRepository;
 
 	@UseMiddleware(isAuth)
@@ -19,10 +19,11 @@ class GetConnectionRequestResolver {
 		@Arg("data") { userId }: GetConnectionRequestDto,
 		@Ctx() { session }: GQLContext
 	) {
-		let connectionNotification = await this.connectionNotificationRepository.findConnectionRequestFromTo(
-			userId,
-			session.userId
-		);
+		let connectionNotification =
+			await this.connectionNotificationRepository.findConnectionRequestFromTo(
+				userId,
+				session.userId
+			);
 
 		if (!connectionNotification) {
 			return {

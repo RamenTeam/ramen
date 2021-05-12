@@ -3,7 +3,7 @@ import { ConnectionNotification } from "../entity/ConnectionNotification";
 import Notification from "../entity/Notification";
 
 const NotificationUnionType = createUnionType({
-	name: "ConversationUnion",
+	name: "NotificationUnion",
 	types: () => [ConnectionNotification, Notification] as const,
 	resolveType: (value) => {
 		if ("from" in value || "to" in value || "status" in value) {
