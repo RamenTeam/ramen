@@ -18,7 +18,7 @@ import 'package:noodle/src/core/schema/query_option.dart';
 
 class UserRepository {
   Future<User?> getUserById(String userId) async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
 
     final QueryResult res =
         await client.query(getQueryOptions(schema: getUserQuery, variables: {
@@ -66,7 +66,7 @@ class UserRepository {
   }
 
   Future<User?> getCurrentUser() async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
 
     final QueryResult res =
         await client.query(getQueryOptions(schema: meQuery));
@@ -119,7 +119,7 @@ class UserRepository {
     required String bio,
     required String avatarPath,
   }) async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
     final QueryResult res = await client
         .mutate(getMutationOptions(schema: updateProfileMutation, variables: {
       "data": {
@@ -149,7 +149,7 @@ class UserRepository {
   Future<ErrorMessage?> sendConnectRequest({
     required String id,
   }) async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
     final QueryResult res = await client.mutate(
         getMutationOptions(schema: sendConnectRequestMutation, variables: {
       "data": {
@@ -180,7 +180,7 @@ class UserRepository {
     required firstName,
     required lastName,
   }) async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
 
     final QueryResult res = await client
         .mutate(getMutationOptions(schema: registerMutation, variables: {
@@ -220,7 +220,7 @@ class UserRepository {
     required String email,
     required String password,
   }) async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
 
     final QueryResult res = await client
         .mutate(getMutationOptions(schema: loginMutation, variables: {
@@ -252,7 +252,7 @@ class UserRepository {
   }
 
   Future<ErrorMessage?> logout() async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
     final QueryResult res =
         await client.mutate(getMutationOptions(schema: logoutMutation));
 

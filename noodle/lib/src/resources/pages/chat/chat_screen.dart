@@ -40,13 +40,13 @@ class ChatScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline2,
                 ),
                 SizedBox(height: 10),
-                _ConnectionListView(),
+                _ConnectionList(),
                 SizedBox(height: 10),
                 Text(
                   "MESSAGES",
                   style: Theme.of(context).textTheme.headline2,
                 ),
-                _EmptyInbox(),
+                _MessagePreviewList(),
               ],
             ),
           ),
@@ -67,7 +67,7 @@ class _FetchingScreen extends StatelessWidget {
   }
 }
 
-class _ConnectionListView extends StatelessWidget {
+class _ConnectionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User? user = Provider.of<UserCubit>(context, listen: false).getUser();
@@ -110,6 +110,58 @@ class _ConnectionItem extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _MessagePreviewList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    User? user = Provider.of<UserCubit>(context, listen: false).getUser();
+    if (user == null) return ListView();
+    List<User> connections = user.connections;
+    return Flexible(
+      child: ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+          for (var user in connections)
+            _MessagePreview(
+              user: user,
+              latestMessage: "Hi!",
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MessagePreview extends StatelessWidget {
+  _MessagePreview({required this.user, required this.latestMessage});
+
+  final User user;
+  final String latestMessage;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 75,
+      child: ListTile(
+        onTap: () {
+          print("Open inbox with " + user.username);
+        },
+        //TODO: when the user tap
+        leading: CircleAvatar(
+          radius: 20,
+          backgroundImage: Image.network(user.avatarPath).image,
+        ),
+        title: Text(
+          user.name,
+          style: Theme.of(context).textTheme.headline3,
+        ),
+        subtitle: Text(
+          latestMessage,
+          style: Theme.of(context).textTheme.headline2,
+      ),
+    ));
   }
 }
 

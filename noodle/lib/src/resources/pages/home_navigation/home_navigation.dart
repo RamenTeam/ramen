@@ -2,7 +2,11 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:noodle/src/core/config/graphql_client.dart';
 import 'package:noodle/src/core/repositories/notification_repository.dart';
+import 'package:noodle/src/core/schema/subscription_option.dart';
+import 'package:noodle/src/core/schema/subscriptions/new_notification_added.subscription.dart';
 import 'package:noodle/src/resources/pages/chat/chat_screen.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
@@ -12,19 +16,41 @@ import 'package:noodle/src/resources/pages/notifications/notification_screen.dar
 import 'package:noodle/src/resources/pages/profile/profile.dart';
 import 'package:provider/provider.dart';
 
-class HomeNavigation extends StatelessWidget {
+class HomeNavigation extends StatefulWidget {
+  @override
+  _HomeNavigationState createState() => _HomeNavigationState();
+}
+
+class _HomeNavigationState extends State<HomeNavigation> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetch notifications first
+    Provider.of<NotificationCubit>(context, listen: false).fetchNotifications();
+
+    // GraphQLClient client = getGraphQLWebsocketClient();
+    // print("Init client");
+    // Stream<QueryResult> stream = client.queryManager.subscribe(
+    //     getSubscriptionOptions(schema: newNotificationAddedSubscription));
+    // // Listen to new notifications
+    // print("Listen to new notifications");
+    // stream.listen((res) {
+    //   if (res.hasException){
+    //     print("Exceptionnnn!!!");
+    //     return;
+    //   }
+    //   print("New notifications");
+    //   Provider.of<NotificationCubit>(context, listen: false)
+    //       .fetchNotifications();
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
           BlocProvider<TabNavigationCubit>(
             create: (_) => TabNavigationCubit(initialTabIndex: 0),
-          ),
-          BlocProvider<NotificationCubit>(
-            create: (_) => NotificationCubit(
-                notificationRepository:
-                    Provider.of<NotificationRepository>(context, listen: false))
-              ..fetchNotifications(),
           ),
         ],
         child: BlocBuilder<TabNavigationCubit, int>(

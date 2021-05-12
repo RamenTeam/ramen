@@ -4,10 +4,12 @@ import 'package:noodle/src/core/models/connect_notification.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/schema/queries/get_my_notifications.query.dart';
 import 'package:noodle/src/core/schema/query_option.dart';
+import 'package:noodle/src/core/schema/subscription_option.dart';
+import 'package:noodle/src/core/schema/subscriptions/new_notification_added.subscription.dart';
 
 class NotificationRepository {
   Future<List<ConnectionNotification>> getMyNotifications() async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
 
     final QueryResult res =
         await client.query(getQueryOptions(schema: getMyNotificationsQuery));
