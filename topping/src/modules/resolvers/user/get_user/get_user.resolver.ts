@@ -18,7 +18,12 @@ class GetUserResolver {
 			where: {
 				id: userId,
 			},
-			relations: ["connections"],
+			relations: [
+				"connections",
+				"conversations",
+				"conversations.participants",
+				"conversations.messages",
+			],
 		});
 
 		return user;
