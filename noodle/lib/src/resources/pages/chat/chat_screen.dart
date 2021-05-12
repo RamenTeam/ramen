@@ -121,40 +121,17 @@ class _EmptyInbox extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('No history of conversations right now',style: Theme.of(context).textTheme.headline2),
-          SizedBox(height: 10,),
-          Text("Let's have a bowl of Ramen",style: Theme.of(context).textTheme.bodyText1),
-          SizedBox(height: 10,),
-          _NavigateToHomeButton(),
-
+          Text('No history of conversations right now',
+              style: Theme.of(context).textTheme.headline2),
+          SizedBox(
+            height: 10,
+          ),
+          Text("Let's have a bowl of Ramen",
+              style: Theme.of(context).textTheme.bodyText1),
+          SizedBox(
+            height: 10,
+          ),
         ],
-      ),
-    );
-  }
-}
-
-class _NavigateToHomeButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-
-    return ClipOval(
-      child: Material(
-        color: Theme.of(context).primaryColor, // button color
-        child: InkWell(
-          splashColor: Colors.red, // inkwell color
-          child: SizedBox(
-              width: 60,
-              height: 60,
-              child: Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.play,
-                    color: Theme.of(context).textTheme.headline1?.color,
-                    size: 18,
-                  ))),
-          onTap: () {
-            Provider.of<TabNavigationCubit>(context,listen:false).switchTab(0);
-          },
-        ),
       ),
     );
   }
