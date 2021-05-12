@@ -7,7 +7,7 @@ import 'package:noodle/src/core/schema/mutations/reject_connection_request.mutat
 
 class ConnectionRepository {
   Future<ErrorMessage?> acceptConnectionRequest({required String id}) async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = getGraphQLClient();
 
     final QueryResult res = await client.mutate(
         getMutationOptions(schema: acceptConnectionRequestMutation, variables: {
@@ -34,7 +34,7 @@ class ConnectionRepository {
   }
 
   Future<ErrorMessage?> rejectConnectionRequest({required String id}) async {
-    GraphQLClient client = await getClient();
+    GraphQLClient client = await getGraphQLClient();
 
     final QueryResult res = await client.mutate(
         getMutationOptions(schema: rejectConnectionRequestMutation, variables: {
