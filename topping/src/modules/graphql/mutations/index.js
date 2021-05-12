@@ -10,3 +10,5 @@ module.exports.sendConnectRequest = fs.readFileSync(path.join(__dirname, 'sendCo
 module.exports.updateProfile = fs.readFileSync(path.join(__dirname, 'updateProfile.gql'), 'utf8');
 module.exports.acceptConnectionRequest = fs.readFileSync(path.join(__dirname, 'acceptConnectionRequest.gql'), 'utf8');
 module.exports.rejectConnectionRequest = fs.readFileSync(path.join(__dirname, 'rejectConnectionRequest.gql'), 'utf8');
+module.exports.sendMessage = fs.readFileSync(path.join(__dirname, 'sendMessage.gql'), 'utf8');
+module.exports.createDirectConversation = fs.readFileSync(path.join(__dirname, 'createDirectConversation.gql'), 'utf8');
