@@ -160,8 +160,13 @@ class _MessagePreview extends StatelessWidget {
         subtitle: Text(
           latestMessage,
           style: Theme.of(context).textTheme.headline2,
+        ),
+        trailing: Text(
+          '21:46 5/12/2021',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
       ),
-    ));
+    );
   }
 }
 

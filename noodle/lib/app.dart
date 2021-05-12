@@ -37,8 +37,8 @@ class RamenApp extends StatelessWidget {
                   Provider.of<UserRepository>(context, listen: false),
             ), // Auto login for testing, please comment this on production
           ),
-          BlocProvider<LoginNavigationBloc>(
-            create: (_) => LoginNavigationBloc(),
+          BlocProvider<LoginNavigationCubit>(
+            create: (_) => LoginNavigationCubit(),
           ),
           BlocProvider<SignalingBloc>(create: (_) => SignalingBloc()),
           BlocProvider<NotificationCubit>(

@@ -10,7 +10,6 @@ import 'package:noodle/src/resources/pages/auth/authen_google.dart';
 import 'package:noodle/src/resources/pages/login/bloc/login_cubit.dart';
 import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
 import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
-import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_event.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/shared/build_divider.dart';
 import 'package:noodle/src/resources/shared/form_input.dart';
@@ -101,10 +100,11 @@ class LoginForm extends StatelessWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Provider.of<LoginNavigationBloc>(
+                            print("Register");
+                            Provider.of<LoginNavigationCubit>(
                               context,
                               listen: false,
-                            ).add(NavigateToRegister());
+                            ).navigate(LoginNavigationScreen.Register);
                           },
                       ),
                     ],
