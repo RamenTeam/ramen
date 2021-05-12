@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/repositories/notification_repository.dart';
+import 'package:noodle/src/resources/pages/chat/chat_screen.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
 import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
@@ -12,19 +13,6 @@ import 'package:noodle/src/resources/pages/profile/profile.dart';
 import 'package:provider/provider.dart';
 
 class HomeNavigation extends StatelessWidget {
-  Widget currentTab(int tabIndex) {
-    switch (tabIndex) {
-      case 0:
-        return HomeScreen();
-      case 1:
-        return NotificationScreen();
-      case 2:
-        return ProfileScreen();
-      default:
-        return Container();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -43,7 +31,7 @@ class HomeNavigation extends StatelessWidget {
           builder: (builder, tabIndex) {
             return SafeArea(
               child: Scaffold(
-                body: currentTab(tabIndex),
+                body: _CurrentTab(tabIndex: tabIndex),
                 backgroundColor: Theme.of(context).accentColor,
                 bottomNavigationBar: _HomeBottomNavigationBar(
                   tabIndex: tabIndex,
@@ -52,6 +40,28 @@ class HomeNavigation extends StatelessWidget {
             );
           },
         ));
+  }
+}
+
+class _CurrentTab extends StatelessWidget {
+  _CurrentTab({required this.tabIndex});
+
+  final int tabIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (tabIndex) {
+      case 0:
+        return HomeScreen();
+      case 1:
+        return NotificationScreen();
+      case 2:
+        return ChatScreen();
+      case 3:
+        return ProfileScreen();
+      default:
+        return Container();
+    }
   }
 }
 
@@ -82,6 +92,10 @@ class _HomeBottomNavigationBar extends StatelessWidget {
             child: FaIcon(FontAwesomeIcons.bell),
           ),
           label: 'Notifications',
+        ),
+        BottomNavigationBarItem(
+          icon: FaIcon(Icons.message_outlined),
+          label: 'Chat',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.userAstronaut),
