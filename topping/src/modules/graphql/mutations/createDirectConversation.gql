@@ -1,0 +1,6 @@
+mutation createDirectConversation($data: CreateDirectConversationDto!){
+    createDirectConversation(data: $data){
+        path
+        message
+    }
+}

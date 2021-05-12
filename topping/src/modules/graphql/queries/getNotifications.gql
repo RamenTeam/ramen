@@ -44,12 +44,47 @@ query getNotifications{
                         firstName
                         lastName
                         status
+                        conversationsCount
                         connectionsCount
                         name
                     }
+                    conversations{
+                        id
+                        createdAt
+                    }
+                    conversationsCount
                     connectionsCount
                     name
                 }
+                conversations{
+                    id
+                    createdAt
+                    participants{
+                        id
+                        email
+                        username
+                        avatarPath
+                        isVerified
+                        isBanned
+                        forgotPasswordLock
+                        bio
+                        phoneNumber
+                        password
+                        firstName
+                        lastName
+                        status
+                        conversationsCount
+                        connectionsCount
+                        name
+                    }
+                    messages{
+                        id
+                        message
+                        unread
+                        createdAt
+                    }
+                }
+                conversationsCount
                 connectionsCount
                 name
             }
@@ -84,9 +119,15 @@ query getNotifications{
                     firstName
                     lastName
                     status
+                    conversationsCount
                     connectionsCount
                     name
                 }
+                conversations{
+                    id
+                    createdAt
+                }
+                conversationsCount
                 connectionsCount
                 name
             }

@@ -15,7 +15,7 @@ export class ConnectionNotificationRepository extends NotificationRepository<Con
 			(await this.findOne({
 				where: {
 					from: { id: peer2 },
-					to: { id: peer2 },
+					to: { id: peer1 },
 				},
 			}))
 		);

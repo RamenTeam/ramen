@@ -1,8 +1,9 @@
-query getMyNotifications{
-    getMyNotifications{
-        ... on ConnectionNotificationSchema {
+query getConversation($data: GetConversationDto!){
+    getConversation(data: $data){
+        ... on DirectConversationSchema {
             id
-            to{
+            createdAt
+            participants{
                 id
                 email
                 username
@@ -88,24 +89,9 @@ query getMyNotifications{
                 connectionsCount
                 name
             }
-            read
-            label
-            createdAt
-            from{
+            messages{
                 id
-                email
-                username
-                avatarPath
-                isVerified
-                isBanned
-                forgotPasswordLock
-                bio
-                phoneNumber
-                password
-                firstName
-                lastName
-                status
-                connections{
+                sender{
                     id
                     email
                     username
@@ -119,25 +105,36 @@ query getMyNotifications{
                     firstName
                     lastName
                     status
+                    connections{
+                        id
+                        email
+                        username
+                        avatarPath
+                        isVerified
+                        isBanned
+                        forgotPasswordLock
+                        bio
+                        phoneNumber
+                        password
+                        firstName
+                        lastName
+                        status
+                        conversationsCount
+                        connectionsCount
+                        name
+                    }
+                    conversations{
+                        id
+                        createdAt
+                    }
                     conversationsCount
                     connectionsCount
                     name
                 }
-                conversations{
-                    id
-                    createdAt
-                }
-                conversationsCount
-                connectionsCount
-                name
+                message
+                unread
+                createdAt
             }
-            status
-        }
-        ... on NotificationSchema {
-            id
-            read
-            label
-            createdAt
         }
     }
 }

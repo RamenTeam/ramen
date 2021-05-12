@@ -50,10 +50,13 @@ class ConnectResolver {
 			};
 		}
 
-		let isExist = await this.connectionNotificationRepository.findConnectionRequestFromTo(
-			userId,
-			session.userId
-		);
+		let isExist =
+			await this.connectionNotificationRepository.findConnectionRequestFromTo(
+				userId,
+				session.userId
+			);
+
+		console.log(isExist);
 
 		if (isExist) {
 			return {
