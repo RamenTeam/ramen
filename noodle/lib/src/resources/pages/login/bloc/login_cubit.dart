@@ -7,7 +7,6 @@ import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
 import 'package:noodle/src/resources/pages/login/bloc/login_state.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit({required this.userRepository}) : super(const LoginState());

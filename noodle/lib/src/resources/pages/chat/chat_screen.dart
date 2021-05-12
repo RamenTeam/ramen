@@ -2,16 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:noodle/src/core/models/user.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:noodle/src/resources/pages/connection_list/connection_list_screen.dart';
-import 'package:noodle/src/resources/pages/home_navigation/bloc/tab_navigation_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
-import 'package:noodle/src/resources/pages/update_profile/bloc/update_profile_cubit.dart';
-import 'package:noodle/src/resources/pages/update_profile/update_profile_screen.dart';
 import 'package:noodle/src/resources/shared/home_app_bar.dart';
 import 'package:provider/provider.dart';
 

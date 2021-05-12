@@ -1,5 +1,4 @@
 import 'package:noodle/src/core/config/rtc.dart';
-import 'package:noodle/src/core/config/rtc_signaling.dart';
 
 class MockSignalingServer {
   connect() {
