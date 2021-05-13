@@ -53,12 +53,12 @@ class RTCPeerToPeer {
               'username': "admin",
               'credential': "admin"
             },
-            // {"url": "stun:littleramen.tk:443"},
-            // {
-            //   'url': "turn:littleramen.tk:443",
-            //   'username': "admin",
-            //   'credential': "admin"
-            // },
+            {"url": "stun:littleramen.tk:443"},
+            {
+              'url': "turn:littleramen.tk:443",
+              'username': "admin",
+              'credential': "admin"
+            },
           ]
         };
       } catch (e) {
@@ -133,7 +133,7 @@ class RTCPeerToPeer {
   // #TODO get the user media (camera, audio...)
   Future<MediaStream> getUserMedia() async {
     final Map<String, dynamic> constraints = {
-      "audio": false,
+      "audio": true,
       "video": {
         "facingMode": "user",
       }
