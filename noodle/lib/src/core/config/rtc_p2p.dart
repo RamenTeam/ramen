@@ -33,7 +33,7 @@ class RTCPeerToPeer {
 
   Map<String, dynamic> _iceServers = {
     'iceServers': [
-      // {'url': 'stun:stun.l.google.com:19302'},
+      {'url': 'stun:stun.l.google.com:19302'},
     ]
   };
 
@@ -46,13 +46,19 @@ class RTCPeerToPeer {
         // _turnCredential = await getTurnCredential(URL, port, isProd);
         _iceServers = {
           'iceServers': [
-            // {'url': 'stun:stun.l.google.com:19302'},
-            {"url": "stun:littleramen.tk:443"},
+            {'url': 'stun:stun.l.google.com:19302'},
+            {"url": "stun:littleramen.tk:3478"},
             {
-              'url': "turn:littleramen.tk:443",
+              'url': "turn:littleramen.tk:3478",
               'username': "admin",
               'credential': "admin"
             },
+            // {"url": "stun:littleramen.tk:443"},
+            // {
+            //   'url': "turn:littleramen.tk:443",
+            //   'username': "admin",
+            //   'credential': "admin"
+            // },
           ]
         };
       } catch (e) {
