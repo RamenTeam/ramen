@@ -12,6 +12,7 @@ import 'package:noodle/src/resources/pages/call/bloc/signaling_event.dart';
 import 'package:noodle/src/resources/pages/call/bloc/signaling_state.dart';
 import 'package:noodle/src/resources/shared/timer.dart';
 import 'package:provider/provider.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 // ignore: import_of_legacy_library_into_null_safe
 
 class CallScreen extends StatefulWidget {
@@ -291,6 +292,39 @@ class _MiddleSection extends StatelessWidget {
     return Container(
       width: 90,
       child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+            margin: EdgeInsets.only(bottom: 20),
+            child: CircularCountDownTimer(
+              duration: 30,
+              initialDuration: 0,
+              controller: CountDownController(),
+              width: 55,
+              height: 55,
+              ringColor: Colors.black.withOpacity(0.8),
+              ringGradient: null,
+              fillColor: Theme.of(context).primaryColor.withOpacity(0.4),
+              fillGradient: null,
+              backgroundColor: Theme.of(context).primaryColor,
+              backgroundGradient: null,
+              strokeWidth: 20.0,
+              strokeCap: StrokeCap.round,
+              textStyle: TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+              textFormat: CountdownTextFormat.S,
+              isReverse: true,
+              isReverseAnimation: true,
+              isTimerTextShown: true,
+              autoStart: true,
+              onStart: () {
+                print('Countdown Started');
+              },
+              onComplete: () {
+                print('Countdown Ended');
+                rtcSignaling.onStateChange!(SignalingStatus.RECONNECTING);
+              },
+            )),
         button(
             context: context,
             color: Colors.lightGreen,

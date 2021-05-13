@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stream_listener/flutter_stream_listener.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noodle/src/core/repositories/notification_repository.dart';
@@ -40,21 +41,19 @@ class _HomeNavigationState extends State<HomeNavigation> {
               child: Scaffold(
                 body: Stack(children: [
                   StreamListener<QueryResult>(
-                      stream: Provider.of<NotificationRepository>(context,
-                          listen: false)
-                          .getNewNotificationStream(),
-                      onData: (data) {
-                        print("Hello");
-                        Provider.of<NotificationCubit>(context, listen: false)
-                            .fetchNotifications();
-                      },
-                      child: Container(),
+                    stream: Provider.of<NotificationRepository>(context,
+                            listen: false)
+                        .getNewNotificationStream(),
+                    onData: (data) {
+                      print("Hello");
+                      Provider.of<NotificationCubit>(context, listen: false)
+                          .fetchNotifications();
+                    },
+                    child: Container(),
                   ),
                   _CurrentTab(tabIndex: tabIndex),
                 ]),
-                backgroundColor: Theme
-                    .of(context)
-                    .accentColor,
+                backgroundColor: Theme.of(context).accentColor,
                 bottomNavigationBar: _HomeBottomNavigationBar(
                   tabIndex: tabIndex,
                 ),
