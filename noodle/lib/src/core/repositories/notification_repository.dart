@@ -40,7 +40,7 @@ class NotificationRepository {
   }
 
   Stream<QueryResult> getNewNotificationStream() {
-    GraphQLClient client = getGraphQLClient();
+    GraphQLClient client = getGraphQLWebsocketClient();
     Stream<QueryResult> stream = client.subscribe(
         getSubscriptionOptions(schema: newNotificationAddedSubscription));
     return stream;

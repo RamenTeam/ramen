@@ -40,20 +40,22 @@ class _HomeNavigationState extends State<HomeNavigation> {
             return SafeArea(
               child: Scaffold(
                 body: Stack(children: [
-                  StreamBuilder<QueryResult>(
-                    stream: Provider.of<NotificationRepository>(context,
-                            listen: false)
-                        .getNewNotificationStream(),
-                    builder: (context, builder) {
-                      print("Hello");
-                      Provider.of<NotificationCubit>(context, listen: false)
-                          .fetchNotifications();
-                      return Container();
-                    },
+                  StreamListener<QueryResult>(
+                      stream: Provider.of<NotificationRepository>(context,
+                          listen: false)
+                          .getNewNotificationStream(),
+                      onData: (data) {
+                        print("Hello");
+                        Provider.of<NotificationCubit>(context, listen: false)
+                            .fetchNotifications();
+                      },
+                      child: Container(),
                   ),
                   _CurrentTab(tabIndex: tabIndex),
                 ]),
-                backgroundColor: Theme.of(context).accentColor,
+                backgroundColor: Theme
+                    .of(context)
+                    .accentColor,
                 bottomNavigationBar: _HomeBottomNavigationBar(
                   tabIndex: tabIndex,
                 ),
