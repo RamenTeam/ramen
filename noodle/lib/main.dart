@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:noodle/app.dart';
+import 'package:noodle/src/core/config/graphql_client.dart';
 import 'package:noodle/src/core/repositories/connection_repository.dart';
 import 'package:noodle/src/core/repositories/notification_repository.dart';
 import 'package:noodle/src/core/repositories/user_repository.dart';
@@ -29,6 +31,11 @@ void main() {
         Provider<ConnectionRepository>(
           create: (_) => ConnectionRepository(),
         ),
+        Provider<GraphQLProvider>(
+          create: (_) => GraphQLProvider(
+            client: ValueNotifier(getGraphQLWebsocketClient()),
+          ),
+        )
       ],
       child: RamenApp(),
     ),
