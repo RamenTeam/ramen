@@ -47,13 +47,13 @@ class SignalingBloc extends Bloc<SignalingEvent, SignalingState> {
       case SignalingStatus.MATCHING:
         print("🎐🎐🎐 MATCHING");
         print("User: ");
-        User? user = await getPeer();
-        print(user);
-        if (user == null) {
-          yield SignalingState.matching(User.empty);
-        } else {
-          yield SignalingState.matching(user);
-        }
+        // User? user = await getPeer();
+        // print(user);
+        // if (user == null) {
+        yield SignalingState.matching(User.empty);
+        // } else {
+        //   yield SignalingState.matching(user);
+        // }
         break;
       case SignalingStatus.DISCONNECTED:
         print("🎐🎐🎐 DISCONNECTED");
