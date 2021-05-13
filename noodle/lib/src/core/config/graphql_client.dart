@@ -6,8 +6,8 @@ import 'package:gql_dio_link/gql_dio_link.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:http/http.dart' as http;
 
-final String productionEndpoint = 'https://ramen-server.herokuapp.com';
-final String productionWebsocketEndpoint = 'ws://ramen-server.herokuapp.com';
+final String productionEndpoint = 'https://ramen-server.herokuapp.com/';
+final String productionWebsocketEndpoint = 'wss://ramen-server.herokuapp.com/';
 final String developmentEndpoint = "http://192.168.1.105:5000";
 
 final dio = Dio();
@@ -21,8 +21,13 @@ final Link _dioLink = DioLink(
   client: dio,
 );
 
-final WebSocketLink websocketLink =
-    WebSocketLink(productionWebsocketEndpoint);
+final WebSocketLink websocketLink = WebSocketLink(productionWebsocketEndpoint,
+    config: SocketClientConfig(
+      autoReconnect: true,
+      inactivityTimeout: Duration(seconds: 30),
+    ));
+
+final Link fullWebSocketLink = _dioLink.concat(websocketLink);
 
 void getCookieFromApp() async {
   var res = await http.get(Uri.parse(productionEndpoint + "/get-cookie"));
@@ -43,5 +48,5 @@ GraphQLClient getGraphQLClient() {
 }
 
 GraphQLClient getGraphQLWebsocketClient() {
-  return GraphQLClient(link: websocketLink, cache: GraphQLCache());
+  return GraphQLClient(link: fullWebSocketLink, cache: GraphQLCache());
 }
