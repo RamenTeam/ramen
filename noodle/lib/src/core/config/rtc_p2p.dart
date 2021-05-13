@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:logger/logger.dart';
 import 'package:noodle/src/constants/global_variables.dart';
-import 'package:noodle/src/core/config/rtc.dart';
-import 'package:noodle/src/core/config/turn.dart';
 import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
 import 'package:sdp_transform/sdp_transform.dart';

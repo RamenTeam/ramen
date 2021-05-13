@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noodle/src/core/repositories/notification_repository.dart';
@@ -12,7 +11,6 @@ import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigatio
 import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
-import 'package:noodle/src/temp/signaling_temp/signal_screen.dart';
 import 'package:provider/provider.dart';
 
 class RamenApp extends StatelessWidget {
@@ -37,8 +35,8 @@ class RamenApp extends StatelessWidget {
                   Provider.of<UserRepository>(context, listen: false),
             ), // Auto login for testing, please comment this on production
           ),
-          BlocProvider<LoginNavigationBloc>(
-            create: (_) => LoginNavigationBloc(),
+          BlocProvider<LoginNavigationCubit>(
+            create: (_) => LoginNavigationCubit(),
           ),
           BlocProvider<SignalingBloc>(create: (_) => SignalingBloc()),
           BlocProvider<NotificationCubit>(

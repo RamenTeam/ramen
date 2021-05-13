@@ -38,4 +38,11 @@ class NotificationRepository {
 
     return notifications;
   }
+
+  Stream<QueryResult> getNewNotificationStream() {
+    GraphQLClient client = getGraphQLClient();
+    Stream<QueryResult> stream = client.subscribe(
+        getSubscriptionOptions(schema: newNotificationAddedSubscription));
+    return stream;
+  }
 }

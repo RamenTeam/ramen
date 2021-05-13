@@ -1,10 +1,8 @@
 import 'package:noodle/src/constants/global_variables.dart';
-import 'package:noodle/src/constants/os.dart';
 import 'package:noodle/src/core/config/rtc.dart';
 import 'package:noodle/src/core/config/websocket_client.dart';
 import 'package:noodle/src/core/models/signaling_status.dart';
 import 'package:noodle/src/core/repositories/sharedpreference_repository.dart';
-import 'package:noodle/src/core/utils/device_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef void SignalingStateCallback(SignalingStatus state);

@@ -1,12 +1,10 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_stream_listener/flutter_stream_listener.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:noodle/src/core/config/graphql_client.dart';
 import 'package:noodle/src/core/repositories/notification_repository.dart';
-import 'package:noodle/src/core/schema/subscription_option.dart';
-import 'package:noodle/src/core/schema/subscriptions/new_notification_added.subscription.dart';
 import 'package:noodle/src/resources/pages/chat/chat_screen.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/home_navigation//bloc/tab_navigation_cubit.dart';
@@ -27,22 +25,6 @@ class _HomeNavigationState extends State<HomeNavigation> {
     super.initState();
     // Fetch notifications first
     Provider.of<NotificationCubit>(context, listen: false).fetchNotifications();
-
-    // GraphQLClient client = getGraphQLWebsocketClient();
-    // print("Init client");
-    // Stream<QueryResult> stream = client.queryManager.subscribe(
-    //     getSubscriptionOptions(schema: newNotificationAddedSubscription));
-    // // Listen to new notifications
-    // print("Listen to new notifications");
-    // stream.listen((res) {
-    //   if (res.hasException){
-    //     print("Exceptionnnn!!!");
-    //     return;
-    //   }
-    //   print("New notifications");
-    //   Provider.of<NotificationCubit>(context, listen: false)
-    //       .fetchNotifications();
-    // });
   }
 
   @override
@@ -57,7 +39,20 @@ class _HomeNavigationState extends State<HomeNavigation> {
           builder: (builder, tabIndex) {
             return SafeArea(
               child: Scaffold(
-                body: _CurrentTab(tabIndex: tabIndex),
+                body: Stack(children: [
+                  StreamBuilder<QueryResult>(
+                    stream: Provider.of<NotificationRepository>(context,
+                            listen: false)
+                        .getNewNotificationStream(),
+                    builder: (context, builder) {
+                      print("Hello");
+                      Provider.of<NotificationCubit>(context, listen: false)
+                          .fetchNotifications();
+                      return Container();
+                    },
+                  ),
+                  _CurrentTab(tabIndex: tabIndex),
+                ]),
                 backgroundColor: Theme.of(context).accentColor,
                 bottomNavigationBar: _HomeBottomNavigationBar(
                   tabIndex: tabIndex,

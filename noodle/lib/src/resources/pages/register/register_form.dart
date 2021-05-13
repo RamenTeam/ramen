@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:formz/formz.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
-import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_event.dart';
 import 'package:noodle/src/resources/pages/register/bloc/register_cubit.dart';
 import 'package:noodle/src/resources/pages/register/bloc/register_state.dart';
 import 'package:noodle/src/resources/shared/build_divider.dart';
@@ -93,10 +92,10 @@ class RegisterForm extends StatelessWidget {
                           ),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              Provider.of<LoginNavigationBloc>(
+                              Provider.of<LoginNavigationCubit>(
                                 context,
                                 listen: false,
-                              ).add(NavigateToLogin());
+                              ).navigate(LoginNavigationScreen.Login);
                             }),
                     ],
                   ),
