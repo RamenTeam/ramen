@@ -33,7 +33,7 @@ class RTCPeerToPeer {
 
   Map<String, dynamic> _iceServers = {
     'iceServers': [
-      {'url': 'stun:stun.l.google.com:19302'},
+      // {'url': 'stun:stun.l.google.com:19302'},
     ]
   };
 
@@ -47,6 +47,7 @@ class RTCPeerToPeer {
         _iceServers = {
           'iceServers': [
             // {'url': 'stun:stun.l.google.com:19302'},
+            {"url": "stun:littleramen.tk:443"},
             {
               'url': "turn:littleramen.tk:443",
               'username': "admin",
