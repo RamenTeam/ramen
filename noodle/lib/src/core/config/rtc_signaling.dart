@@ -101,6 +101,7 @@ class RTCSignaling {
         rtcPeerToPeer.setRemoteDescription(data["description"], "offer");
         Future.delayed(const Duration(milliseconds: 400), () async {
           String description = await rtcPeerToPeer.answer();
+          rtcPeerToPeer.handleRemoteCandidate();
           // Step 7: callee send the description to caller
           emitAnswerEvent(pref.get(RTC_HOST_ID), description);
         });

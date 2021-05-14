@@ -17,6 +17,8 @@ class RTCPeerToPeer {
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   SignalingStateCallback? onStateChange;
+  var _remoteCandidates = [];
+  // RTCDataChannel dataChannel;
   var _turnCredential;
   bool isFrontCamera = true;
 
@@ -43,7 +45,6 @@ class RTCPeerToPeer {
     if (_turnCredential == null) {
       print("📞📞📞 SET TURN CREDENTIAL");
       try {
-        // _turnCredential = await getTurnCredential(URL, port, isProd);
         _iceServers = {
           'iceServers': [
             {'url': 'stun:stun.l.google.com:19302'},
@@ -192,11 +193,16 @@ class RTCPeerToPeer {
 
   void setCandidate(String jsonString) async {
     dynamic session = jsonDecode(jsonString);
+    var pc = _peerConnection;
     new Logger().log(Level.info, session['candidate']);
     dynamic candidate = new RTCIceCandidate(
         session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
     new Logger().log(Level.info, candidate);
-    await _peerConnection!.addCandidate(candidate);
+    if (pc != null) {
+      await pc.addCandidate(candidate);
+    } else {
+      _remoteCandidates.add(candidate);
+    }
   }
 
   void bye() {
@@ -217,6 +223,17 @@ class RTCPeerToPeer {
     _peerConnection?.dispose();
     _localRenderer.srcObject = null;
     _remoteRenderer.srcObject = null;
+    _remoteCandidates.clear();
+  }
+
+  void handleRemoteCandidate() {
+    print(_remoteCandidates);
+    if (this._remoteCandidates.length > 0) {
+      _remoteCandidates.forEach((candidate) async {
+        await peerConnection.addCandidate(candidate);
+      });
+      _remoteCandidates.clear();
+    }
   }
 
   void switchCamera() async {
