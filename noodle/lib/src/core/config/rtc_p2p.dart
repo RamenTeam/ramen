@@ -99,12 +99,10 @@ class RTCPeerToPeer {
 
     pc.onIceConnectionState = (e) {
       print('🌲🌲🌲 onIceConnectionState $e');
-      if (e == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
-        this.onStateChange!(SignalingStatus.RECONNECTING);
-      }
       if (e == RTCIceConnectionState.RTCIceConnectionStateClosed ||
-          e == RTCIceConnectionState.RTCIceConnectionStateFailed) {
-        bye();
+          e == RTCIceConnectionState.RTCIceConnectionStateFailed ||
+          e == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
+        this.onStateChange!(SignalingStatus.RECONNECTING);
       }
     };
 
