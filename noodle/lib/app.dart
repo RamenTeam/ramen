@@ -9,6 +9,7 @@ import 'package:noodle/src/resources/pages/call/bloc/signaling_bloc.dart';
 import 'package:noodle/src/resources/pages/home/home.dart';
 import 'package:noodle/src/resources/pages/login_navigation/bloc/login_navigation_bloc.dart';
 import 'package:noodle/src/resources/pages/notifications/bloc/notification_cubit.dart';
+import 'package:noodle/src/resources/pages/phone%20verification/phone_verification.dart';
 import 'package:noodle/src/resources/pages/profile/bloc/user_cubit.dart';
 import 'package:noodle/src/resources/theme/theme.dart';
 import 'package:provider/provider.dart';

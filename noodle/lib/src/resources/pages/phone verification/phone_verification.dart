@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +82,9 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     // check if sms code is correct
     try {
       _auth.signInWithCredential(credential);
-      // TODO Save user's phone number to database
+      // TODO [Tra Nguyen] Phone Verification - Save user's phone number to database - change app route to PhoneVerificationDemo() to test
+      log("[Tra Nguyen] Phone verification status = successful");
+      log('[Tra Nguyen] Phone verification = [Phone number: ${_phoneNumberController.text}');
       showDialog(
         context: context,
         builder: (context) => AlertDialog(

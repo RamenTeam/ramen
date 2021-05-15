@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="88ddf78d-1f25-4735-8f8c-d3c87ed722b3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ramen.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ramen.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+    <list default="true" id="88ddf78d-1f25-4735-8f8c-d3c87ed722b3" name="Default Changelist" comment="Log user phone verification info">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/noodle/lib/app.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/app.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_facebook.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_facebook.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_google.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_google.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/noodle/lib/src/resources/pages/phone verification/phone_verification.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/resources/pages/phone verification/phone_verification.dart" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,37 +19,13 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_30_-_Push_Noti" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/noodle/lib/app.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="26" column="21" lean-forward="true" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
+            <state relative-caret-position="290">
+              <caret line="19" column="43" lean-forward="true" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/noodle/lib/main.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_google.dart">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="30" column="115" selection-start-line="30" selection-start-column="74" selection-end-line="30" selection-end-column="115" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -61,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/noodle/lib/src/resources/pages/phone verification/phone_verification.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1038">
-              <caret line="149" column="44" lean-forward="true" selection-start-line="149" selection-start-column="44" selection-end-line="149" selection-end-column="44" />
+            <state relative-caret-position="324">
+              <caret line="84" column="65" lean-forward="true" selection-start-line="84" selection-start-column="65" selection-end-line="84" selection-end-column="65" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -70,14 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_facebook.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
-              <folding>
-                <element signature="e#0#24#0" expanded="true" />
-              </folding>
+            <state>
+              <caret column="21" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -90,9 +60,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/noodle/lib/app.dart" />
         <option value="$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_google.dart" />
         <option value="$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_facebook.dart" />
+        <option value="$PROJECT_DIR$/noodle/lib/src/resources/pages/phone verification/phone_verification.dart" />
+        <option value="$PROJECT_DIR$/noodle/lib/app.dart" />
       </list>
     </option>
   </component>
@@ -105,9 +76,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="y" value="-12" />
-    <option name="width" value="1840" />
+    <option name="x" value="902" />
+    <option name="y" value="10" />
+    <option name="width" value="2498" />
     <option name="height" value="1896" />
   </component>
   <component name="ProjectId" id="1s1EIrl0vnbzxWSQZ3C7HkLcbCj" />
@@ -257,6 +228,14 @@
       <option name="presentableId" value="Default" />
       <updated>1620031618711</updated>
     </task>
+    <task id="LOCAL-00001" summary="Log SNS user info">
+      <created>1621054450901</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1621054450902</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView">
@@ -273,15 +252,16 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.10927835" />
+      <window_info content_ui="combo" id="Project" order="1" weight="0.25692695" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
       <window_info id="Resources Explorer" order="5" />
       <window_info id="Capture Tool" order="6" />
       <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" weight="0.30440098" />
       <window_info anchor="bottom" id="Dart Analysis" order="0" sideWeight="0.49965635" weight="0.32885087" />
-      <window_info anchor="bottom" id="Run" order="1" sideWeight="0.4976798" visible="true" weight="0.30723608" />
+      <window_info active="true" anchor="bottom" id="Run" order="1" sideWeight="0.4976798" visible="true" weight="0.29774615" />
       <window_info anchor="bottom" id="TODO" order="2" sideWeight="0.4975945" weight="0.32762837" />
       <window_info anchor="bottom" id="Find" order="3" />
       <window_info anchor="bottom" id="Terminal" order="4" sideWeight="0.4969072" weight="0.21515892" />
@@ -295,6 +275,35 @@
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info anchor="right" id="Flutter Performance" order="5" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.25692695" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
+      <window_info id="Resources Explorer" order="5" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="0" weight="0.30440098" />
+      <window_info anchor="bottom" id="Dart Analysis" order="1" sideWeight="0.49965635" weight="0.32885087" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4976798" visible="true" weight="0.30684596" />
+      <window_info anchor="bottom" id="TODO" order="3" sideWeight="0.4975945" weight="0.32762837" />
+      <window_info anchor="bottom" id="Find" order="4" />
+      <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.4969072" weight="0.21515892" />
+      <window_info anchor="bottom" id="Event Log" order="6" sideWeight="0.5023202" side_tool="true" weight="0.44743276" />
+      <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Debug" order="8" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Theme Preview" order="1" />
+      <window_info anchor="right" id="Flutter Inspector" order="2" />
+      <window_info anchor="right" id="Flutter Outline" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Flutter Performance" order="5" />
+    </layout-to-restore>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Log SNS user info" />
+    <option name="LAST_COMMIT_MESSAGE" value="Log SNS user info" />
   </component>
   <component name="WindowStateProjectService">
     <state x="394" y="107" key="#Plugins" timestamp="1620031786969">
@@ -318,36 +327,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/noodle/lib/main.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="54">
-          <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/noodle/lib/src/resources/pages/phone verification/phone_verification.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1038">
-          <caret line="149" column="44" lean-forward="true" selection-start-line="149" selection-start-column="44" selection-end-line="149" selection-end-column="44" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/noodle/lib/app.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="26" column="21" lean-forward="true" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_google.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
@@ -358,12 +337,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/noodle/lib/main.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="16" column="28" selection-start-line="16" selection-start-column="28" selection-end-line="16" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/noodle/lib/src/resources/pages/auth/authen_facebook.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+        <state>
+          <caret column="21" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/noodle/lib/src/resources/pages/phone verification/phone_verification.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="84" column="65" lean-forward="true" selection-start-line="84" selection-start-column="65" selection-end-line="84" selection-end-column="65" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/noodle/lib/app.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="19" column="43" lean-forward="true" selection-start-line="19" selection-start-column="43" selection-end-line="19" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
