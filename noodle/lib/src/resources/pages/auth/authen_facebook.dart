@@ -31,7 +31,8 @@ class _FacebookAuthenRouteState extends State<FacebookAuthenRoute> {
         _isLoggedIn = true;
       });
       // For debugging only - Print the user's data to console
-      log('Name: ${user.displayName}, email: ${user.email}');
+      // TODO [Tra Nguyen] SNS Sign in - Save user info into database - Change app route to AuthLanding() to test
+      log('[Tra Nguyen] User info = [Name: ${user.displayName}, Email: ${user.email}]');
     }
   }
 

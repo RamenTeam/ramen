@@ -28,7 +28,8 @@ class _GoogleAuthenRouteState extends State<GoogleAuthenRoute> {
       await _googleSignIn.signIn();
       GoogleSignInAccount? user = _currentUser;
       if (user != null) {
-        log("User info: Name - ${user.displayName}, Email - ${user.email}");
+        // TODO [Tra Nguyen] SNS Sign in - Save user info into database - Change app route to AuthLanding() to test
+        log("[Tra Nguyen] User info = [Name: ${user.displayName}, Email: ${user.email}]");
         setState(() {
           _message = "Logged in as ${user.displayName}";
           _isLoggedIn = true;
