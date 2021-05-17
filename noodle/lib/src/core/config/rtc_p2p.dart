@@ -33,11 +33,7 @@ class RTCPeerToPeer {
     "optional": []
   };
 
-  Map<String, dynamic> _iceServers = {
-    'iceServers': [
-      {'url': 'stun:stun.l.google.com:19302'},
-    ]
-  };
+  late Map<String, dynamic> _iceServers;
 
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
@@ -60,7 +56,8 @@ class RTCPeerToPeer {
               'username': "admin",
               'credential': "admin"
             },
-          ]
+          ],
+          // 'iceTransportPolicy': 'relay',
         };
       } catch (e) {
         print("Error: Turn Server Credential");
@@ -73,6 +70,8 @@ class RTCPeerToPeer {
     // Create a peer connection
     RTCPeerConnection pc =
         await createPeerConnection(_iceServers, offerSdpConstraints);
+
+    print(pc.getConfiguration);
 
     // Add a local stream to peer connection
     pc.addStream(_localStream!);

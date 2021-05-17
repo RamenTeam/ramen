@@ -65,25 +65,25 @@ class _SettingScreenState extends State<SettingScreen> {
             buildAdaptiveSwitch()
           ]),
           buildSettingSeparator(context: context),
-          buildSettingItem(context: context, onTapEvent: () {}, leftChildren: [
-            Text(
-              "App Language",
-              style: Theme.of(context).textTheme.headline2,
-            )
-          ], rightChildren: [
-            Text(
-              "English",
-              style: TextStyle(color: Theme.of(context).primaryIconTheme.color),
-            ),
-            SizedBox(
-              width: 7,
-            ),
-            FaIcon(
-              FontAwesomeIcons.chevronRight,
-              size: 15,
-              color: Theme.of(context).primaryIconTheme.color,
-            )
-          ]),
+          // buildSettingItem(context: context, onTapEvent: () {}, leftChildren: [
+          //   Text(
+          //     "App Language",
+          //     style: Theme.of(context).textTheme.headline2,
+          //   )
+          // ], rightChildren: [
+          //   Text(
+          //     "English",
+          //     style: TextStyle(color: Theme.of(context).primaryIconTheme.color),
+          //   ),
+          //   SizedBox(
+          //     width: 7,
+          //   ),
+          //   FaIcon(
+          //     FontAwesomeIcons.chevronRight,
+          //     size: 15,
+          //     color: Theme.of(context).primaryIconTheme.color,
+          //   )
+          // ]),
           buildSettingSeparator(context: context),
           buildSettingItem(context: context, onTapEvent: () {}, leftChildren: [
             Text(
@@ -105,27 +105,27 @@ class _SettingScreenState extends State<SettingScreen> {
             )
           ]),
         ]),
-        buildSettingArea([
-          buildSettingItem(context: context, onTapEvent: () {}, leftChildren: [
-            Text(
-              "Contributors",
-              style: Theme.of(context).textTheme.headline2,
-            )
-          ], rightChildren: [
-            Text(
-              "4 contributors",
-              style: TextStyle(color: Theme.of(context).primaryIconTheme.color),
-            ),
-            SizedBox(
-              width: 7,
-            ),
-            FaIcon(
-              FontAwesomeIcons.chevronRight,
-              size: 15,
-              color: Theme.of(context).primaryIconTheme.color,
-            )
-          ]),
-        ]),
+        // buildSettingArea([
+        //   buildSettingItem(context: context, onTapEvent: () {}, leftChildren: [
+        //     Text(
+        //       "Contributors",
+        //       style: Theme.of(context).textTheme.headline2,
+        //     )
+        //   ], rightChildren: [
+        //     Text(
+        //       "4 contributors",
+        //       style: TextStyle(color: Theme.of(context).primaryIconTheme.color),
+        //     ),
+        //     SizedBox(
+        //       width: 7,
+        //     ),
+        //     FaIcon(
+        //       FontAwesomeIcons.chevronRight,
+        //       size: 15,
+        //       color: Theme.of(context).primaryIconTheme.color,
+        //     )
+        //   ]),
+        // ]),
         buildSettingArea([
           buildSettingItem(context: context, onTapEvent: () {}, leftChildren: [
             Text(

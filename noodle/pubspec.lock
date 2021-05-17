@@ -135,7 +135,7 @@ packages:
     source: hosted
     version: "3.0.3"
   connectivity_for_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: connectivity_for_web
       url: "https://pub.dartlang.org"
