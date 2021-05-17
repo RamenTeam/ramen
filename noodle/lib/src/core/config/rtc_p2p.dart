@@ -50,6 +50,8 @@ class RTCPeerToPeer {
               'username': "admin",
               'credential': "admin"
             },
+            // TODO ?transport=tcp
+            // TODO ?transport=udp
             {"url": "stun:littleramen.tk:443"},
             {
               'url': "turn:littleramen.tk:443",
@@ -57,7 +59,7 @@ class RTCPeerToPeer {
               'credential': "admin"
             },
           ],
-          // 'iceTransportPolicy': 'relay',
+          //TODO  'iceTransportPolicy': 'relay',
         };
       } catch (e) {
         print("Error: Turn Server Credential");
