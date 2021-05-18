@@ -17,8 +17,6 @@ class RTCPeerToPeer {
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   SignalingStateCallback? onStateChange;
-  var _remoteCandidates = [];
-  // RTCDataChannel dataChannel;
   var _turnCredential;
   bool isFrontCamera = true;
 
@@ -33,30 +31,40 @@ class RTCPeerToPeer {
     "optional": []
   };
 
-  // TODO ?transport=tcp
-  // TODO ?transport=udp
-
   Map<String, dynamic> _iceServers = {
     'iceServers': [
       {'url': 'stun:stun.l.google.com:19302'},
-      {"url": "stun:littleramen.tk:3478"},
-      {
-        'url': "turn:littleramen.tk:3478",
-        'username': "admin",
-        'credential': "admin"
-      },
-      {"url": "stun:littleramen.tk:443"},
-      {
-        'url': "turn:littleramen.tk:443",
-        'username': "admin",
-        'credential': "admin"
-      },
-    ],
-    'iceTransportPolicy': 'all',
+    ]
   };
 
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
+
+    if (_turnCredential == null) {
+      print("📞📞📞 SET TURN CREDENTIAL");
+      try {
+        // _turnCredential = await getTurnCredential(URL, port, isProd);
+        _iceServers = {
+          'iceServers': [
+            {'url': 'stun:stun.l.google.com:19302'},
+            {"url": "stun:littleramen.tk:3478"},
+            {
+              'url': "turn:littleramen.tk:3478",
+              'username': "admin",
+              'credential': "admin"
+            },
+            {"url": "stun:littleramen.tk:443"},
+            {
+              'url': "turn:littleramen.tk:443",
+              'username': "admin",
+              'credential': "admin"
+            },
+          ]
+        };
+      } catch (e) {
+        print("Error: Turn Server Credential");
+      }
+    }
 
     // Get local user media
     _localStream = await getUserMedia();
@@ -64,8 +72,6 @@ class RTCPeerToPeer {
     // Create a peer connection
     RTCPeerConnection pc =
         await createPeerConnection(_iceServers, offerSdpConstraints);
-
-    print(pc.getConfiguration);
 
     // Add a local stream to peer connection
     pc.addStream(_localStream!);
@@ -92,10 +98,12 @@ class RTCPeerToPeer {
 
     pc.onIceConnectionState = (e) {
       print('🌲🌲🌲 onIceConnectionState $e');
-      if (e == RTCIceConnectionState.RTCIceConnectionStateClosed ||
-          e == RTCIceConnectionState.RTCIceConnectionStateFailed ||
-          e == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
+      if (e == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
         this.onStateChange!(SignalingStatus.RECONNECTING);
+      }
+      if (e == RTCIceConnectionState.RTCIceConnectionStateClosed ||
+          e == RTCIceConnectionState.RTCIceConnectionStateFailed) {
+        bye();
       }
     };
 
@@ -188,11 +196,7 @@ class RTCPeerToPeer {
     dynamic candidate = new RTCIceCandidate(
         session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
     new Logger().log(Level.info, candidate);
-    // if (pc != null) {
     await _peerConnection!.addCandidate(candidate);
-    // } else {
-    //   _remoteCandidates.add(candidate);
-    // }
   }
 
   void bye() {
@@ -213,17 +217,6 @@ class RTCPeerToPeer {
     _peerConnection?.dispose();
     _localRenderer.srcObject = null;
     _remoteRenderer.srcObject = null;
-    _remoteCandidates.clear();
-  }
-
-  void handleRemoteCandidate() {
-    print(_remoteCandidates);
-    if (this._remoteCandidates.length > 0) {
-      _remoteCandidates.forEach((candidate) async {
-        await peerConnection.addCandidate(candidate);
-      });
-      _remoteCandidates.clear();
-    }
   }
 
   void switchCamera() async {
