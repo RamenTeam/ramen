@@ -33,38 +33,30 @@ class RTCPeerToPeer {
     "optional": []
   };
 
-  late Map<String, dynamic> _iceServers;
+  // TODO ?transport=tcp
+  // TODO ?transport=udp
+
+  Map<String, dynamic> _iceServers = {
+    'iceServers': [
+      {'url': 'stun:stun.l.google.com:19302'},
+      {"url": "stun:littleramen.tk:3478"},
+      {
+        'url': "turn:littleramen.tk:3478",
+        'username': "admin",
+        'credential': "admin"
+      },
+      {"url": "stun:littleramen.tk:443"},
+      {
+        'url': "turn:littleramen.tk:443",
+        'username': "admin",
+        'credential': "admin"
+      },
+    ],
+    'iceTransportPolicy': 'all',
+  };
 
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
-
-    if (_turnCredential == null) {
-      print("📞📞📞 SET TURN CREDENTIAL");
-      try {
-        _iceServers = {
-          'iceServers': [
-            // {'url': 'stun:stun.l.google.com:19302'},
-            {"url": "stun:littleramen.tk:3478"},
-            {
-              'url': "turn:littleramen.tk:3478",
-              'username': "admin",
-              'credential': "admin"
-            },
-            // TODO ?transport=tcp
-            // TODO ?transport=udp
-            // {"url": "stun:littleramen.tk:443?transport=udp"},
-            // {
-            //   'url': "turn:littleramen.tk:443?transport=udp",
-            //   'username': "admin",
-            //   'credential': "admin"
-            // },
-          ],
-          'iceTransportPolicy': 'all',
-        };
-      } catch (e) {
-        print("Error: Turn Server Credential");
-      }
-    }
 
     // Get local user media
     _localStream = await getUserMedia();
@@ -192,16 +184,15 @@ class RTCPeerToPeer {
 
   void setCandidate(String jsonString) async {
     dynamic session = jsonDecode(jsonString);
-    var pc = _peerConnection;
     new Logger().log(Level.info, session['candidate']);
     dynamic candidate = new RTCIceCandidate(
         session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
     new Logger().log(Level.info, candidate);
-    if (pc != null) {
-      await pc.addCandidate(candidate);
-    } else {
-      _remoteCandidates.add(candidate);
-    }
+    // if (pc != null) {
+    await _peerConnection!.addCandidate(candidate);
+    // } else {
+    //   _remoteCandidates.add(candidate);
+    // }
   }
 
   void bye() {
