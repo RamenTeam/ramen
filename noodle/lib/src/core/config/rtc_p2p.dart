@@ -31,11 +31,7 @@ class RTCPeerToPeer {
     "optional": []
   };
 
-  Map<String, dynamic> _iceServers = {
-    'iceServers': [
-      {'url': 'stun:stun.l.google.com:19302'},
-    ]
-  };
+  late Map<String, dynamic> _iceServers;
 
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
@@ -46,19 +42,25 @@ class RTCPeerToPeer {
         // _turnCredential = await getTurnCredential(URL, port, isProd);
         _iceServers = {
           'iceServers': [
-            {'url': 'stun:stun.l.google.com:19302'},
-            {"url": "stun:littleramen.tk:3478"},
+            // {'url': 'stun:stun.l.google.com:19302'},
+            // {"url": "stun:littleramen.tk:3478"},
+            // {
+            //   'url': "turn:littleramen.tk:3478",
+            //   'username': "admin",
+            //   'credential': "admin"
+            // },
+            // {"url": "stun:littleramen.tk:443"},
+            // {
+            //   'url': "turn:littleramen.tk:443",
+            //   'username': "admin",
+            //   'credential': "admin"
+            // },
+            {"url": 'stun:numb.viagenie.ca:3478'},
             {
-              'url': "turn:littleramen.tk:3478",
-              'username': "admin",
-              'credential': "admin"
-            },
-            {"url": "stun:littleramen.tk:443"},
-            {
-              'url': "turn:littleramen.tk:443",
-              'username': "admin",
-              'credential': "admin"
-            },
+              "url": "turn:numb.viagenie.ca:3478",
+              "username": "cqtin0903@gmail.com",
+              "credential": "123456"
+            }
           ]
         };
       } catch (e) {
