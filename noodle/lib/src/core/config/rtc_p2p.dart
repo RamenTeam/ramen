@@ -44,9 +44,9 @@ class RTCPeerToPeer {
         _iceServers = {
           'iceServers': [
             // {'url': 'stun:stun.l.google.com:19302'},
-            {"url": "stun:littleramen.tk:3478?transport=udp"},
+            // {"url": "stun:littleramen.tk:3478?transport=udp"},
             {
-              'url': "turn:littleramen.tk:3478?transport=udp",
+              'url': "turn:littleramen.tk:3478?transport=tcp",
               'username': "admin",
               'credential': "admin"
             },
@@ -59,7 +59,7 @@ class RTCPeerToPeer {
             //   'credential': "admin"
             // },
           ],
-          'iceTransportPolicy': 'relay',
+          // 'iceTransportPolicy': 'relay',
         };
       } catch (e) {
         print("Error: Turn Server Credential");

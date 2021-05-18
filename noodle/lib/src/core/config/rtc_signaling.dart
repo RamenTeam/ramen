@@ -118,7 +118,7 @@ class RTCSignaling {
             dynamic candidate = pref.get(RTC_CANDIDATE);
             if (candidate != null) {
               emitIceCandidateEvent(true, candidate);
-              emitIceCandidateEvent(false, candidate);
+              // emitIceCandidateEvent(false, candidate);
               break;
             } else {
               print("Cannot find candidate");
