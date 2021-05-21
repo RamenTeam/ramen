@@ -78,16 +78,14 @@ class RTCPeerToPeer {
           'sdpMid': e.sdpMid.toString(),
           'sdpMlineIndex': e.sdpMlineIndex
         }));
-        if (isICEGathered){
-          if (iceCandidates.length < 6){
-            iceCandidates.add(json.encode({
-              'candidate': e.candidate.toString(),
-              'sdpMid': e.sdpMid.toString(),
-              'sdpMlineIndex': e.sdpMlineIndex
-            }));
-          } else {
-            isICEGathered = false;
-          }
+        if (iceCandidates.length < 6){
+          iceCandidates.add(json.encode({
+            'candidate': e.candidate.toString(),
+            'sdpMid': e.sdpMid.toString(),
+            'sdpMlineIndex': e.sdpMlineIndex
+          }));
+        } else {
+          isICEGathered = false;
         }
         // if (pref.getString(RTC_CANDIDATE) == null) {
         //   print("!!!!! SET ICE CANDIDATE");
@@ -148,7 +146,7 @@ class RTCPeerToPeer {
   // #TODO get the user media (camera, audio...)
   Future<MediaStream> getUserMedia() async {
     final Map<String, dynamic> constraints = {
-      "audio": false,
+      "audio": true,
       "video": {
         "facingMode": "user",
       }
