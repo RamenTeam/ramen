@@ -36,36 +36,22 @@ class RTCPeerToPeer {
   Map<String, dynamic> _iceServers = {
     'iceServers': [
       {'url': 'stun:stun.l.google.com:19302'},
+      {"url": "stun:113.172.205.34:443"},
+      {
+        'url': "turn:numb.vagenie.ca:3478",
+        'username': "cqtin0903@gmail.com",
+        'credential': "123456"
+      },
+      {
+        "url":"turn:littleramn.tk:443?transport=udp",
+        "username":"admin",
+        "credential":"admin"
+      }
     ]
   };
 
   Future<RTCPeerConnection> createPC() async {
     SharedPreferences pref = await getSharedPref();
-
-    if (_turnCredential == null) {
-      print("📞📞📞 SET TURN CREDENTIAL");
-      try {
-        _iceServers = {
-          'iceServers': [
-            {'url': 'stun:stun.l.google.com:19302'},
-            {"url": "stun:littleramen.tk:3478"},
-            {
-              'url': "turn:littleramen.tk:3478",
-              'username': "admin",
-              'credential': "admin"
-            },
-            {"url": "stun:littleramen.tk:443"},
-            {
-              'url': "turn:littleramen.tk:443",
-              'username': "admin",
-              'credential': "admin"
-            },
-          ]
-        };
-      } catch (e) {
-        print("Error: Turn Server Credential");
-      }
-    }
 
     // Get local user media
     _localStream = await getUserMedia();
@@ -132,7 +118,7 @@ class RTCPeerToPeer {
   // #TODO get the user media (camera, audio...)
   Future<MediaStream> getUserMedia() async {
     final Map<String, dynamic> constraints = {
-      "audio": true,
+      "audio": false,
       "video": {
         "facingMode": "user",
       }
