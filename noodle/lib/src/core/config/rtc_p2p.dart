@@ -17,7 +17,9 @@ class RTCPeerToPeer {
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   SignalingStateCallback? onStateChange;
-  var _turnCredential;
+  var _remoteCandidates = [];
+  var iceCandidates = [];
+  bool isICEGathered = false;
   bool isFrontCamera = true;
 
   initRenderer() {
@@ -31,20 +33,27 @@ class RTCPeerToPeer {
     "optional": []
   };
 
+  final Map<String, dynamic> _config = {
+    'mandatory': {},
+    'optional': [
+      {'DtlsSrtpKeyAgreement': true},
+    ],
+  };
+
   Map<String, dynamic> _iceServers = {
     'iceServers': [
       {'url': 'stun:stun.l.google.com:19302'},
-      {"url": "stun:113.172.205.34:443"},
+      // {"url": "stun:113.172.205.34:443"},
       {
         'url': "turn:numb.vagenie.ca:3478",
         'username': "cqtin0903@gmail.com",
         'credential': "123456"
       },
-      {
-        "url":"turn:littleramn.tk:443?transport=udp",
-        "username":"admin",
-        "credential":"admin"
-      }
+      // {
+      //   "url":"turn:littleramn.tk:443?transport=udp",
+      //   "username":"admin",
+      //   "credential":"admin"
+      // }
     ]
   };
 
@@ -56,7 +65,7 @@ class RTCPeerToPeer {
 
     // Create a peer connection
     RTCPeerConnection pc =
-        await createPeerConnection(_iceServers, offerSdpConstraints);
+        await createPeerConnection(_iceServers, _config);
 
     // Add a local stream to peer connection
     pc.addStream(_localStream!);
@@ -64,20 +73,41 @@ class RTCPeerToPeer {
     pc.onIceCandidate = (e) {
       if (e.candidate != null) {
         print("🌲🌲🌲 onIceCandidate");
-        if (pref.getString(RTC_CANDIDATE) == null) {
-          pref.setString(
-              RTC_CANDIDATE,
-              json.encode({
-                'candidate': e.candidate.toString(),
-                'sdpMid': e.sdpMid.toString(),
-                'sdpMlineIndex': e.sdpMlineIndex
-              }));
-        }
         print(json.encode({
           'candidate': e.candidate.toString(),
           'sdpMid': e.sdpMid.toString(),
           'sdpMlineIndex': e.sdpMlineIndex
         }));
+        if (isICEGathered){
+          if (iceCandidates.length < 6){
+            iceCandidates.add(json.encode({
+              'candidate': e.candidate.toString(),
+              'sdpMid': e.sdpMid.toString(),
+              'sdpMlineIndex': e.sdpMlineIndex
+            }));
+          } else {
+            isICEGathered = false;
+          }
+        }
+        // if (pref.getString(RTC_CANDIDATE) == null) {
+        //   print("!!!!! SET ICE CANDIDATE");
+        //   pref.setString(
+        //       RTC_CANDIDATE,
+        //       json.encode({
+        //         'candidate': e.candidate.toString(),
+        //         'sdpMid': e.sdpMid.toString(),
+        //         'sdpMlineIndex': e.sdpMlineIndex
+        //       }));
+        // }
+      }
+    };
+    pc.onIceGatheringState = (e){
+      print('🌲🌲🌲 onIceGatheringState $e');
+      if (e == RTCIceGatheringState.RTCIceGatheringStateGathering){
+        isICEGathered = true;
+      }
+      if (e == RTCIceGatheringState.RTCIceGatheringStateComplete){
+        isICEGathered = false;
       }
     };
 
@@ -148,6 +178,14 @@ class RTCPeerToPeer {
     RTCSessionDescription description =
         await _peerConnection!.createAnswer(offerSdpConstraints);
 
+    // Handle Remote Candidates
+    if (this._remoteCandidates.length > 0) {
+      _remoteCandidates.forEach((candidate) async {
+        await peerConnection.addCandidate(candidate);
+      });
+      _remoteCandidates.clear();
+    }
+
     var session = parse(description.sdp as String);
     print(json.encode(session));
     _offer = false;
@@ -181,7 +219,15 @@ class RTCPeerToPeer {
     dynamic candidate = new RTCIceCandidate(
         session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
     new Logger().log(Level.info, candidate);
-    await _peerConnection!.addCandidate(candidate);
+    handleRemoteCandidates(candidate);
+  }
+
+  void handleRemoteCandidates(RTCIceCandidate candidate) async {
+    if (peerConnection != null) {
+      await peerConnection.addCandidate(candidate);
+    } else {
+      _remoteCandidates.add(candidate);
+    }
   }
 
   void bye() {
@@ -189,7 +235,7 @@ class RTCPeerToPeer {
       _localStream!.dispose();
       _localStream = null;
     }
-
+    _remoteCandidates.clear();
     peerConnection.close();
   }
 

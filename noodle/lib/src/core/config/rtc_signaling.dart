@@ -113,13 +113,22 @@ class RTCSignaling {
         rtcPeerToPeer.setRemoteDescription(data["description"], "answer");
         Future.delayed(const Duration(milliseconds: 1000), () {
           dynamic retryInterval = 0;
-          while (retryInterval < 5) {
-            dynamic candidate = pref.get(RTC_CANDIDATE);
-            if (candidate != null) {
-              emitIceCandidateEvent(true, candidate);
+          while (retryInterval < 10) {
+            // dynamic candidate = pref.get(RTC_CANDIDATE);
+            // if (candidate != null) {
+            //   emitIceCandidateEvent(true, candidate);
+            //   break;
+            // } else {
+            //   print("Cannot find candidate");
+            //   retryInterval += 1;
+            // }
+            if (rtcPeerToPeer.isICEGathered == false){
+              rtcPeerToPeer.iceCandidates.forEach((iceCandidate) {
+                emitIceCandidateEvent(true, iceCandidate);
+              });
               break;
             } else {
-              print("Cannot find candidate");
+              print("!!! ICE IS GATHERING");
               retryInterval += 1;
             }
           }
