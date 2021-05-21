@@ -86,6 +86,8 @@ dependencies:
   badges: ^1.2.0
   circular_countdown_timer: ^0.2.0
   flutter_stream_listener: ^1.0.0
+  #TODO to fix graphql client on web
+  connectivity_for_web: ^0.4.0
 
 
 dev_dependencies:

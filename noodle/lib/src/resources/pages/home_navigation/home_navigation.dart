@@ -115,7 +115,7 @@ class _HomeBottomNavigationBar extends StatelessWidget {
           label: 'Notifications',
         ),
         BottomNavigationBarItem(
-          icon: FaIcon(Icons.message_outlined),
+          icon: FaIcon(FontAwesomeIcons.facebookMessenger),
           label: 'Chat',
         ),
         BottomNavigationBarItem(

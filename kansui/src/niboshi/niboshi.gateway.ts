@@ -38,11 +38,9 @@ export class NiboshiGateway
   async handleConnection(client: Socket, ...args: any[]) {
     console.log(`Client connected: ${client.id}`);
 
-    let userId: String = client.handshake.query['userId'];
     client.emit(CLIENT_ID_EVENT, { data: { clientId: client.id } });
 
     this.service.addClient(client);
-    this.service.addUserId(client, userId);
     let roomList = this.service.roomList;
     let clientKeys = _.keys(this.service.clientList);
     let availableRooms = _.clone(roomList).filter(
@@ -74,15 +72,8 @@ export class NiboshiGateway
             let peer = this.service.findClient(myRoom.peer);
 
             console.log(myRoom);
-            peer.emit(MATCHMAKING_EVENT, {
-              data: {
-                ...myRoom,
-                peerUserId: this.service.findUserId(client.id),
-              },
-            });
-            client.emit(MATCHMAKING_EVENT, {
-              data: { ...myRoom, peerUserId: this.service.findUserId(peer.id) },
-            });
+            peer.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
+            client.emit(MATCHMAKING_EVENT, { data: { ...myRoom } });
             break;
           }
         } else break;
@@ -91,7 +82,6 @@ export class NiboshiGateway
         if (retryInterval == retryLimit) {
           console.log("There's no one here!");
           this.service.removeClient(client.id);
-          this.service.removeUserId(client.id);
           this.service.removeRoom(client);
           client.emit(MATCHMAKING_EVENT, { data: { peer: null } });
         } else {
@@ -99,7 +89,6 @@ export class NiboshiGateway
         }
         console.log('Server Info: ', {
           client: clientKeys,
-          userId: this.service.userIdList,
           room: this.service.roomList,
           numberOfClient: clientKeys.length,
         });
@@ -112,8 +101,7 @@ export class NiboshiGateway
     this.logger.log(`Client disconnected: ${client.id}`);
 
     this.service.removeClient(client.id);
-    // this.service.removeAvailableClient(client.id)
-    this.service.removeUserId(client.id);
+    // this.service.removeAvailableClient(client.id);
     this.service.removeRoom(client);
 
     console.log('Server Info: ', {

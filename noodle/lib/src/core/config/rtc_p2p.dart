@@ -17,8 +17,6 @@ class RTCPeerToPeer {
   RTCVideoRenderer _localRenderer = new RTCVideoRenderer();
   RTCVideoRenderer _remoteRenderer = new RTCVideoRenderer();
   SignalingStateCallback? onStateChange;
-  var _remoteCandidates = [];
-  // RTCDataChannel dataChannel;
   var _turnCredential;
   bool isFrontCamera = true;
 
@@ -85,10 +83,12 @@ class RTCPeerToPeer {
 
     pc.onIceConnectionState = (e) {
       print('🌲🌲🌲 onIceConnectionState $e');
-      if (e == RTCIceConnectionState.RTCIceConnectionStateClosed ||
-          e == RTCIceConnectionState.RTCIceConnectionStateFailed ||
-          e == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
+      if (e == RTCIceConnectionState.RTCIceConnectionStateDisconnected) {
         this.onStateChange!(SignalingStatus.RECONNECTING);
+      }
+      if (e == RTCIceConnectionState.RTCIceConnectionStateClosed ||
+          e == RTCIceConnectionState.RTCIceConnectionStateFailed) {
+        bye();
       }
     };
 
@@ -177,16 +177,11 @@ class RTCPeerToPeer {
 
   void setCandidate(String jsonString) async {
     dynamic session = jsonDecode(jsonString);
-    var pc = _peerConnection;
     new Logger().log(Level.info, session['candidate']);
     dynamic candidate = new RTCIceCandidate(
         session['candidate'], session['sdpMid'], session['sdpMlineIndex']);
     new Logger().log(Level.info, candidate);
-    if (pc != null) {
-      await pc.addCandidate(candidate);
-    } else {
-      _remoteCandidates.add(candidate);
-    }
+    await _peerConnection!.addCandidate(candidate);
   }
 
   void bye() {
@@ -207,17 +202,6 @@ class RTCPeerToPeer {
     _peerConnection?.dispose();
     _localRenderer.srcObject = null;
     _remoteRenderer.srcObject = null;
-    _remoteCandidates.clear();
-  }
-
-  void handleRemoteCandidate() {
-    print(_remoteCandidates);
-    if (this._remoteCandidates.length > 0) {
-      _remoteCandidates.forEach((candidate) async {
-        await peerConnection.addCandidate(candidate);
-      });
-      _remoteCandidates.clear();
-    }
   }
 
   void switchCamera() async {

@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88ddf78d-1f25-4735-8f8c-d3c87ed722b3" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.gateway.ts" beforeDir="false" afterPath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.gateway.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/kansui/src/niboshi/niboshi.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodle/lib/src/core/config/rtc_signaling.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/core/config/rtc_signaling.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodle/lib/src/core/config/websocket_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/core/config/websocket_client.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodle/lib/src/temp/rtc_temp/rtc_sandbox.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/temp/rtc_temp/rtc_sandbox.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signal_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signal_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signaling_server.dart" beforeDir="false" afterPath="$PROJECT_DIR$/noodle/lib/src/temp/signaling_temp/signaling_server.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/topping/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/topping/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/topping/src/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/topping/src/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/topping/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/topping/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

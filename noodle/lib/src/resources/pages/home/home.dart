@@ -48,24 +48,9 @@ class _HomeScreenBody extends StatelessWidget {
 class _FindButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Container spinKitThreeBounce({required bool visible}) {
-      return Container(
-        child: Visibility(
-          maintainState: true,
-          maintainAnimation: true,
-          maintainSize: true,
-          visible: visible,
-          child: SpinKitThreeBounce(
-            color: Theme.of(context).textTheme.headline1?.color,
-            size: 20,
-          ),
-        ),
-      );
-    }
-
     return ClipOval(
       child: Material(
-        color: Theme.of(context).primaryColor, // button color
+        color: Theme.of(context).primaryColor.withOpacity(0.9), // button color
         child: InkWell(
           splashColor: Colors.red, // inkwell color
           child: SizedBox(
