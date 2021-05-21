@@ -246,6 +246,9 @@ class RTCPeerToPeer {
     _localStream = null;
     _peerConnection?.close();
     _peerConnection?.dispose();
+    isICEGathered = false;
+    iceCandidates.clear();
+    _remoteCandidates.clear();
     _localRenderer.srcObject = null;
     _remoteRenderer.srcObject = null;
   }
