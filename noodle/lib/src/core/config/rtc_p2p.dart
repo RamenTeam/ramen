@@ -42,18 +42,21 @@ class RTCPeerToPeer {
 
   Map<String, dynamic> _iceServers = {
     'iceServers': [
-      {'url': 'stun:stun.l.google.com:19302'},
+      // {'url': 'stun:stun.l.google.com:19302'},
       // {"url": "stun:113.172.205.34:443"},
-      {
-        'url': "turn:numb.vagenie.ca:3478",
-        'username': "cqtin0903@gmail.com",
-        'credential': "123456"
-      },
       // {
-      //   "url":"turn:littleramn.tk:443?transport=udp",
-      //   "username":"admin",
-      //   "credential":"admin"
-      // }
+      //   'url': "turn:numb.vagenie.ca:3478",
+      //   'username': "cqtin0903@gmail.com",
+      //   'credential': "123456"
+      // },
+      {
+        "url":"stun:littleramen.tk:443",
+      },
+      {
+        "url":"turn:littleramen.tk:443",
+        "username":"admin",
+        "credential":"admin"
+      }
     ]
   };
 
