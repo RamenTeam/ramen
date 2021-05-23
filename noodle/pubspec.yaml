@@ -72,9 +72,6 @@ dependencies:
   firebase_auth: ^0.14.0+5
   flutter_facebook_login: ^3.0.0
   google_sign_in: ^4.5.3
-  #TODO dependencies for cloud messaging service
-  cloud_firestore: ^0.12.5
-  firebase_messaging: ^5.0.2
   #TODO avatar change
   image_picker: ^0.7.4
   firebase_storage:
@@ -87,7 +84,6 @@ dependencies:
   circular_countdown_timer: ^0.2.0
   flutter_stream_listener: ^1.0.0
   #TODO to fix graphql client on web
-  connectivity_for_web: ^0.4.0
 
 
 dev_dependencies:
