@@ -77,8 +77,6 @@ class _CurrentTab extends StatelessWidget {
       case 1:
         return NotificationScreen();
       case 2:
-        return ChatScreen();
-      case 3:
         return ProfileScreen();
       default:
         return Container();
@@ -113,10 +111,6 @@ class _HomeBottomNavigationBar extends StatelessWidget {
             child: FaIcon(FontAwesomeIcons.bell),
           ),
           label: 'Notifications',
-        ),
-        BottomNavigationBarItem(
-          icon: FaIcon(FontAwesomeIcons.facebookMessenger),
-          label: 'Chat',
         ),
         BottomNavigationBarItem(
           icon: FaIcon(FontAwesomeIcons.userAstronaut),
